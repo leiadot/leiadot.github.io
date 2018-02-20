@@ -1,0 +1,19 @@
+language: node_js
+node_js: stable
+install:
+  - npm install
+script:
+  - hexo clean # 清除
+  - hexo g # 生成
+
+after_success:
+  - cd ./dist
+  - git init
+  - git config user.name "leiadot"
+  - git config user.email "luv.hsu@gmail.com"
+  - git add .
+  - git commit -m "Update by travis ci"
+  - git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" master:${P_BRANCH}
+branches:
+  only:
+    - master 
