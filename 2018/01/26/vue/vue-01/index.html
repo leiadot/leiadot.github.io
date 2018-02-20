@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    
+        <title>
+            
+                【 Vue 】初探 Vue.js |
+                    
+                        CodingGirl 寇丁女孩日安
+        </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta name="description" content="初探 Vue.jsVue.js 教學 - 幼幼班入門篇 (上)共筆文件">
+<meta name="keywords" content="Vue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【 Vue 】初探 Vue.js">
+<meta property="og:url" content="https://leiadot.github.io/2018/01/26/vue/vue-01/index.html">
+<meta property="og:site_name" content="CodingGirl 寇丁女孩日安">
+<meta property="og:description" content="初探 Vue.jsVue.js 教學 - 幼幼班入門篇 (上)共筆文件">
+<meta property="og:image" content="https://leiadot.github.io/logo.png">
+<meta property="og:updated_time" content="2018-02-20T07:46:08.146Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【 Vue 】初探 Vue.js">
+<meta name="twitter:description" content="初探 Vue.jsVue.js 教學 - 幼幼班入門篇 (上)共筆文件">
+<meta name="twitter:image" content="https://leiadot.github.io/logo.png">
+            
+                <link rel="alternative" href="/atom.xml" title="CodingGirl 寇丁女孩日安" type="application/atom+xml">
+                
+                    
+                        <link rel="icon" href="/favicon.ico">
+                        
+                            <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+                            <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+                            <link rel="stylesheet" href="/css/style.css">
+                                
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-87257429-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+</head>
+
+    <body>
+        <div id="container">
+            <div id="wrap">
+                <div class="outer">
+                    <h1 class="title">
+                        <a href="/">
+                            CodingGirl 寇丁女孩日安
+                        </a>
+                    </h1>
+                    <section id="main">
+                        <article id="post-vue/vue-01" class="article article-type-post" itemscope itemprop="blogPost">
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      【 Vue 】初探 Vue.js
+    </h1>
+  
+
+            </header>
+            
+                <div class="article-meta">
+                    <a href="/2018/01/26/vue/vue-01/" class="article-date">
+  <time datetime="2018-01-26T08:23:18.000Z" itemprop="datePublished">2018-01-26</time>
+</a>
+                        
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Vue/">Vue</a>
+  </div>
+
+                            
+    <div class="article-tag">
+        <a class="article-tag-link" href="/tags/Vue/">Vue</a>
+    </div>
+    
+                </div>
+                <div class="article-entry" itemprop="articleBody">
+                    
+                                        <p><img src="/img/vue.jpg" alt=""></p>
+<p>初探 Vue.js<br><a href="https://www.youtube.com/watch?v=8O3teHziU_E" target="_blank" rel="noopener">Vue.js 教學 - 幼幼班入門篇 (上)</a><br><a href="https://quip.com/M2eCAQo6bXh8" target="_blank" rel="noopener">共筆文件</a></p>
+<a id="more"></a>
+<h1><span id="一-template-樣版基本運用"><strong>一、Template 樣版基本運用</strong></span></h1><p>首先，先在頁面載入 <a href="https://unpkg.com/vue.js" target="_blank" rel="noopener">vue.js</a>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">  &lt;div class=&quot;hi&quot;&gt;&#123;&#123;message&#125;&#125;&lt;/div&gt; </span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var app = new Vue(&#123;</span><br><span class="line">  el:&apos;#app&apos;,</span><br><span class="line">  data: &#123;</span><br><span class="line">    message : &apos;Hello World！&apos;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>在 <code>#app</code> 的範圍內，傳遞變數文字內容，以數據驅動內容，亦可以做數值計算。</p>
+<p></p><p data-height="300" data-theme-id="dark" data-slug-hash="WMNbrb" data-default-tab="result" data-user="LeiaHsu" data-embed-version="2" data-pen-title="WMNbrb" class="codepen">See the Pen <a href="https://codepen.io/LeiaHsu/pen/WMNbrb/" target="_blank" rel="noopener">WMNbrb</a> by leiadot (<a href="https://codepen.io/LeiaHsu" target="_blank" rel="noopener">@LeiaHsu</a>) on <a href="https://codepen.io" target="_blank" rel="noopener">CodePen</a>.</p><p></p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
+<h3><span id="vue必要屬性"><strong>vue必要屬性</strong></span></h3><p><code>el</code>：哪個範圍需要綁定資料。<br><code>data</code>：資料綁定，數據存放位置。</p>
+<h1><span id="二-指令"><strong>二、指令</strong></span></h1><h2><span id="v-if-v-show">v-if、v-show</span></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">  &lt;div v-if=&quot;loading&quot;&gt;訊息載入錯誤&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var app = new Vue(&#123;</span><br><span class="line">  el:&apos;#app&apos;,</span><br><span class="line">  data: &#123;</span><br><span class="line">    loading:false</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p><code>v-if</code>：可做條件判斷，若為 false 會將整個DOM結構拿掉。<br><code>v-else</code>：搭配 <code>v-if</code> ，條件滿足後將顯示資料。<a href="http://jsbin.com/ratugacona/1/edit?html,js,output" target="_blank" rel="noopener">範例</a><br><code>v-show</code>：可作條件判斷，若為 false 資料不顯示，但會保存 Dom 結構。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">  &lt;input type=&quot;text&quot; v-model=&quot;message&quot;&gt;</span><br><span class="line">  &lt;div class=&quot;h1&quot;&gt;&#123;&#123;message&#125;&#125;&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var app = new Vue(&#123;</span><br><span class="line">  el:&apos;#app&apos;,</span><br><span class="line">  data: &#123;</span><br><span class="line">    message: &apos;Hello World！&apos;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2><span id="v-model">v-model</span></h2><p><code>v-model</code>：可作雙向資料綁定，更改 input 的值， DOM 也會即時更改資料。</p>
+<p></p><p data-height="222" data-theme-id="dark" data-slug-hash="KQKpzy" data-default-tab="result" data-user="LeiaHsu" data-embed-version="2" data-pen-title="v-model" class="codepen">See the Pen <a href="https://codepen.io/LeiaHsu/pen/KQKpzy/" target="_blank" rel="noopener">v-model</a> by leiadot (<a href="https://codepen.io/LeiaHsu" target="_blank" rel="noopener">@LeiaHsu</a>) on <a href="https://codepen.io" target="_blank" rel="noopener">CodePen</a>.</p><p></p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
+
+<h2><span id="v-for">v-for</span></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">  &lt;h2&gt;顏色列表&lt;/h2&gt;</span><br><span class="line">  &lt;ul&gt;</span><br><span class="line">    &lt;li v-for=&quot;item in colors&quot;&gt;</span><br><span class="line">      &#123;&#123;item&#125;&#125;</span><br><span class="line">    &lt;/li&gt;</span><br><span class="line">  &lt;/ul&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var app = new Vue(&#123;</span><br><span class="line">  el:&apos;#app&apos;,</span><br><span class="line">  data: &#123;</span><br><span class="line">    colors : [&apos;blue&apos;,&apos;red&apos;,&apos;black&apos;]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p><code>color</code> 物件資料儲存在 <code>item</code> 裡面，<code>item</code>可自行命名。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">  &lt;h2&gt;各家庭的父親&lt;/h2&gt;</span><br><span class="line">  &lt;ul&gt;</span><br><span class="line">    &lt;li v-for=&quot;home in homes&quot;&gt;</span><br><span class="line">      &#123;&#123;home.father&#125;&#125;</span><br><span class="line">    &lt;/li&gt;</span><br><span class="line">  &lt;/ul&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var app = new Vue(&#123;</span><br><span class="line">  el:&apos;#app&apos;,</span><br><span class="line">  data: &#123;</span><br><span class="line">    homes:[</span><br><span class="line">      &#123;father:&apos;tom&apos;&#125;,</span><br><span class="line">      &#123;father:&apos;bob&apos;&#125;,</span><br><span class="line">      &#123;father:&apos;john&apos;&#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>假使 html 中取用 <code></code> 則會顯示 <code>{father:&#39;tom&#39;}</code>..，<br>因為 <code></code> 儲存 <code>homes</code> 陣列中每筆物件資料，<br>所以必須使用句點標示法 <code>home.father</code> 取用物件中 key 為<code>father</code> 的值。</p>
+<p></p><p data-height="265" data-theme-id="dark" data-slug-hash="yvLNvq" data-default-tab="result" data-user="LeiaHsu" data-embed-version="2" data-pen-title="v-model" class="codepen">See the Pen <a href="https://codepen.io/LeiaHsu/pen/yvLNvq/" target="_blank" rel="noopener">v-model</a> by leiadot (<a href="https://codepen.io/LeiaHsu" target="_blank" rel="noopener">@LeiaHsu</a>) on <a href="https://codepen.io" target="_blank" rel="noopener">CodePen</a>.</p><p></p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
+<h2><span id="v-on-搭配-methods">v-on 搭配 methods</span></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line"> </span><br><span class="line">  &lt;h2&gt;各家庭的父親&lt;/h2&gt;</span><br><span class="line">  &lt;ul&gt;</span><br><span class="line">    &lt;li v-for=&quot;home in homes&quot; v-on:click=&quot;myFa(home.father)&quot;&gt;</span><br><span class="line">      &#123;&#123;home.father&#125;&#125;</span><br><span class="line">    &lt;/li&gt;</span><br><span class="line">  &lt;/ul&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">var app = new Vue(&#123;</span><br><span class="line">  el:&apos;#app&apos;,</span><br><span class="line">  data: &#123;</span><br><span class="line">    homes:[</span><br><span class="line">      &#123;father:&apos;tom&apos;&#125;,</span><br><span class="line">      &#123;father:&apos;bob&apos;&#125;,</span><br><span class="line">      &#123;father:&apos;john&apos;&#125;</span><br><span class="line">    ]</span><br><span class="line">    </span><br><span class="line">  &#125;,</span><br><span class="line">  methods:&#123;</span><br><span class="line">    myFa: function(father)&#123;</span><br><span class="line">      alert(&apos;我的爸爸是&apos;+father)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>用法：<code>v-on:{event}=&quot;{function}({param})&quot;</code><br>methods：<code>myFa: function(father){..</code> 等於 <code>function myFa(father){..</code><br>ps.<code>v-on:</code> 可縮寫為 <code>@</code></p>
+<h3><span id="vue-必要屬性"><strong>vue 必要屬性</strong></span></h3><p><code>function</code> 必須註冊在 <code>methods</code> 底下。</p>
+<p></p><p data-height="265" data-theme-id="dark" data-slug-hash="RQwWNg" data-default-tab="html,result" data-user="LeiaHsu" data-embed-version="2" data-pen-title="v-on" class="codepen">See the Pen <a href="https://codepen.io/LeiaHsu/pen/RQwWNg/" target="_blank" rel="noopener">v-on</a> by leiadot (<a href="https://codepen.io/LeiaHsu" target="_blank" rel="noopener">@LeiaHsu</a>) on <a href="https://codepen.io" target="_blank" rel="noopener">CodePen</a>.</p><p></p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
+                                            
+                                                
+
+                </div>
+    </div>
+    
+        
+    <nav id="article-nav">
+        
+            <a href="/2018/01/29/javascript/js30day/day03/" id="article-nav-newer" class="article-nav-link-wrap">
+                <strong class="article-nav-caption">Newer</strong>
+                <div class="article-nav-title">
+                    
+                        【 JS30 】Day03：JS Playing with CSS Variables
+                            
+                </div>
+            </a>
+            
+                
+                    <a href="/2018/01/26/techNote/codenote/" id="article-nav-older" class="article-nav-link-wrap">
+                        <strong class="article-nav-caption">Older</strong>
+                        <div class="article-nav-title">
+                            【 筆記 】如何寫出好註解
+                        </div>
+                    </a>
+                    
+    </nav>
+    
+            
+                
+                    <div class="fb-like" data-href="https://leiadot.github.io/" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+<script>
+    const fbLike = document.querySelector('.fb-like');
+    fbLike.dataset.href = window.location.href;
+</script>
+<div id="fb-root"></div>
+<div id="fb-root"></div>
+<script>
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = 'https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v2.12&appId=904979676333014&autoLogAppEvents=1';
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
+
+<div id="disqus_thread"></div>
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document,
+            s = d.createElement('script');
+        s.src = 'https://leiadot.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script id="dsq-count-scr" src="//leiadot.disqus.com/count.js" async></script>
+                        
+</article>
+                    </section>
+                    <aside id="sidebar">
+    <nav class="menus">
+        <ul>
+            <li><a href="/"><i class="icon icon-home"></i></a></li>
+            
+                <li><a href="/about"><i class="fas fa-user"></i></a></li>
+                
+                    
+                        <li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+                        
+                            
+                                <li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+                                
+                                    
+                                        <li><a href="https://github.com/leiadot" target="_blank"><i class="icon icon-github"></i></a></li>
+                                        
+                                            
+                                                <li><a href="https://www.facebook.com/CodingGirlHy2" target="_blank"><i class="fab fa-facebook-square"></i></a></li>
+                                                
+        </ul>
+    </nav>
+    <a id="go-top" href="#"><i class="icon icon-up"></i></a>
+</aside>
+                </div>
+                <footer id="footer">
+    
+                <div id="footer-info" class="inner">
+                    &copy;
+                    2018
+                        日安
+                            - Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> - Theme <a href="https://github.com/hejianxian/hexo-theme-jane/" target="_blank">Jane</a>
+                </div>
+</footer>
+            </div>
+            <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/leiadot" class="mobile-nav-link">Github</a>
+  
+    <a href="https://www.facebook.com/CodingGirlHy2" class="mobile-nav-link">Facebook</a>
+  
+</nav>
+                <script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js">
+</script>
+
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+        <script src="/fancybox/jquery.fancybox.pack.js"></script>
+            
+                <script src="/js/script.js"></script>
+        </div>
+    </body>
+
+    </html>

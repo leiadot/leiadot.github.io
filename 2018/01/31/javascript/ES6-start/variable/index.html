@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    
+        <title>
+            
+                【 ES6入門 】變數宣告命令 |
+                    
+                        CodingGirl 寇丁女孩日安
+        </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta name="description" content="ECMAScript 6 入門  ES6 重點整理、筆記，部份內容擷取自上述文章內容。">
+<meta name="keywords" content="JavaScript,ES6">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【 ES6入門 】變數宣告命令">
+<meta property="og:url" content="https://leiadot.github.io/2018/01/31/javascript/ES6-start/variable/index.html">
+<meta property="og:site_name" content="CodingGirl 寇丁女孩日安">
+<meta property="og:description" content="ECMAScript 6 入門  ES6 重點整理、筆記，部份內容擷取自上述文章內容。">
+<meta property="og:image" content="https://leiadot.github.io/logo.png">
+<meta property="og:updated_time" content="2018-02-15T08:00:50.954Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【 ES6入門 】變數宣告命令">
+<meta name="twitter:description" content="ECMAScript 6 入門  ES6 重點整理、筆記，部份內容擷取自上述文章內容。">
+<meta name="twitter:image" content="https://leiadot.github.io/logo.png">
+            
+                <link rel="alternative" href="/atom.xml" title="CodingGirl 寇丁女孩日安" type="application/atom+xml">
+                
+                    
+                        <link rel="icon" href="/favicon.ico">
+                        
+                            <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+                            <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+                            <link rel="stylesheet" href="/css/style.css">
+                                
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-87257429-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+</head>
+
+    <body>
+        <div id="container">
+            <div id="wrap">
+                <div class="outer">
+                    <h1 class="title">
+                        <a href="/">
+                            CodingGirl 寇丁女孩日安
+                        </a>
+                    </h1>
+                    <section id="main">
+                        <article id="post-javascript/ES6-start/variable" class="article article-type-post" itemscope itemprop="blogPost">
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      【 ES6入門 】變數宣告命令
+    </h1>
+  
+
+            </header>
+            
+                <div class="article-meta">
+                    <a href="/2018/01/31/javascript/ES6-start/variable/" class="article-date">
+  <time datetime="2018-01-31T04:21:44.000Z" itemprop="datePublished">2018-01-31</time>
+</a>
+                        
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </div>
+
+                            
+    <div class="article-tag">
+        <a class="article-tag-link" href="/tags/ES6/">ES6</a> <a class="article-tag-link" href="/tags/JavaScript/">JavaScript</a>
+    </div>
+    
+                </div>
+                <div class="article-entry" itemprop="articleBody">
+                    
+                                        <p><img src="/img/es6.jpg" alt=""></p>
+<blockquote>
+<p><a href="https://yucj.gitbooks.io/ecmascript-6/content/" target="_blank" rel="noopener">ECMAScript 6 入門</a></p>
+</blockquote>
+<p>ES6 重點整理、筆記，部份內容擷取自上述文章內容。</p>
+<a id="more"></a>
+<h2><span id="let命令">let命令</span></h2><h3><span id="基本用法">基本用法</span></h3><p><code>let</code>用來宣告變數，但所宣告的變數僅在<code>let</code>宣告的<code>{}</code>區塊內有效。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="keyword">let</span> a = <span class="number">10</span>;</span><br><span class="line">  <span class="keyword">var</span> b = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">a <span class="comment">// ReferenceError: a is not defined.</span></span><br><span class="line">b <span class="comment">// 1</span></span><br></pre></td></tr></table></figure>
+<p>因為<code>var</code>為 function scope，因此<code>b</code>隸屬在<code>window</code>物件下，<code>var</code>變數返回正確的值，<br><code>let</code>為 block scope ，在<code>{}</code>外呼叫，<code>let</code>宣告的變數會報錯，說明<code>let</code>在<code>{}</code>外無效。</p>
+<h3><span id="let-var-與迴圈">let 、 var 與迴圈</span></h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(i);</span><br><span class="line"></span><br><span class="line"><span class="comment">//ReferenceError: i is not defined</span></span><br></pre></td></tr></table></figure>
+<p>因此<code>let</code>適合用在迴圈內，在迴圈外呼叫<code>i</code>就會報錯。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [];</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">  a[i] = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(i);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line">a[<span class="number">6</span>](); <span class="comment">// 10</span></span><br></pre></td></tr></table></figure>
+<p>可以解讀為下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [];</span><br><span class="line"><span class="keyword">var</span> i;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">  a[i] = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(i);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line">a[<span class="number">6</span>](); <span class="comment">// 10</span></span><br></pre></td></tr></table></figure>
+<p>因此在跑<code>for</code>迴圈，是將<code>function(){console.log(i);};</code>放置<code>a</code>陣列中，<br>遍歷最後一個迴圈時， 因為<code>var</code>為 function scope，最後<code>i</code>會等於10，<br>而再呼叫<code>a</code>的任何陣列的 function ，<code>console.log(i)</code>，<code>i</code>返回的值皆為10。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [];</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">  a[i] = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(i);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line">a[<span class="number">6</span>](); <span class="comment">// 6</span></span><br></pre></td></tr></table></figure>
+<p>而<code>let</code>為 block scope ， 呼叫<code>a[6]();</code>，<code>i</code>在 scope 的值為 6 ，則返回的值為6。 </p>
+<h2><span id="不存在變數提升">不存在變數提升</span></h2><p>變數提昇：變數可以在<code>var</code>命令宣告變數前使用，值為<code>undefined</code>。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// var 的情況</span></span><br><span class="line"><span class="built_in">console</span>.log(foo); <span class="comment">// 輸出undefined</span></span><br><span class="line"><span class="keyword">var</span> foo = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// let 的情況</span></span><br><span class="line"><span class="built_in">console</span>.log(bar); <span class="comment">// 報錯ReferenceError</span></span><br><span class="line"><span class="keyword">let</span> bar = <span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+<p>變數<code>foo</code>在<code>var</code>宣告變數前，發生變數提升，輸出值為<code>undefined</code>，<br>因此在 ES6 修正此情形，變數<code>bar</code>在<code>let</code>宣告前不存在，輸出報錯。</p>
+<h3><span id="暫時性死區temporal-dead-zone簡稱-tdz">暫時性死區（temporal dead zone，簡稱 TDZ）</span></h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">  <span class="comment">// TDZ開始</span></span><br><span class="line">  tmp = <span class="string">'abc'</span>; <span class="comment">// ReferenceError</span></span><br><span class="line">  <span class="built_in">console</span>.log(tmp); <span class="comment">// ReferenceError</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> tmp; <span class="comment">// TDZ結束</span></span><br><span class="line">  <span class="built_in">console</span>.log(tmp); <span class="comment">// undefined</span></span><br><span class="line"></span><br><span class="line">  tmp = <span class="number">123</span>;</span><br><span class="line">  <span class="built_in">console</span>.log(tmp); <span class="comment">// 123</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>如果區塊中宣告<code>let</code>或<code>const</code>，這個區塊對這些命令宣告的變數，從一開始就形成了封閉作用域。<br>凡是在宣告之前就使用這些變數，就會報錯。使用<code>let</code>或<code>const</code>宣告的變數之前，該變數都是不可用的。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params">x = y, y = <span class="number">2</span></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> [x, y];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bar(); <span class="comment">// 報錯</span></span><br></pre></td></tr></table></figure>
+<p>呼叫<code>bar</code>會報錯，是因為引數<code>x</code>預設值等於另一個引數<code>y</code>，而此時<code>y</code>還沒有宣告，屬於「死區」。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params">x = <span class="number">2</span>, y = x</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> [x, y];</span><br><span class="line">&#125;</span><br><span class="line">bar(); <span class="comment">// [2, 2]</span></span><br></pre></td></tr></table></figure>
+<p>如果<code>y</code>的預設值是<code>x</code>，就不會報錯，因為此時<code>x</code>已經被宣告。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 不報錯</span></span><br><span class="line"><span class="keyword">var</span> x = x;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 報錯</span></span><br><span class="line"><span class="keyword">let</span> x = x;</span><br><span class="line"><span class="comment">// ReferenceError: x is not defined</span></span><br></pre></td></tr></table></figure>
+<p><code>let x = x;</code>報錯，也是因為暫時性死區。<br>使用<code>let</code>宣告變數時，只要變數在還沒有宣告完成前使用，就會報錯。<br>在變數<code>x</code>的宣告語句還沒有執行完成前，就去取<code>x</code>的值，導致報錯<code>ReferenceError: x is not defined</code>。</p>
+<p>ES6 會這樣規定暫時性死區和不出現變數提升，主要是為了減少執行時錯誤，防止在變數宣告前就使用這個變數。</p>
+<h3><span id="typeof-與暫時性死區">typeof 與暫時性死區</span></h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typeof</span> x; <span class="comment">// ReferenceError</span></span><br><span class="line"><span class="keyword">let</span> x;</span><br></pre></td></tr></table></figure>
+<p><code>x</code>使用<code>let</code>宣告，所以在宣告之前，都屬於<code>x</code>的死區，只要用到該變數就會報錯。<br>因此，<code>typeof</code>執行時就會返回<code>ReferenceError</code>的錯誤。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">typeof undeclared_variable // &quot;undefined&quot;</span><br></pre></td></tr></table></figure></p>
+<p>如果一個變數根本沒有被宣告，使用<code>typeof</code>反而不會報錯，<br><code>undeclared_variable</code>是一個不存在的變數名，結果返回<code>undefined</code>，<br>使<code>typeof</code>不再是一個百分之百安全的操作。</p>
+<h3><span id="不允許重複宣告">不允許重複宣告</span></h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 報錯</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> a = <span class="number">10</span>;</span><br><span class="line">  <span class="keyword">var</span> a = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 報錯</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> a = <span class="number">10</span>;</span><br><span class="line">  <span class="keyword">let</span> a = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>let</code>不允許在相同作用域內，重複宣告同一個變數。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params">arg</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> arg; <span class="comment">// 報錯</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params">arg</span>) </span>&#123;</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">let</span> arg; <span class="comment">// 不報錯</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>因此，不能在函式內部重新宣告引數。 </p>
+<h2><span id="塊級作用域">塊級作用域</span></h2><h3><span id="為什麼需要塊級作用域">為什麼需要塊級作用域？</span></h3><p>1.內層變數覆蓋外層變數<br>2.用來計數的迴圈變數污染到全域變數</p>
+<h3><span id="es6-的塊級作用域">ES6 的塊級作用域</span></h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f1</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> n = <span class="number">5</span>;</span><br><span class="line">  <span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> n = <span class="number">10</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">console</span>.log(n); <span class="comment">// 5</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在兩個塊級作用域中，都宣告變數<code>n</code>，執行後輸出為5，表示外層的程式碼不受內層程式碼影響。<br>如果使用<code>var</code>宣告，則輸出的值為10。</p>
+<h3><span id="塊級作用域與函式宣告">塊級作用域與函式宣告</span></h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 函式宣告語句</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">let</span> a = <span class="string">'secret'</span>;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 函式表示式</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">let</span> a = <span class="string">'secret'</span>;</span><br><span class="line">  <span class="keyword">let</span> f = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>考慮到環境導致的行為差異太大，應該避免在塊級作用域內宣告函式。<br>如果確實需要，也應該寫成函式表示式，而不是函式宣告語句。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 不報錯</span></span><br><span class="line"><span class="meta">'use strict'</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 報錯</span></span><br><span class="line"><span class="meta">'use strict'</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="literal">true</span>)</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>) </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>另外ES6 的塊級作用域允許宣告函式的規則，只在使用大括號的情況下成立，<br>如果沒有使用大括號，就會報錯。</p>
+<h2><span id="do-表示式">do 表示式</span></h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="keyword">let</span> t = f();</span><br><span class="line">  t = t * t + <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因為塊級作用域沒有返回值，除非<code>t</code>為全域變數，不然無法在塊級作用域以外得到<code>t</code>值。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> x = <span class="keyword">do</span> &#123;</span><br><span class="line">  <span class="keyword">let</span> t = f();</span><br><span class="line">  t * t + <span class="number">1</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>在塊級作用域前加上<code>do</code>，使塊級作用域轉為<code>do</code>表示式，也就是能返回值。<br>上面程式碼中，變數<code>x</code>會得到整個塊級作用域的返回值。</p>
+<h2><span id="const命令">const命令</span></h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> PI = <span class="number">3.1415</span>;</span><br><span class="line">PI <span class="comment">// 3.1415</span></span><br><span class="line"></span><br><span class="line">PI = <span class="number">3</span>;</span><br><span class="line"><span class="comment">// TypeError: Assignment to constant variable.</span></span><br></pre></td></tr></table></figure>
+<p><code>const</code>宣告的變數不得改變值，這意味著，<code>const</code>一旦宣告變數，就必須立即初始化，不能留到以後賦值。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> foo;</span><br><span class="line"><span class="comment">// SyntaxError: Missing initializer in const declaration</span></span><br></pre></td></tr></table></figure>
+<p>如果只宣告，不賦值，則會回傳錯誤。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> MAX = <span class="number">5</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">MAX <span class="comment">// Uncaught ReferenceError: MAX is not defined</span></span><br></pre></td></tr></table></figure>
+<p><code>const</code>與<code>let</code>相同，只在宣告所在的塊級區域有效，<br>變數一樣不做提升，同樣存在暫時性死區，同樣不可重複宣告。</p>
+<h3><span id="本質">本質</span></h3><p><code>const</code>不得改動的並不是變數的值，而是變數所指向的記憶體位置。<br>對於數值、字串、布林值，值就儲存在變數指向的記憶體地址，因此等於常數，<br>但對於物件和陣列，變數指向的記憶體地址，儲存的是一個指向，<br><code>const</code>只能確定這個指向，至於所指向的資料結構是不是可變的，就不能完全掌握。</p>
+<p>因此，將一個物件宣告為常數必須非常小心。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> foo = &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 為 foo 新增一個屬性，可以成功</span></span><br><span class="line">foo.prop = <span class="number">123</span>;</span><br><span class="line">foo.prop <span class="comment">// 123</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 將 foo 指向另一個物件，就會報錯</span></span><br><span class="line">foo = &#123;&#125;; <span class="comment">// TypeError: "foo" is read-only</span></span><br></pre></td></tr></table></figure>
+<p>常數<code>foo</code>儲存的是一個記憶體位置，這個位置指向一個物件。<br>不可變的只是這個記憶體位置，就是不能把<code>foo</code>指向另一個位置，<br>但物件本身是可變的，所以依然可以替他新增新的屬性。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> a = [];</span><br><span class="line">a.push(<span class="string">'Hello'</span>); <span class="comment">// 可執行</span></span><br><span class="line">a.length = <span class="number">0</span>;    <span class="comment">// 可執行</span></span><br><span class="line">a = [<span class="string">'Dave'</span>];    <span class="comment">// 報錯</span></span><br></pre></td></tr></table></figure>
+<p>常數<code>a</code>是一個陣列，這個陣列本身是可寫的，<br>但是如果將另一個陣列賦值給<code>a</code>，就會回傳錯誤。</p>
+<p>如果真的想將物件凍結，應該使用<code>Object.freeze</code>方法。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> foo = <span class="built_in">Object</span>.freeze(&#123;&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 常規模式時，下面一行不起作用；</span></span><br><span class="line"><span class="comment">// 嚴格模式時，該行會報錯</span></span><br><span class="line">foo.prop = <span class="number">123</span>;</span><br></pre></td></tr></table></figure>
+<p>常數<code>foo</code>指向一個凍結的物件，所以新增新屬性不起作用，嚴格模式時還會報錯。<br>除了將物件本身凍結，物件的屬性也應該凍結。下面是一個將物件徹底凍結的函式。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> constantize = <span class="function">(<span class="params">obj</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">Object</span>.freeze(obj);</span><br><span class="line">  <span class="built_in">Object</span>.keys(obj).forEach( <span class="function">(<span class="params">key, i</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> ( <span class="keyword">typeof</span> obj[key] === <span class="string">'object'</span> ) &#123;</span><br><span class="line">      constantize( obj[key] );</span><br><span class="line">   &#125;</span><br><span class="line">   &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+                                            
+                                                
+
+                </div>
+    </div>
+    
+        
+    <nav id="article-nav">
+        
+            <a href="/2018/02/01/javascript/ES6-start/destructuring/" id="article-nav-newer" class="article-nav-link-wrap">
+                <strong class="article-nav-caption">Newer</strong>
+                <div class="article-nav-title">
+                    
+                        【 ES6入門 】變數的解構賦值
+                            
+                </div>
+            </a>
+            
+                
+                    <a href="/2018/01/30/javascript/js30day/day04/" id="article-nav-older" class="article-nav-link-wrap">
+                        <strong class="article-nav-caption">Older</strong>
+                        <div class="article-nav-title">
+                            【 JS30 】Day04：Array Cardio Day 1
+                        </div>
+                    </a>
+                    
+    </nav>
+    
+            
+                
+                    <div class="fb-like" data-href="https://leiadot.github.io/" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+<script>
+    const fbLike = document.querySelector('.fb-like');
+    fbLike.dataset.href = window.location.href;
+</script>
+<div id="fb-root"></div>
+<div id="fb-root"></div>
+<script>
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = 'https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v2.12&appId=904979676333014&autoLogAppEvents=1';
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
+
+<div id="disqus_thread"></div>
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document,
+            s = d.createElement('script');
+        s.src = 'https://leiadot.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script id="dsq-count-scr" src="//leiadot.disqus.com/count.js" async></script>
+                        
+</article>
+                    </section>
+                    <aside id="sidebar">
+    <nav class="menus">
+        <ul>
+            <li><a href="/"><i class="icon icon-home"></i></a></li>
+            
+                <li><a href="/about"><i class="fas fa-user"></i></a></li>
+                
+                    
+                        <li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+                        
+                            
+                                <li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+                                
+                                    
+                                        <li><a href="https://github.com/leiadot" target="_blank"><i class="icon icon-github"></i></a></li>
+                                        
+                                            
+                                                <li><a href="https://www.facebook.com/CodingGirlHy2" target="_blank"><i class="fab fa-facebook-square"></i></a></li>
+                                                
+        </ul>
+    </nav>
+    <a id="go-top" href="#"><i class="icon icon-up"></i></a>
+</aside>
+                </div>
+                <footer id="footer">
+    
+                <div id="footer-info" class="inner">
+                    &copy;
+                    2018
+                        日安
+                            - Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> - Theme <a href="https://github.com/hejianxian/hexo-theme-jane/" target="_blank">Jane</a>
+                </div>
+</footer>
+            </div>
+            <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/leiadot" class="mobile-nav-link">Github</a>
+  
+    <a href="https://www.facebook.com/CodingGirlHy2" class="mobile-nav-link">Facebook</a>
+  
+</nav>
+                <script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js">
+</script>
+
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+        <script src="/fancybox/jquery.fancybox.pack.js"></script>
+            
+                <script src="/js/script.js"></script>
+        </div>
+    </body>
+
+    </html>

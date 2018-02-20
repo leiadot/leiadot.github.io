@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    
+        <title>
+            
+                        CodingGirl 寇丁女孩日安
+        </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta name="description" content="從平面設計跳到前端網頁的女孩，以分享前端技術、趨勢為主。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="CodingGirl 寇丁女孩日安">
+<meta property="og:url" content="https://leiadot.github.io/index.html">
+<meta property="og:site_name" content="CodingGirl 寇丁女孩日安">
+<meta property="og:description" content="從平面設計跳到前端網頁的女孩，以分享前端技術、趨勢為主。">
+<meta property="og:image" content="https://leiadot.github.io/logo.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CodingGirl 寇丁女孩日安">
+<meta name="twitter:description" content="從平面設計跳到前端網頁的女孩，以分享前端技術、趨勢為主。">
+<meta name="twitter:image" content="https://leiadot.github.io/logo.png">
+            
+                <link rel="alternative" href="/atom.xml" title="CodingGirl 寇丁女孩日安" type="application/atom+xml">
+                
+                    
+                        <link rel="icon" href="/favicon.ico">
+                        
+                            <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+                            <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+                            <link rel="stylesheet" href="/css/style.css">
+                                
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-87257429-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+</head>
+
+    <body>
+        <div id="container">
+            <div id="wrap">
+                <div class="outer">
+                    <h1 class="title">
+                        <a href="/">
+                            CodingGirl 寇丁女孩日安
+                        </a>
+                    </h1>
+                    <section id="main">
+                        
+  
+    <article id="post-javascript/js30day/day08" class="article article-type-post" itemscope itemprop="blogPost">
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/15/javascript/js30day/day08/">【 JS30 】Day08：Fun with HTML5 Canvas</a>
+    </h1>
+  
+
+            </header>
+            
+                <div class="article-meta">
+                    <a href="/2018/02/15/javascript/js30day/day08/" class="article-date">
+  <time datetime="2018-02-15T07:46:09.000Z" itemprop="datePublished">2018-02-15</time>
+</a>
+                        
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </div>
+
+                            
+    <div class="article-tag">
+        <a class="article-tag-link" href="/tags/JS-30day/">JS 30day</a> <a class="article-tag-link" href="/tags/JavaScript/">JavaScript</a>
+    </div>
+    
+                </div>
+                <div class="article-entry" itemprop="articleBody">
+                    
+                        <p><img src="/img/js30day/small7.jpg" alt=""></p>
+<blockquote>
+<p><a href="https://javascript30.com/" target="_blank" rel="noopener">javascript 30day</a></p>
+</blockquote>
+                            
+                                <p class="article-more-link">
+                                    <a href="/2018/02/15/javascript/js30day/day08/#more">
+                                        閱讀全文
+                                    </a>
+                                </p>
+                                
+                                    
+                                                
+
+                </div>
+    </div>
+    
+                
+</article>
+  
+    <article id="post-javascript/ES6/array02" class="article article-type-post" itemscope itemprop="blogPost">
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/15/javascript/ES6/array02/">【 ES6 】陣列麻吉罵下篇：Sort、Every、Find、Some</a>
+    </h1>
+  
+
+            </header>
+            
+                <div class="article-meta">
+                    <a href="/2018/02/15/javascript/ES6/array02/" class="article-date">
+  <time datetime="2018-02-15T02:28:46.000Z" itemprop="datePublished">2018-02-15</time>
+</a>
+                        
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </div>
+
+                            
+    <div class="article-tag">
+        <a class="article-tag-link" href="/tags/ES6/">ES6</a> <a class="article-tag-link" href="/tags/JavaScript/">JavaScript</a>
+    </div>
+    
+                </div>
+                <div class="article-entry" itemprop="articleBody">
+                    
+                        <p><img src="/img/javascript.jpg" alt=""></p>
+<p>在我們初學 Javascript ，最常用到的就是<code>for</code>迴圈，但當案子的複雜度增加，<br>我們常常都要在迴圈外面先建立一個空陣列，而且迴圈都不知道迴到哪去（？）<br>因此 ES6 中，有新增幾個陣列的方法，在這邊介紹幾個陣列的麻吉罵。</p>
+<p>此篇文章的資料及範例程式碼皆擷取自<a href="https://developer.mozilla.org/zh-TW/" target="_blank" rel="noopener">MDN</a>。</p>
+<p><a href="https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/sort" target="_blank" rel="noopener">Sort</a>、<a href="https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/every" target="_blank" rel="noopener">Every</a>、<a href="https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/find" target="_blank" rel="noopener">Find</a>、<a href="https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/some" target="_blank" rel="noopener">Some</a></p>
+                            
+                                <p class="article-more-link">
+                                    <a href="/2018/02/15/javascript/ES6/array02/#more">
+                                        閱讀全文
+                                    </a>
+                                </p>
+                                
+                                    
+                                                
+
+                </div>
+    </div>
+    
+                
+</article>
+  
+    <article id="post-javascript/js30day/day07" class="article article-type-post" itemscope itemprop="blogPost">
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/13/javascript/js30day/day07/">【 JS30 】Day07：Array Cardio Day 2</a>
+    </h1>
+  
+
+            </header>
+            
+                <div class="article-meta">
+                    <a href="/2018/02/13/javascript/js30day/day07/" class="article-date">
+  <time datetime="2018-02-13T07:13:22.000Z" itemprop="datePublished">2018-02-13</time>
+</a>
+                        
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </div>
+
+                            
+    <div class="article-tag">
+        <a class="article-tag-link" href="/tags/JS-30day/">JS 30day</a> <a class="article-tag-link" href="/tags/JavaScript/">JavaScript</a>
+    </div>
+    
+                </div>
+                <div class="article-entry" itemprop="articleBody">
+                    
+                        <p><img src="/img/js30day/small6.jpg" alt=""></p>
+<blockquote>
+<p><a href="https://javascript30.com/" target="_blank" rel="noopener">javascript 30day</a></p>
+</blockquote>
+                            
+                                <p class="article-more-link">
+                                    <a href="/2018/02/13/javascript/js30day/day07/#more">
+                                        閱讀全文
+                                    </a>
+                                </p>
+                                
+                                    
+                                                
+
+                </div>
+    </div>
+    
+                
+</article>
+  
+    <article id="post-javascript/ES6/array" class="article article-type-post" itemscope itemprop="blogPost">
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/05/javascript/ES6/array/">【 ES6 】陣列麻吉罵上篇：ForEach、Filter、Map、Reduce</a>
+    </h1>
+  
+
+            </header>
+            
+                <div class="article-meta">
+                    <a href="/2018/02/05/javascript/ES6/array/" class="article-date">
+  <time datetime="2018-02-05T07:09:58.000Z" itemprop="datePublished">2018-02-05</time>
+</a>
+                        
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </div>
+
+                            
+    <div class="article-tag">
+        <a class="article-tag-link" href="/tags/ES6/">ES6</a> <a class="article-tag-link" href="/tags/JavaScript/">JavaScript</a>
+    </div>
+    
+                </div>
+                <div class="article-entry" itemprop="articleBody">
+                    
+                        <p><img src="/img/javascript.jpg" alt=""></p>
+<p>在我們初學 Javascript ，最常用到的就是<code>for</code>迴圈，但當案子的複雜度增加，<br>我們常常都要在迴圈外面先建立一個空陣列，而且迴圈都不知道迴到哪去（？）<br>因此 ES6 中，有新增幾個陣列的方法，在這邊介紹幾個陣列的麻吉罵。</p>
+<p>此篇文章的資料及範例程式碼皆擷取自<a href="https://developer.mozilla.org/zh-TW/" target="_blank" rel="noopener">MDN</a>。</p>
+<p><a href="https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach" target="_blank" rel="noopener">ForEach</a>、<a href="https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/filter" target="_blank" rel="noopener">Filter</a>、<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map" target="_blank" rel="noopener">Map</a>、<a href="https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce" target="_blank" rel="noopener">Reduce</a></p>
+                            
+                                <p class="article-more-link">
+                                    <a href="/2018/02/05/javascript/ES6/array/#more">
+                                        閱讀全文
+                                    </a>
+                                </p>
+                                
+                                    
+                                                
+
+                </div>
+    </div>
+    
+                
+</article>
+  
+    <article id="post-javascript/js30day/day06" class="article article-type-post" itemscope itemprop="blogPost">
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/02/javascript/js30day/day06/">【 JS30 】Day06：Ajax Type Ahead</a>
+    </h1>
+  
+
+            </header>
+            
+                <div class="article-meta">
+                    <a href="/2018/02/02/javascript/js30day/day06/" class="article-date">
+  <time datetime="2018-02-02T07:00:54.000Z" itemprop="datePublished">2018-02-02</time>
+</a>
+                        
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </div>
+
+                            
+    <div class="article-tag">
+        <a class="article-tag-link" href="/tags/JS-30day/">JS 30day</a> <a class="article-tag-link" href="/tags/JavaScript/">JavaScript</a>
+    </div>
+    
+                </div>
+                <div class="article-entry" itemprop="articleBody">
+                    
+                        <p><img src="/img/js30day/small5.jpg" alt=""></p>
+<blockquote>
+<p><a href="https://javascript30.com/" target="_blank" rel="noopener">javascript 30day</a></p>
+</blockquote>
+                            
+                                <p class="article-more-link">
+                                    <a href="/2018/02/02/javascript/js30day/day06/#more">
+                                        閱讀全文
+                                    </a>
+                                </p>
+                                
+                                    
+                                                
+
+                </div>
+    </div>
+    
+                
+</article>
+  
+    <article id="post-javascript/js30day/day05" class="article article-type-post" itemscope itemprop="blogPost">
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/01/javascript/js30day/day05/">【 JS30 】Day05：Flex Panel Gallery</a>
+    </h1>
+  
+
+            </header>
+            
+                <div class="article-meta">
+                    <a href="/2018/02/01/javascript/js30day/day05/" class="article-date">
+  <time datetime="2018-02-01T07:34:51.000Z" itemprop="datePublished">2018-02-01</time>
+</a>
+                        
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </div>
+
+                            
+    <div class="article-tag">
+        <a class="article-tag-link" href="/tags/JS-30day/">JS 30day</a> <a class="article-tag-link" href="/tags/JavaScript/">JavaScript</a>
+    </div>
+    
+                </div>
+                <div class="article-entry" itemprop="articleBody">
+                    
+                        <p><img src="/img/js30day/small4.jpg" alt=""></p>
+<blockquote>
+<p><a href="https://javascript30.com/" target="_blank" rel="noopener">javascript 30day</a></p>
+</blockquote>
+                            
+                                <p class="article-more-link">
+                                    <a href="/2018/02/01/javascript/js30day/day05/#more">
+                                        閱讀全文
+                                    </a>
+                                </p>
+                                
+                                    
+                                                
+
+                </div>
+    </div>
+    
+                
+</article>
+  
+    <article id="post-javascript/ES6-start/destructuring" class="article article-type-post" itemscope itemprop="blogPost">
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/01/javascript/ES6-start/destructuring/">【 ES6入門 】變數的解構賦值</a>
+    </h1>
+  
+
+            </header>
+            
+                <div class="article-meta">
+                    <a href="/2018/02/01/javascript/ES6-start/destructuring/" class="article-date">
+  <time datetime="2018-02-01T02:50:15.000Z" itemprop="datePublished">2018-02-01</time>
+</a>
+                        
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </div>
+
+                            
+    <div class="article-tag">
+        <a class="article-tag-link" href="/tags/ES6/">ES6</a> <a class="article-tag-link" href="/tags/JavaScript/">JavaScript</a>
+    </div>
+    
+                </div>
+                <div class="article-entry" itemprop="articleBody">
+                    
+                        <p><img src="/img/es6.jpg" alt=""></p>
+<blockquote>
+<p><a href="https://yucj.gitbooks.io/ecmascript-6/content/" target="_blank" rel="noopener">ECMAScript 6 入門</a></p>
+</blockquote>
+<p>ES6 重點整理、筆記，部份內容擷取自上述文章內容。</p>
+                            
+                                <p class="article-more-link">
+                                    <a href="/2018/02/01/javascript/ES6-start/destructuring/#more">
+                                        閱讀全文
+                                    </a>
+                                </p>
+                                
+                                    
+                                                
+
+                </div>
+    </div>
+    
+                
+</article>
+  
+    <article id="post-javascript/ES6-start/variable" class="article article-type-post" itemscope itemprop="blogPost">
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/31/javascript/ES6-start/variable/">【 ES6入門 】變數宣告命令</a>
+    </h1>
+  
+
+            </header>
+            
+                <div class="article-meta">
+                    <a href="/2018/01/31/javascript/ES6-start/variable/" class="article-date">
+  <time datetime="2018-01-31T04:21:44.000Z" itemprop="datePublished">2018-01-31</time>
+</a>
+                        
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </div>
+
+                            
+    <div class="article-tag">
+        <a class="article-tag-link" href="/tags/ES6/">ES6</a> <a class="article-tag-link" href="/tags/JavaScript/">JavaScript</a>
+    </div>
+    
+                </div>
+                <div class="article-entry" itemprop="articleBody">
+                    
+                        <p><img src="/img/es6.jpg" alt=""></p>
+<blockquote>
+<p><a href="https://yucj.gitbooks.io/ecmascript-6/content/" target="_blank" rel="noopener">ECMAScript 6 入門</a></p>
+</blockquote>
+<p>ES6 重點整理、筆記，部份內容擷取自上述文章內容。</p>
+                            
+                                <p class="article-more-link">
+                                    <a href="/2018/01/31/javascript/ES6-start/variable/#more">
+                                        閱讀全文
+                                    </a>
+                                </p>
+                                
+                                    
+                                                
+
+                </div>
+    </div>
+    
+                
+</article>
+  
+    <article id="post-javascript/js30day/day04" class="article article-type-post" itemscope itemprop="blogPost">
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/30/javascript/js30day/day04/">【 JS30 】Day04：Array Cardio Day 1</a>
+    </h1>
+  
+
+            </header>
+            
+                <div class="article-meta">
+                    <a href="/2018/01/30/javascript/js30day/day04/" class="article-date">
+  <time datetime="2018-01-30T03:04:37.000Z" itemprop="datePublished">2018-01-30</time>
+</a>
+                        
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </div>
+
+                            
+                </div>
+                <div class="article-entry" itemprop="articleBody">
+                    
+                        <p><img src="/img/js30day/small3.jpg" alt=""></p>
+<blockquote>
+<p><a href="https://javascript30.com/" target="_blank" rel="noopener">javascript 30day</a></p>
+</blockquote>
+                            
+                                <p class="article-more-link">
+                                    <a href="/2018/01/30/javascript/js30day/day04/#more">
+                                        閱讀全文
+                                    </a>
+                                </p>
+                                
+                                    
+                                                
+
+                </div>
+    </div>
+    
+                
+</article>
+  
+    <article id="post-javascript/js30day/day03" class="article article-type-post" itemscope itemprop="blogPost">
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/29/javascript/js30day/day03/">【 JS30 】Day03：JS Playing with CSS Variables</a>
+    </h1>
+  
+
+            </header>
+            
+                <div class="article-meta">
+                    <a href="/2018/01/29/javascript/js30day/day03/" class="article-date">
+  <time datetime="2018-01-29T04:55:48.000Z" itemprop="datePublished">2018-01-29</time>
+</a>
+                        
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </div>
+
+                            
+    <div class="article-tag">
+        <a class="article-tag-link" href="/tags/JS-30day/">JS 30day</a> <a class="article-tag-link" href="/tags/JavaScript/">JavaScript</a>
+    </div>
+    
+                </div>
+                <div class="article-entry" itemprop="articleBody">
+                    
+                        <p><img src="/img/js30day/small2.jpg" alt=""></p>
+<blockquote>
+<p><a href="https://javascript30.com/" target="_blank" rel="noopener">javascript 30day</a></p>
+</blockquote>
+                            
+                                <p class="article-more-link">
+                                    <a href="/2018/01/29/javascript/js30day/day03/#more">
+                                        閱讀全文
+                                    </a>
+                                </p>
+                                
+                                    
+                                                
+
+                </div>
+    </div>
+    
+                
+</article>
+  
+  
+    <nav id="page-nav">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    </nav>
+  
+
+                    </section>
+                    <aside id="sidebar">
+    <nav class="menus">
+        <ul>
+            <li><a href="/"><i class="icon icon-home"></i></a></li>
+            
+                <li><a href="/about"><i class="fas fa-user"></i></a></li>
+                
+                    
+                        <li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+                        
+                            
+                                <li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+                                
+                                    
+                                        <li><a href="https://github.com/leiadot" target="_blank"><i class="icon icon-github"></i></a></li>
+                                        
+                                            
+                                                <li><a href="https://www.facebook.com/CodingGirlHy2" target="_blank"><i class="fab fa-facebook-square"></i></a></li>
+                                                
+        </ul>
+    </nav>
+    <a id="go-top" href="#"><i class="icon icon-up"></i></a>
+</aside>
+                </div>
+                <footer id="footer">
+    
+                <div id="footer-info" class="inner">
+                    &copy;
+                    2018
+                        日安
+                            - Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> - Theme <a href="https://github.com/hejianxian/hexo-theme-jane/" target="_blank">Jane</a>
+                </div>
+</footer>
+            </div>
+            <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/leiadot" class="mobile-nav-link">Github</a>
+  
+    <a href="https://www.facebook.com/CodingGirlHy2" class="mobile-nav-link">Facebook</a>
+  
+</nav>
+                <script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js">
+</script>
+
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+        <script src="/fancybox/jquery.fancybox.pack.js"></script>
+            
+                <script src="/js/script.js"></script>
+        </div>
+    </body>
+
+    </html>
