@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    
+        <title>
+            
+                【 ES6 】陣列麻吉罵下篇：Sort、Every、Find、Some |
+                    
+                        CodingGirl 寇丁女孩日安
+        </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta name="description" content="在我們初學 Javascript ，最常用到的就是for迴圈，但當案子的複雜度增加，我們常常都要在迴圈外面先建立一個空陣列，而且迴圈都不知道迴到哪去（？）因此 ES6 中，有新增幾個陣列的方法，在這邊介紹幾個陣列的麻吉罵。 此篇文章的資料及範例程式碼皆擷取自MDN。 Sort、Every、Find、Some">
+<meta name="keywords" content="JavaScript,ES6">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【 ES6 】陣列麻吉罵下篇：Sort、Every、Find、Some">
+<meta property="og:url" content="https://leiadot.github.io/2018/02/15/javascript/ES6/array02/index.html">
+<meta property="og:site_name" content="CodingGirl 寇丁女孩日安">
+<meta property="og:description" content="在我們初學 Javascript ，最常用到的就是for迴圈，但當案子的複雜度增加，我們常常都要在迴圈外面先建立一個空陣列，而且迴圈都不知道迴到哪去（？）因此 ES6 中，有新增幾個陣列的方法，在這邊介紹幾個陣列的麻吉罵。 此篇文章的資料及範例程式碼皆擷取自MDN。 Sort、Every、Find、Some">
+<meta property="og:image" content="https://leiadot.github.io/logo.png">
+<meta property="og:updated_time" content="2018-02-15T02:51:17.420Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【 ES6 】陣列麻吉罵下篇：Sort、Every、Find、Some">
+<meta name="twitter:description" content="在我們初學 Javascript ，最常用到的就是for迴圈，但當案子的複雜度增加，我們常常都要在迴圈外面先建立一個空陣列，而且迴圈都不知道迴到哪去（？）因此 ES6 中，有新增幾個陣列的方法，在這邊介紹幾個陣列的麻吉罵。 此篇文章的資料及範例程式碼皆擷取自MDN。 Sort、Every、Find、Some">
+<meta name="twitter:image" content="https://leiadot.github.io/logo.png">
+            
+                <link rel="alternative" href="/atom.xml" title="CodingGirl 寇丁女孩日安" type="application/atom+xml">
+                
+                    
+                        <link rel="icon" href="/favicon.ico">
+                        
+                            <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+                            <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+                            <link rel="stylesheet" href="/css/style.css">
+                                
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-87257429-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+</head>
+
+    <body>
+        <div id="container">
+            <div id="wrap">
+                <div class="outer">
+                    <h1 class="title">
+                        <a href="/">
+                            CodingGirl 寇丁女孩日安
+                        </a>
+                    </h1>
+                    <section id="main">
+                        <article id="post-javascript/ES6/array02" class="article article-type-post" itemscope itemprop="blogPost">
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      【 ES6 】陣列麻吉罵下篇：Sort、Every、Find、Some
+    </h1>
+  
+
+            </header>
+            
+                <div class="article-meta">
+                    <a href="/2018/02/15/javascript/ES6/array02/" class="article-date">
+  <time datetime="2018-02-15T02:28:46.000Z" itemprop="datePublished">2018-02-15</time>
+</a>
+                        
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </div>
+
+                            
+    <div class="article-tag">
+        <a class="article-tag-link" href="/tags/ES6/">ES6</a> <a class="article-tag-link" href="/tags/JavaScript/">JavaScript</a>
+    </div>
+    
+                </div>
+                <div class="article-entry" itemprop="articleBody">
+                    
+                                        <p><img src="/img/javascript.jpg" alt=""></p>
+<p>在我們初學 Javascript ，最常用到的就是<code>for</code>迴圈，但當案子的複雜度增加，<br>我們常常都要在迴圈外面先建立一個空陣列，而且迴圈都不知道迴到哪去（？）<br>因此 ES6 中，有新增幾個陣列的方法，在這邊介紹幾個陣列的麻吉罵。</p>
+<p>此篇文章的資料及範例程式碼皆擷取自<a href="https://developer.mozilla.org/zh-TW/" target="_blank" rel="noopener">MDN</a>。</p>
+<p><a href="https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/sort" target="_blank" rel="noopener">Sort</a>、<a href="https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/every" target="_blank" rel="noopener">Every</a>、<a href="https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/find" target="_blank" rel="noopener">Find</a>、<a href="https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/some" target="_blank" rel="noopener">Some</a></p>
+<a id="more"></a>
+<ul>
+<li>Sort<br>使用 <code>sort</code> 將陣列中的元素排列至其應當的位置上並返回此陣列。</li>
+<li>Every<br>使用 <code>every</code> 遍歷陣列的每個元素，當陣列的元素只要有一個不符合函式條件，<br>即回傳<code>false</code>，全部的元素都通過條件，即返回<code>true</code>。</li>
+<li>Find<br><code>find</code> 遍歷陣列的每個元素，回傳陣列第一個符合函式條件的元素，<br>若都不符合，則回傳<code>undefined</code>。</li>
+<li>Some<br>使用 <code>some</code> 遍歷陣列的每個元素，當陣列的元素只要有一個符合函式條件，<br>即回傳<code>true</code>，陣列中全部的元素都不符合條件，即返回<code>false</code>。</li>
+</ul>
+<h2><span id="sort">sort</span></h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arr.sort([compareFunction])</span><br></pre></td></tr></table></figure>
+<p><code>compareFunction</code>：指定函數來定義排序順序。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> items = [</span><br><span class="line">  &#123; <span class="attr">name</span>: <span class="string">'Edward'</span>, <span class="attr">value</span>: <span class="number">21</span> &#125;,</span><br><span class="line">  &#123; <span class="attr">name</span>: <span class="string">'Sharpe'</span>, <span class="attr">value</span>: <span class="number">37</span> &#125;,</span><br><span class="line">  &#123; <span class="attr">name</span>: <span class="string">'And'</span>, <span class="attr">value</span>: <span class="number">45</span> &#125;,</span><br><span class="line">  &#123; <span class="attr">name</span>: <span class="string">'The'</span>, <span class="attr">value</span>: <span class="number">-12</span> &#125;,</span><br><span class="line">  &#123; <span class="attr">name</span>: <span class="string">'Magnetic'</span> &#125;,</span><br><span class="line">  &#123; <span class="attr">name</span>: <span class="string">'Zeros'</span>, <span class="attr">value</span>: <span class="number">37</span> &#125;</span><br><span class="line">];</span><br><span class="line">items.sort(<span class="function"><span class="keyword">function</span> (<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (a.name &gt; b.name) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (a.name &lt; b.name) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// a must be equal to b</span></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">比較 a , b 元素</th>
+<th style="text-align:center">結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">compareFunction(a, b) &gt;0</td>
+<td style="text-align:center">將 <code>b</code> 排在比 <code>a</code> index還小處</td>
+</tr>
+<tr>
+<td style="text-align:center">compareFunction(a, b) =0</td>
+<td style="text-align:center">互相不改變順序</td>
+</tr>
+<tr>
+<td style="text-align:center">compareFunction(a, b) &lt;0</td>
+<td style="text-align:center">將 <code>a</code> 排在比 <code>b</code> index還小處</td>
+</tr>
+</tbody>
+</table>
+<h2><span id="every">every</span></h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arr.every(callback[, thisArg])</span><br></pre></td></tr></table></figure>
+<ul>
+<li>callback<br>測試元素的函式，可帶入三個傳入參數。<ul>
+<li>element<br>目前被處理中的元素。</li>
+<li>index 選填<br>目前被處理中元素的索引值。</li>
+<li>array 選填<br>呼叫<code>every</code>的陣列本身。</li>
+</ul>
+</li>
+<li>thisArg 選填<br>執行<code>function</code>的<code>this</code>。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isBigEnough</span>(<span class="params">element, index, array</span>) </span>&#123; </span><br><span class="line">  <span class="keyword">return</span> element &gt;= <span class="number">10</span>; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">[<span class="number">12</span>, <span class="number">5</span>, <span class="number">8</span>, <span class="number">130</span>, <span class="number">44</span>].every(isBigEnough);   <span class="comment">// false </span></span><br><span class="line">[<span class="number">12</span>, <span class="number">54</span>, <span class="number">18</span>, <span class="number">130</span>, <span class="number">44</span>].every(isBigEnough); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>因為第一個<code>isBigEnough</code>陣列的<code>5</code>不符合函式條件，因為<code>every</code>回傳<code>false</code>，<br>第二個<code>isBigEnough</code>的陣列元素，全部都符合函式條件，回傳<code>true</code>。</p>
+<h2><span id="find">find</span></h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arr.find(callback[, thisArg])</span><br></pre></td></tr></table></figure>
+<ul>
+<li>callback<br>測試元素的函式，可帶入三個傳入參數。<ul>
+<li>element<br>目前被處理中的元素。</li>
+<li>index 選填<br>目前被處理中元素的索引值。</li>
+<li>array 選填<br>呼叫<code>find</code>的陣列本身。</li>
+</ul>
+</li>
+<li>thisArg 選填<br>執行<code>function</code>的<code>this</code>。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> array1 = [<span class="number">5</span>, <span class="number">12</span>, <span class="number">8</span>, <span class="number">130</span>, <span class="number">44</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> found = array1.find(<span class="function"><span class="keyword">function</span>(<span class="params">element</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> element &gt; <span class="number">10</span>;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(found);</span><br><span class="line"><span class="comment">// expected output: 12</span></span><br></pre></td></tr></table></figure>
+<p><code>find</code>執行後，第一個符合<code>element &gt; 10</code>條件的數值為<code>12</code>，<br>則<code>found</code>的變數值為<code>12</code>，且傳入變數<code>found</code>為數值，而非陣列。</p>
+<h2><span id="some">some</span></h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arr.some(callback[, thisArg])</span><br></pre></td></tr></table></figure>
+<ul>
+<li>callback<br>測試元素的函式，可帶入三個傳入參數。<ul>
+<li>element<br>目前被處理中的元素。</li>
+<li>index 選填<br>目前被處理中元素的索引值。</li>
+<li>array 選填<br>呼叫<code>some</code>的陣列本身。</li>
+</ul>
+</li>
+<li>thisArg 選填<br>執行<code>function</code>的<code>this</code>。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isBiggerThan10</span>(<span class="params">element, index, array</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> element &gt; <span class="number">10</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">[<span class="number">2</span>, <span class="number">5</span>, <span class="number">8</span>, <span class="number">1</span>, <span class="number">4</span>].some(isBiggerThan10);  <span class="comment">// false</span></span><br><span class="line">[<span class="number">12</span>, <span class="number">5</span>, <span class="number">8</span>, <span class="number">1</span>, <span class="number">4</span>].some(isBiggerThan10); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>因為第一個<code>isBiggerThan10</code>陣列全部不符合函式條件，所以回傳<code>false</code>，<br>第二個<code>isBiggerThan10</code>的第一個元素<code>12</code>，符合函式條件，則回傳<code>true</code>。</p>
+
+                                            
+                                                
+
+                </div>
+    </div>
+    
+        
+    <nav id="article-nav">
+        
+            <a href="/2018/02/15/javascript/js30day/day08/" id="article-nav-newer" class="article-nav-link-wrap">
+                <strong class="article-nav-caption">Newer</strong>
+                <div class="article-nav-title">
+                    
+                        【 JS30 】Day08：Fun with HTML5 Canvas
+                            
+                </div>
+            </a>
+            
+                
+                    <a href="/2018/02/13/javascript/js30day/day07/" id="article-nav-older" class="article-nav-link-wrap">
+                        <strong class="article-nav-caption">Older</strong>
+                        <div class="article-nav-title">
+                            【 JS30 】Day07：Array Cardio Day 2
+                        </div>
+                    </a>
+                    
+    </nav>
+    
+            
+                
+                    <div class="fb-like" data-href="https://leiadot.github.io/" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+<script>
+    const fbLike = document.querySelector('.fb-like');
+    fbLike.dataset.href = window.location.href;
+</script>
+<div id="fb-root"></div>
+<div id="fb-root"></div>
+<script>
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = 'https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v2.12&appId=904979676333014&autoLogAppEvents=1';
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
+
+<div id="disqus_thread"></div>
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document,
+            s = d.createElement('script');
+        s.src = 'https://leiadot.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script id="dsq-count-scr" src="//leiadot.disqus.com/count.js" async></script>
+                        
+</article>
+                    </section>
+                    <aside id="sidebar">
+    <nav class="menus">
+        <ul>
+            <li><a href="/"><i class="icon icon-home"></i></a></li>
+            
+                <li><a href="/about"><i class="fas fa-user"></i></a></li>
+                
+                    
+                        <li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+                        
+                            
+                                <li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+                                
+                                    
+                                        <li><a href="https://github.com/leiadot" target="_blank"><i class="icon icon-github"></i></a></li>
+                                        
+                                            
+                                                <li><a href="https://www.facebook.com/CodingGirlHy2" target="_blank"><i class="fab fa-facebook-square"></i></a></li>
+                                                
+        </ul>
+    </nav>
+    <a id="go-top" href="#"><i class="icon icon-up"></i></a>
+</aside>
+                </div>
+                <footer id="footer">
+    
+                <div id="footer-info" class="inner">
+                    &copy;
+                    2018
+                        日安
+                            - Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> - Theme <a href="https://github.com/hejianxian/hexo-theme-jane/" target="_blank">Jane</a>
+                </div>
+</footer>
+            </div>
+            <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/leiadot" class="mobile-nav-link">Github</a>
+  
+    <a href="https://www.facebook.com/CodingGirlHy2" class="mobile-nav-link">Facebook</a>
+  
+</nav>
+                <script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js">
+</script>
+
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+        <script src="/fancybox/jquery.fancybox.pack.js"></script>
+            
+                <script src="/js/script.js"></script>
+        </div>
+    </body>
+
+    </html>

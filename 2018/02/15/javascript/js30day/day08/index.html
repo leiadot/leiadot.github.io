@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    
+        <title>
+            
+                【 JS30 】Day08：Fun with HTML5 Canvas |
+                    
+                        CodingGirl 寇丁女孩日安
+        </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta name="description" content="javascript 30day">
+<meta name="keywords" content="JavaScript,JS 30day">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【 JS30 】Day08：Fun with HTML5 Canvas">
+<meta property="og:url" content="https://leiadot.github.io/2018/02/15/javascript/js30day/day08/index.html">
+<meta property="og:site_name" content="CodingGirl 寇丁女孩日安">
+<meta property="og:description" content="javascript 30day">
+<meta property="og:image" content="https://leiadot.github.io/logo.png">
+<meta property="og:updated_time" content="2018-02-15T13:16:08.895Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【 JS30 】Day08：Fun with HTML5 Canvas">
+<meta name="twitter:description" content="javascript 30day">
+<meta name="twitter:image" content="https://leiadot.github.io/logo.png">
+            
+                <link rel="alternative" href="/atom.xml" title="CodingGirl 寇丁女孩日安" type="application/atom+xml">
+                
+                    
+                        <link rel="icon" href="/favicon.ico">
+                        
+                            <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+                            <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+                            <link rel="stylesheet" href="/css/style.css">
+                                
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-87257429-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+
+</head>
+
+    <body>
+        <div id="container">
+            <div id="wrap">
+                <div class="outer">
+                    <h1 class="title">
+                        <a href="/">
+                            CodingGirl 寇丁女孩日安
+                        </a>
+                    </h1>
+                    <section id="main">
+                        <article id="post-javascript/js30day/day08" class="article article-type-post" itemscope itemprop="blogPost">
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      【 JS30 】Day08：Fun with HTML5 Canvas
+    </h1>
+  
+
+            </header>
+            
+                <div class="article-meta">
+                    <a href="/2018/02/15/javascript/js30day/day08/" class="article-date">
+  <time datetime="2018-02-15T07:46:09.000Z" itemprop="datePublished">2018-02-15</time>
+</a>
+                        
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </div>
+
+                            
+    <div class="article-tag">
+        <a class="article-tag-link" href="/tags/JS-30day/">JS 30day</a> <a class="article-tag-link" href="/tags/JavaScript/">JavaScript</a>
+    </div>
+    
+                </div>
+                <div class="article-entry" itemprop="articleBody">
+                    
+                                        <p><img src="/img/js30day/small7.jpg" alt=""></p>
+<blockquote>
+<p><a href="https://javascript30.com/" target="_blank" rel="noopener">javascript 30day</a></p>
+</blockquote>
+<a id="more"></a>
+<h3><span id="目標拖拉滑鼠繪製網頁且渲染顏色及動態變更筆劃粗細"><span style="color:#ff5900">目標：拖拉滑鼠繪製網頁，且渲染顏色及動態變更筆劃粗細。</span></span></h3><h2><span id="一-指定變數並設定基本屬性">一、指定變數，並設定基本屬性</span></h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> canvas = <span class="built_in">document</span>.querySelector(<span class="string">'#draw'</span>);</span><br><span class="line"><span class="keyword">const</span> ctx = canvas.getContext(<span class="string">'2d'</span>);</span><br><span class="line">canvas.width = <span class="built_in">window</span>.innerWidth;</span><br><span class="line">canvas.height = <span class="built_in">window</span>.innerHeight;</span><br><span class="line">ctx.strokeStyle = <span class="string">'#BADA55'</span>;</span><br><span class="line">ctx.lineJoin = <span class="string">'round'</span>;</span><br><span class="line">ctx.lineCap = <span class="string">'round'</span>;</span><br><span class="line">ctx.lineWidth = <span class="number">100</span>;</span><br></pre></td></tr></table></figure>
+<p>操作 html 的canvas標籤，先指定<code>ctx</code>變數為操作 canvas 的變數，<br>宣告<code>ctx</code>為2D渲染，並使canvas寬高和視窗寬高一致。</p>
+<ul>
+<li>strokeStyle：線條顏色。</li>
+<li>lineJoin：線條連接處。</li>
+<li>lineWidth：線條寬度。</li>
+</ul>
+<h2><span id="二-監聽事件">二、監聽事件</span></h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">let</span> isDrawing = <span class="literal">false</span>;</span><br><span class="line"><span class="keyword">let</span> lastX = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">let</span> lastY = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">draw</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!isDrawing) <span class="keyword">return</span>;</span><br><span class="line">  <span class="built_in">console</span>.log(e);</span><br><span class="line">&#125;</span><br><span class="line">canvas.addEventListener(<span class="string">'mousedown'</span>, (e) =&gt; &#123;</span><br><span class="line">  isDrawing = <span class="literal">true</span>;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">canvas.addEventListener(<span class="string">'mousemove'</span>, draw);</span><br><span class="line">canvas.addEventListener(<span class="string">'mouseup'</span>, () =&gt; isDrawing = <span class="literal">false</span>);</span><br><span class="line">canvas.addEventListener(<span class="string">'mouseout'</span>, () =&gt; isDrawing = <span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
+<p>宣告<code>isDrawing = false</code>，判斷是否在畫圖的狀態，<br>且宣告<code>lastX</code>和<code>lastY</code>表示X軸、Y軸的起始位置。</p>
+<p>在滑鼠移開或是放開按鍵的時候，使<code>draw()</code>判斷變數<code>isDrawing</code>為<code>false</code>，canvas則不具有作畫狀態；<br>在按壓狀態使<code>isDrawing</code>變數為<code>true</code>，<code>draw()</code>則判斷為作畫狀態；<br>滑鼠滑動時<code>isDrawing</code>變數為<code>false</code>，則不具有作畫狀態，但按壓且同時滑動，<br>因按壓時<code>isDrawing</code>變數為<code>true</code>，則不會中斷<code>draw()</code>，如此一來便可以達到滑鼠拖曳時具有作畫狀態的監聽。</p>
+<h2><span id="三-開始作畫">三、開始作畫</span></h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">draw</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!isDrawing) <span class="keyword">return</span>;</span><br><span class="line">  ctx.beginPath();</span><br><span class="line">  ctx.moveTo(lastX, lastY);</span><br><span class="line">  ctx.lineTo(e.offsetX, e.offsetY);</span><br><span class="line">  ctx.stroke();</span><br><span class="line">  [lastX, lastY] = [e.offsetX, e.offsetY];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>beginPath：建立開始路徑</li>
+<li>moveTo：將新路徑的起點移動到座標<code>lastX</code>、<code>lastY</code>。</li>
+<li>lineTo：將起始點連結到目前的X、Y座標。（並未繪製）</li>
+<li>stroke：描繪路徑。</li>
+</ul>
+<p>使用解構賦值，將滑鼠當前位置賦予至作畫時X、Y軸的起始位置，<br>但分段作畫，上一段畫作的座標終點會和下一段畫作的座標起點連成直線，<br>為了避免這樣的狀況，所以必須修改監聽。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">canvas.addEventListener(<span class="string">'mousedown'</span>, (e) =&gt; &#123;</span><br><span class="line">  isDrawing = <span class="literal">true</span>;</span><br><span class="line">  [lastX, lastY] = [e.offsetX, e.offsetY];</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>如此，便可分段每次按壓的狀況。</p>
+<h2><span id="四-線段美化">四、線段美化</span></h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> hue = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">let</span> direction = <span class="literal">true</span>;</span><br><span class="line"> </span><br><span class="line"> <span class="function"><span class="keyword">function</span> <span class="title">draw</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!isDrawing) <span class="keyword">return</span>;</span><br><span class="line">  ctx.strokeStyle = <span class="string">`hsl(<span class="subst">$&#123;hue&#125;</span>, 100%, 50%)`</span>; </span><br><span class="line">  ctx.beginPath();</span><br><span class="line">  ...</span><br><span class="line">  ...</span><br><span class="line">  hue++; </span><br><span class="line">  <span class="keyword">if</span> (hue &gt;= <span class="number">360</span>) &#123; </span><br><span class="line">      hue = <span class="number">0</span>; </span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 做線條寬度的變化效果，當寬度達到指令值得時候，切換direction的true/false</span></span><br><span class="line">  <span class="keyword">if</span> (ctx.lineWidth &gt;= <span class="number">100</span> || ctx.lineWidth &lt;= <span class="number">1</span>) &#123; </span><br><span class="line">      direction = !direction; </span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (direction) &#123;</span><br><span class="line">      ctx.lineWidth++;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      ctx.lineWidth--;</span><br><span class="line">  &#125;      </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>宣告色相及方向的變數，並指定canvas顏色為hsl（色相/飽和/亮度）模式，<br>並在色相的部份嵌入模板變數，並使用遞增運算子，使色相有變化效果，<br>但因色相僅有 360 度，為了讓數值不要不斷累加上去，則大於等於 360 ，色相度數便歸零。</p>
+<p><code>direction</code>為<code>true</code>時，線條寬度將不斷遞增，<br>但大於等於 100 時，<code>direction</code>為<code>false</code>，便開始遞減，<br>遞減數值小於等於 1 時，<code>direction</code>為<code>true</code>，開始遞增，無限循環。</p>
+<h2><span id="使用技巧">使用技巧</span></h2><ul>
+<li>Canvas</li>
+</ul>
+
+                                            
+                                                
+
+                </div>
+    </div>
+    
+        
+    <nav id="article-nav">
+        
+                
+                    <a href="/2018/02/15/javascript/ES6/array02/" id="article-nav-older" class="article-nav-link-wrap">
+                        <strong class="article-nav-caption">Older</strong>
+                        <div class="article-nav-title">
+                            【 ES6 】陣列麻吉罵下篇：Sort、Every、Find、Some
+                        </div>
+                    </a>
+                    
+    </nav>
+    
+            
+                
+                    <div class="fb-like" data-href="https://leiadot.github.io/" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+<script>
+    const fbLike = document.querySelector('.fb-like');
+    fbLike.dataset.href = window.location.href;
+</script>
+<div id="fb-root"></div>
+<div id="fb-root"></div>
+<script>
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = 'https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v2.12&appId=904979676333014&autoLogAppEvents=1';
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
+
+<div id="disqus_thread"></div>
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document,
+            s = d.createElement('script');
+        s.src = 'https://leiadot.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script id="dsq-count-scr" src="//leiadot.disqus.com/count.js" async></script>
+                        
+</article>
+                    </section>
+                    <aside id="sidebar">
+    <nav class="menus">
+        <ul>
+            <li><a href="/"><i class="icon icon-home"></i></a></li>
+            
+                <li><a href="/about"><i class="fas fa-user"></i></a></li>
+                
+                    
+                        <li><a href="/archives"><i class="icon icon-fenlei"></i></a></li>
+                        
+                            
+                                <li><a href="/tags"><i class="icon icon-tag"></i></a></li>
+                                
+                                    
+                                        <li><a href="https://github.com/leiadot" target="_blank"><i class="icon icon-github"></i></a></li>
+                                        
+                                            
+                                                <li><a href="https://www.facebook.com/CodingGirlHy2" target="_blank"><i class="fab fa-facebook-square"></i></a></li>
+                                                
+        </ul>
+    </nav>
+    <a id="go-top" href="#"><i class="icon icon-up"></i></a>
+</aside>
+                </div>
+                <footer id="footer">
+    
+                <div id="footer-info" class="inner">
+                    &copy;
+                    2018
+                        日安
+                            - Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> - Theme <a href="https://github.com/hejianxian/hexo-theme-jane/" target="_blank">Jane</a>
+                </div>
+</footer>
+            </div>
+            <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tag</a>
+  
+    <a href="https://github.com/leiadot" class="mobile-nav-link">Github</a>
+  
+    <a href="https://www.facebook.com/CodingGirlHy2" class="mobile-nav-link">Facebook</a>
+  
+</nav>
+                <script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js">
+</script>
+
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+        <script src="/fancybox/jquery.fancybox.pack.js"></script>
+            
+                <script src="/js/script.js"></script>
+        </div>
+    </body>
+
+    </html>
