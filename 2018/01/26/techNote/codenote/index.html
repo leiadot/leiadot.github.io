@@ -11,18 +11,18 @@
                         CodingGirl 寇丁女孩日安
         </title>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-        <meta name="description" content="註解的目的是協助使用者了解程式碼作者的思想">
+        <meta name="description" content="註解的目的是協助使用者了解程式碼作者的思想，教你如何寫出有效的註解，讓你的團隊合作變得更順暢。">
 <meta name="keywords" content="註解">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【 筆記 】如何寫出好註解">
 <meta property="og:url" content="https://leiadot.github.io/2018/01/26/techNote/codenote/index.html">
 <meta property="og:site_name" content="CodingGirl 寇丁女孩日安">
-<meta property="og:description" content="註解的目的是協助使用者了解程式碼作者的思想">
+<meta property="og:description" content="註解的目的是協助使用者了解程式碼作者的思想，教你如何寫出有效的註解，讓你的團隊合作變得更順暢。">
 <meta property="og:image" content="https://leiadot.github.io/logo.png">
-<meta property="og:updated_time" content="2018-02-05T07:08:43.844Z">
+<meta property="og:updated_time" content="2018-02-21T05:16:55.814Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【 筆記 】如何寫出好註解">
-<meta name="twitter:description" content="註解的目的是協助使用者了解程式碼作者的思想">
+<meta name="twitter:description" content="註解的目的是協助使用者了解程式碼作者的思想，教你如何寫出有效的註解，讓你的團隊合作變得更順暢。">
 <meta name="twitter:image" content="https://leiadot.github.io/logo.png">
             
                 <link rel="alternative" href="/atom.xml" title="CodingGirl 寇丁女孩日安" type="application/atom+xml">
@@ -93,10 +93,10 @@ ga('send', 'pageview');
                 </div>
                 <div class="article-entry" itemprop="articleBody">
                     
-                                        <p>註解的目的是協助使用者了解程式碼作者的思想</p>
+                                        <p>註解的目的是協助使用者了解程式碼作者的思想，<br>教你如何寫出有效的註解，讓你的團隊合作變得更順暢。</p>
 <a id="more"></a>
 <h2><span id="了解不該註解的部份">了解不該註解的部份</span></h2><p>註解必須有價值，如何區分？</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var cafeBean</span><br><span class="line">//宣告 咖啡豆變數</span><br><span class="line"></span><br><span class="line">return cafeBean</span><br><span class="line">//回傳咖啡豆</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var cafeBean</span><br><span class="line">// 宣告 咖啡豆變數</span><br><span class="line"></span><br><span class="line">return cafeBean</span><br><span class="line">// 回傳 咖啡豆</span><br></pre></td></tr></table></figure>
 <p><span style="color:red">[ X ]</span> 這些註解並沒有提供額外的資訊，讓使用者更易閱讀程式碼，宣告與註解完全相同，應該刪除註解或改善內容。</p>
 <h3><span id="不要註解不好的名稱應修正名稱">不要註解不好的名稱，應修正名稱。</span></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var arr    = [1, 2, 3, 4],  </span><br><span class="line">    deleteArr = [];</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">for(var i = 0; i &lt; arr.length; i++) &#123;  </span><br><span class="line">    if(arr[i] &gt; 2) &#123;</span><br><span class="line">        deleteArr.push(arr[i]);</span><br><span class="line">        // 刪除arr1,2的結果</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">console.log(deleteArr);</span><br></pre></td></tr></table></figure>
 <p><span style="color:red">[ X ]</span> deleteArr看起來像刪除arr裡的數值，但arr的內容並不會被更動，此時應該更正命名如下。</p>
