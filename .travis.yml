@@ -2,15 +2,12 @@ language: node_js
 
 node_js: stable
 
-#before_install:
-#  - npm install -g hexo-cli # 安装 hexo
-
 install:
   - npm install
 
 script:
   - hexo clean # 清除
-  - hexo hexo generate # 生成
+  - hexo generate # 生成
 
 after_success:
   - cd ./dist
