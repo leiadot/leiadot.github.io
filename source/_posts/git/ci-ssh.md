@@ -156,3 +156,20 @@ ssh -v git@github.com
 ```
 
 輸入測試 command line。
+
+```
+The authenticity of host 'github.com (207.97.227.239)' can't be established.
+RSA key fingerprint is 16:27:ac:a5:76:28:2d:36:63:1b:56:4d:eb:df:a6:48.
+Are you sure you want to continue connecting (yes/no)?
+```
+得到訊息，輸入`yes`。
+
+```
+Hi username! You've successfully authenticated, but GitHub does not provide shell access.
+```
+授權成功
+
+```
+$ git remote set-url origin git@github.com:user/repo.git
+```
+如果已經 clone 過，只要再掛載這串指令就好。
