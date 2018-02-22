@@ -2,14 +2,13 @@ language: node_js
 
 node_js: stable
 
-before_install:
-  - npm install -g hexo-cli # 安装 hexo
+#before_install:
+#  - npm install -g hexo-cli # 安装 hexo
 
 install:
   - npm install
 
 script:
-  - cd ..
   - hexo clean # 清除
   - hexo hexo generate # 生成
 
@@ -20,8 +19,8 @@ after_success:
   - git config user.email "luv.hsu@gmail.com"
   - git add .
   - git commit -m "Update by travis ci"
-  - git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" master:${P_BRANCH}
+  - git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" master:master
 
 branches:
   only:
-    - master 
+    - source
