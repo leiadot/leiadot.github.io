@@ -10,7 +10,7 @@ tags:
 
 > [javascript 30day](https://javascript30.com/)
 
-<a id="more"></a>
+<!-- more -->
 
 ### <span style="color:#ff5900">目標：說明並練習這些在 JS 中常用的幾個陣列方法</span></span>
 
