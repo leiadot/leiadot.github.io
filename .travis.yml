@@ -10,7 +10,7 @@ script:
   - hexo generate # 生成
 
 after_success:
-  - cd ./dist
+  - cd ./public
   - git init
   - git config user.name "leiadot"
   - git config user.email "luv.hsu@gmail.com"
