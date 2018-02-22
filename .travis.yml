@@ -21,6 +21,3 @@ after_success:
 branches:
   only:
     - source
-env:
- global:
-   - GH_REF: github.com/leiadot/leiadot.github.io.git
