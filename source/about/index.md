@@ -1,3 +1,6 @@
+---
+layout: page
+---
 > 不會就學吧。
 
 <div style="text-align:center;">
