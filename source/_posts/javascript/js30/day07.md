@@ -12,9 +12,9 @@ tags:
 
 <!-- more -->
 
-### <span style="color:#ff5900">目標：說明並練習這些在 JS 中常用的幾個陣列方法</span></span>
+### <span style="color:#ff5900">目標：說明並練習這些在 JS 中常用的幾個陣列方法</span>
 
-## 使用技巧</span>
+## 使用技巧
 
 *   Array.prototype.some()
 *   Array.prototype.find()
@@ -24,7 +24,7 @@ tags:
 
 **Array.prototype.some()**
 
-### 一. 使用 `some` 確認陣列是否有元素 >=19 。</span>
+### 一. 使用 `some` 確認陣列是否有元素 >=19 。
 
 ```js
 const isAdult = people.some(function(person) {
@@ -49,7 +49,7 @@ console.log({isAdult});
 
 **Array.prototype.every()**
 
-### 二. 使用 `every` 確認陣列是否有元素 >=19。</span>
+### 二. 使用 `every` 確認陣列是否有元素 >=19。
 
 ```js
 const allAdults = people.every(person => ((new Date()).getFullYear()) - person.year >= 19);
@@ -61,7 +61,7 @@ console.log({allAdults});
 
 **Array.prototype.find()**
 
-### <span id="三-尋找-id-是-823424-的留言">三. 尋找 id 是 823424 的留言。</span>
+### <span id="三-尋找-id-是-823424-的留言">三. 尋找 id 是 823424 的留言。
 
 ```js
 const comment = comments.find(function(comment) {
@@ -86,7 +86,7 @@ console.log(comment);
 
 **Array.prototype.findIndex()**
 
-### <span id="四刪除-id-為-823434-的留言">四.刪除 id 為 823434 的留言</span>
+### <span id="四刪除-id-為-823434-的留言">四.刪除 id 為 823434 的留言
 
 ```js
 const index = comments.findIndex(comment => comment.id === 823423);
