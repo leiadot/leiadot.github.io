@@ -97,8 +97,5 @@ canvas.addEventListener('mouseout', () => isDrawing = false);
 // 放開滑鼠時和滑鼠移出時，使繪畫參數為false，不執行繪畫函數。
 ```
 
-
-
-
 ## 使用技巧
 - Canvas
