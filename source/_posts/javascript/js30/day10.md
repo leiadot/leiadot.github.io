@@ -1,5 +1,5 @@
 ---
-title: 【 JS30 】Day09：Hold Shift and Check Checkboxes
+title: 【 JS30 】Day10：Hold Shift and Check Checkboxes
 category: JavaScript30
 tags:
   - JavaScript
