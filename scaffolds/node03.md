@@ -34,19 +34,20 @@ firebase.database.ref().set('hi');
 ```
 ※ 如果你沒有驗證通過，仍然無法寫入資料。
 
-firebase 全部為物件格式，不能陣列內容。
+firebase 全部為**物件**格式，不能為陣列內容。
 
 ```js
-firebase.database().ref('student1/name').set({
+firebase.database().ref('student1/name').set(
+  {
 student1:{
-  name:'tom',
-  num:'1'
-},
-student2:{
-  name:'john',
-  num:'2'
-}
-});
+    name:'tom',
+    num:'1'
+  },
+  student2:{
+    name:'john',
+    num:'2'
+  }
+  });
 ```
 則根目錄會新增兩個`student`物件，若更改物件內容，如下。
 ```js
