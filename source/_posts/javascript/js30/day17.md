@@ -1,5 +1,5 @@
 ---
-title: 【 JS30 】Day17：
+title: 【 JS30 】Day17：Sort Without Articles
 category: JavaScript30
 tags:
   - JavaScript
