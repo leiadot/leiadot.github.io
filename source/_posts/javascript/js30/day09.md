@@ -1,9 +1,8 @@
 ---
 title: 【 JS30 】Day09：Dev Tools Domination
-category: JavaScript30
 tags:
-  - JavaScript
-  - JS30
+- JavaScript
+- JS30 系列
 date: 2018-02-23 11:39:39
 ---
 ![](/img/js30day/small8.jpg)

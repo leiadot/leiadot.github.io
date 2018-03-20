@@ -1,10 +1,9 @@
 ---
 title: 【 JS30 】Day07：Array Cardio Day 2
 date: 2018-02-13
-category: JavaScript30
 tags:
 - JavaScript
-- JS30
+- JS30 系列
 ---
 ![](/img/js30day/small6.jpg)
 

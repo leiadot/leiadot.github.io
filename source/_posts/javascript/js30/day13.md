@@ -1,9 +1,8 @@
 ---
 title: 【 JS30 】Slide In on Scroll
-category: JavaScript30
 tags:
-  - JavaScript
-  - JS30
+- JavaScript
+- JS30 系列
 date: 2018-03-02 10:07:32
 ---
 ![](/img/js30day/small12.jpg)

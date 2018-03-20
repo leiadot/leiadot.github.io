@@ -1,10 +1,9 @@
 ---
 title: 【 JS30 】Day06：Ajax Type Ahead
 date: 2018-02-02
-category: JavaScript30
 tags:
 - JavaScript
-- JS30
+- JS30 系列
 ---
 
 ![](/img/js30day/small5.jpg)

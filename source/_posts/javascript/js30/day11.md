@@ -1,9 +1,8 @@
 ---
 title: 【 JS30 】Day11：Custom Video Player
-category: JavaScript30
 tags:
-  - JavaScript
-  - JS30
+- JavaScript
+- JS30 系列
 date: 2018-02-28 10:53:02
 ---
 ![](/img/js30day/small10.jpg)

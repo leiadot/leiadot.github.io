@@ -1,10 +1,9 @@
 ---
 title: 【 JS30 】{{ title }}
 date: {{date}}
-category: JavaScript30
 tags:
 - JavaScript
-- JS30
+- JS30 系列
 ---
 ![](/img/js30day/small.jpg)
 

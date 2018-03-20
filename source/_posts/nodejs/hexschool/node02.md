@@ -1,9 +1,8 @@
 ---
 title: 【 NodeJS 】NPM與除錯
-category: NodeJS 前後端開發實戰筆記
 tags:
-  - JavaScript
   - NodeJS
+  - NodeJS 前後端開發實戰筆記
   - 六角學院
 date: 2018-03-01 15:41:13
 ---
@@ -145,6 +144,14 @@ chrome-devtools://devtools/remote...
 ## VS code 定義瀏覽
 
 偵錯時，程式碼右鍵（移至定義/預覽定義）。
+
+
+## npm 小秘笈
+
+```
+$ npm list -g --depth=0 查詢自己的全域套件
+$ npx <plugin> --help 查詢區域套件指令 
+```
 
 
 

@@ -1,7 +1,6 @@
 ---
 title: 【 JS30 】Day02：CSS + JS Clock
 date: 2018-01-22
-category: JavaScript30
 tags:
 - JavaScript
 - JS30

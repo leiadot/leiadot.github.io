@@ -1,11 +1,8 @@
 ---
 title: 【 Hexo 】使用 Travis CI 自動佈署 Blog
 date: 2018-02-22 15:35:45
-category: Git
 tags:
 - Hexo
-- Git
-- ssh
 - Travis CI
 ---
 

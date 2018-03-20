@@ -1,7 +1,6 @@
 ---
 title: 【 JS30 】Day04：Array Cardio Day 1
 date: 2018-01-30
-category: JavaScript30
 tags:
 - JavaScript
 - JS30

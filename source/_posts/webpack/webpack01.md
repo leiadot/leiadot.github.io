@@ -1,7 +1,7 @@
 ---
 title: 【 Webpack 】認識 webpack
-category: 初探 Webpack
 tags:
+  - 初探 Webpack
   - webpack
 date: 2018-03-19 13:43:56
 ---

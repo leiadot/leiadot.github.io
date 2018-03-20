@@ -1,7 +1,6 @@
 ---
 title: 【 JS30 】Day03：JS Playing with CSS Variables
 date: 2018-01-29
-category: JavaScript30
 tags:
 - JavaScript
 - JS30

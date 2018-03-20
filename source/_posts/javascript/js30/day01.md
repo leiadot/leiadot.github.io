@@ -1,10 +1,9 @@
 ---
 title: 【 JS30 】Day01：JavaScript Drum Kit
 date: 2018-01-22
-category: JavaScript30
 tags:
 - JavaScript
-- JS30
+- JS30 系列
 ---
 
 ![](/img/js30day/small0.jpg)
