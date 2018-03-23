@@ -1,9 +1,8 @@
 ---
 title: 【 NodeJS 】{{ title }}
-category: NodeJS 前後端開發實戰筆記
 tags:
-  - JavaScript
   - NodeJS
+  - NodeJS 前後端開發實戰筆記
   - 六角學院
 date: {{ date }}
 ---

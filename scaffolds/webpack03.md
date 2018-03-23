@@ -1,13 +1,14 @@
 ---
-title: 【 Webpack 】webpack-dev-server
-category: 初探 Webpack
+title: 【 Webpack 】分離開發環境和生產環境
 tags:
   - webpack
 date: 2018-03-20 13:13:08
 ---
 ![](/img/webpack/webpack.png)
 
-新手從無到有，初探 webpack 的心得。
+分離開發環境和生產環境，
+在開發環境中 run 本地端 server；
+在生產環境中，打包圖片
 
 <!-- more -->
 
@@ -16,8 +17,8 @@ date: 2018-03-20 13:13:08
 之前使用的`webpack -d --watch`適合運作在靜態文件上，但在開發狀態`webpack-dev-server`是更好的選擇。
 
 ```
-$ npm install -g webpack-dev-server //全域安裝
-$ npm install --save-dev webpack-dev-server //區域安裝
+$ npm install -g webpack-dev-server // 全域安裝
+$ npm install --save-dev webpack-dev-server // 區域安裝
 ```
 
 接著執行。

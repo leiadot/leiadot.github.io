@@ -1,9 +1,8 @@
 ---
 title: 【 NodeJS 】Firebase 資料庫
-category: NodeJS 前後端開發實戰筆記
 tags:
-  - JavaScript
   - NodeJS
+  - NodeJS 前後端開發實戰筆記
   - 六角學院
 date: 2018-03-04 22:36:12
 ---

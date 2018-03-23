@@ -1,6 +1,5 @@
 ---
 title: 【 Webpack 】{{ title }}
-category: 初探 Webpack
 tags:
   - webpack
 date: {{ date }}
