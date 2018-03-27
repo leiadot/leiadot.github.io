@@ -1,5 +1,5 @@
 ---
-title: 【 JS30 】"day21"
+title: 【 JS30 】Geolocation based Speedometer and Compass
 tags:
   - JavaScript
   - JS30 系列
