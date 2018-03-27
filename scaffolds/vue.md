@@ -6,6 +6,6 @@ tags:
 - 日安初探 Vue
 ---
 
-![](/img/vue.jpg)
+![](/img/vue/vue.jpg)
 
 <!-- more -->

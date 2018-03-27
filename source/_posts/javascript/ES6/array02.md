@@ -1,5 +1,5 @@
 ---
-title: 【 ES6 】陣列麻吉罵上篇：ForEach、Filter、Map、Reduce
+title: 【 ES6 】陣列麻吉罵下篇：Sort、Every、Find、Some
 date: 2018-02-15
 tags:
 - ES6

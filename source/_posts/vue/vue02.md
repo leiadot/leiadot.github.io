@@ -6,7 +6,7 @@ tags:
 date: 2018-03-26 10:18:05
 ---
 
-![](/img/vue.jpg)
+![](/img/vue/vue.jpg)
 
 <!-- more -->
 
