@@ -20,7 +20,7 @@ window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecogn
 作業一開始已經先將全域語音辨識指定好，這次練習也要啟用本地端 server 。
 
 
-一、建立語音辨識物件
+## 一、建立語音辨識物件
 ```js
 const recognition = new SpeechRecognition();
 // 建立一個變數為語音辨識
@@ -28,7 +28,7 @@ recognition.interimResults = true;
 // 允許語音辨識回傳識別後的資料
 ```
 
-二、新增輸入區域文字段落
+## 二、新增輸入區域文字段落
 
 ```js
 let p = document.createElement('p');

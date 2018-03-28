@@ -1,5 +1,5 @@
 ---
-title: 【 JS30 】Slide In on Scroll
+title: 【 JS30 】Day13：Slide In on Scroll
 tags:
 - JavaScript
 - JS30 系列
@@ -25,7 +25,7 @@ const sliderImages = document.querySelectorAll('.slide-in');
 window.addEventListener('scroll', debounce(checkSlide));
 ```
 
-因為滑動必須用`windows`選定`scroll`事件，但因效能上的需求，所以作者多寫一個`debounce`的`function`，讓觸發事件間隔 20 秒。
+因為滑動必須用`windows`選定`scroll`事件，但因效能上的需求，所以作者多寫一個`debounce`的`function`，讓`scroll`觸發事件間隔 20 秒。
 
 ## 三、了解視窗高度
 

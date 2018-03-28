@@ -48,8 +48,10 @@ ls  (mac)瀏覽所在目錄
 
 ## require、module exports 模組設計
 
+```
 project┬ app.js
        └ data.js
+```
 
 **如何在`app.js`取用`data.js`的變數**
 

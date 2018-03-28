@@ -13,12 +13,12 @@ date: 2018-03-27 16:20:57
 
 ### <span style="color:#ff5900">目標：取得裝置地理位置和速度</span>
 
-一、使用 npm 啟動server
+## 一、使用 npm 啟動server
 
 因為練習是取用定位，所以 mac 可以用 Xcode 模擬，
 或是用npm start 啟動內網ip，連線啟動 server 。 
 
-二、Coding
+## 二、Coding
 
 ```js
 const arrow = document.querySelector('.arrow'); 

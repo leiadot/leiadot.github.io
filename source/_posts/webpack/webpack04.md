@@ -16,7 +16,7 @@ date: 2018-03-23 23:19:20
 因為有時候要檢查出錯的程式碼，但是從 webpack 產出的檔案都是已經被編譯過的，
 就算找到 bug 位置，可是不知道具體 source code 位置，還是沒辦法做即時修正。
 
-一、在 js 中使用
+## 一、在 js 中使用
 
 ```js
 module.exports = {
@@ -29,7 +29,7 @@ module.exports = {
 
 修改`webpack.config.js`，開發者工具會連結到`src/app.js` 有 bug 的位置。
 
-二、在 css 中使用
+## 二、在 css 中使用
 
 ```js
 {
