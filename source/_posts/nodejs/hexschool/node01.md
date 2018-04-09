@@ -13,6 +13,8 @@ date: 2018-02-28 10:53:02
 
 > [NodeJS 前後端開發實戰](http://www.hexschool.com/courses/nodejs.html)
 
+版本：node 8.10.0、npm 5.6.0
+
 <!-- more -->
 
 # NodeJS 介紹

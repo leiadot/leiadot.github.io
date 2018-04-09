@@ -11,6 +11,9 @@ date: 2018-03-23 19:52:11
 
 打包圖片與壓縮的介紹。
 
+版本：webpack 4.1.1
+
+
 <!-- more -->
 
 新增`src/img/logo.png`，並在 `src/app.scss` 裡面載入背景圖片

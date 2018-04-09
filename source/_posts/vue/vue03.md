@@ -12,6 +12,8 @@ date: 2018-03-28 10:52:54
 - bootstrap / jQuery
 - axios
 
+版本：vue-cli 2.9.3
+
 <!-- more -->
 
 ## Vue-router

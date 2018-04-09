@@ -19,6 +19,8 @@ date: 2018-03-19 14:09:08
 - babel 及 pug 轉譯
 - HMR
 
+版本：webpack 4.1.1
+
 <!-- more -->
 
 ## Plugin 與 loader 介紹
