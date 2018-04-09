@@ -64,7 +64,7 @@ module.exports = {
 
 ```
 
-執行`npm run bulid`，就會產生`index.html`，並自動載入 js 檔。
+執行`npm run build`，就會產生`index.html`，並自動載入 js 檔。
 
 #### 自動載入 title
 
