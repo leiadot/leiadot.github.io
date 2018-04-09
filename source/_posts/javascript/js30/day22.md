@@ -13,7 +13,7 @@ date: 2018-03-28 10:31:37
 
 ### <span style="color:#ff5900">目標：根據滑鼠游標移動 highlight 位置</span>
 
-一、取得 DOM
+## 一、取得 DOM
 
 ```js
 const triggers = document.querySelectorAll('a');
@@ -26,7 +26,8 @@ document.body.append(highlight);
 // 加到頁面中
 ```
 
-二、更改狀態
+## 二、更改狀態
+
 ```js
 function highlightLink() {
     const linkCoords = this.getBoundingClientRect();

@@ -3,7 +3,7 @@ title: 【 JS30 】Day04：Array Cardio Day 1
 date: 2018-01-30
 tags:
 - JavaScript
-- JS30
+- JS30 系列
 ---
 
 ![](/img/js30day/small3.jpg)
