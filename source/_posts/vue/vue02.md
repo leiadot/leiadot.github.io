@@ -19,9 +19,12 @@ date: 2018-03-26 10:18:05
 ├── node_modules   // node npm 模組
 ├── src            // 主要開發環境 source code
 |   ├── assets     // 圖片等靜態檔
+|   ├── router     // vue 路由器
+|   ├── app.vue    // 主要的樣板檔
+|   ├── main.js    // 主要的 js 檔，套件 import 的入口文件
 |   └── components // vue 元件檔
 ├── static         // 放置第三方 plugin 位置
-├── index.html
+├── index.html     // 靜態 html檔
 ├── package.json
 └── package-lock.json
 ```
