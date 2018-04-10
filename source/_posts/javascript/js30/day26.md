@@ -1,5 +1,5 @@
 ---
-title: 【 JS30 】"day26"
+title: 【 JS30 】Day26：Stripe Follow Along Nav
 tags:
   - JavaScript
   - JS30 系列
