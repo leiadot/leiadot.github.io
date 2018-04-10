@@ -6,7 +6,9 @@ tags:
 date: 2018-04-03 13:51:57
 ---
 
-# 寫出一個函式，輸入三邊長參數，判斷該函式是否為三角形
+## 寫出一個函式，輸入三邊長參數，判斷該函式是否為三角形
+
+### 我的解法
 
 ```js
 function isTriangle(a, b, c) {
@@ -21,8 +23,20 @@ function isTriangle(a, b, c) {
     }
 }
 ```
+### 別人的最佳解
 
-# 寫出一個函式，輸入數字，判斷該數是否為質數
+```js
+function isTriangle(a,b,c)
+{
+  [a, b, c] = [a, b, c].sort((x, y) => x-y);
+  
+  return a+b > c;
+}
+```
+
+## 寫出一個函式，輸入數字，判斷該數是否為質數
+
+### 我的解法
 
 ```js
 function isPrime(num){
@@ -38,5 +52,14 @@ function isPrime(num){
     }
     
     return true;
+}
+```
+
+### 別人的最佳解
+
+```js
+function isPrime(num) {
+  for (var i = 2; i < num; i++) if (num % i == 0) return false;
+  return num >= 2; 
 }
 ```

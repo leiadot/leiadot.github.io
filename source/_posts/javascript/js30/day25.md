@@ -5,7 +5,7 @@ tags:
   - JS30 系列
 date: 2018-04-09 09:57:27
 ---
-![](/img/js30day/small.jpg)
+![](/img/js30day/small24.jpg)
 
 > [javascript 30day](https://javascript30.com/)
 
