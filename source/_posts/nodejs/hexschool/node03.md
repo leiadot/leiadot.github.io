@@ -13,7 +13,7 @@ date: 2018-03-04 22:36:12
 
 > [NodeJS 前後端開發實戰](http://www.hexschool.com/courses/nodejs.html)
 
-版本：node 8.10.0、npm 5.6.0、firebase realtime databese
+版本：node 8.10.0、npm 5.6.0、firebase realtime database
 
 <!-- more -->
 
