@@ -1,8 +1,8 @@
 ---
 title: 【 Webpack 】打包圖片與壓縮
 tags:
-  - 日安初探 Webpack
-  - webpack
+  - Webpack 初探系列
+  - Webpack
 date: 2018-03-23 19:52:11
 ---
 ![](/img/webpack/webpack.png)

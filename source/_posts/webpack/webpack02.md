@@ -1,8 +1,8 @@
 ---
 title: 【 Webpack 】plugin 與 loader
 tags:
-  - 日安初探 Webpack
-  - webpack
+  - Webpack 初探系列
+  - Webpack
 date: 2018-03-19 14:09:08
 ---
 ![](/img/webpack/webpack.png)
