@@ -6,7 +6,7 @@ tags:
 - React Native
 - RN 初探系列
 ---
-![](/img/react-native.jpg)
+![](/img/react/react-native.png)
 
 
 <!-- more -->
