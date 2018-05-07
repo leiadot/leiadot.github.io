@@ -9,9 +9,9 @@ date: 2018-05-07 09:28:24
 
 適用環境：Mac OS
 
-- node 8.10.0
-- npm 5.6.0
-- create-react-app 1.5.2
+- node @8.10.0
+- npm @5.6.0
+- create-react-app @1.5.2
 
 <!-- more -->
 
