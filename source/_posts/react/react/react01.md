@@ -71,7 +71,7 @@ ReactDOM.render( element, container,[callback] )
 ```
 
 在[官方文件](https://reactjs.org/docs/react-dom.html#render)有介紹到，
-渲染一個 react 的元件到 container 位置上的某個 DOM 元素，並`return`一個`callback Fn`，如果沒有，就返回`null`。
+渲染一個 react 的元件到 container 位置上的某個 DOM 元素，並`return`一個`callback Fn`，如果沒有，就回傳`null`。
 
 接著再看`src/App.js`
 
@@ -135,7 +135,7 @@ React.createElement( button,{class:'login'},'Login');
 
 ```js
 {
-    type: 'button’,
+    type: 'button',
     props: {
         children: 'Login',
         class: 'login'
