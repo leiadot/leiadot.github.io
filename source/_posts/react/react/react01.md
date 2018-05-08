@@ -15,7 +15,7 @@ date: 2018-05-07 09:28:24
 
 <!-- more -->
 
-react 必須在 node.js 的環境下執行，請先預設本機端已經裝好node.js 及 npm。
+react 必須依靠 node.js 安裝，請先預設本機端已經裝好node.js 及 npm。
 
 ## 全域安裝 React
 
