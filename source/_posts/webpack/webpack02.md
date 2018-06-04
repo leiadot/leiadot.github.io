@@ -1,7 +1,7 @@
 ---
-title: 【 Webpack 】plugin 與 loader
+title: 【Webpack】plugin 與 loader
 tags:
-  - Webpack 初探系列
+  - Webpack初探系列
   - Webpack
 date: 2018-03-19 14:09:08
 ---

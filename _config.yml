@@ -7,7 +7,7 @@ title: CodingWife 寇丁人妻日安
 subtitle: 從平面設計跳到前端網頁的女孩，以分享前端技術、趨勢為主。
 description:
 author: 日安
-language:
+language: en
 timezone:
 
 # URL
@@ -72,7 +72,7 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: jane
+theme: Daily
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html

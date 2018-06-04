@@ -1,8 +1,8 @@
 ---
-title: 【 JS30 】Day23：Speech Synthesis
+title: 【JS30】Day23：Speech Synthesis
 tags:
   - JavaScript
-  - JS30 系列
+  - JS30系列
 date: 2018-03-29 13:20:38
 ---
 ![](/img/js30day/small22.jpg)

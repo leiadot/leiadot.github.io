@@ -1,9 +1,9 @@
 ---
-title: 【 Hexo 】使用 Travis CI 自動佈署 Blog
+title: 【Hexo】使用 Travis CI 自動佈署 Blog
 date: 2018-02-22 15:35:45
 tags:
 - Hexo
-- Travis CI
+- TravisCI
 ---
 
 ![](/img/travisci/travisci.jpg)

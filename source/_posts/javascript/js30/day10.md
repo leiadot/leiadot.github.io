@@ -1,8 +1,8 @@
 ---
-title: 【 JS30 】Day10：Hold Shift and Check Checkboxes
+title: 【JS30】Day10：Hold Shift and Check Checkboxes
 tags:
 - JavaScript
-- JS30 系列
+- JS30系列
 date: 2018-02-24 13:05:49
 ---
 ![](/img/js30day/small.jpg)

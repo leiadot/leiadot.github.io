@@ -1,8 +1,8 @@
 ---
-title: 【 NodeJS 】NodeJS 介紹與模組原理
+title: 【NodeJS】NodeJS 介紹與模組原理
 tags:
   - NodeJS
-  - NodeJS 前後端開發實戰筆記
+  - NodeJS前後端開發實戰筆記
   - 六角學院
 date: 2018-02-28 10:53:02
 ---

@@ -1,7 +1,7 @@
 ---
-title: 【 Webpack 】打包圖片與壓縮
+title: 【Webpack】打包圖片與壓縮
 tags:
-  - Webpack 初探系列
+  - Webpack初探系列
   - Webpack
 date: 2018-03-23 19:52:11
 ---

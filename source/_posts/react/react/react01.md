@@ -1,8 +1,8 @@
 ---
-title: 【 React 】環境安裝與解析
+title: 【React】環境安裝與解析
 tags:
   - React
-  - React 初探系列
+  - React初探系列
 date: 2018-05-07 09:28:24
 ---
 ![](/img/react/react.png)
@@ -125,7 +125,7 @@ export default App;
 ```js
 React.createElement( type,[props],[...children])
 ```
-參數`type`可以為一個 DOM 元素，也可以是一個元件，`props`是屬性，而`children`就是元素內容。
+參數`type`可以是一個 DOM 元素，也可以是一個元件，`props`是屬性，而`children`就是元素內容。
 
 ```js
 React.createElement( button,{class:'login'},'Login');
@@ -143,7 +143,7 @@ React.createElement( button,{class:'login'},'Login');
 }
 ```
 
-再藉由`ReactDOM.render`渲染如下。
+這個就是我們所說的 Virtual DOM，再藉由`ReactDOM.render`渲染如下。
 
 ```html
 <button class='login'>Login</button>

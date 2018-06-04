@@ -1,8 +1,8 @@
 ---
-title: 【 React 】JSX
+title: 【React】JSX
 tags:
   - React
-  - React 初探系列
+  - React初探系列
 date: 2018-05-07 20:02:14
 ---
 ![](/img/react/react.png)

@@ -1,9 +1,9 @@
 ---
-title: 【 JS30 】Day03：JS Playing with CSS Variables
+title: 【JS30】Day03：JS Playing with CSS Variables
 date: 2018-01-29
 tags:
 - JavaScript
-- JS30 系列
+- JS30系列
 ---
 ![](/img/js30day/small2.jpg)
 

@@ -1,8 +1,8 @@
 ---
-title: 【 JS30 】Day22：Follow Along Link Highlighter
+title: 【JS30】Day22：Follow Along Link Highlighter
 tags:
   - JavaScript
-  - JS30 系列
+  - JS30系列
 date: 2018-03-28 10:31:37
 ---
 ![](/img/js30day/small21.jpg)

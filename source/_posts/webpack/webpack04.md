@@ -1,7 +1,7 @@
 ---
-title: 【 Webpack 】source-map
+title: 【Webpack】source-map
 tags:
-  - Webpack 初探系列
+  - Webpack初探系列
   - Webpack
 date: 2018-03-23 23:19:20
 ---

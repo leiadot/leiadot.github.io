@@ -1,8 +1,8 @@
 ---
-title: 【 NodeJS 】NPM與除錯
+title: 【NodeJS】NPM與除錯
 tags:
   - NodeJS
-  - NodeJS 前後端開發實戰筆記
+  - NodeJS前後端開發實戰筆記
   - 六角學院
 date: 2018-03-01 15:41:13
 ---

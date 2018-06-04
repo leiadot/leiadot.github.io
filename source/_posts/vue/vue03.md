@@ -1,8 +1,8 @@
 ---
-title: 【 Vue 】Vue 常用套件環境設定
+title: 【Vue】Vue 常用套件環境設定
 tags:
   - Vue
-  - 日安初探 Vue
+  - 日安初探Vue
 date: 2018-03-28 10:52:54
 ---
 

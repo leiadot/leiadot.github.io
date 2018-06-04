@@ -1,8 +1,8 @@
 ---
-title: 【 JS30 】Native Speech Recognition
+title: 【JS30】Day20：Native Speech Recognition
 tags:
   - JavaScript
-  - JS30 系列
+  - JS30系列
 date: 2018-03-23 09:30:03
 ---
 ![](/img/js30day/small19.jpg)

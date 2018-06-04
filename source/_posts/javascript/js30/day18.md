@@ -1,8 +1,8 @@
 ---
-title: 【 JS30 】Day18：Adding Up Times with Reduce
+title: 【JS30】Day18：Adding Up Times with Reduce
 tags:
 - JavaScript
-- JS30 系列
+- JS30系列
 date: 2018-03-16 10:29:06
 ---
 ![](/img/js30day/small17.jpg)

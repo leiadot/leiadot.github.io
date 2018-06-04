@@ -1,5 +1,5 @@
 ---
-title: 【 ES6 】 let、const
+title: 【ES6】 let、const
 date: 2018-04-17 21:09:34
 tags:
 - ES6

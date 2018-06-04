@@ -1,8 +1,8 @@
 ---
-title: 【 JS30 】Day29：Countdown Timer
+title: 【JS30】Day29：Countdown Timer
 tags:
   - JavaScript
-  - JS30 系列
+  - JS30系列
 date: 2018-04-17 10:44:11
 ---
 ![](/img/js30day/small28.jpg)

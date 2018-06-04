@@ -1,8 +1,8 @@
 ---
-title: 【 JS30 】Day13：Slide In on Scroll
+title: 【JS30】Day13：Slide In on Scroll
 tags:
 - JavaScript
-- JS30 系列
+- JS30系列
 date: 2018-03-02 10:07:32
 ---
 ![](/img/js30day/small12.jpg)

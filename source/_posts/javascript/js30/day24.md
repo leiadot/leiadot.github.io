@@ -1,8 +1,8 @@
 ---
-title: 【 JS30 】Day24：Sticky Nav
+title: 【JS30】Day24：Sticky Nav
 tags:
   - JavaScript
-  - JS30 系列
+  - JS30系列
 date: 2018-03-30 10:36:20
 ---
 ![](/img/js30day/small23.jpg)

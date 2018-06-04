@@ -1,0 +1,51 @@
+# basic
+title: Daily
+subtitle: Minimalism, simplicity and refined details
+favicon: /images/logo.ico
+
+# avatar: images/avatar.png
+# banner_small: images/banner-small.png
+# banner_large: images/banner-large.png
+logo: /images/logo.svg
+
+#disqus
+disqus_shortname: leiadot
+
+highlight:
+  enable: true
+  line_number: false
+  auto_detect: false
+  tab_replace:
+
+# nav #
+nav:
+  Home: .
+  Archive: archives
+  About: about
+  # rss: atom.xml
+
+# hexo-renderer-sass
+node_sass:
+  outputStyle: nested
+  precision: 5
+  sourceComments: false
+
+# Default post title
+default_post_title: Untitled
+
+# social
+social:
+  github: https://github.com/leiadot
+  # weibo: http://weibo.com/10010800
+  mail: mailto:luv.hsu@gmail.com
+  facebook: https://www.facebook.com/CodingWifeHy2/
+  # twitter: https://twitter.com/GallenHu
+
+# widget
+#   title: 标题
+#   content: 内容
+widget:
+  title: Introduce
+  content: 對前端網頁技術、平面設計、社群傳播充滿熱忱，喜歡新鮮新奇的事物，熱愛美食。
+
+footer: Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> with Theme <a href="https://github.com/GallenHu/hexo-theme-Daily" target="_blank">Daily</a>

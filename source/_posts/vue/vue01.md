@@ -1,8 +1,8 @@
 ---
-title: 【 Vue 】Vue-cli 安裝
+title: 【Vue】Vue-cli 安裝
 tags:
   - Vue
-  - 日安初探 Vue
+  - 日安初探Vue
 date: 2018-03-23 14:32:01
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: 【 ES6 】陣列麻吉罵下篇：Sort、Every、Find、Some
+title: 【ES6】陣列麻吉罵下篇：Sort、Every、Find、Some
 date: 2018-02-15
 tags:
 - ES6

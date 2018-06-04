@@ -1,8 +1,8 @@
 ---
-title: 【 JS30 】Day27：Click and Drag to Scroll
+title: 【JS30】Day27：Click and Drag to Scroll
 tags:
   - JavaScript
-  - JS30 系列
+  - JS30系列
 date: 2018-04-12 09:18:54
 ---
 ![](/img/js30day/small26.jpg)

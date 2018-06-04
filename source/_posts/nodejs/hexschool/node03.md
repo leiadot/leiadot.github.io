@@ -1,8 +1,8 @@
 ---
-title: 【 NodeJS 】Firebase 資料庫（上）
+title: 【NodeJS】Firebase 資料庫（上）
 tags:
   - NodeJS
-  - NodeJS 前後端開發實戰筆記
+  - NodeJS前後端開發實戰筆記
   - 六角學院
 date: 2018-03-04 22:36:12
 ---

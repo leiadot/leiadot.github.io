@@ -1,5 +1,5 @@
 ---
-title: 【 ES6 】陣列麻吉罵上篇：ForEach、Filter、Map、Reduce
+title: 【ES6】陣列麻吉罵上篇：ForEach、Filter、Map、Reduce
 date: 2018-02-05
 tags:
 - ES6

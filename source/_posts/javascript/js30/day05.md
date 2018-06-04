@@ -1,9 +1,9 @@
 ---
-title: 【 JS30 】Day05：Flex Panel Gallery
+title: 【JS30】Day05：Flex Panel Gallery
 date: 2018-02-01
 tags:
 - JavaScript
-- JS30 系列
+- JS30系列
 ---
 
 ![](/img/js30day/small4.jpg)

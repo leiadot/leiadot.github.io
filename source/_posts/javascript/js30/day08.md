@@ -1,8 +1,8 @@
 ---
-title: 【 JS30 】Day08：Fun with HTML5 Canvas
+title: 【JS30】Day08：Fun with HTML5 Canvas
 tags:
 - JavaScript
-- JS30 系列
+- JS30系列
 date: 2018-02-18 11:39:39
 ---
 ![](/img/js30day/small8.jpg)
