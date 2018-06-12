@@ -4,8 +4,8 @@ tag:
   - 好想挑戰賽
   - CSS
   - 前端考題
-photos:
-  - ''
+# photos:
+#   - ''
 date: 2018-06-12 20:58:24
 modified: 2018-06-12 20:58:24
 ---
@@ -13,7 +13,7 @@ modified: 2018-06-12 20:58:24
 
 > Ａ：因為要判別偽類別（單冒號）與偽元素（雙冒號）之間的差異
 
----
+<!-- more -->
 
 > A pseudo-element is made of two colons (::) followed by the name of the pseudo-element.
 > 
