@@ -7,7 +7,7 @@
       color: #3a3a3a;
       text-transform: uppercase;
       letter-spacing: 0.2em;
-      font-family: -apple-system, BlinkMacSystemFont,"Helvetica Neue","PingFang-SC-Regular","STHeiti", "Helvetica","Arial","Verdana","sans-serif","Microsoft YaHei";
+      font-family: $font-family;
       font-size: 0.750em;
     }
     .meta-arraw {
@@ -28,7 +28,7 @@
   }
 }
 .entry-content {
-  font-family: -apple-system, BlinkMacSystemFont,"Helvetica Neue","PingFang-SC-Regular","STHeiti", "Helvetica","Arial","Verdana","sans-serif","Microsoft YaHei";
+  font-family: $font-family;
   line-height: 1.7;
   word-wrap: break-word;
   ol,

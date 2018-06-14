@@ -208,7 +208,7 @@ th {
   font-weight: bold;
 }
 h1, h2, h3, h4 {
-  font-family: -apple-system, BlinkMacSystemFont,"Helvetica Neue","PingFang-SC-Regular","STHeiti", "Helvetica","Arial","Verdana","sans-serif","Microsoft YaHei"; }
+  font-family: $font-family; }
 h1 {
   font-size: 1.250em; }
 
@@ -317,7 +317,7 @@ Content
   }
 }
 .entry-title {
-  font-family: -apple-system, BlinkMacSystemFont,"Helvetica Neue","PingFang-SC-Regular","STHeiti", "Helvetica","Arial","Verdana","sans-serif","Microsoft YaHei";
+  font-family: $font-family;
   letter-spacing: 0.2em;
   color: #000;
   text-align: center;
@@ -349,14 +349,14 @@ Content
 }
 .posted-on {
   text-align: center;
-  font-family: -apple-system, BlinkMacSystemFont,"Helvetica Neue","PingFang-SC-Regular","STHeiti", "Helvetica","Arial","Verdana","sans-serif","Microsoft YaHei";
+  font-family: $font-family;
   font-size: 0.688em;
   text-transform: uppercase;
   letter-spacing: 0.2em;
 }
 .tags-links {
   text-align: center;
-  font-family: -apple-system, BlinkMacSystemFont,"Helvetica Neue","PingFang-SC-Regular","STHeiti", "Helvetica","Arial","Verdana","sans-serif","Microsoft YaHei";
+  font-family: $font-family;
   font-size: 0.800em;
   font-style: normal;
   margin-bottom: 30px;
@@ -394,7 +394,7 @@ Content
     color: #3a3a3a;
     text-transform: uppercase;
     letter-spacing: 0.2em;
-    font-family: -apple-system, BlinkMacSystemFont,"Helvetica Neue","PingFang-SC-Regular","STHeiti", "Helvetica","Arial","Verdana","sans-serif","Microsoft YaHei";
+    font-family: $font-family;
     font-size: 0.750em;
   }
 }
