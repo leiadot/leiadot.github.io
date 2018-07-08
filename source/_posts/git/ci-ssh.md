@@ -4,9 +4,10 @@ date: 2018-02-22 15:35:45
 tags:
 - Hexo
 - TravisCI
+categories: Git
+photo:
+- '/img/travisci/travisci.jpg'
 ---
-
-![](/img/travisci/travisci.jpg)
 
 這兩天忙著處理 Travis CI ，終於有點心得，
 來簡單分享不加密自動佈署，以及使用 ssh 的方法。
