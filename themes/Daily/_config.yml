@@ -19,8 +19,9 @@ highlight:
 
 # nav #
 nav:
-  About 日安: about
+  AboutLeis 關於日安: about
   CodingLife 技術筆記: categories/CodingLife-前端技術筆記
+  SideProjects 專案作品: sideprojects
   # Home: .
   # About: about
   # Archive: archives

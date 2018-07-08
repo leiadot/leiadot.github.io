@@ -10,33 +10,35 @@
   }
   .site-header {
     position: relative;
-    .navbar {
-      display: none;
-      float: none;
-      position: absolute;
-      left: 0;
-      top: $header-height;
-      padding: 15px 0 15px 30px;
-      width: 100%;
-      background: #efefef;
-      border-bottom: 1px solid $grey-border;
-      box-shadow: 0 2px 3px #dfdfdf;
-      z-index: 9999;
-      ul {
-        li {
-          width: 100%;
-          padding: 10px 0;
-          &::before {
-            display: none;
-          }
+    
+  }
+
+  .navbar {
+    display: none;
+    float: none;
+    position: absolute;
+    left: 0;
+    top: $header-height;
+    padding: 15px 0 15px 30px;
+    width: 100%;
+    background: #efefef;
+    border-bottom: 1px solid $grey-border;
+    box-shadow: 0 2px 3px #dfdfdf;
+    z-index: 9999;
+    ul {
+      li {
+        width: 100%;
+        padding: 10px 0;
+        &::before {
+          display: none;
         }
       }
     }
-    .button-wrap {
-      display: block;
-    }
   }
 
+  .button-wrap {
+    display: block;
+  }
   .post {
     .nav-links {
       display: none;
