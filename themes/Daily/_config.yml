@@ -19,9 +19,12 @@ highlight:
 
 # nav #
 nav:
-  Home: .
-  Archive: archives
-  About: about
+  About 日安: about
+  CodingLife 技術筆記: categories/CodingLife-前端技術筆記
+  # Home: .
+  # About: about
+  # Archive: archives
+  # Categories: categories
   # rss: atom.xml
 
 # hexo-renderer-sass

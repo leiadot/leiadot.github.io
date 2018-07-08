@@ -4,7 +4,7 @@ date: 2018-02-22 15:35:45
 tags:
 - Hexo
 - TravisCI
-categories: Git
+categories: CodingLife 前端技術筆記
 photo:
 - '/img/travisci/travisci.jpg'
 ---

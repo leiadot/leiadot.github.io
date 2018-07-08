@@ -38,14 +38,13 @@
     </div>
     <!-- Pre or Next -->
     <div class="nav-links">
-      <% if (page.prev) { %>
+      <% if (page.next) { %>
         <div class="nav-previous">
-          <a href="<%- config.root %><%- page.prev.path %>" rel="prev"><span class="meta-arraw meta-arraw-left"></span> <%- __('prev')%></a>
+          <a href="<%- config.root %><%- page.next.path %>" rel="prev"><span class="meta-arraw meta-arraw-left"></span> <%- __('prev')%></a>
         </div>
       <% } %>
-      <% if (page.next) { %>
-        <div class="nav-next">
-          <a href="<%- config.root %><%- page.next.path %>" rel="prev"><%- __('next')%> <span class="meta-arraw meta-arraw-right"></span></a>
+      <% if (page.prev) { %>
+        <div class="nav-next"><a href="<%- config.root %><%- page.prev.path %>" rel="next"><%- __('next')%><span class="meta-arraw meta-arraw-right"></span></a>
         </div>
       <% } %>
     </div>
