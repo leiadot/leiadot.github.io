@@ -284,24 +284,24 @@ Content
 }
 .content-area {
   padding-top: $header-height;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 .error404 .content-area,
 .page .content-area {
   padding-top: 120px;
 }
-.odd {
-  background: #f5f5f5;
-  position: relative;
-}
-.even {
-  background: white;
-  position: relative;
+.post-article{
+  width: 400px;
+  height: 500px;
 }
 .container {
   max-width: $container-width;
   margin: 0 auto;
   padding-left: 50px;
   padding-right: 50px;
+
 }
 .inside-wrapper {
   max-width: $inside-wrapper-width;
@@ -492,13 +492,13 @@ Footer
   font-size: 0.750em;
   padding-bottom: 20px;
   padding-top: 20px;
-  color: #a2a2a2;
-  background-color: #666666;
+  color: #fff;
+  background-color: #a2a2a2;
   .split {
     margin: 0 2px;
   }
   a {
     text-decoration: none;
-    color: #FFF;
+    color: #666666;
   }
 }
