@@ -1,5 +1,5 @@
 <div class="navbox">
-    <!-- Navigation -->
+  <!-- Navigation -->
   <nav class="navbar">
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse">
@@ -16,17 +16,41 @@
               </a>
             </li>
             <% } %>
+              <li>
+                <div id="site_search">
+                  <input type="text" id="local-search-input" name="q" results="0" placeholder="search my blog..." class="form-control" />
+                  <div id="local-search-result"></div>
+                </div>
+              </li>
+              <% if (config.social) { %>
+
+                <% _.forIn(config.social, function(val, key){ %>
+                  <li>
+
+                    <a href="<%- val %>" class="icon icon-<%- key %>" target="_blank">
+                      <%- key %>
+                    </a>
+                  </li>
+                  <% }) %>
+                    <% } else { %>
+                      <% _.forIn(theme.social, function(val, key){ %>
+                        <li>
+                          <a href="<%- val %>" class="icon icon-<%- key %>" target="_blank">
+                            <%- key %>
+                          </a>
+                          <%- key %>
+                        </li>
+                        <% }) %>
+                          <% } %>
       </ul>
-      
+
     </div>
     <!-- /.navbar-collapse -->
   </nav>
-  <div id="site_search">
-    <input type="text" id="local-search-input" name="q" results="0" placeholder="search my blog..." class="form-control" />
-    <div id="local-search-result"></div>
-  </div>
+
 
 </div>
+
 <header class="site-header">
     <div class="logo">
       <a href="<%= url_for() %>" rel="home">
