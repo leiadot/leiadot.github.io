@@ -1,6 +1,6 @@
 @media screen and (max-width: 767px) {
   .logo a img {
-    height: 36px;
+    width: 100%;
   }
   .site-content {
     min-height: auto;
@@ -10,34 +10,57 @@
   }
   .site-header {
     position: relative;
-    
+    color:#fff;
+    background-position-y: 0px;
+    font-weight: 100;
+    a{
+      color:#fff;
+      font-weight: 500;
+    }
   }
-
+  .menu{
+    display: block;
+    padding-top:5px; 
+  }
+  .search{
+    box-shadow:0 0 0 0 transparent;
+    background-color: transparent;
+  }
+  .navbox{
+    background-color: #ccc;
+  }
   .navbar {
     display: none;
-    float: none;
     position: absolute;
     left: 0;
-    top: $header-height;
-    padding: 15px 0 15px 30px;
+    top: 55px;
+    padding: 0px;
     width: 100%;
     background: #efefef;
     border-bottom: 1px solid $grey-border;
     box-shadow: 0 2px 3px #dfdfdf;
     z-index: 9999;
     ul {
+      display: block;
       li {
         width: 100%;
         padding: 10px 0;
+        margin: 0;
         &::before {
           display: none;
         }
       }
     }
   }
-
-  .button-wrap {
+  
+  .navbar.active{
     display: block;
+     .navbar-nav {
+       display: block;
+     }
+     li{
+       margin: 0;
+     }
   }
   .post {
     .nav-links {
@@ -61,7 +84,15 @@
   .archive ul.list {
     padding-left: 20px;
   }
-
+.content-area{
+  width: 100vw;
+  padding: 2rem;
+      
+}
+}
+.search-box{
+  width: 100%;
+  left:0;
 }
 
 

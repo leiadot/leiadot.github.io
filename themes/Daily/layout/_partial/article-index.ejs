@@ -28,14 +28,21 @@ var isFullUrl = function(str) {
     <% } %>
 
     <p class="posted-on">
-    <%= item.date.format(config.date_format) %>
+      <% item.categories.each(function(categories){ %>
+        <%= item.date.format(config.date_format) %>
     </p>
+      <p class="posted-on">
+        <b>
+          <%- categories.name %>
+        </b>
+      </p>
     <div class="tags-links">
       <% item.tags.each(function(tag){ %>
-      <a href="<%= config.root %>tags/<%= tag.name %>/" rel="tag">
-        <%- tag.name %>
-      </a>
-      <% }); %>
+        <a href="<%= config.root %>tags/<%= tag.name %>/" rel="tag">
+          <%- tag.name %>
+        </a>
+        <% }); %>
+          <% }); %>
     </div>
   </article>
 </div>

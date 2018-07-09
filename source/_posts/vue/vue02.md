@@ -4,9 +4,10 @@ tags:
   - Vue
   - 日安初探Vue
 date: 2018-03-26 10:18:05
+categories: CodingLife 前端技術筆記
+photo:
+  - '/img/vue/vue.jpg'
 ---
-
-![](/img/vue/vue.jpg)
 
 版本：vue-cli 2.9.3
 

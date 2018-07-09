@@ -1,3 +1,4 @@
+<div id="local-search-result"></div>
 <div class="navbox">
   <!-- Navigation -->
   <nav class="navbar">
@@ -8,47 +9,43 @@
           <% for (var i in site_navs){ %>
             <li>
               <a href="<%- site_navs[i].url ? url_for(site_navs[i].url) : url_for(site_navs[i]) %>">
-                <% if (site_navs[i].icon) { %>
-                  <i class="fa fa-<%= site_navs[i].icon %> fa-stack-2x"></i>
-                  <% } else { %>
-                    <%= i %>
-                      <% } %>
+                <span>
+                  <%= i %>
+                </span>
               </a>
             </li>
-            <% } %>
-              <li>
-                <div id="site_search">
-                  <input type="text" id="local-search-input" name="q" results="0" placeholder="search" class="form-control" />
-                  <div id="local-search-result"></div>
-                </div>
-              </li>
-              <% if (config.social) { %>
-
-                <% _.forIn(config.social, function(val, key){ %>
-                  <li>
-
-                    <a href="<%- val %>" class="icon icon-<%- key %>" target="_blank">
-                      <%- key %>
-                    </a>
-                  </li>
-                  <% }) %>
-                    <% } else { %>
-                      <% _.forIn(theme.social, function(val, key){ %>
-                        <li>
-                          <a href="<%- val %>" class="icon icon-<%- key %>" target="_blank">
-                            <%- key %>
-                          </a>
-                          <%- key %>
-                        </li>
-                        <% }) %>
-                          <% } %>
-      </ul>
-
+          <% } %>
+                <li>
+                  <a href="https://github.com/leiadot">
+                    <i class="fab fa-github"></i>
+                    <span>Github</span>
+                   </a>
+                </li>
+                <li>
+                  <a href="mailto:luv.hsu@gmail.com">
+                  <i class="fas fa-envelope"></i>
+                  <span>Mail</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.facebook.com/CodingWifeHy2/">
+                    <i class="fab fa-facebook-square"></i>
+                    <span>Facebook</span>
+                  </a>
+                </li>
+            </ul>
     </div>
     <!-- /.navbar-collapse -->
   </nav>
-
-
+<span class="menu">
+<i class="fas fa-bars"></i>
+</span>
+<div class="search">
+  <div id="site_search">
+    <i class="fas fa-search icon"></i>
+    <input type="text" id="local-search-input" name="q" results="0" class="form-control" />
+  </div>
+</div>
 </div>
 
 <header class="site-header">
@@ -58,7 +55,11 @@
         <img src="<%- config.logo || theme.logo %>" alt="<%- config.title %>" height="60">
         <% } %>
       </a>
-      <h1><%= config.title %></h1>
+      <h1>
+        <a href="<%= url_for() %>" rel="home">
+            <%= config.title %>
+        </a>
+      </h1>
       <h5><%= config.subtitle %></h5>
   </div>
 </header>

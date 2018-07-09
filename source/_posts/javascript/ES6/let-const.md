@@ -4,9 +4,11 @@ date: 2018-04-17 21:09:34
 tags:
 - ES6
 - JavaScript
+categories: CodingLife 前端技術筆記
+photo:
+- '/img/javascript.jpg'
 ---
 
-![](/img/javascript.jpg)
 
 之前其實就有發過相關的文章，可是因為 github 沒有上傳 source code 結果被我弄爆了，這次挑精簡的寫重點，詳細的可以 google ，很多大神都有寫相關的文章。
 

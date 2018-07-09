@@ -1,3 +1,10 @@
+$(function () {
+  $('.menu').on('click', function () {
+     $(".navbar").slideToggle("slow");
+    //$('.navbar').toggleClass('active',1000);
+  })
+});
+
 var searchFunc = function (path, search_id, content_id) {
   'use strict';
   $.ajax({
@@ -19,6 +26,7 @@ var searchFunc = function (path, search_id, content_id) {
         var str = '<ul class=\"search-result-list\">';
         var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
         $resultContent.innerHTML = "";
+        //輸入字數
         if (this.value.trim().length <= 0) {
           return;
         }
@@ -55,15 +63,16 @@ var searchFunc = function (path, search_id, content_id) {
             numOfPostFound += 1; // keeping track of # of results
             str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
             var content = data.content.trim().replace(/<[^>]+>/g, "");
+            console.log(first_occur)
             if (first_occur >= 0) {
               // cut out 100 characters
               var start = first_occur - 20;
-              var end = first_occur + 80;
+              var end = first_occur + 80; //80/ 文章 內文字數
               if (start < 0) {
                 start = 0;
               }
               if (start == 0) {
-                end = 100;
+                end = 30; //100/ 文章 預覽文字數
               }
               if (end > content.length) {
                 end = content.length;
@@ -72,9 +81,8 @@ var searchFunc = function (path, search_id, content_id) {
               // highlight all keywords
               keywords.forEach(function (keyword) {
                 var regS = new RegExp(keyword, "gi");
-                match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                match_content = match_content.replace(regS, "<b class=\"search-keyword\">" + keyword + "</b>");
               });
-
               str += "<p class=\"search-result\">" + match_content + "...</p>"
             }
             str += "</li>";
@@ -92,7 +100,12 @@ var searchFunc = function (path, search_id, content_id) {
           summary = "Nothing found";
         }
         var summary = "<p class=\"text-xlarge text-color-base archieve-result search-result-summary\">" + summary + "</ul>";
-        $resultContent.innerHTML = summary + str;
+        $resultContent.innerHTML = "<div class=\"search-bg\"></div><div class=\"search-box\"><div class=\"closebtn\"><i class=\"fas fa-times\"></i></div>" + summary + str + "</div>";
+        var btn = document.querySelector('.closebtn');
+        var content = document.querySelector('.search-result');
+        btn.onclick = function(){
+          $resultContent.innerHTML='';
+        }
       });
     }
   });

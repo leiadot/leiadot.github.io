@@ -3,20 +3,23 @@ $color-title: #000;
 $color-text: #3a3a3a;
 $grey-border: #dcdcdc;
 
+@font-face {
+  font-family: 'Noto Sans TC';
+  src: url('/plugins/webfont/NotoSansTC-Regular.otf');
+}
+@font-face {
+  font-family: 'Slabo 27px';
+  src: url('/plugins/webfont/Slabo27px-Regular.ttf');
+}
+
 // lenght
 $header-height: 70px;
 $nav-padding-top: 25px;
 $container-width: 60vw;
 $inside-wrapper-width: 920px;
 $icon-size: 20px;
-$font-family: futura-pt,
-Helvetica,
-Arial,
-"Hiragino Sans GB",
-"Hiragino Sans GB W3",
-Microsoft JhengHei,
-WenQuanYi Micro Hei,
-"Microsoft YaHei",
+$font-family:'Slabo 27px','Noto Sans TC',
+'Microsoft JhengHei',
 sans-serif;
 // Noto Sans, sans-serif;
 // $font-family:-apple-system, BlinkMacSystemFont,"Helvetica Neue","PingFang-SC-Regular","STHeiti", "Helvetica","Arial","Verdana","sans-serif","Microsoft YaHei";

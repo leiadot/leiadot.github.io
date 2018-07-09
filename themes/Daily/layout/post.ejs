@@ -14,6 +14,15 @@
           <p class="posted-on">
           <%= page.date.format(config.date_format) %>
           </p>
+          <% if (page.categories) { %>
+            <% page.categories.each(function(categories){ %>
+              <p class="posted-on">
+                <b>
+                  <%- categories.name %>
+                </b>
+              </p>
+              <% }); %>
+                <% } %>
           <div class="tags-links">
             <% if (page.tags) { %>
               <% page.tags.each(function(tag){ %>
@@ -23,6 +32,7 @@
               <% }); %>
             <% } %>
           </div>
+          
         </div>
         <!-- Post Main Content -->
         <div class="entry-content">

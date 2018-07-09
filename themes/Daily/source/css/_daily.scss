@@ -281,12 +281,24 @@ Content
 --------------------------------------------------------------*/
 .site-content {
   min-height: calc(100% - 274px);
+  background-color: #e6e6e6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
 }
 .content-area {
   padding-top: $header-height;
+  padding-bottom: $header-height;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  box-shadow:0px 1px 10px #999;
+  width: 70vw;
+  background-color: #fff;
+  margin: 0 auto;
+  margin-top: 6rem;
+  margin-bottom: 6rem;
 }
 .error404 .content-area,
 .page .content-area {
@@ -294,13 +306,17 @@ Content
 }
 .post-article{
   width: 400px;
-  height: 500px;
+  margin: 1rem;
+  border-radius: 3px;
+  box-shadow: 0px 1px 10px rgb(150, 150, 150);
+  padding: .5rem;
+  
 }
 .container {
-  max-width: $container-width;
-  margin: 0 auto;
-  padding-left: 50px;
-  padding-right: 50px;
+  // max-width: $container-width;
+  // margin: 0 auto;
+  // padding-left: 50px;
+  // padding-right: 50px;
 
 }
 .inside-wrapper {
@@ -341,10 +357,16 @@ Content
     opacity: 0.7;
   }
 }
+.home{
+  .post {
+    width: 100%;
+  }
+}
 .home .entry-content {
-  margin: 1.5em 0;
+  margin: 1.5em auto;
+  width: 80%;
   p {
-    text-align: center;
+    font-size: 10px;
   }
 }
 .posted-on {
@@ -367,6 +389,10 @@ Content
 }
 .pager {
   padding: 1.5em 0;
+  width: 300px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
   &:after {
     visibility: hidden;
     display: block;

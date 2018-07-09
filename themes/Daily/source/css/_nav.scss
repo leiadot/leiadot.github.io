@@ -19,7 +19,7 @@
   height: 100%;
   width: 100%;
 }
-.logo {
+.logo { 
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -41,10 +41,20 @@
   }
 }
 
+.menu{
+  display: none;
+  font-size: 2rem;
+  color:white;
+  cursor: pointer;
+  &:hover{
+    opacity: 0.8;
+  }
+}
+
 .navbox{
   display: flex;
   position: fixed;
-  z-index: 200;
+  z-index: 20;
   justify-content: center;
   font-size: 0.9rem;
   font-weight: 900;
@@ -55,6 +65,7 @@
   box-shadow:1px 1px 1px rgb(90, 90, 90);
   background-color: #fff;
   ul {
+    display: flex;
     &:after {
       content: '';
       display: block;
@@ -67,12 +78,16 @@
     }
     li {
       position: relative;
-      float: left;
       margin-left: 20px;
-      
+      svg {
+        font-size: 1.2rem;
+      }
+      span{
+        vertical-align: 2px;
+        padding-left:2px;  
+      }
       a {
         text-decoration: none;
-        line-height: 1.5;
         padding:20px $nav-padding-top;
         color:#333;
         display: block;
@@ -85,14 +100,81 @@
     }
   }
 }
-.site_search{
+.search {
+  padding: .8rem;
+  font-size: 12px;
   position: relative;
+  box-shadow:1px 1px 1px rgb(90, 90, 90);
+  background-color: #fff;
+  ul {
+    display: inline;
+  }
+  .icon {
+    position: absolute;
+    top: 18px;
+    left: 20px;
+    font-size: 16px;
+  }
+  input {
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    padding: 5px 5px 5px 1.8rem;
+    width: 200px;
+  }
 }
-.local-search-result{
-  position: absolute;
-  
+#local-search-result {
+  display:block;
+}
+.search-bg {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  position: fixed;
+  background: rgba(0, 0, 0, 0.5);
+}
+.search-box{
+  position: fixed;
+  z-index: 201;
+  width: 40vw;
+  height: 400px;
+  overflow: scroll;
+  border-radius: 5px;
+  top: 30%;
+  left: 30%;
+  background-color: #eeeeee;
+  box-shadow:3px 3px 2px #5a5a5a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  p{
+    color: #6b6c8b;
+    font-weight: 900;
+    padding-left:.5rem; 
+  }
+  .closebtn{
+    cursor: pointer;
+    padding: 1rem;
+    &:hover{
+      opacity: 0.5;
+    }
+  }
+  li>p{
+    font-size: 10px;
+    padding: .5rem;
+    color:#888;
+    line-height: 1.5rem;
+  }
+  li>a{
+    font-weight: bold;
+    width: 100%;
+    display: block;
+    color: #6b6c8b;
+    border-bottom: 1px double #6b6c8b;
+    padding: .5rem;
+  }
 }
 .search-result-list{
-  height: 300px;
-  width: 200px;
+  width: 80%;
 }

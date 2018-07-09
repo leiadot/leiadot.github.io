@@ -4,8 +4,10 @@ tags:
   - React
   - React初探系列
 date: 2018-05-07 09:28:24
+categories: CodingLife 前端技術筆記
+photo:
+  - '/img/react/react.png'
 ---
-![](/img/react/react.png)
 
 適用環境：Mac OS
 

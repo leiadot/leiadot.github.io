@@ -4,8 +4,10 @@ tags:
   - React
   - React初探系列
 date: 2018-05-07 20:02:14
+categories: CodingLife 前端技術筆記
+photo:
+  - '/img/react/react.png'
 ---
-![](/img/react/react.png)
 
 `jsx`被編譯後會呼叫`React.createElement`方法，該方法會回傳一個有`type`、`props`以及`children`的物件。
 這說明 jsx 也是由三部分組合起來，標籤、屬性、內文（children），所以接下來也以這三個部分來說明。

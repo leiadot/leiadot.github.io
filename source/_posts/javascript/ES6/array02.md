@@ -4,9 +4,10 @@ date: 2018-02-15
 tags:
 - ES6
 - JavaScript
+categories: CodingLife 前端技術筆記
+photo:
+- '/img/javascript.jpg'
 ---
-
-![](/img/javascript.jpg)
 
 在我們初學 Javascript ，最常用到的就是`for`迴圈，但當案子的複雜度增加，
 我們常常都要在迴圈外面先建立一個空陣列，而且迴圈都不知道迴到哪去（？）

@@ -4,8 +4,10 @@ tags:
   - JavaScript
   - JS30系列
 date: 2018-04-16 10:27:09
+categories: CodingLife 前端技術筆記
+photo:
+- '/img/js30day/small27.jpg'
 ---
-![](/img/js30day/small27.jpg)
 
 > [javascript 30day](https://javascript30.com/)
 

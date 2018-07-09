@@ -39,10 +39,10 @@ default_post_title: Untitled
 
 # social
 social:
-  github: https://github.com/leiadot
+  Github: https://github.com/leiadot
   # weibo: http://weibo.com/10010800
-  mail: mailto:luv.hsu@gmail.com
-  facebook: https://www.facebook.com/CodingWifeHy2/
+  Mail: mailto:luv.hsu@gmail.com
+  Facebook: https://www.facebook.com/CodingWifeHy2/
   # twitter: https://twitter.com/GallenHu
 
 # widget
