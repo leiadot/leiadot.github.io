@@ -74,9 +74,15 @@ pagination_dir: page
 ## Themes: https://hexo.io/themes/
 theme: Daily
 
+
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: 
   repo: 
   branch: 
+search:
+	path: search.xml
+  field: post
+sitemap:
+    path: sitemap.xml

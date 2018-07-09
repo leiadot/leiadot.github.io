@@ -1,7 +1,7 @@
 <div class="site-content home">
   <main class="content-area">
     <% page.posts.each(function(item, itemIndex){ %>
-      <div class="even">
+      <div class="post-article">
         <%- partial('_partial/article-index', {item: item}) %>
       </div>
       <% }); %>
