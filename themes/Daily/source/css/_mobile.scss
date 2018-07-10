@@ -1,7 +1,12 @@
 @media screen and (max-width: 767px) {
-  .logo a img {
-    width: 50%;
-    margin: 0 auto;
+  .logo{
+    margin-top: 5rem;
+    a{
+      img {
+        width: 50%;
+        margin: 0 auto;
+      }
+    }
   }
   .site-content {
     min-height: auto;
@@ -11,12 +16,11 @@
   }
   .site-header {
     position: relative;
-    color:#fff;
     background-position-y: 0px;
     font-weight: 100;
     a{
-      color:#fff;
-      font-weight: 500;
+      font-weight: 900;
+      
     }
   }
   .menu{
