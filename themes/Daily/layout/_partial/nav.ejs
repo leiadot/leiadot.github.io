@@ -9,31 +9,15 @@
           <% for (var i in site_navs){ %>
             <li>
               <a href="<%- site_navs[i].url ? url_for(site_navs[i].url) : url_for(site_navs[i]) %>">
-                <span>
-                  <%= i %>
-                </span>
+                <% if (site_navs[i].icon) { %>
+                  <i class="fa fa-<%= site_navs[i].icon %> fa-stack-2x"></i>
+                  <% } else { %>
+                    <%= i %>
+                      <% } %>
               </a>
             </li>
-          <% } %>
-                <li>
-                  <a href="https://github.com/leiadot">
-                    <i class="fab fa-github"></i>
-                    <span>Github</span>
-                   </a>
-                </li>
-                <li>
-                  <a href="mailto:luv.hsu@gmail.com">
-                  <i class="fas fa-envelope"></i>
-                  <span>Mail</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="https://www.facebook.com/CodingWifeHy2/">
-                    <i class="fab fa-facebook-square"></i>
-                    <span>Facebook</span>
-                  </a>
-                </li>
-            </ul>
+            <% } %>
+      </ul>
     </div>
     <!-- /.navbar-collapse -->
   </nav>
@@ -61,6 +45,20 @@
         </a>
       </h1>
       <h5><%= config.subtitle %></h5>
+      <div class="contact">
+      <a href="https://github.com/leiadot">
+        <i class="fab fa-github"></i>
+        <span>Github</span>
+      </a>
+      <a href="mailto:luv.hsu@gmail.com">
+        <i class="fas fa-envelope"></i>
+        <span>Mail</span>
+      </a>
+      <a href="https://www.facebook.com/CodingWifeHy2/">
+        <i class="fab fa-facebook-square"></i>
+        <span>Facebook</span>
+      </a>
+      </div>
   </div>
 </header>
 
