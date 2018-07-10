@@ -4,7 +4,7 @@
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  background-image: url('../images/banner.jpg');
+  background-image: url('../images/banner.png');
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -12,15 +12,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1;
-}
-.header-bg{
-  background-color: #fff;
-  opacity: 0.4;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  z-index: 2;
 }
 .header-inside {
   display: block;
@@ -33,7 +24,6 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  z-index: 20;
   h1,h5{
     margin: .5rem;
   }
