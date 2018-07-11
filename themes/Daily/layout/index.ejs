@@ -1,5 +1,5 @@
 <div class="site-content home">
-  <main class="content-area">
+<main class="content-area" data-infinite-scroll='{ "path": ".pagination__next", "append": ".post", "history": false }'>
     <% page.posts.each(function(item, itemIndex){ %>
       <div class="post-article">
         <%- partial('_partial/article-index', {item: item}) %>
