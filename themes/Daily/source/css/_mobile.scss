@@ -102,7 +102,9 @@
 .content-area{
   width: 100vw;
   // padding: 2rem;
-      
+  .post{
+    width: 90vw
+  }
 }
 .search-box {
   width: 100%;
