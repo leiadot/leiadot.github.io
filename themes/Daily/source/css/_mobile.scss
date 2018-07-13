@@ -87,7 +87,15 @@
       }
     }
   }
-
+  .archive-list-container{
+    padding: 0 1rem;
+    .year{
+      padding: 0 .5rem;
+    }
+    .date{
+      margin-right:0;
+    }
+  }
   .archive ul.list {
     padding-left: 20px;
   }
