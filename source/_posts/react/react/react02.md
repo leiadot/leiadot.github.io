@@ -2,7 +2,6 @@
 title: 【React】JSX
 tags:
   - React
-  - React初探系列
 date: 2018-05-07 20:02:14
 categories: CodingLife 前端技術筆記
 photo:

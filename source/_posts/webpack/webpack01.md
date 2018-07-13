@@ -1,11 +1,12 @@
 ---
 title: 【Webpack】認識 webpack
 tags:
-  - Webpack初探系列
   - Webpack
 date: 2018-03-19 13:43:56
+categories: CodingLife 前端技術筆記
+photo:
+- '/img/webpack/webpack.png'
 ---
-![](/img/webpack/webpack.png)
 
 新手從無到有，初探 webpack 的心得。
 

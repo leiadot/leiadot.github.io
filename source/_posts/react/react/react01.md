@@ -2,7 +2,6 @@
 title: 【React】環境安裝與解析
 tags:
   - React
-  - React初探系列
 date: 2018-05-07 09:28:24
 categories: CodingLife 前端技術筆記
 photo:

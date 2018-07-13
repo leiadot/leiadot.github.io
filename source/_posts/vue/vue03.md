@@ -2,7 +2,6 @@
 title: 【Vue】Vue 常用套件環境設定
 tags:
   - Vue
-  - 日安初探Vue
 date: 2018-03-28 10:52:54
 categories: CodingLife 前端技術筆記
 photo:
