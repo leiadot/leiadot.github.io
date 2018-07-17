@@ -310,7 +310,6 @@ Content
   border-radius: 3px;
   box-shadow: 0px 1px 10px rgb(150, 150, 150);
   padding: .5rem;
-  
 }
 .container {
   // max-width: $container-width;
@@ -366,7 +365,8 @@ Content
   margin: 1.5em auto;
   width: 80%;
   p {
-    font-size: 10px;
+    font-size: 1rem;
+    line-height: 1.5rem;
   }
 }
 .posted-on {
