@@ -11,6 +11,15 @@ logo: /images/logo.svg
 #disqus
 disqus_shortname: leiadot
 
+#gittalk
+gitalk:
+  on: true
+  owner: leiadot
+  repo: leiadot.github.io
+  admin: ['leiadot']
+  clientID: 51ce642a9a95d7ccdf4d
+  clientSecret: 6bf1657de06ee2fbaf452b4752567ab313277f50
+
 highlight:
   enable: true
   line_number: false

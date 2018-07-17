@@ -40,12 +40,6 @@
         </div>
       </article>
     </div>
-    <!-- Comments -->
-    <div class="container">
-      <%- partial('_partial/comment', {
-          shortname: config.disqus_shortname
-        }) %>
-    </div>
     <!-- Pre or Next -->
     <div class="nav-links">
       <% if (page.next) { %>
@@ -60,4 +54,9 @@
     </div>
 
   </div>
+</div>
+
+<!-- Comments -->
+<div class="container">
+  <%- partial('_partial/comment') %>
 </div>
