@@ -1,0 +1,21 @@
+<div class="archive content-area">
+  <div class="container">
+    <h1 class="entry-title">
+      <%= page.tag %>
+    </h1>
+    <div class="row">
+      <div class="archive-list-container">
+            <ul class="list">
+            <% page.posts.each(function(post){ %>
+              <li>
+                <span class="date"><%= post.date.format('YYYY-MM-DD') %></span>
+                <a href="<%- url_for(post.path) %>" class="title">
+                    <%= post.title %>
+                </a>
+              </li>
+            <% }) %>
+            </ul>
+      </div>
+    </div>
+  </div>
+</div>
