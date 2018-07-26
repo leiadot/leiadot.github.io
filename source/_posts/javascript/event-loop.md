@@ -57,6 +57,16 @@ foo()
 
 當瀏覽器進行同步請求，在等待期間的狀態，就稱為 **blocking**，blocking 狀態會使瀏覽器形成假死狀態，所有動作無法運行，因此為了避免 blocking 的狀況，所以一般使用非同步請求，關於同步與非同步，請看[此](https://developer.mozilla.org/zh-TW/docs/Web/API/XMLHttpRequest/Synchronous_and_Asynchronous_Requests) 。
 
+```js
+console.log('hi')
+
+$.get('url', function cb(data) {
+  console.log(data)
+})
+
+console.log('JSConfEU')
+```
+
 ## task queue 任務佇列
 在取得 web api 的結果後，瀏覽器會將回呼函式推進一個等待的地方，就是任務佇列（task queue ）。等瀏覽器執行完 stack 的程式，便會開始讀取任務佇列的回呼函式，讀取完成之後便會開始執行，再讀取下一個回呼。
 
