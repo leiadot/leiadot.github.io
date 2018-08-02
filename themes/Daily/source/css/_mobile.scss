@@ -1,4 +1,16 @@
 @media screen and (max-width: 767px) {
+  
+  .about {
+    .photo {
+      width: 100%;
+    }
+    .about-header{
+      flex-direction: column;
+    }
+    .about-brief {
+      width: 100%;
+    }
+  }
   .logo{
     margin-top: 5rem;
     a{
