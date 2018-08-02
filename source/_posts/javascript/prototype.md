@@ -16,7 +16,7 @@ modified: 2018-08-01 16:22:13
 
 # 先淺談一下建構式
 
-這是一個點的建構式，有 `x`、`y` 的座標，以及一個 `position` 的 function。
+這是一個點的建構式，有 `x`、`y` 的座標，以及一個 `position` 的 function，我們用建構式先建立兩個 instance。
 
 ```js
 function Point (){
@@ -28,12 +28,6 @@ function Point (){
 }
 const redPoint = new Point();
 const bluePoint = new Point();
-```
-
-我們用建構式先建立兩個 instance 。
-
-```js
-
 ```
 
 接下來我們來對其中一個物件做改變。
