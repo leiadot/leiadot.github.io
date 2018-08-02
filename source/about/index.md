@@ -1,4 +1,4 @@
 ---
-title: 日安
+title: 關於日安
 layout: about
 ---
