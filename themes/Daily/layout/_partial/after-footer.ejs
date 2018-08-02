@@ -1,18 +1,9 @@
-<!-- scripts -->
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-
 <!-- Google Tag Manager (noscript) -->
 <noscript>
   <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K3MS95C" height="0" width="0" style="display:none;visibility:hidden"></iframe>
 </noscript>
 <!-- End Google Tag Manager (noscript) -->
 
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <%- js('js/search.js') %>
-<script type="text/javascript">
-  var search_path = "<%= config.search.path %>";
-  if (search_path.length == 0) {
-    search_path = "search.xml";
-  }
-  var path = "<%= config.root %>" + search_path;
-  searchFunc(path, 'local-search-input', 'local-search-result');
 </script>
