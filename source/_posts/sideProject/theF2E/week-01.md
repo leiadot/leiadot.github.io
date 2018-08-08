@@ -17,8 +17,11 @@ modified: 2018-08-08 12:20:31
 - i18n
 - Sass
 - iconfont
+- localStorage
 
 <!--more-->
+
+[連結](http://codingwife.com/TheF2E/#/week-01)
 
 【使用者故事】
 - [x] 能夠紀錄每天的待辦事項。

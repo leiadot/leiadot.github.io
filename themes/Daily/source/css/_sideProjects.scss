@@ -1,0 +1,21 @@
+.project{
+  width: 300px;
+  position: relative;
+  .title{
+    position: absolute;
+    letter-spacing: 2px;
+    margin: 0;
+    top: 25%;
+    left: 15%;
+    z-index: 5;
+    cursor: pointer;
+  }
+  img{
+    filter:blur(4px);
+    -o-filter:blur(4px);
+    -ms-filter:blur(4px);
+    -moz-filter:blur(4px);
+    -webkit-filter:blur(4px);
+    transition: all .5s ease-in-out;
+  }
+}
