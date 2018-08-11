@@ -4,9 +4,9 @@ date: 2018-04-17 21:09:34
 tags:
 - ES6
 - JavaScript
-categories: CodingLife 前端技術筆記
+categories: CodingLife
 photo:
-- '/img/javascript.jpg'
+- '/img/cover/javascript.jpg'
 ---
 
 

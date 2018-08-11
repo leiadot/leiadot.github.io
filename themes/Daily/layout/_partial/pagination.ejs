@@ -5,8 +5,9 @@
       <% if (page.next){ %>
         <li class="next">
           <a href="<%- config.root %><%- page.next_link %>">
-            <span class="meta-arraw meta-arraw-left"> </span>
+            <!-- <span class="meta-arraw meta-arraw-left"> </span> -->
             <%- __('prev')%>
+            
           </a>
         </li>
         <% } %>
@@ -14,7 +15,7 @@
             <li class="previous">
               <a href="<%- config.root %><%- page.prev_link %>">
                 <%- __('next')%>
-                  <span class="meta-arraw meta-arraw-right"></span>
+                  <!-- <span class="meta-arraw meta-arraw-right"></span> -->
               </a>
             </li>
             <% } %>

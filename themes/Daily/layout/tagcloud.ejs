@@ -1,7 +1,7 @@
 <div class="archive content-area">
   <div class="container">
     <div class="about">
-      <h1 class="entry-title">
+      <h1 class="page-title">
         <%- page.title %>
       </h1>
         <div class="tagcloud-content">
@@ -9,11 +9,6 @@
           <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
           <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
           <div class="widget-wrap">
-            <div id="myCanvasContainer" class="widget tagcloud">
-              <canvas width="550" height="350" id="resCanvas" style="width:100%">
-                <%- tagcloud() %>
-              </canvas>
-              <div>
                 <%- tagcloud(site.tags, {
                       min_font: 13,
                       max_font: 28,
@@ -21,7 +16,7 @@
                       orderby: 'count',
                       color: true,
                       start_color: '#4868b1',
-                      end_color: '#efcadf'
+                      end_color: '#555d6b'
                     }) %>
               </div>
             </div>

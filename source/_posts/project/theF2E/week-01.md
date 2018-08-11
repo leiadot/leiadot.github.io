@@ -1,12 +1,12 @@
 ---
 title: 【前端精神時光屋】Week01 - TodoList
 tag:
-  - SideProject
+  - Projects
   - 精神時光屋
   - Vue
-categories: CodingLife 前端技術筆記
+categories: CodingLife
 photos:
-- '/img/theF2E/index.jpg'
+- '/img/cover/theF2E/index.jpg'
 date: 2018-08-08 12:20:31
 modified: 2018-08-08 12:20:31
 ---
@@ -14,6 +14,7 @@ modified: 2018-08-08 12:20:31
 - Vue.js
 - Vue Router
 - elementUI
+- axios
 - i18n
 - Sass
 - iconfont

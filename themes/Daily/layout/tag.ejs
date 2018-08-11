@@ -1,6 +1,6 @@
 <div class="archive content-area">
   <div class="container">
-    <h1 class="entry-title">
+    <h1 class="page-title">
       <%= page.tag %>
     </h1>
     <div class="row">
@@ -15,30 +15,11 @@
               </li>
             <% }) %>
             </ul>
-            <% if (page.prev || page.next){ %>
-              <div class="container">
-                <ul class="tags pager">
-                  
-                      <% if (page.next){ %>
-                        <li class="next">
-                          <a href="<%- config.root %><%- page.next_link %>">
-                            <span class="meta-arraw meta-arraw-left"> </span>
-                            <%- __('prev')%>
-                          </a>
-                        </li>
-                        <% } %>
-            <% if (page.prev){ %>
-              <li class="previous">
-                <a href="<%- config.root %><%- page.prev_link %>">
-                  <%- __('next')%>
-                    <span class="meta-arraw meta-arraw-right"></span>
-                </a>
-              </li>
-              <% } %>
-                </ul>
-              </div>
-              <% } %>
       </div>
     </div>
   </div>
+</div>
+
+<div class="content-area">
+<%- partial('_partial/pagination') %>
 </div>

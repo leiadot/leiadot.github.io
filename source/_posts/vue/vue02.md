@@ -3,9 +3,9 @@ title: 【Vue】Vue 與 webpack
 tags:
   - Vue
 date: 2018-03-26 10:18:05
-categories: CodingLife 前端技術筆記
+categories: CodingLife
 photo:
-  - '/img/vue/vue.jpg'
+  - '/img/cover/vue.png'
 ---
 
 版本：vue-cli 2.9.3

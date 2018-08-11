@@ -1,0 +1,37 @@
+.pager,
+.post-pager{
+a {
+  text-decoration: none; // color: #3a3a3a;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  background-color: #8793b2;
+  padding: 1rem;
+  border-radius: 20px; // font-family: $font-family;
+  font-size: 0.750em;
+}
+}
+.pager{
+  padding: 1.5em 0;
+  width: 300px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+  .previous {
+    float: right;
+    text-align: right;
+    width: 50%;
+  }
+  .next {
+    float: left;
+    width: 50%;
+  }
+}
+
+.post-pager{
+  width: 75%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  padding: 3rem;
+}

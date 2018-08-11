@@ -4,7 +4,7 @@ tags:
 - JavaScript
 - JS30系列
 date: 2018-03-15 09:24:14
-categories: CodingLife 前端技術筆記
+categories: CodingLife
 photo:
 - '/img/js30day/small16.jpg'
 ---

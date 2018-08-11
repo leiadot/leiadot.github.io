@@ -3,9 +3,10 @@ title: 【Webpack】source-map
 tags:
   - Webpack
 date: 2018-03-23 23:19:20
-categories: CodingLife 前端技術筆記
+categories: CodingLife
 photo:
-- '/img/webpack/webpack.png'
+- '/img/cover/webpack.png'
+
 ---
 
 新手從無到有，初探 webpack 的心得。

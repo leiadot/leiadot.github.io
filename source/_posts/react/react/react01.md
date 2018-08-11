@@ -3,9 +3,9 @@ title: 【React】環境安裝與解析
 tags:
   - React
 date: 2018-05-07 09:28:24
-categories: CodingLife 前端技術筆記
+categories: CodingLife
 photo:
-  - '/img/react/react.png'
+  - '/img/cover/react.png'
 ---
 
 適用環境：Mac OS

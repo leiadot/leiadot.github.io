@@ -3,9 +3,9 @@ title: 【Github】不開 branch 使用 github page。
 tag:
   - github
   - git
-categories: CodingLife 前端技術筆記
+categories: CodingLife
 photos:
-- '/img/github/github.png'
+- '/img/cover/github.png'
 date: 2018-07-23 09:43:36
 modified: 2018-07-23 09:43:36
 ---

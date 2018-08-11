@@ -2,9 +2,9 @@
 title: 【JS】事件循環 Event-loop
 tag:
   - JavaScript
-categories: CodingLife 前端技術筆記
+categories: CodingLife
 photos:
-- '/img/javascript.jpg'
+- '/img/cover/javascript.jpg'
 date: 2018-07-23 12:20:31
 modified: 2018-07-23 12:20:31
 ---

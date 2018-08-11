@@ -19,5 +19,7 @@
 
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<%- js('js/search.js') %>
+<script>
+ $('.trigger').on('click', function() { $(this).toggleClass('on'); $('.menu').fadeToggle(200); });
 </script>
+<!-- <%- js('js/search.js') %> -->

@@ -1,0 +1,140 @@
+.background {
+  background-color: $main-color-light;
+}
+
+.site-content {
+  min-height: calc(100% - 274px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.home {
+  .container {
+    height: 100%;
+  }
+  .post {
+    width: 100%;
+    position: relative;
+    height: 100%;
+  }
+  .entry-title {
+    a {
+      font-size: 1rem;
+      letter-spacing: 2px;
+    }
+  }
+  .post-bottom {
+    height: 30px;
+    padding-top: .5rem;
+    position: absolute;
+    bottom: 0;
+  }
+}
+
+.content-area {
+  padding: 3rem 0 1rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.error404 .content-area,
+.page .content-area {
+  padding-top: 120px;
+}
+
+.post-article {
+  width: 280px;
+  height: 400px;
+  margin: 1rem;
+  background-color: #fff;
+  border-radius: 3px;
+  padding: .5rem;
+}
+
+.inside-wrapper {
+  max-width: $inside-wrapper-width;
+  margin: 0 auto;
+  padding: 0 50px;
+}
+
+.attachment-post-thumbnail {
+  margin: 0 auto 35px;
+  transition: opacity 0.7s;
+  display: block;
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.entry-title {
+  font-family: $font-family;
+  letter-spacing: 0.2em;
+  color: #000;
+  text-align: center;
+  margin-bottom: 27px;
+  font-weight: 700;
+  font-size: 1.25em;
+  a {
+    color: #000;
+    font-weight: 700;
+    text-decoration: none;
+  }
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.page-title {
+  font-family: $font-family;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: $main-color-dpdk;
+  text-align: center;
+  margin-bottom: 27px;
+  font-size: 1.25em;
+  position: relative;
+  min-width: 800px;
+  &:before,&:after{
+    content:'';
+    background-color: $main-color-dpdk;
+    width: 35%;
+    height: 1px;
+    position: absolute;
+    top: 50%;
+  }
+  &:before {
+    left: 0;
+  }
+  &:after {
+    right: 0;
+  }
+}
+
+
+
+.posted-on {
+  text-align: center;
+  color:$main-color-dpdk;
+  font-family: $font-family;
+  font-size: 0.688em;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  margin: 0px;
+}
+.categories-links {
+  text-align: center;
+  span{
+    font-family: $font-family;
+    color:$main-color-dpdk;
+    border-bottom:1px solid $main-color-light;
+    width: 100%;
+    text-transform: uppercase;
+    font-weight: 100;
+    letter-spacing: 3px;
+    font-size: 10px;
+    text-align: center;
+  }
+  
+}

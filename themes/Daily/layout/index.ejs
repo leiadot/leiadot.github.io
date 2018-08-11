@@ -1,12 +1,41 @@
 <div class="site-content home">
-<main class="content-area" data-infinite-scroll='{ "path": ".pagination__next", "append": ".post", "history": false }'>
+<main class="content-area">
+    <header class="site-header">
+      <div class="logo">
+        <a href="<%= url_for() %>" rel="home">
+          <% if (config.logo || theme.logo) { %>
+            <img src="<%- config.logo || theme.logo %>" alt="<%- config.title %>" height="60">
+            <% } %>
+        </a>
+        <h1>
+          <a href="<%= url_for() %>" rel="home">
+            <%= config.title %>
+          </a>
+        </h1>
+        <h5>
+          <%= config.subtitle %>
+        </h5>
+        <div class="contact">
+          <a href="https://github.com/leiadot">
+            <i class="iconfont icon-github"></i>
+            <span>Github</span>
+          </a>
+          <a href="mailto:luv.hsu@gmail.com">
+            <i class="iconfont icon-mail"></i>
+            <span>Mail</span>
+          </a>
+          <a href="https://www.facebook.com/CodingWifeHy2/">
+            <i class="iconfont icon-facebook"></i>
+            <span>Facebook</span>
+          </a>
+        </div>
+      </div>
+    </header>
     <% page.posts.each(function(item, itemIndex){ %>
       <div class="post-article">
         <%- partial('_partial/article-index', {item: item}) %>
       </div>
       <% }); %>
-
-        
   </main>
 <%- partial('_partial/pagination') %>
 </div>

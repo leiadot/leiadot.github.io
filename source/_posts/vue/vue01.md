@@ -3,9 +3,9 @@ title: 【Vue】Vue-cli 安裝
 tags:
   - Vue
 date: 2018-03-23 14:32:01
-categories: CodingLife 前端技術筆記
+categories: CodingLife
 photo:
-  - '/img/vue/vue.jpg'
+  - '/img/cover/vue.png'
 ---
 
 版本：vue-cli 2.9.3

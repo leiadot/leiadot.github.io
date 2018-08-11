@@ -4,9 +4,9 @@ date: 2018-02-22 15:35:45
 tags:
 - Hexo
 - TravisCI
-categories: CodingLife 前端技術筆記
+categories: CodingLife
 photo:
-- '/img/travisci/travisci.jpg'
+- '/img/cover/travisci.jpg'
 ---
 
 這兩天忙著處理 Travis CI ，終於有點心得，

@@ -2,7 +2,9 @@
 title: 【CSS】nth-child 與 nth-of-type
 tag:
   - CSS
-categories: CodingLife 前端技術筆記
+categories: CodingLife
+photo: 
+ - '/img/cover/css.jpg'
 date: 2018-07-23 10:43:55
 modified: 2018-07-23 10:43:55
 ---

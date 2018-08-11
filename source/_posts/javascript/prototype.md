@@ -2,9 +2,9 @@
 title: 【JS】原型繼承 Prototype
 tag:
   - JavaScript
-categories: CodingLife 前端技術筆記
+categories: CodingLife
 photos:
-- '/img/javascript.jpg'
+- '/img/cover/javascript.jpg'
 date: 2018-08-01 16:22:13
 modified: 2018-08-01 16:22:13
 ---

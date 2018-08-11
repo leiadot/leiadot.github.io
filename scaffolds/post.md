@@ -5,7 +5,7 @@ modified: {{ date }}
 tag:
  - 
  - 
-categories:  CodingLife 前端技術筆記
+categories:  CodingLife
 photos:
  - '/img/'
 ---

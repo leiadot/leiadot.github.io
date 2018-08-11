@@ -4,9 +4,9 @@ date: 2018-02-05
 tags:
 - ES6
 - JavaScript
-categories: CodingLife 前端技術筆記
+categories: CodingLife
 photo:
-- '/img/javascript.jpg'
+- '/img/cover/javascript.jpg'
 ---
 
 在我們初學 Javascript ，最常用到的就是`for`迴圈，但當案子的複雜度增加，

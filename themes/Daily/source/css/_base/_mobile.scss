@@ -1,0 +1,145 @@
+@media screen and (max-width: 1023px) {
+  .page-title{
+    min-width: 500px;
+    margin:  0 auto;
+    &::before,&::after{
+      content:'';
+      width: 20%;
+      padding: 0 .5rem;
+    }
+  }
+}
+.archive-list-container{
+  width: 75%;
+  margin: 0 auto;
+}
+@media screen and (max-width: 767px) {
+  
+  .about {
+    .photo {
+      width: 100%;
+    }
+    .about-header{
+      flex-direction: column;
+    }
+    .about-brief {
+      width: 100%;
+    }
+  }
+  .logo{
+    margin-top: 5rem;
+    a{
+      img {
+        width: 50%;
+        margin: 0 auto;
+      }
+    }
+  }
+  .site-content {
+    min-height: auto;
+    .content-area {
+      padding-top: 0;
+    }
+  }
+  .site-header {
+    position: relative;
+    font-weight: 100;
+    a{
+      font-weight: 900;
+      
+    }
+  }
+  .archive-list-container{
+    padding: 0 1rem;
+    .year{
+      padding: 0 .5rem;
+    }
+    .date{
+      margin-right:0;
+    }
+  }
+  .archive ul.list {
+    padding-left: 20px;
+  }
+   .show-post {
+     padding: 1rem;
+   }
+.content-area{
+  width: 100vw;
+  // padding: 2rem;
+}
+.author{
+  width: 80%;
+}
+.tag-clouds{
+  padding: 1rem;
+  width: 85%;
+}
+ .page-title {
+   min-width: 300px;
+   margin-bottom: 1rem;
+   &::before,
+   &::after {
+     content: '';
+     width: 15%;
+   }
+ }
+.gitTalk-content-area{
+  width: 100vw;
+}
+.search-box {
+  width: 100%;
+  left: 0;
+}
+
+}
+
+@media screen and (max-width: 420px) {
+  .about-brief{
+    h4{
+      width: 80%;
+    }
+  }
+ 
+ .page-title {
+   &::before,
+   &::after {
+     content: '';
+     display: none;
+   }
+ }
+.archive.content-area {
+  .year{
+    text-align: center;
+  }
+   ul.list {
+     padding: 0;
+   }
+   .date,a{
+     display: block;
+   }
+   .date{
+     margin-bottom: .5rem;
+   }
+ }
+ .tags-links{
+   a{
+     margin: .2rem;
+   }
+ }
+}
+@media screen and (max-width: 320px) {
+
+  .site-header,
+  .page .site-header,
+  .home.paged .site-header {
+    padding-left: 20px;
+    padding-right: 20px;
+
+  }
+  .footer-widgets .inside-wrapper {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
+}

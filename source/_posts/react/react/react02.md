@@ -3,9 +3,9 @@ title: 【React】JSX
 tags:
   - React
 date: 2018-05-07 20:02:14
-categories: CodingLife 前端技術筆記
+categories: CodingLife
 photo:
-  - '/img/react/react.png'
+  - '/img/cover/react.png'
 ---
 
 `jsx`被編譯後會呼叫`React.createElement`方法，該方法會回傳一個有`type`、`props`以及`children`的物件。
