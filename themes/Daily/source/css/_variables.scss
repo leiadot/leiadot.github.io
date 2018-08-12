@@ -3,10 +3,10 @@ $color-title: #000;
 $color-text: #3a3a3a;
 $grey-border: #dcdcdc;
 
-@font-face {
-  font-family: 'Noto Sans TC';
-  src: url('/plugins/webfont/NotoSansTC-Regular.otf');
-}
+// @font-face {
+//   font-family: 'Noto Sans TC';
+//   src: url('/plugins/webfont/NotoSansTC-Regular.otf');
+// }
 @font-face {
   font-family: 'Slabo 27px';
   src: url('/plugins/webfont/Slabo27px-Regular.ttf');
@@ -18,7 +18,7 @@ $nav-padding-top: 25px;
 $container-width: 60vw;
 $inside-wrapper-width: 920px;
 $icon-size: 20px;
-$font-family:'Noto Sans TC',
+$font-family:'Slabo 27px',
 'Microsoft JhengHei',
 sans-serif;
 // Noto Sans, sans-serif;

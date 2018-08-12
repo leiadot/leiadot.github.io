@@ -8,10 +8,10 @@
       padding: 0 .5rem;
     }
   }
-}
-.archive-list-container{
-  width: 75%;
-  margin: 0 auto;
+  .archive-list-container {
+    width: 75%;
+    margin: 0 auto;
+  }
 }
 @media screen and (max-width: 767px) {
   
@@ -31,7 +31,7 @@
     margin-top: 5rem;
     a{
       img {
-        width: 50%;
+        width: 30vw;
         margin: 0 auto;
       }
     }
@@ -59,11 +59,15 @@
       margin-right:0;
     }
   }
+  .entry-content{
+    margin-top: 3rem;
+  }
   .archive ul.list {
     padding-left: 20px;
   }
    .show-post {
      padding: 1rem;
+     width: 85vw;
    }
 .content-area{
   width: 100vw;
@@ -71,6 +75,7 @@
 }
 .author{
   width: 80%;
+  padding: 1rem;
 }
 .tag-clouds{
   padding: 1rem;
@@ -83,14 +88,15 @@
    &::after {
      content: '';
      width: 15%;
+     margin:  0 1rem;
    }
  }
 .gitTalk-content-area{
   width: 100vw;
 }
-.search-box {
-  width: 100%;
-  left: 0;
+
+.post-pager{
+  padding: 1rem;
 }
 
 }
@@ -98,7 +104,7 @@
 @media screen and (max-width: 420px) {
   .about-brief{
     h4{
-      width: 80%;
+      width: 70vw;
     }
   }
  

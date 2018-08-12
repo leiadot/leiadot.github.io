@@ -95,10 +95,10 @@
   text-transform: uppercase;
   color: $main-color-dpdk;
   text-align: center;
-  margin-bottom: 27px;
+  margin-bottom: 3rem;
   font-size: 1.25em;
   position: relative;
-  min-width: 800px;
+  min-width: 700px;
   &:before,&:after{
     content:'';
     background-color: $main-color-dpdk;
