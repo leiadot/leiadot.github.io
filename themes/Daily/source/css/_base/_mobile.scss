@@ -21,6 +21,7 @@
     }
     .about-header{
       flex-direction: column;
+      padding: 0 .5rem;
     }
     .about-brief {
       width: 100%;
@@ -108,7 +109,11 @@
      display: none;
    }
  }
+ .post-article{
+   margin:1rem .5rem;
+ }
 .archive.content-area {
+  width: 90%;
   .year{
     text-align: center;
   }
@@ -125,6 +130,12 @@
  .tags-links{
    a{
      margin: .2rem;
+   }
+ }
+ .logo-title {
+   img {
+     padding:  0 1rem;
+     width: 90%;
    }
  }
 }
