@@ -54,12 +54,12 @@
   justify-content: center;
   a {
     margin: .5rem;
-    letter-spacing: 3px;
+    letter-spacing: 1px;
     border: 1px solid $main-color-dark;
     color: $main-color-dpdk;
     border-radius: 4px;
     padding: .5rem;
-    font-size: 6px;
+    font-size: .5rem;
     span:first-of-type{
       margin-right: 3px;
     }
@@ -98,6 +98,7 @@
   ol,
   ul {
     margin: 0 0 1.5em 3em;
+    margin: 3em;
   }
   ul {
     list-style: disc;
