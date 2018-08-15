@@ -8,8 +8,8 @@ $grey-border: #dcdcdc;
 //   src: url('/plugins/webfont/NotoSansTC-Regular.otf');
 // }
 @font-face {
-  font-family: 'Slabo 27px';
-  src: url('/plugins/webfont/Slabo27px-Regular.ttf');
+  font-family: 'Oswald-Regular';
+  src: url('/plugins/webfont/Oswald-Regular.ttf');
 }
 
 // lenght
@@ -17,11 +17,9 @@ $header-height: 70px;
 $nav-padding-top: 25px;
 $container-width: 60vw;
 $inside-wrapper-width: 920px;
-$icon-size: 20px;
-$font-family:"Avenir",Helvetica,Arial,'Slabo 27px','Microsoft JhengHei',sans-serif;
-// "Avenir", Helvetica, Arial, sans-serif
-// $font-family:-apple-system, BlinkMacSystemFont,"Helvetica Neue","PingFang-SC-Regular","STHeiti", "Helvetica","Arial","Verdana","sans-serif","Microsoft YaHei";
-
+$icon-size: 30px;
+$font-family:"Avenir",Helvetica,Arial,'Microsoft JhengHei',sans-serif;
+$spec-font:'Oswald-Regular';
 $main-color-light:rgba(72, 104, 177, 0.096);
 $main-color-dark:#8793b2;
 $main-color-dpdk:rgb(85, 93, 107);

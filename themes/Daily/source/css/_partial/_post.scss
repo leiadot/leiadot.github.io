@@ -153,10 +153,11 @@
 }
 .author-eng-name{
   color:$main-color-dpdk;
-  font-size: 2rem;
+  font-size: 3rem;
   display: block;
   text-align: center;
   margin-top: 3rem;
+  font-family: $spec-font;
 }
 .author-zh-name {
   color: $main-color-dpdk;
@@ -172,6 +173,6 @@
     margin: 0 1rem;
   }
   .iconfont{
-    font-size: 30px;
+    font-size: $icon-size;
   }
 }
