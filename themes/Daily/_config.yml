@@ -2,14 +2,10 @@
 title: Daily
 subtitle: Minimalism, simplicity and refined details
 favicon: /images/logo.ico
-
-# avatar: images/avatar.png
-# banner_small: images/banner-small.png
-# banner_large: images/banner-large.png
+description: 前端工程師技術分享
+url: codingwife.com
+cover: images/logo.svg
 logo: /images/logo.svg
-
-#disqus
-disqus_shortname: leiadot
 
 #gittalk
 gitalk:
@@ -50,10 +46,8 @@ default_post_title: Untitled
 # social
 social:
   Github: https://github.com/leiadot
-  # weibo: http://weibo.com/10010800
   Mail: mailto:luv.hsu@gmail.com
   Facebook: https://www.facebook.com/CodingWifeHy2/
-  # twitter: https://twitter.com/GallenHu
 
 # widget
 #   title: 标题
