@@ -3,10 +3,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta property="og:locale" content="zh-tw">
 
-  <!--Description-->
-  <% if (page.description){ %>
-  <meta name="description" content="<%= page.description %>">
-  <% } else if (config.description){ %>
+  <% if (config.description){ %>
   <meta name="description" content="<%= config.description %>">
   <% } %>
 
