@@ -1,12 +1,8 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta property="og:locale" content="zh-tw">
-
-  <% if (config.description){ %>
-  <meta name="description" content="<%= config.description %>">
-  <% } %>
-
 
   <% if (config.author){ %>
   <meta name="author" content="<%= config.author %>">
@@ -19,24 +15,20 @@
   <% } else { %>
       <meta property="og:title" content="<%= config.title %>"/>
   <% } %>
+  <% if(page.title) { %>
+  <meta property="og:type" content="article" />
+  <% } else { %>
+      <meta property="og:type" content="website" />
+  <% } %>
   <% if (page.description){ %>
       <meta property="og:description" content="<%= page.description %>" />
   <% } else if (config.description) { %>
       <meta property="og:description" content="<%= config.description %>" />
   <% } %>
+  <meta name="description" content="<%= config.description %>">
   <meta property="og:site_name" content="<%= config.title %>"/>
-  <% if(page.title) { %>
-      <meta property="og:type" content="article" />
-  <% } else { %>
-      <meta property="og:type" content="website" />
-  <% } %>
-  <% if (page.share_cover) { %>
-      <meta property="og:image" content="<%= config.url %><%= page.share_cover %>" />
-  <% } else if (config.cover) { %>
-      <meta property="og:image" content="<%= config.url %><%= config.cover %>"/>
-  <% } %>
+  <meta itemprop="image" content="<%= config.url %><%= theme.logo %>" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   <!-- Title -->
   <%
