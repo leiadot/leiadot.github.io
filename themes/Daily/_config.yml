@@ -5,7 +5,7 @@ favicon: /images/logo.ico
 description: 前端工程師技術分享
 url: codingwife.com
 logo: /images/logo.svg
-
+website_cover: /images/logo.png
 #gittalk
 gitalk:
   on: true
