@@ -3,6 +3,9 @@ language: node_js
 node_js: stable
 
 install:
+  - rm -rf node_modules
+  - rm package-lock.json
+  - npm cache clean
   - npm install
 
 script:
