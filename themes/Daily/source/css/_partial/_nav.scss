@@ -156,7 +156,7 @@
   display: flex;
   align-items: center;
   img{
-    width: 30px;
+    width: 80px;
     margin:0 2rem;
   }
 }
@@ -182,7 +182,9 @@ Contact
   background-size: cover;
   margin: 1rem;
   color:white;
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .logo {
