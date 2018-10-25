@@ -1,11 +1,9 @@
 language: node_js
 
-node_js: stable
+node_js: 
+  - "7"
 
 install:
-  - rm -rf node_modules
-  - rm package-lock.json
-  - npm cache clean
   - npm install
 
 script:
