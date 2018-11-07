@@ -1,10 +1,11 @@
 ---
-title: 【 前端書蟲日誌 】{{ title }}
+title: 【讀書筆記】{{ title }}
 date: {{ date }}
 tag:
-- 前端書蟲日誌
-- 2019鐵人賽
+- 讀書筆記
 categories: CodingLife
 photos:
   - '/img/cover/books.jpg'
 ---
+
+<!-- more -->
