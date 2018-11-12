@@ -28,6 +28,7 @@ i18n_dir: :lang
 skip_render:
 
 # Writing
+excerpt_length: 350
 new_post_name: :title.md # File name of new posts
 default_layout: post
 titlecase: false # Transform title into titlecase
@@ -40,6 +41,7 @@ future: true
 highlight:
   enable: true
   line_number: true
+  first_line_number: 'inline' # | 'always1'
   auto_detect: false
   tab_replace:
   
@@ -86,3 +88,46 @@ search:
   field: post
 sitemap:
     path: sitemap.xml
+
+# Markdown-it config
+## Docs: https://github.com/celsomiranda/hexo-renderer-markdown-it/wiki
+markdown:
+  render:
+    html: true # Doesn't escape HTML content so the tags will appear as html.
+    # xhtmlOut: false # Parser will not produce XHTML compliant code.
+    breaks: true # Parser produces `<br>` tags every time there is a line break in the source document.
+    langPrefix: ''
+    linkify: true # Returns text links as text.
+    typographer: true # Substitution of common typographical elements will take place.
+    quotes: '“”‘’' # "double" will be turned into “single”
+                   # 'single' will be turned into ‘single’
+  plugins:
+    - markdown-it-abbr
+    - name: markdown-it-container
+      options: success
+    - name: markdown-it-container
+      options: info
+    - name: markdown-it-container
+      options: warning
+    - name: markdown-it-container
+      options: danger
+    - markdown-it-deflist
+    - name: markdown-it-emoji
+      options:
+        shortcuts: {}
+    - markdown-it-footnote
+    - markdown-it-imsize
+    - markdown-it-ins
+    - markdown-it-mark
+    - markdown-it-regexp
+    - markdown-it-sub
+    - markdown-it-sup
+    - markdown-it-checkbox
+    - markdown-it-katex
+  anchors:
+    level: 1 # Minimum level for ID creation. (Ex. h2 to h6)
+    collisionSuffix: 'v' # A suffix that is prepended to the number given if the ID is repeated.
+    permalink: true # If true, creates an anchor tag with a permalink besides the heading.
+    permalinkClass: header-anchor # Class used for the permalink anchor tag.
+    permalinkSymbol: '' # The symbol used to make the permalink.
+    

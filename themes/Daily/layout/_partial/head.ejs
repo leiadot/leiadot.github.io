@@ -45,8 +45,8 @@
   %>
   <title><%= title.join(' - ') %></title>
 
-
-  <link rel="shortcut icon" href="<%- url_for(config.favicon || theme.favicon) %>">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+<link rel="shortcut icon" href="<%- url_for(config.favicon || theme.favicon) %>">
 
   <!-- Custom CSS/Sass -->
 <%- css('css/style') %>
