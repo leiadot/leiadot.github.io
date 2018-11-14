@@ -130,4 +130,7 @@ markdown:
     permalink: true # If true, creates an anchor tag with a permalink besides the heading.
     permalinkClass: header-anchor # Class used for the permalink anchor tag.
     permalinkSymbol: '' # The symbol used to make the permalink.
-    
+toc:
+  maxDepth: 3
+  slugify: false
+  list_number: false
