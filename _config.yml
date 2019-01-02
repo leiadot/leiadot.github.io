@@ -100,7 +100,7 @@ markdown:
     linkify: true # Returns text links as text.
     typographer: true # Substitution of common typographical elements will take place.
     quotes: '“”‘’' # "double" will be turned into “single”
-                   # 'single' will be turned into ‘single’
+                  # 'single' will be turned into ‘single’
   plugins:
     - markdown-it-abbr
     - name: markdown-it-container

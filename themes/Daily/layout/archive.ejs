@@ -12,15 +12,18 @@
 <!-- Main Content -->
 <div class="archive content-area">
   <div class="container">
-    <h1 class="page-title"><%- title %></h1>
+    <h1 class="page-title">
+      <%- title %>
+    </h1>
     <div class="row">
       <div class="archive-list-container">
         <!-- Use lodash to classify posts. See https://lodash.com/docs#groupBy
           1. group site.posts by year
           2. sort posts-in-one-year by Month and Day
+          3. page.posts / site.post
         -->
         <%
-          var groupObj = _.groupBy(site.posts.toArray(), function(p){return p.date.format('YYYY')});
+          var groupObj = _.groupBy(page.posts.toArray(), function(p){return p.date.format('YYYY')});
           var groupArr = [];
           for (var year in groupObj){
             var postsInThisYear = groupObj[year];
@@ -33,10 +36,12 @@
         %>
 
         <% groupArr.reverse().forEach(function(item) { %>
-          <h2 class="year"><%- item.year %></h2>
-          <ul class="list">
-            <%- partial('_partial/article-archive', {posts: item.posts}) %>
-          </ul>
+        <h2 class="year">
+          <%- item.year %>
+        </h2>
+        <ul class="list">
+          <%- partial('_partial/article-archive', {posts: item.posts}) %>
+        </ul>
         <% }) %>
       </div>
     </div>
