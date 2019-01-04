@@ -2,8 +2,7 @@
 title: 【JS30】Day01：JavaScript Drum Kit
 date: 2018-01-22
 tags:
-- JavaScript
-- JS30系列
+  - JS30系列
 categories: CodingLife
 photo:
 - '/img/js30day/small0.jpg'

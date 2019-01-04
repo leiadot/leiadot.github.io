@@ -1,7 +1,6 @@
 ---
 title: 【JS30】Day21：Geolocation based Speedometer and Compass
 tags:
-  - JavaScript
   - JS30系列
 date: 2018-03-27 16:20:57
 categories: CodingLife

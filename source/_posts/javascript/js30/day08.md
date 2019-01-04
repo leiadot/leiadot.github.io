@@ -1,8 +1,7 @@
 ---
 title: 【JS30】Day08：Fun with HTML5 Canvas
 tags:
-- JavaScript
-- JS30系列
+  - JS30系列
 date: 2018-02-18 11:39:39
 categories: CodingLife
 photo:

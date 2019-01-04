@@ -1,8 +1,7 @@
 ---
 title: 【JS30】Day12：Key Sequence Detection
 tags:
-- JavaScript
-- JS30系列
+  - JS30系列
 date: 2018-03-01 13:15:42
 categories: CodingLife
 photo:

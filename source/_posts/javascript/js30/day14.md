@@ -1,8 +1,7 @@
 ---
 title: 【JS30】Day14： JavaScript References VS Copying
 tags:
-- JavaScript
-- JS30系列
+  - JS30系列
 date: 2018-03-05 12:42:34
 categories: CodingLife
 photo:

@@ -1,11 +1,10 @@
 ---
-title: 【Github】不開 branch 使用 github page。
+title: 【Github】不開 branch 使用 github page
 tag:
   - github
-  - git
 categories: CodingLife
 photos:
-- '/img/cover/github.png'
+  - '/img/cover/github.png'
 date: 2018-07-23 09:43:36
 modified: 2018-07-23 09:43:36
 ---
@@ -21,17 +20,18 @@ modified: 2018-07-23 09:43:36
 
 ```js
 module.exports = {
-  build:{
-      // Template for index.html
-      index: path.resolve(__dirname, '../docs/index.html'),
+  build: {
+    // Template for index.html
+    index: path.resolve(__dirname, '../docs/index.html'),
 
-      // Paths
-      assetsRoot: path.resolve(__dirname, '../docs'),
-      assetsSubDirectory: 'static',
-      assetsPublicPath: './',
-  }
-}
+    // Paths
+    assetsRoot: path.resolve(__dirname, '../docs'),
+    assetsSubDirectory: 'static',
+    assetsPublicPath: './',
+  },
+};
 ```
+
 把`dist`更改為`docs`，把`assetsPublicPath`的設定更改為`./`。
 
 如此一來產出的資料夾就為`docs`，`assetsPublicPath`正常來說應該更改成`/`就可以，可是在 webpack 產出的`index.html`會有錯誤，`index.html`引用的路徑會變為`/static/..`，`index.html`會無法正確讀取到檔案，再來就是在 repo settings 的 github pages 更改為`master branch / docs folder` 就可以了。

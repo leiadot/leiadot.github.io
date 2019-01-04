@@ -1,7 +1,6 @@
 ---
 title: 【JS30】Day23：Speech Synthesis
 tags:
-  - JavaScript
   - JS30系列
 date: 2018-03-29 13:20:38
 categories: CodingLife

@@ -1,8 +1,7 @@
 ---
 title: 【JS30】Day15：LocalStorage
 tags:
-- JavaScript
-- JS30系列
+  - JS30系列
 date: 2018-03-06 09:41:48
 categories: CodingLife
 photo:

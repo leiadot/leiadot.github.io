@@ -1,7 +1,6 @@
 ---
 title: 【JS30】Day19：Unreal Webcam Fun
 tags:
-  - JavaScript
   - JS30系列
 date: 2018-03-22 13:42:37
 categories: CodingLife

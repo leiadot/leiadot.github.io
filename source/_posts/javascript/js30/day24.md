@@ -1,7 +1,6 @@
 ---
 title: 【JS30】Day24：Sticky Nav
 tags:
-  - JavaScript
   - JS30系列
 date: 2018-03-30 10:36:20
 categories: CodingLife

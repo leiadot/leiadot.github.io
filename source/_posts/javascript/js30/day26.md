@@ -1,7 +1,6 @@
 ---
 title: 【JS30】Day26：Stripe Follow Along Nav
 tags:
-  - JavaScript
   - JS30系列
 date: 2018-04-10 09:20:10
 categories: CodingLife

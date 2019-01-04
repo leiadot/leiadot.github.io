@@ -2,11 +2,10 @@
 title: 【ES6】陣列麻吉罵下篇：Sort、Every、Find、Some
 date: 2018-02-15
 tags:
-- ES6
-- JavaScript
+  - ES6
 categories: CodingLife
 photo:
-- '/img/cover/javascript.jpg'
+  - '/img/cover/javascript.jpg'
 ---
 
 在我們初學 Javascript ，最常用到的就是`for`迴圈，但當案子的複雜度增加，
@@ -19,19 +18,19 @@ photo:
 
 <!-- more -->
 
-*   Sort
-    使用 `sort` 將陣列中的元素排列至其應當的位置上並返回此陣列。
-*   Every
-    使用 `every` 遍歷陣列的每個元素，當陣列的元素只要有一個不符合函式條件，即回傳`false`，全部的元素都通過條件，即返回`true`。
-*   Find
-    `find` 遍歷陣列的每個元素，回傳陣列第一個符合函式條件的元素，callback隨即結束，若都不符合，則回傳`undefined`。
-*   Some
-    使用 `some` 遍歷陣列的每個元素，當陣列的元素只要有一個符合函式條件，即回傳`true`，陣列中全部的元素都不符合條件，即返回`false`。
+- Sort
+  使用 `sort` 將陣列中的元素排列至其應當的位置上並返回此陣列。
+- Every
+  使用 `every` 遍歷陣列的每個元素，當陣列的元素只要有一個不符合函式條件，即回傳`false`，全部的元素都通過條件，即返回`true`。
+- Find
+  `find` 遍歷陣列的每個元素，回傳陣列第一個符合函式條件的元素，callback 隨即結束，若都不符合，則回傳`undefined`。
+- Some
+  使用 `some` 遍歷陣列的每個元素，當陣列的元素只要有一個符合函式條件，即回傳`true`，陣列中全部的元素都不符合條件，即返回`false`。
 
 # sort
 
 ```js
-arr.sort([compareFunction])
+arr.sort([compareFunction]);
 ```
 
 `compareFunction`：指定函數來定義排序順序。
@@ -43,9 +42,9 @@ var items = [
   { name: 'And', value: 45 },
   { name: 'The', value: -12 },
   { name: 'Magnetic' },
-  { name: 'Zeros', value: 37 }
+  { name: 'Zeros', value: 37 },
 ];
-items.sort(function (a, b) {
+items.sort(function(a, b) {
   if (a.name > b.name) {
     return 1;
   }
@@ -55,14 +54,13 @@ items.sort(function (a, b) {
   // a must be equal to b
   return 0;
 });
-
 ```
 
-| 比較 a , b 元素 | 結果 |
-| --- | --- |
-| compareFunction(a, b) >0 | 將 `b` 排在比 `a` index還小處 |
-| compareFunction(a, b) =0 | 互相不改變順序 |
-| compareFunction(a, b) <0 | 將 `a` 排在比 `b` index還小處 |
+| 比較 a , b 元素          | 結果                           |
+| ------------------------ | ------------------------------ |
+| compareFunction(a, b) >0 | 將 `b` 排在比 `a` index 還小處 |
+| compareFunction(a, b) =0 | 互相不改變順序                 |
+| compareFunction(a, b) <0 | 將 `a` 排在比 `b` index 還小處 |
 
 ## every
 
@@ -70,23 +68,23 @@ items.sort(function (a, b) {
 arr.every(callback[, thisArg])
 ```
 
-*   callback
-    測試元素的函式，可帶入三個傳入參數。
-    *   element
-        目前被處理中的元素。
-    *   index 選填
-        目前被處理中元素的索引值。
-    *   array 選填
-        呼叫`every`的陣列本身。
-*   thisArg 選填
-    執行`function`的`this`。
+- callback
+  測試元素的函式，可帶入三個傳入參數。
+  - element
+    目前被處理中的元素。
+  - index 選填
+    目前被處理中元素的索引值。
+  - array 選填
+    呼叫`every`的陣列本身。
+- thisArg 選填
+  執行`function`的`this`。
 
 ```js
-function isBigEnough(element, index, array) { 
-  return element >= 10; 
-} 
+function isBigEnough(element, index, array) {
+  return element >= 10;
+}
 
-[12, 5, 8, 130, 44].every(isBigEnough);   // false 
+[12, 5, 8, 130, 44].every(isBigEnough); // false
 [12, 54, 18, 130, 44].every(isBigEnough); // true
 ```
 
@@ -99,16 +97,16 @@ function isBigEnough(element, index, array) {
 arr.find(callback[, thisArg])
 ```
 
-*   callback
-    測試元素的函式，可帶入三個傳入參數。
-    *   element
-        目前被處理中的元素。
-    *   index 選填
-        目前被處理中元素的索引值。
-    *   array 選填
-        呼叫`find`的陣列本身。
-*   thisArg 選填
-    執行`function`的`this`。
+- callback
+  測試元素的函式，可帶入三個傳入參數。
+  - element
+    目前被處理中的元素。
+  - index 選填
+    目前被處理中元素的索引值。
+  - array 選填
+    呼叫`find`的陣列本身。
+- thisArg 選填
+  執行`function`的`this`。
 
 ```js
 var array1 = [5, 12, 8, 130, 44];
@@ -119,7 +117,6 @@ var found = array1.find(function(element) {
 
 console.log(found);
 // expected output: 12
-
 ```
 
 `find`執行後，第一個符合`element > 10`條件的數值為`12`，
@@ -131,25 +128,24 @@ console.log(found);
 arr.some(callback[, thisArg])
 ```
 
-*   callback
-    測試元素的函式，可帶入三個傳入參數。
-    *   element
-        目前被處理中的元素。
-    *   index 選填
-        目前被處理中元素的索引值。
-    *   array 選填
-        呼叫`some`的陣列本身。
-*   thisArg 選填
-    執行`function`的`this`。
+- callback
+  測試元素的函式，可帶入三個傳入參數。
+  - element
+    目前被處理中的元素。
+  - index 選填
+    目前被處理中元素的索引值。
+  - array 選填
+    呼叫`some`的陣列本身。
+- thisArg 選填
+  執行`function`的`this`。
 
 ```js
 function isBiggerThan10(element, index, array) {
   return element > 10;
 }
 
-[2, 5, 8, 1, 4].some(isBiggerThan10);  // false
+[2, 5, 8, 1, 4].some(isBiggerThan10); // false
 [12, 5, 8, 1, 4].some(isBiggerThan10); // true
-
 ```
 
 因為第一個`isBiggerThan10`陣列全部不符合函式條件，所以回傳`false`，

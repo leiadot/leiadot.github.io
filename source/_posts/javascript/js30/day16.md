@@ -1,8 +1,7 @@
 ---
 title: 【JS30】Day16：Mouse Move Shadow
 tags:
-- JavaScript
-- JS30系列
+  - JS30系列
 date: 2018-03-12 10:28:03
 categories: CodingLife
 photo:

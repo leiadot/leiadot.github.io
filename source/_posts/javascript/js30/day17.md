@@ -1,8 +1,7 @@
 ---
 title: 【JS30】Day17：Sort Without Articles
 tags:
-- JavaScript
-- JS30系列
+  - JS30系列
 date: 2018-03-15 09:24:14
 categories: CodingLife
 photo:

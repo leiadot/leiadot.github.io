@@ -1,7 +1,6 @@
 ---
 title: 【JS30】Day22：Follow Along Link Highlighter
 tags:
-  - JavaScript
   - JS30系列
 date: 2018-03-28 10:31:37
 categories: CodingLife

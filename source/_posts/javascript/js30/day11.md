@@ -1,8 +1,7 @@
 ---
 title: 【JS30】Day11：Custom Video Player
 tags:
-- JavaScript
-- JS30系列
+  - JS30系列
 date: 2018-02-28 10:53:02
 categories: CodingLife
 photo:

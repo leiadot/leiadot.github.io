@@ -2,8 +2,7 @@
 title: 【JS30】Day02：CSS + JS Clock
 date: 2018-01-22
 tags:
-- JavaScript
-- JS30系列
+  - JS30系列
 categories: CodingLife
 photo:
 - '/img/js30day/small1.jpg'

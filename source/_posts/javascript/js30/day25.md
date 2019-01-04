@@ -1,7 +1,6 @@
 ---
 title: 【JS30】Day25：Event Capture, Propagation, Bubbling and Once
 tags:
-  - JavaScript
   - JS30系列
 date: 2018-04-09 09:57:27
 categories: CodingLife
