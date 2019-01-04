@@ -25,7 +25,6 @@
         }).slice(0, 6)
         repos = repos.filter(repo => repo.name !== "leiadot.github.io");
         var cardHtml = repos.map(function (item) {
-          console.log(item);
 
           var description = item.description || ""
           if (description.replace(/[\u0391-\uFFE5]/g, "aa").length > 72) {
