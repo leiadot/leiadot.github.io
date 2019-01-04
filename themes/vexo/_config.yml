@@ -1,0 +1,50 @@
+author: 日安 # 作者
+description: 對前端網頁技術、平面設計、社群傳播充滿熱忱，喜歡新鮮新奇的事物，熱愛美食。
+keyword: front-end, vuejs
+favicon: /css/images/logo.ico
+
+excerpt_link: Read more
+
+menu:
+  Home: /
+  Tags: /tags/
+  Archives: /archives/
+  Projects: /project/
+  About: /about/
+
+# highlight
+highlight: tomorrow
+
+# catalog
+catalog: true
+
+# comment
+# you can set gitment, uyan or disqus
+
+#gittalk
+gitalk:
+  on: true
+  owner: leiadot
+  repo: leiadot.github.io
+  admin: ['leiadot']
+  clientID: 51ce642a9a95d7ccdf4d
+  clientSecret: 6bf1657de06ee2fbaf452b4752567ab313277f50
+
+# uyan config
+# if you want to use uyan as your blog comment, plz remove/comment out gitment config
+baidu_id:
+
+about:
+  banner: /css/images/codingwife.png
+  avatar: /css/images/leia.png
+  description: 'Codingwife'
+  twitter_username:
+  github_username: leiadot
+  linkedin_username: leiadot
+  facebook_username: CodingWifeHy2
+
+# MathJax Support
+mathjax:
+  enable: true
+  per_page: false
+  cdn: //cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML
