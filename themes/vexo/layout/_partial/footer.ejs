@@ -1,45 +1,37 @@
 <footer class="app-footer">
   <p class="copyright">
-    &copy;
-    <%= new Date().getFullYear() %> | Proudly powered by <a
-      href="https://hexo.io"
-      target="_blank"
-    >Hexo</a>
+    &copy; <%= new Date().getFullYear() %> | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
   </p>
 </footer>
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe
-    src="https://www.googletagmanager.com/ns.html?id=GTM-K3MS95C"
-    height="0"
-    width="0"
-    style="display:none;visibility:hidden"
-  ></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
 <script>
-  function async (u, c) {
+  function async(u, c) {
     var d = document,
       t = 'script',
       o = d.createElement(t),
       s = d.getElementsByTagName(t)[0];
     o.src = u;
     if (c) {
-      o.addEventListener('load', function (e) {
-        c(null, e);
-      }, false);
+      o.addEventListener(
+        'load',
+        function(e) {
+          c(null, e);
+        },
+        false,
+      );
     }
     s.parentNode.insertBefore(o, s);
   }
 </script>
 <script>
-  async ("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function () {
+  async('//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js', function() {
     FastClick.attach(document.body);
-  })
+  });
 </script>
 
 <script>
   var hasLine = '<%- config.highlight["line_number"] %>';
-  async ("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function () {
-    $('figure pre').each(function (i, block) {
+  async('//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js', function() {
+    $('figure pre').each(function(i, block) {
       var figure = $(this).parents('figure');
       if (hasLine === 'false') {
         figure.find('.gutter').hide();
@@ -49,11 +41,14 @@
       var codeTag = document.createElement('code');
       codeTag.className = lang;
       codeTag.innerHTML = codeHtml;
-      $(this).attr('class', '').empty().html(codeTag);
+      $(this)
+        .attr('class', '')
+        .empty()
+        .html(codeTag);
       figure.attr('data-lang', lang.toUpperCase());
       hljs.highlightBlock(block);
     });
-  })
+  });
 </script>
 
 <%- js('js/script') %>
