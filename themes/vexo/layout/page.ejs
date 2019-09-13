@@ -1,7 +1,7 @@
 <div id="article-banner">
-  <h2>
+  <h1>
     <%- page.title %>
-  </h2>
+  </h1>
   <p class="post-date">
     <%- date(page.date, "YYYY-MM-DD") %>
   </p>
@@ -39,8 +39,7 @@
 <script>
   (function () {
     var url = '<%= config.url %>/<%= page.path %>';
-
-    var banner = '<%= page.banner %>'
+    var banner = '<%= page.photos %>'
     if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
       $('#article-banner').css({
         'background-image': 'url(' + banner + ')'
