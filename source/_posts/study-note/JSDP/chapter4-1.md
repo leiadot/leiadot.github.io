@@ -4,21 +4,25 @@ tag:
   - 讀書筆記
   - JSDP
 categories: CodingLife
+urlname: javascript-design-pattern-function01
 photos:
   - /img/cover/books.jpg
 date: 2018-11-07 17:49:58
 ---
 
 <!-- more -->
+
 接下來會學習到不同定義的函式，首先是函式表達式和函式宣告式，接著看函式作用域與 hosting 如何運作。
 
 # 背景
 
 JavaScript 有兩個主要特色：
+
 - 函式屬於 JavaScript 第一級物件（first-class object）
 - 函式提供作用域
 
 函式也是物件：
+
 - 可在執行期、程式執行的過程中動態建立
 - 可以指定給變數，也可將參考複製給其他變數，可以被擴充，而且除了少數其他狀況外，也可以被刪除
 - 可以作為參數傳遞給其他韓式，也可以作為其他函式的回傳值
@@ -26,15 +30,16 @@ JavaScript 有兩個主要特色：
 
 使用 Function 建構式跟使用 eval 一樣糟糕，因為程式碼使用字串的形式傳遞並執行，就必須跳脫字元，如此讀寫都很不方便。
 
-JavaScript 中沒有大括號內的區域作用域，沒有區塊範圍，區塊並不產生有效的作用域，JavaScript 只有函式作用域，任何在函式裡面宣告的var 變數 都是區域變數。
+JavaScript 中沒有大括號內的區域作用域，沒有區塊範圍，區塊並不產生有效的作用域，JavaScript 只有函式作用域，任何在函式裡面宣告的 var 變數 都是區域變數。
 
 # 釐清術語的差別
 
 ```jsx
-var add = function(a, b){
-	return a + b;
+var add = function(a, b) {
+  return a + b;
 };
 ```
+
 具名的函式表示式，又稱匿名函式，與函式宣告式的差別是函式物件的 name 屬性會是個空字串，具名的函式表示式和函式宣告式看起來類似，但表示式在結尾需要分號，而表達式不用。
 
 函式實字也是常用的術語，但他可能代表函式表示式也可能代表具名韓式表示式，模凌兩可，最好不要用此術語。
@@ -57,32 +62,31 @@ name 屬性也會用來遞迴呼叫自己，或是在除錯工具中顯示函式
 所有變數無論被定義在函式中哪處，都會在幕後被提升到函式最前端。
 
 ```jsx
-function foo(){
-	console.log('global foo')
+function foo() {
+  console.log('global foo');
 }
-function bar(){
-	console.log('global bar');
+function bar() {
+  console.log('global bar');
 }
-function hoistMe(){
-	console.log(typeof foo); // 'function'
-	console.log(typeof bar); //'undefined'
-	
-	foo(); // local foo
-	bar(); // TypeError:bar is not function
-	
-	function foo(){
-		console.log('local foo');
-	}
-	// 變數 foo 和實作都被提升
-	
-	var bar = function(){
-		console.log('local bar');
-	}
-	// 僅有變數 bar 被提升，不包含實作，所以是 undefined
+function hoistMe() {
+  console.log(typeof foo); // 'function'
+  console.log(typeof bar); //'undefined'
+
+  foo(); // local foo
+  bar(); // TypeError:bar is not function
+
+  function foo() {
+    console.log('local foo');
+  }
+  // 變數 foo 和實作都被提升
+
+  var bar = function() {
+    console.log('local bar');
+  };
+  // 僅有變數 bar 被提升，不包含實作，所以是 undefined
 }
 
 hoistMe();
-
 ```
 
 # 回呼模式
@@ -102,22 +106,23 @@ hoistMe();
 有個函式做了一個工作，可能是一些初始化，接著就對其回傳值工作，回傳值剛好是另一個函式：
 
 ```jsx
-var setup = function(){
-	alert(1);
-	return function(){
-		alert(2)
-	}
-}
+var setup = function() {
+  alert(1);
+  return function() {
+    alert(2);
+  };
+};
 var my = setup();
 my();
 ```
+
 ```jsx
-var setup = function(){
-	var count = 0;
-	return function(){
-		return (count+=1);
-	}
-}
+var setup = function() {
+  var count = 0;
+  return function() {
+    return (count += 1);
+  };
+};
 var next = setup();
 next(); //1
 next(); //2
@@ -130,12 +135,12 @@ next(); //4
 函式可以動態建立，且可以指派給變數。建立新函式，並指派給同一個變數，此變數原本指向的舊函數就會被覆蓋成新的。
 
 ```jsx
-var scareMe = function(){
-	alert('boo!');
-	scareMe = function(){
-		alert('double boo!');
-	}
-}
+var scareMe = function() {
+  alert('boo!');
+  scareMe = function() {
+    alert('double boo!');
+  };
+};
 scareMe();
 scareMe();
 ```
@@ -145,19 +150,20 @@ scareMe();
 此函數的缺點在它重新定義自身之前你加到原始函式的屬性都會遺失，如果使用不同名稱，例如新函式指派給另一個變數或是物件的另一個方法，那重新定義的部分就不會執行，而原始的函式本體就會執行。
 
 以另一個例子來說，這次 `scareMe()` 函式要用第一級物件的使用方式：
+
 - 加入一個新的屬性
 - 將函式物件指派給新變數
 - 函式也作為方法使用
 
 ```jsx
 // 1.加入一個新屬性
-scareMe.property = "properly"
+scareMe.property = 'properly';
 // 2.賦值給一個不同名稱
 var prank = scareMe;
 // 3.作為一個方法來使用
 var spooky = {
-	boo: scareMe
-}
+  boo: scareMe,
+};
 
 // 用新的名稱呼叫
 
@@ -184,6 +190,7 @@ console.log(scareMe.property); //undefined
 
 此模式本質上是一個函數表示式，並在定義後立刻執行。
 立即函式由下面部分所組成：
+
 - 用函式表示式定義函式
 - 在函式最後加上括號，這樣會讓函式立刻執行
 - 整個函式包在括號中（如果不將函式賦予給一個值才需要）
@@ -199,17 +206,17 @@ console.log(scareMe.property); //undefined
 立即函式可以有回傳值，而這些函式可以賦值給變數：
 
 ```jsx
-var result = (function (){
-		return 2+2;
-	}());
+var result = (function() {
+  return 2 + 2;
+})();
 ```
 
 或是省略包著函式的括號，因為將立即函式的回傳值賦值給變數時不需要括號。
 
 ```jsx
-var result = function(){
-		return 2+2; //4
-	}();
+var result = (function() {
+  return 2 + 2; //4
+})();
 ```
 
 但可能會誤導，因為沒注意函式後面的括號，可能會以為 result 指向的是函式，但其實 result 是立即函式的回傳值。
@@ -217,35 +224,32 @@ var result = function(){
 但除了原始型別外，立即函式可以回傳任何型別的值，包含回傳函式，如此就可以利用立即函式私有的作用域儲存 private 資料。
 
 這個範例中，立即函式回傳是一個函式，他會賦值給變數 getResult ，作用是簡單回傳 res ，它已經預先算好，存在立即函式的 closure。
-```jsx
-var getResult = (function (){
-	var res = 2 + 2 ;
-	return function (){
-		return res;
-	};
-}());
 
+```jsx
+var getResult = (function() {
+  var res = 2 + 2;
+  return function() {
+    return res;
+  };
+})();
 ```
 
 立即函式也可以用來定義物件屬性，假設你需要一個屬性，但在定義之前需要一些運算才能得到正確的值，而立即函式的回傳值就成為該屬性的值。
 
-
 ```jsx
 var o = {
-	msg: (function () {
-		var who = "me";
-			what = "call";
-		return what + " " + who;
-	}()),
-	getMsg: function(){
-		return this.msg;
-	}
-	
-}
+  msg: (function() {
+    var who = 'me';
+    what = 'call';
+    return what + ' ' + who;
+  })(),
+  getMsg: function() {
+    return this.msg;
+  },
+};
 
-o.msg //call me
-o.getMsg //call me
-
+o.msg; //call me
+o.getMsg; //call me
 ```
 
 ## 優點及用法

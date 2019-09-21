@@ -3,9 +3,10 @@ title: 【JS30】Day16：Mouse Move Shadow
 tags:
   - JS30系列
 date: 2018-03-12 10:28:03
+urlname: javascript-30-day16
 categories: CodingLife
 photo:
-- '/img/js30day/small15.jpg'
+  - '/img/js30day/small15.jpg'
 ---
 
 > [javascript 30day](https://javascript30.com/)
@@ -15,11 +16,13 @@ photo:
 ### <span style="color:#ff5900">目標：滑鼠移動時，CSS 的陰影跟著移動。</span>
 
 ## 一、設立目標區域
+
 ```js
 const hero = document.querySelector('.hero');
 const text = hero.querySelector('h1');
 ```
-```js        
+
+```js
 function shadow(e) {
     const {
         offsetWidth: width,
@@ -38,6 +41,7 @@ function shadow(e) {
     }
     // 如果在目標區域外 則加入目標座標值
 ```
+
 ## 二、設定偏移量
 
 ```js
@@ -57,5 +61,7 @@ text.style.textShadow =
 
 hero.addEventListener('mousemove', shadow);
 ```
+
 ## 使用技巧
+
 - 解構賦值

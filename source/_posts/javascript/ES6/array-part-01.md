@@ -1,5 +1,6 @@
 ---
 title: 【ES6】陣列麻吉罵上篇：ForEach、Filter、Map、Reduce
+urlname: javascript-es6-array-part01
 date: 2018-02-05
 tags:
   - ES6
@@ -27,7 +28,7 @@ photo:
 - reduce()
   使用 `reduce` 把陣列內的內容組合並最終回傳一個結果。
 
-# forEach
+## forEach
 
 ```js
 arr.forEach(function callback(currentValue[, index[, array]]) {
@@ -69,7 +70,7 @@ items.forEach(function(item) {
 
 比較下來，forEach 跟 for 迴圈是有同樣效果，但 forEach 省略一長串的寫法。
 
-# filter
+## filter
 
 ```js
 var newArray = arr.filter(callback[, thisArg])
@@ -117,7 +118,7 @@ console.log(result);
 
 使用 filter，跟原 for 比較，省略使用 if、push 的方法，且程式碼更為乾淨簡潔。
 
-# map
+## map
 
 ```js
 var new_array = arr.map(function callback(currentValue[, index[, array]]) {
@@ -155,7 +156,7 @@ var reformattedArray = kvArray.map(obj => {
 使用 map，map 會給你一組一樣長度的新陣列，filter 同樣產生一個新陣列，
 但因新陣列僅有符合 function 檢驗的元素（陣列長度不一定相同）。
 
-# reduce
+## reduce
 
 ```js
 arr.reduce(callbackFn[(accumlator, currentValue, currentIndex, array)], initialValue);

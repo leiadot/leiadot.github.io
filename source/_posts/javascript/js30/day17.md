@@ -3,9 +3,10 @@ title: 【JS30】Day17：Sort Without Articles
 tags:
   - JS30系列
 date: 2018-03-15 09:24:14
+urlname: javascript-30-day17
 categories: CodingLife
 photo:
-- '/img/js30day/small16.jpg'
+  - '/img/js30day/small16.jpg'
 ---
 
 > [javascript 30day](https://javascript30.com/)
@@ -17,13 +18,12 @@ photo:
 ## 一、排序陣列
 
 ```js
-const sortedBands = band.sort(function(a,b){
-  if(a > b){
-    return 1
-  }else{
-    return -1
-  };
-
+const sortedBands = band.sort(function(a, b) {
+  if (a > b) {
+    return 1;
+  } else {
+    return -1;
+  }
 });
 ```
 
@@ -42,14 +42,15 @@ function strip(bandName) {
 ```js
 const sortedBands = bans.sort((a,b)=> strip(a):strip(b) ? 1:-1);
 ```
+
 這邊使用三元運算子及箭頭函式。
 
 ## 四、渲染 DOM
 
 ```js
-document.querySelector('#bands').innerHTML = 
-      sortedBands.map(band => `<li>${band}</li>`).join('');
+document.querySelector('#bands').innerHTML = sortedBands.map(band => `<li>${band}</li>`).join('');
 ```
+
 這邊加上`join();`是因為在陣列裡面，字串的區隔是逗號，
 如果不寫入`join`，則會把逗號一起渲染。
 

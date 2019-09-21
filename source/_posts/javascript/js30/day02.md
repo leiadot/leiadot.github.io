@@ -1,11 +1,12 @@
 ---
 title: 【JS30】Day02：CSS + JS Clock
 date: 2018-01-22
+urlname: javascript-30-day02
 tags:
   - JS30系列
 categories: CodingLife
 photo:
-- '/img/js30day/small1.jpg'
+  - '/img/js30day/small1.jpg'
 ---
 
 > [javascript 30day](https://javascript30.com/)
@@ -25,37 +26,36 @@ transform: rotate(90deg);
 // 改變角度，使指針以 12 點鐘方向為起始
 transition-timing-function: cubic-bezier(0.1, 2.7, 0.25, 1);
 // 利用貝茲曲線製造出指針動態的彈出效果
-
 ```
 
 ## 二、取得當下時間
 
 ```js
 function setDate() {
-    const now = new Date();
+  const now = new Date();
 
-    const seconds = now.getSeconds();
-    // 取得秒數
-    const secondsDegree = ((seconds / 60) * 360) + 90;
-    // 計算角度
-    secondsHand.style.transform = `rotate(${secondsDegree}deg)`;
-    // 使用style transform 動態改變角度
+  const seconds = now.getSeconds();
+  // 取得秒數
+  const secondsDegree = (seconds / 60) * 360 + 90;
+  // 計算角度
+  secondsHand.style.transform = `rotate(${secondsDegree}deg)`;
+  // 使用style transform 動態改變角度
 
-    const mins = now.getMinutes();
-    const minsDegree = ((mins / 60) * 360) + 90;
-    minsHand.style.transform = `rotate(${minsDegree}deg)`;
+  const mins = now.getMinutes();
+  const minsDegree = (mins / 60) * 360 + 90;
+  minsHand.style.transform = `rotate(${minsDegree}deg)`;
 
-    const hour = now.getHours();
-    const hourDegree = ((mins / 12) * 360) + 90;
-    hourHand.style.transform = `rotate(${hourDegree}deg)`;
-
+  const hour = now.getHours();
+  const hourDegree = (mins / 12) * 360 + 90;
+  hourHand.style.transform = `rotate(${hourDegree}deg)`;
 }
 
 setInterval(setDate, 1000);
 // 每秒執行一次 setDate function
 ```
+
 ## 使用技巧
 
-*   newDate
-*   transform
-*   el.style.styleAttribute
+- newDate
+- transform
+- el.style.styleAttribute

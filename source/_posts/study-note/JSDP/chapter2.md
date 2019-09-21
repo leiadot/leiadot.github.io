@@ -4,14 +4,18 @@ tag:
   - 讀書筆記
   - JSDP
 categories: CodingLife
+urlname: javascript-design-pattern-chapter02
 photos:
-- '/img/cover/books.jpg'
+  - '/img/cover/books.jpg'
 date: 2018-11-07 17:45:13
 ---
+
 <!--more-->
+
 # 撰寫可維護的程式碼
 
 容易維護的程式碼必須具備下列條件：
+
 - 可讀性
 - 一致性
 - 可預料的
@@ -28,9 +32,11 @@ JavaScript 使用函數來管理作用域。
 每種 JavaScript 執行環境都有全域物件，在函式作用域之外用`this`就可以存取得到，所有建立的全域變數都會成為全域物件的屬性。
 
 # 全域變數的問題
+
 因為都存在在相同的全域命名空間，會有命名衝突的問題，之後會學習到命名空間模式，和自我執行的立即執行函式。
 
 不小心建立全域變數的兩個狀況
+
 - 未宣告就使用變數，會自動為全域物件的屬性。
 - 連續賦值（`var a = b = 0;`，a 為區域變數，b 為全域變數）。
 
@@ -50,6 +56,7 @@ JavaScript 使用函數來管理作用域。
 # 單一 var 模式
 
 在函式最開頭使用單一 var 述句是個非常有用的模式：
+
 - 再找所有函式所需的變數，只需找一個地方就好。
 - 避免未宣告就使用變數所造成的邏輯錯誤。
 - 盡少使用全域變數
@@ -62,6 +69,7 @@ JavaScript 使用函數來管理作用域。
 JavaScript 允許一個函式內有多個 var 述句，並放在任何位置，他們的行為跟在函式頂端宣告一樣，此行為叫做 Hosting（提升）。
 
 程式碼會進行兩個處理：
+
 - 第一階段：語法分析和讀取內容，將產生變數、函數宣告，以及函式參數。
 - 第二階段：執行時期，將產生函式表達式和不合格識別字。但為特殊目的，有時我們仍可以採用 hosting 概念。
 
@@ -95,26 +103,27 @@ function looper(){
 
 ```jsx
 var man = {
-	hands: 2,
-	legs: 2,
-	head: 1
-}
-if(typeof Object.prototype.clone === 'undefined'){
-	Object.prototype.clone = function (){ console.log('hi')}
+  hands: 2,
+  legs: 2,
+  head: 1,
+};
+if (typeof Object.prototype.clone === 'undefined') {
+  Object.prototype.clone = function() {
+    console.log('hi');
+  };
 }
 
-for (var i in man){
-
-	if(man.hasOwnProperty(i)){
-		console.log(i,':',man[i])
-	}
+for (var i in man) {
+  if (man.hasOwnProperty(i)) {
+    console.log(i, ':', man[i]);
+  }
 }
 // hands : 2
 // legs : 2
 // head : 1
-// 
-for (var i in man){
-	console.log(i,':',man[i])
+//
+for (var i in man) {
+  console.log(i, ':', man[i]);
 }
 // hands : 2
 // legs : 2
@@ -141,6 +150,7 @@ for (i in man){
 如果擴充`Object()`、`Array()`，或是`Function()`，可能會讓程式碼難以預測。
 
 以下可破例的狀況：
+
 - 可預期 ECMA 將你新增的方法實作為未來瀏覽器可能有用的功能
 - 你確定你的方法在原生的 prototype 不存在，也沒有在其他程式碼中被實作過。
 - 你已經清楚與你的團隊溝通這個變更並文件化
@@ -155,7 +165,7 @@ for (i in man){
 
 # 避免隱含的型別轉換
 
-JavaScript 在比較變數時會做隱含的型別轉換，例如：`false == 0 `或`"" == 0`皆會回傳 true 。
+JavaScript 在比較變數時會做隱含的型別轉換，例如：`false == 0`或`"" == 0`皆會回傳 true 。
 
 建議皆使用 `===` 和 `!==` 以維持程式碼的一致性，也可以減少一些精神閱讀。
 
@@ -171,7 +181,7 @@ eval 會將傳入的字串當作程式碼執行，同樣傳遞字串給 `setInte
 
 # 使用 parseInt() 轉型成數值
 
-使用 ` parseInt()` 將一個字串轉換成數值，第二個參數是轉型用的基數，第二個參數通常會被忽略，然而不該如此。
+使用 `parseInt()` 將一個字串轉換成數值，第二個參數是轉型用的基數，第二個參數通常會被忽略，然而不該如此。
 如果當要轉換的字串開頭為 0 時，而又忽略第二個參數，基數可能為 `10` 或 `8` ，具體狀況則要根據瀏覽器環境而決定。
 
 將字串轉為數值也可使用`Number()`。
@@ -190,10 +200,10 @@ eval 會將傳入的字串當作程式碼執行，同樣傳遞字串給 `setInte
 
 有些狀況下會因為括號的位置造成程式執行結果不同，影響原因是因為**分號插入機制**，如果在行尾遺漏分號，JavaScript 會自動補齊，但應該永遠在行尾加入分號，避免 JavaScript 隱晦的補上，而導致程式碼有含糊之處。
 
-
 ## 空格
 
 建議使用空格的地方：
+
 - 區隔 for 迴圈各部分分號之後
 - for 迴圈，初始化多個變數之間
 - 區隔 array 物件的逗號之後
@@ -219,9 +229,10 @@ eval 會將傳入的字串當作程式碼執行，同樣傳遞字串給 `setInte
 在整個程式的生命週期都不會變動的常數，可採用全大寫的命名方式。
 還有一種 private 成員命名慣例是在屬性和方法前面加上底線，以表示為 private 。
 
-下方為其他 _private 規範的變化：
+下方為其他 \_private 規範的變化：
+
 - 在變數尾巴加上底線表示。
-- 用一個底線的前綴作為 _protected 屬性、用兩個底線作為 __private 屬性。
+- 用一個底線的前綴作為 \_protected 屬性、用兩個底線作為 \_\_private 屬性。
 - Firefox 有一些內部屬性命名前後都會加上兩個底線。
 
 ## 撰寫註解
@@ -233,15 +244,18 @@ eval 會將傳入的字串當作程式碼執行，同樣傳遞字串給 `setInte
 # 撰寫 API 文件
 
 推薦工具：
+
 - JSDoc Toolkit
 - YUIDoc
 
 API 文件生成
+
 - 發布工具產生的結果（通常是 HTML 頁面）
 - 撰寫特別格式的程式碼
 - 執行工具來分析程式碼和註解
 
 練習寫註解區塊：
+
 ```
 /**
  * 反轉一個字串
@@ -249,10 +263,10 @@ API 文件生成
  * @param {String} 輸入字串來做反轉
  * @return {String} 反轉後的字串
  */
- 
+
 var reverse = function (input){
 	// ...
 	return output;
 }
-	
+
 ```

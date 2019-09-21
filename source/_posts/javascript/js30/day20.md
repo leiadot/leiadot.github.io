@@ -3,9 +3,10 @@ title: 【JS30】Day20：Native Speech Recognition
 tags:
   - JS30系列
 date: 2018-03-23 09:30:03
+urlname: javascript-30-day20
 categories: CodingLife
 photo:
-- '/img/js30day/small19.jpg'
+  - '/img/js30day/small19.jpg'
 ---
 
 > [javascript 30day](https://javascript30.com/)
@@ -20,8 +21,8 @@ window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecogn
 
 作業一開始已經先將全域語音辨識指定好，這次練習也要啟用本地端 server 。
 
-
 ## 一、建立語音辨識物件
+
 ```js
 const recognition = new SpeechRecognition();
 // 建立一個變數為語音辨識
@@ -43,27 +44,25 @@ words.appendChild(p);
 三、整合語音資訊到輸入區域
 
 ```js
-
 recognition.addEventListener('result', e => {
-    // 監聽識別後的結果回傳資料
-    const transcript = Array.from(e.results)
+  // 監聽識別後的結果回傳資料
+  const transcript = Array.from(e.results)
     // 因為得到的是 nodelist ，所以先轉為陣列
-        .map(result => result[0])
-        // 透過陣列取得資料中的第一筆
-        .map(result => result.transcript)
-        // 再取出第一筆中的 transcript 資料
-        .join('');
-        // 使用 join 取消連結符號
+    .map(result => result[0])
+    // 透過陣列取得資料中的第一筆
+    .map(result => result.transcript)
+    // 再取出第一筆中的 transcript 資料
+    .join('');
+  // 使用 join 取消連結符號
 
+  p.textContent = transcript;
+  // 將回傳的文字內容放入段落中
 
-    p.textContent = transcript;
-    // 將回傳的文字內容放入段落中
-
-    if (e.results[0].isFinal) {
-      // 假設回傳內容結束 則放入一個新段落到輸入區域中
-        p = document.createElement('p');
-        words.appendChild(p);
-    }
+  if (e.results[0].isFinal) {
+    // 假設回傳內容結束 則放入一個新段落到輸入區域中
+    p = document.createElement('p');
+    words.appendChild(p);
+  }
 });
 
 recognition.addEventListener('end', recognition.start);
@@ -73,4 +72,5 @@ recognition.start();
 ```
 
 ## 使用技巧
+
 - SpeechRecognition.interimResults

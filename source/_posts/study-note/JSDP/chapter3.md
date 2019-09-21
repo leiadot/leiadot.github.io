@@ -4,6 +4,7 @@ tag:
   - 讀書筆記
   - JSDP
 categories: CodingLife
+urlname: javascript-design-pattern-construction
 photos:
   - /img/cover/books.jpg
 date: 2018-11-07 17:49:00
@@ -31,10 +32,10 @@ date: 2018-11-07 17:49:00
 JavaScript 沒有 class，但有建構函式，它使用非常類似其他語言以 class 為基礎的物件建立語法。
 
 ```jsx
-var car = {goes: "far"};
+var car = { goes: 'far' };
 // 實字
 var car = new Object();
-car.goes = "far";
+car.goes = 'far';
 //建構式
 ```
 
@@ -43,34 +44,34 @@ car.goes = "far";
 # 自訂建構式
 
 以 `new` 來呼叫建構式，會經過以下流程：
+
 - 建立一個空物件，參考至 this 變數，並繼承此函式的原型
 - 藉由 this 的參考，將屬性和方法加入到此物件
 - 這個 this 所參考的物件，會隱晦地回傳出去
 
-
 如下
+
 ```jsx
-var Person = function(name){
+var Person = function(name) {
+  // 使用物件實字
+  // 建立一個空物件
+  // var this = {};
 
-	// 使用物件實字
-	// 建立一個空物件
-	// var this = {};
+  this.name = name;
+  this.say = function() {
+    return "I'm" + this.name;
+  };
 
-	this.name = name;
-	this.say = function(){
-		return "I'm" + this.name;
-	};
-	
-	//return this;
-	//隱晦回傳
-}
+  //return this;
+  //隱晦回傳
+};
 ```
 
 將 `say()` 方法加入 this ，每次呼叫 `new Person()` 一次，一個新的函式就會建立在記憶體中，這樣是非常消耗效能的，較好的方法是加入到原型中：
 
 ```jsx
-Person.prototype.say = function(){
-	return "I am" + this.name;
+Person.prototype.say = function() {
+  return 'I am' + this.name;
 };
 ```
 
@@ -86,14 +87,16 @@ Person.prototype.say = function(){
 建構式只是用 `new` 呼叫，但本質還是函式，如果忘記加上 `new`，建構式中的 `this` 會指向全域物件，例如在瀏覽器中會指向 window ，這樣的行為如同替全域物件加上屬性，因此必須要使用 `new` 呼叫建構式。
 
 # 命名慣例
+
 建構式的名字首部大寫，其他一般函式則首字小寫。
 
 # 使用 that
+
 ```jsx
-function Wattle(){
-	var that = {};
-	that.tasts = 'yummy';
-	return that;
+function Wattle() {
+  var that = {};
+  that.tasts = 'yummy';
+  return that;
 }
 ```
 
@@ -112,12 +115,13 @@ function Wattle(){
 # 自我呼叫的建構式
 
 為了解決前一個模式的問題，讓物件實體可以使用原型可以考慮以下方法：
+
 ```jsx
-function Waffle(){
-	if(!(this instanceof Waffle)){
-		return new Waffle();
-	}
-	this.tastes = "yummy";
+function Waffle() {
+  if (!(this instanceof Waffle)) {
+    return new Waffle();
+  }
+  this.tastes = 'yummy';
 }
 Waffle.prototype.wantAnother = true;
 ```
@@ -134,17 +138,17 @@ Waffle.prototype.wantAnother = true;
 
 JSON 和物件實字在語法上唯一不同是 JSON 屬性名稱須用引號包起來，對於物件實字，屬性名稱只有在不合法的狀況下才需要包，例如中間穿插空格。在 JSON 中不可以使用函式及正規表示式實字。
 
-
 # 正規表示式實字
 
 JavaScript 的正規表示式也是一種物件，可以透過兩種方式建立：
+
 - 使用 new RegExp() 建構式
 - 使用正規表示式實字
 
 ```jsx
 var re = /\\/gm;
 //實字
-var re = new RegExp("\\\\","gm");
+var re = new RegExp('\\\\', 'gm');
 ```
 
 使用正規表示式實字符號需要跳脫字元，甚至經常需要兩個反斜線。
@@ -152,11 +156,13 @@ var re = new RegExp("\\\\","gm");
 # 正規表示式實字語法
 
 正規實字符號使用斜線（"/"）來包住檢查對應的正規表示格式，第二個斜線後面可以加入格式的修飾詞，修飾詞的格式是不加引號的字母：
+
 - g：全域檢查
 - m：檢查多行
 - i：不分大小寫
 
 使用實字和建構式之間的差異：
+
 - 遇到接受正規表示物件的函數（String.prototype.replace()），使用實字可以讓程式碼更簡潔
 - 正規表示格式無法事先得知，而是要在執行階段才能知道，可使用建構式。
 - 實字在語法解析時就已產生，而且只產生一個物件。如果在迴圈中使用同樣的正規表示式，前面建立的物件就會回傳，而且保留已設定過的所有屬性。
@@ -184,9 +190,8 @@ typeof greeting.smile; //undefined
 # 錯誤物件
 
 JavaScript 有數個內建的錯誤物件，隨著 thorow 敘述一起使用：Error()、SyntaxError()、TypeError() 等等，這些錯誤物件具有下列屬性：
+
 - name：建立錯誤物件的建構式函式名稱
 - message：建立錯誤物件時傳遞給建構式的字串
 
 throw 可以跟任何物件一起運作，不一定是錯誤物件，可搭配 `catch` 敘述去處理資訊，錯誤物件的建構式如果沒有用 new 呼叫，結果會跟使用建構式呼叫一樣。
-
-

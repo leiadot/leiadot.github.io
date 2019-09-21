@@ -3,9 +3,10 @@ title: 【Webpack】認識 webpack
 tags:
   - Webpack
 date: 2018-03-19 13:43:56
+urlname: webpack-4-first-try
 categories: CodingLife
 photo:
-- '/img/cover/webpack.png'
+  - '/img/cover/webpack.png'
 ---
 
 新手從無到有，初探 webpack 的心得。
@@ -20,10 +21,8 @@ webpack 的基本介紹、比較，以及如何運用相關套件簡單運行。
 
 > At its core, webpack is a static module bundler for modern JavaScript applications. When webpack processes your application, it recursively builds a dependency graph that includes every module your application needs, then packages all of those modules into one or more bundles.
 
-
-webpack ，簡單來說就是一個模組打包工具，可以將開發中的資料，如html 文件、sass、圖片等資料，
+webpack ， 簡單來說就是一個模組打包工具，可以將開發中的資料，如 html 文件、sass、圖片等資料，
 模組化，利用`loader`、`plugin`轉換成瀏覽器可以閱讀的資料並打包。
-
 
 ## 比較
 
@@ -72,6 +71,7 @@ entry point: (index.js)
 test command:
 git repository:
 ```
+
 接下來在`webpack-demo`下面出現`package.json`。
 
 ```json
@@ -87,6 +87,7 @@ git repository:
   "license": "ISC"
 }
 ```
+
 這些都是關於這個專案的內容，可以根據專案狀況更改。
 
 ```
@@ -132,7 +133,6 @@ $ webpack ./src/app.js --output ./dist/app.bundle.js
 `app.bundle.js`
 ![](/img/webpack/webpack01.png)
 
-
 ## webpack 指令
 
 ### watch
@@ -140,6 +140,7 @@ $ webpack ./src/app.js --output ./dist/app.bundle.js
 ```
 webpack --watch ./src/app.js ./dist/app.bundle.js
 ```
+
 `watch`指令可以監聽檔案狀況做變更。
 
 ```
@@ -157,7 +158,7 @@ $ webpack --help
 假設你只有在專案上面安裝 webpack，則輸入
 
 ```
-$ npx webpack --help 
+$ npx webpack --help
 ```
 
 ## 配置 webpack
@@ -168,10 +169,11 @@ $ npx webpack --help
 module.exports = {
   entry: './src/app.js',
   output: {
-    filename: './app.bundle.js'
-  }
+    filename: './app.bundle.js',
+  },
 };
 ```
+
 `entry`為 source code，`output`是輸出的目標文件，配置完後，在 terminal 輸入 `webpack` 即可運行。
 
 ## 快速下 webpack 指令
@@ -205,12 +207,14 @@ $ npm install webpack-cli -d
 ```
 $ npm run build
 ```
+
 則會運行`webpack -d --watch`。
+
 ```
 $ npm run prod
 ```
+
 則會運行`webpack -p`。
 
 使用`script`指令的好處是把所有命令集中在一起，方便維護查看，
 其他開發者只要看`package.json`就可以知道大概運行的開發指令是什麼。
-

@@ -3,9 +3,10 @@ title: 【JS30】Day29：Countdown Timer
 tags:
   - JS30系列
 date: 2018-04-17 10:44:11
+urlname: javascript-30-day29
 categories: CodingLife
 photo:
-- '/img/js30day/small28.jpg'
+  - '/img/js30day/small28.jpg'
 ---
 
 > [javascript 30day](https://javascript30.com/)
@@ -26,11 +27,11 @@ const endTime = document.querySelector('.display__end-time');
 const buttons = document.querySelectorAll('[data-time]');
 // 計數時間按鈕
 ```
+
 ## 二、設定計數器
 
 ```js
 function timer(seconds) {
-
   clearInterval(countdown);
   // 重啟計數器，清除原本計數的設定
   const now = Date.now();
@@ -44,7 +45,7 @@ function timer(seconds) {
     // 每秒更新一次計數器
     const secondsLeft = Math.round((then - Date.now()) / 1000);
     // 要倒數的總時
-    if(secondsLeft < 0) {
+    if (secondsLeft < 0) {
       clearInterval(countdown);
       return;
     }
@@ -59,7 +60,7 @@ function displayTimeLeft(seconds) {
   // 轉換分鐘數
   const remainderSeconds = seconds % 60;
   // 用 % 取得扣除分鐘數的秒數
-  const display = `${minutes}:${remainderSeconds < 10 ? '0' : '' }${remainderSeconds}`;
+  const display = `${minutes}:${remainderSeconds < 10 ? '0' : ''}${remainderSeconds}`;
   // 顯示秒數，若秒數小於10，在個位數前面補零
   document.title = display;
   timerDisplay.textContent = display;
@@ -78,9 +79,9 @@ function displayEndTime(timestamp) {
   // 取得分鐘
   endTime.textContent = `Be Back At ${adjustedHour}:${minutes < 10 ? '0' : ''}${minutes}`;
   // 顯示結束的時間
-
 }
 ```
+
 ## 三、設定固定倒數時間的按鈕及設定輸入倒數時間
 
 ```js
@@ -104,5 +105,4 @@ document.customForm.addEventListener('submit', function(e) {
   this.reset();
   // 傳回後清空 input
 });
-
 ```

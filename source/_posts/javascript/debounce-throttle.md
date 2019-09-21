@@ -1,14 +1,14 @@
 ---
 title: 【JS】Debounce and Throttle
+urlname: javascript-debounce-throttle
 tag:
   - JavaScript
 categories: CodingLife
 photos:
-- '/img/cover/javascript.jpg'
+  - '/img/cover/javascript.jpg'
 date: 2018-09-06 09:29:00
 modified: 2018-09-06 09:29:00
 ---
-
 
 <!--more-->
 
@@ -38,49 +38,47 @@ function debounce(fn, delay) {
 
 ```js
 /**
-*
-* @param fn {Function}   實際執行的函式
-* @param delay {Number}  執行間隔
-*
-* @return {Function}     return 的節流函數
-*/
+ *
+ * @param fn {Function}   實際執行的函式
+ * @param delay {Number}  執行間隔
+ *
+ * @return {Function}     return 的節流函數
+ */
 
 function throttle(fn, threshhold) {
-
   // 记录上次执行的时间
-  var last
+  var last;
 
   // 定时器
-  var timer
+  var timer;
 
   // 默认间隔为 250ms
-  threshhold || (threshhold = 250)
+  threshhold || (threshhold = 250);
 
   // 返回的函数，每过 threshhold 毫秒就执行一次 fn 函数
-  return function () {
-
+  return function() {
     // 保存函数调用时的上下文和参数，传递给 fn
-    var context = this
-    var args = arguments
+    var context = this;
+    var args = arguments;
 
-    var now = +new Date()
+    var now = +new Date();
 
     // 如果距离上次执行 fn 函数的时间小于 threshhold，那么就放弃
     // 执行 fn，并重新计时
     if (last && now < last + threshhold) {
-      clearTimeout(timer)
+      clearTimeout(timer);
 
       // 保证在当前时间区间结束后，再执行一次 fn
-      timer = setTimeout(function () {
-        last = now
-        fn.apply(context, args)
-      }, threshhold)
+      timer = setTimeout(function() {
+        last = now;
+        fn.apply(context, args);
+      }, threshhold);
 
-    // 在时间区间的最开始和到达指定间隔的时候执行一次 fn
+      // 在时间区间的最开始和到达指定间隔的时候执行一次 fn
     } else {
-      last = now
-      fn.apply(context, args)
+      last = now;
+      fn.apply(context, args);
     }
-  }
+  };
 }
 ```

@@ -4,6 +4,7 @@ tags:
   - Vue
 date: 2018-03-26 10:18:05
 categories: CodingLife
+urlname: vue-cli-2-webpack
 photo:
   - '/img/cover/vue.png'
 ---
@@ -31,7 +32,6 @@ photo:
 └── package-lock.json
 ```
 
-
 當我們使用`npm run dev`啟用 vue-cli 的專案，打開 chrome 的 network 會發現當中除了載入`index.html`，還有一隻`app.js`檔，
 可是你會發現專案裡面根本就沒有`app.js`檔，而且`index.html`根本也沒有引入任何的 js 文件。
 
@@ -44,19 +44,20 @@ photo:
    ...
  }
 ```
+
 看起來我們運作的和`build/webpack.dev.conf.js`非常有關。
 
 ```js
-const utils = require('./utils')
-const webpack = require('webpack') // webpack 核心編譯工具
-const config = require('../config') // config/index.js
-const merge = require('webpack-merge') // 合併 config
-const path = require('path') // node API 處理文件路徑
-const baseWebpackConfig = require('./webpack.base.conf') //base.config
-const CopyWebpackPlugin = require('copy-webpack-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
-const portfinder = require('portfinder')
+const utils = require('./utils');
+const webpack = require('webpack'); // webpack 核心編譯工具
+const config = require('../config'); // config/index.js
+const merge = require('webpack-merge'); // 合併 config
+const path = require('path'); // node API 處理文件路徑
+const baseWebpackConfig = require('./webpack.base.conf'); //base.config
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
+const portfinder = require('portfinder');
 ```
 
 打開來會發現裡面有導入很多模組，我們主要看幾個文件，`config/index.js`，仔細看內容。
@@ -100,7 +101,7 @@ context: path.resolve(__dirname, '../'),
     extensions: ['.js', '.vue', '.json'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
-      '@': resolve('src'), // 編寫路徑時 @ 可代替src 
+      '@': resolve('src'), // 編寫路徑時 @ 可代替src
     }
   },
   ...// webpack 編譯時，文件處理的相關 loader
@@ -117,6 +118,5 @@ context: path.resolve(__dirname, '../'),
 ```
 
 至於為什麼在`static`裡面，可以根據路徑轉向到`utils.js`裡面的`assetsPath`，發現文件又導向`webpack.config.dev/build.js`的`assetsSubDirectory`，發現 template 將路徑設定在`static`。
-
 
 那剩下關於 webpack plugin/loader 的詳細設定，可以參考[日安初探 webpack 系列文章](https://leiadot.github.io/tags/%E6%97%A5%E5%AE%89%E5%88%9D%E6%8E%A2-Webpack/)。

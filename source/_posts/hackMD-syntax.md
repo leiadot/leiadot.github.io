@@ -1,10 +1,11 @@
 ---
-title: 【Hexo】hackMD 功能 
+title: 【Hexo】hackMD 功能
 tag:
   - Hexo
 categories: CodingLife
 photos:
   - /img/cover/hackMD.png
+urlname: webpack-4-hackMD
 date: 2018-11-12 15:59:11
 modified: 2018-11-12 15:59:11
 ---
@@ -13,12 +14,12 @@ modified: 2018-11-12 15:59:11
 
 此頁是用來測試到底支援了多少 hackmd 原本的寫法
 不過，確實有許多功能不需要照本宣科的移植過來，畢竟身為 hackmd 的愛用者，只要夠用，而不是取代呀
-所以，下面列出目前支援的語法與功能到什麼程度，標示danger區塊的則是*不支援*或*沒有這功能*的意思。
+所以，下面列出目前支援的語法與功能到什麼程度，標示 danger 區塊的則是*不支援*或*沒有這功能*的意思。
 
 ## 測試開始
 
-功能介紹
-===
+# 功能介紹
+
 **[English version](/features)**
 **[中文版](/CwYwhgzAbApgHFAtHAnAIzY4awBNkwCsA7ImFCBCHAIxwBMhhIQAAA==)**
 **[日本語版](/GwMxE4HYA4EMBMC0BTcwBMiAs94FZFpktZFIQ91pp1xwAjdPIA==)**
@@ -26,14 +27,14 @@ modified: 2018-11-12 15:59:11
 **請不要修改這份筆記** 非常謝謝您 :smile:
 **如果要說 嗨 或是 玩些東西，請至 [遊樂場](/CwDgDAZgTFCcCmBaAhvAJgVkceA2AzIgEYDGIJiIGIU8GYRYJA7PkAAA)**
 
-特賣會
-===
+# 特賣會
+
 **歡迎來自 Front-End Developers Taiwan 的各位！**:100:
 **歡迎來自 g0v 的各位！**:+1:
 **歡迎來自 程式人雜誌 的各位！**:smiley:
 
-簡介
-===
+# 簡介
+
 <i class="fa fa-file-text"></i> ** hackmd ** 是個跨平台的 Markdown 即時協作筆記
 所以您可以在**電腦、平板甚至是手機**與其他人做筆記！
 同時也可以在 **[首頁](/)** 透過 **Facebook、Twitter、GitHub、Dropbox** 登入
@@ -43,9 +44,10 @@ modified: 2018-11-12 15:59:11
 如果需要即時支援，請使用 [Facebook Message](https://www.facebook.com/messages/866415986748945)
 **謝謝您！**
 
-工作區
-===
+# 工作區
+
 ## 模式
+
 **電腦 & 平板**
 
 <i class="fa fa-edit fa-fw"></i> 編輯：只看到編輯器
@@ -58,23 +60,28 @@ modified: 2018-11-12 15:59:11
 <i class="fa fa-toggle-off fa-fw"></i> 編輯：只看到編輯器
 
 ## 上傳圖片
+
 只要按下這個按鈕 <i class="fa fa-camera"></i>
 或是 **拖放** 圖片到編輯器，甚至 **貼上** 圖片也可以喔！
 這會自動上傳圖片至 **[imgur](http://imgur.com)**，啥都不必煩惱了 :tada:
 ![](https://i.imgur.com/9cgQVqD.png)
 
 ## 分享筆記
+
 如果您想分享 **可編輯的** 筆記，複製這份文件的網址就好
 如果您想分享 **只可讀的** 筆記，按下這個按鈕 <i class="fa fa-share-alt"></i> 然後複製網址
 
 ## 儲存
+
 目前可以儲存至 **Dropbox** <i class="fa fa-dropbox"></i> 或是存放 **.md** <i class="fa fa-file-text"></i> 到您的本機
 
 ## 匯入
+
 就像上面的儲存功能，您可以從 **Dropbox** <i class="fa fa-dropbox"></i> 匯入 **.md** <i class="fa fa-file-text"></i>
 或是從 **剪貼簿** <i class="fa fa-clipboard"></i> 匯入，而且這可以轉換 **html** 喔 :smiley:
 
 ## 權限
+
 檢視右上方有個小按鈕，您可以透過以下選項來更改權限：
 
 <i class="fa fa-leaf fa-fw"></i> 隨意：任何人都可以更改這份筆記
@@ -85,45 +92,54 @@ modified: 2018-11-12 15:59:11
 **只有筆記的擁有者可以更改權限**
 
 ## 嵌入
+
 ```xml
 <iframe width="100%" height="500" src="https:// hackmd .io/features" frameborder="0"></iframe>
 ```
 
 ## [簡報模式](./slide-example)
+
 您可以使用一些語法將您的筆記分成投影片
 然後用 **簡報模式** <i class="fa fa-tv"></i> 來展示，詳細請至上連結
 
-檢視
-===
+# 檢視
+
 ## 目錄
+
 在右下角有個目錄的小按鈕 <i class="fa fa-bars"></i>
 按下它會顯示目前的目錄，而且會標明你所在的區塊
 支援到**第三階段的標頭**
 
 ## 永久連結
+
 每個標頭都會在右側自動加上永久連結
 您可以在滑到上面並且按 <i class="fa fa-chain"></i> 去移到那個錨點
 
-編輯
-===
+# 編輯
+
 ## 快速鍵
-跟又快又方便的Sublime text很像
+
+跟又快又方便的 Sublime text 很像
+
 > 更多訊息請至 [這裡](https://codemirror.net/demo/sublime.html)
 
 ## 自動完成
+
 提供完整的 Markdown 自動完成與提示
+
 - 表情符號：輸入 `:` 顯示提示
 - 程式碼區塊：
-:::danger
-(這一段顯示錯誤)
-輸入   加上一個字元 顯示提示 <i hidden> </i>
-:::
+  :::danger
+  (這一段顯示錯誤)
+  輸入 加上一個字元 顯示提示 <i hidden> </i>
+  :::
 - 標頭：輸入 `#` 顯示提示
 - 參考：輸入 `[]` 顯示提示
 - 外部：輸入 `{}` 顯示提示
 - 圖片：輸入 `!` 顯示提示
 
 ## 標題
+
 會使用 **第一個第一級標頭** 作為筆記標題
 
 ## 標籤
@@ -131,11 +147,15 @@ modified: 2018-11-12 15:59:11
 :::danger
 (這個語法的功能不同)
 如同以下方式來使用標籤，它們會顯示在您的 **歷史紀錄**
+
 ###### tags: `功能` `酷` `更新`
+
 :::
 
 ## [YAML metadata](./yaml-metadata)
+
 提供描述筆記的資訊，以進階設定瀏覽行為，詳細請至上連結
+
 - robots: 設定網路機器人 meta
 - lang: 設定瀏覽器顯示語言
 - dir: 設定文字方向
@@ -143,105 +163,116 @@ modified: 2018-11-12 15:59:11
 - mathjax: 設定是否使用 mathjax
 
 ## 表情符號
+
 您可以像是這樣使用表情符號 :smile: :smiley: :cry: :wink:
+
 > 完整的表情符號列表 [在這裡](http://www.emoji-cheat-sheet.com/)
 
 ## 待辦清單
-- [ ] 待辦
-	- [x] 買些沙拉
-    - [x] 刷牙
-	- [ ] 喝水
+
+- [ ] 待辦 - [x] 買些沙拉
+  - [x] 刷牙 - [ ] 喝水
 
 ## 程式碼區塊
+
 我們支援非常多程式語言，使用自動完成來看看有些什麼
+
 ```javascript=
-var s = "JavaScript syntax highlighting";
+var s = 'JavaScript syntax highlighting';
 alert(s);
 function $initHighlight(block, cls) {
   try {
-    if (cls.search(/\bno\-highlight\b/) != -1)
-      return process(block, true, 0x0F) +
-             ' class=""';
+    if (cls.search(/\bno\-highlight\b/) != -1) return process(block, true, 0x0f) + ' class=""';
   } catch (e) {
     /* handle exception */
   }
   for (var i = 0 / 2; i < classes.length; i++) {
-    if (checkCondition(classes[i]) === undefined)
-      return /\d+[\s/]/g;
+    if (checkCondition(classes[i]) === undefined) return /\d+[\s/]/g;
   }
 }
 ```
+
 > 如果想要 **行號**，在表明程式語言之後輸入 `=`
-> 您也可以指定開始行號，如下所示，行號從101開始
+> 您也可以指定開始行號，如下所示，行號從 101 開始
 
 ```javascript=101
-var s = "JavaScript syntax highlighting";
+var s = 'JavaScript syntax highlighting';
 alert(s);
 function $initHighlight(block, cls) {
   try {
-    if (cls.search(/\bno\-highlight\b/) != -1)
-      return process(block, true, 0x0F) +
-             ' class=""';
+    if (cls.search(/\bno\-highlight\b/) != -1) return process(block, true, 0x0f) + ' class=""';
   } catch (e) {
     /* handle exception */
   }
   for (var i = 0 / 2; i < classes.length; i++) {
-    if (checkCondition(classes[i]) === undefined)
-      return /\d+[\s/]/g;
+    if (checkCondition(classes[i]) === undefined) return /\d+[\s/]/g;
   }
 }
 ```
 
 :::danger
-(這一段語法不吃，行號判定是`+`變NaN)
+(這一段語法不吃，行號判定是`+`變 NaN)
+
 > 或是可以接續上一個程式碼區塊的行號，使用 `=+`
 
 ```javascript=+
-var s = "JavaScript syntax highlighting";
+var s = 'JavaScript syntax highlighting';
 alert(s);
 ```
+
 :::
 
 :::danger
 (這一段語法不吃)
+
 ## 引用區塊標籤
+
 > 您可以使用以下語法，表明自己的 **姓名、時間與顏色** 並與其他的引用區塊做區別
-> [name=ChengHan Wu] [time=Sun, Jun 28, 2015 9:59 PM] [color=#907bf7]
+> [name=ChengHan Wu][time=sun, jun 28, 2015 9:59 pm] [color=#907bf7]
+>
 > > 也支援巢狀引用區塊喔！
-> > [name=ChengHan Wu] [time=Sun, Jun 28, 2015 10:00 PM] [color=red]
-:::
+> > [name=ChengHan Wu][time=sun, jun 28, 2015 10:00 pm] [color=red]
+> > :::
 
 ## 外部
 
 ### Youtube
+
 {%youtube 1G4isv_Fylg %}
 
 ### Vimeo
+
 {%vimeo 124148255 %}
 
 ### Gist
+
 {%gist schacon/4277%}
 
 :::danger
 (這一段語法不吃)
+
 ```markdown
 ### SlideShare
+
 {%slideshare briansolis/26-disruptive-technology-trends-2016-2018-56796196 %}
 
 ### Speakerdeck
+
 {%speakerdeck sugarenia/xxlCSS-how-to-scale-CSS-and-keep-your-sanity %}
 
 ### PDF
+
 **注意：請使用 https 的網址，否則可能會被您的瀏覽器阻擋載入**
 {%pdf https://papers.nips.cc/paper/5346-sequence-to-sequence-learning-with-neural-networks.pdf %}
 ```
+
 :::
 
 ## MathJax
 
-您可以使用 **MathJax** 語法 來產生 *LaTeX* 數學表達式，如同 [math.stackexchange.com](http://math.stackexchange.com/)：
+您可以使用 **MathJax** 語法 來產生 _LaTeX_ 數學表達式，如同 [math.stackexchange.com](http://math.stackexchange.com/)：
 
-The *Gamma function* satisfying $\Gamma(n) = (n-1)!\quad\forall n\in\mathbb N$ is via the Euler integral
+The _Gamma function_ satisfying $\Gamma(n) = (n-1)!\quad\forall n\in\mathbb N$ is via the Euler integral
 
 $$
 x = {-b \pm \sqrt{b^2-4ac} \over 2a}.
@@ -258,6 +289,7 @@ $$
 ### 循序圖
 
 您可以像是以下使用循序圖：
+
 ```sequence
 艾莉絲->包柏: 哈摟，你好嗎？
 Note right of 包柏: 包柏思考中
@@ -269,6 +301,7 @@ Note left of 艾莉絲: 艾莉絲回應
 ### 流程圖
 
 您可以像是以下使用流程圖：
+
 ```flow
 st=>start: 開始
 e=>end: 結束
@@ -280,10 +313,12 @@ st->op->op2->cond
 cond(yes)->e
 cond(no)->op2
 ```
+
 :::danger
 (這一段語法不吃)
 
 ### Graphviz
+
 ```graphviz
 digraph hierarchy {
 
@@ -300,6 +335,7 @@ digraph hierarchy {
 ```
 
 ### Mermaid
+
 ```mermaid
 gantt
     title A Gantt Diagram
@@ -316,10 +352,10 @@ gantt
 > 更多關於 **流程圖** 語法 [在這裡](http://adrai.github.io/flowchart.js/).
 > 更多關於 **Graphviz** 語法 [在這裡](http://www.tonyballantyne.com/graphs.html)
 > 更多關於 **Mermaid** 語法 [在這裡](http://knsv.github.io/mermaid)
-:::
+> :::
 
-警告區塊
----
+## 警告區塊
+
 :::success
 耶 :tada:
 :::
@@ -336,7 +372,6 @@ gantt
 喔不 :fire:
 :::
 
-
 ## 排版
 
 ### 標頭
@@ -352,12 +387,11 @@ gantt
 
 ### 水平分隔線
 
-___
+---
 
 ---
 
-***
-
+---
 
 ### 字形替換
 
@@ -377,9 +411,9 @@ Remarkable -- awesome
 
 **這是粗體文字**
 
-__這是粗體文字__
+**這是粗體文字**
 
-*這是斜體文字*
+_這是斜體文字_
 
 _這是斜體文字_
 
@@ -393,26 +427,25 @@ _這是斜體文字_
 
 ==這是標記文字==
 
-
 ### 引用區塊
 
-
 > 引用區塊也可以是巢狀的喔...
->> ...可以多層次的使用...
+>
+> > ...可以多層次的使用...
+> >
 > > > ...或是用空白隔開
-
 
 ### 清單
 
 #### 項目
 
-+ 在行開頭使用 `+` `-` 或是 `*` 來建立清單
-+ 空兩個空白就可以產生子清單
+- 在行開頭使用 `+` `-` 或是 `*` 來建立清單
+- 空兩個空白就可以產生子清單
   - 當清單標記使用的字元不同，會強制建立新的清單
-    * Ac tristique libero volutpat at
-    + Facilisis in pretium nisl aliquet
+    - Ac tristique libero volutpat at
+    * Facilisis in pretium nisl aliquet
     - Nulla volutpat aliquam velit
-+ 非常簡單！
+- 非常簡單！
 
 #### 編號
 
@@ -420,14 +453,13 @@ _這是斜體文字_
 2. Consectetur adipiscing elit
 3. Integer molestie lorem at massa
 
-
-1. 您可以逐次增加項目數字...
-1. ...或是全部都使用 `1.`
-1. feafw
-2. 332
-3. 242
-4. 2552
-1. e2
+1) 您可以逐次增加項目數字...
+1) ...或是全部都使用 `1.`
+1) feafw
+1) 332
+1) 242
+1) 2552
+1) e2
 
 從其他範圍開始編號清單
 
@@ -445,7 +477,6 @@ _這是斜體文字_
     line 2 of code
     line 3 of code
 
-
 程式碼區塊
 
 ```
@@ -454,8 +485,8 @@ Sample text here...
 
 語法標色
 
-``` javascript
-var foo = function (bar) {
+```javascript
+var foo = function(bar) {
   return bar++;
 };
 
@@ -464,51 +495,51 @@ console.log(foo(5));
 
 ### 表格
 
-| 選項 | 描述 |
-| ------ | ----------- |
+| 選項   | 描述                                                                      |
+| ------ | ------------------------------------------------------------------------- |
 | data   | path to data files to supply the data that will be passed into templates. |
-| engine | engine to be used for processing templates. Handlebars is the default. |
-| ext    | extension to be used for dest files. |
+| engine | engine to be used for processing templates. Handlebars is the default.    |
+| ext    | extension to be used for dest files.                                      |
 
 向右對齊
 
-| 選項 | 描述 |
-| ------:| -----------:|
-| data   | path to data files to supply the data that will be passed into templates. |
-| engine | engine to be used for processing templates. Handlebars is the default. |
-| ext    | extension to be used for dest files. |
+|   選項 |                                                                      描述 |
+| -----: | ------------------------------------------------------------------------: |
+|   data | path to data files to supply the data that will be passed into templates. |
+| engine |    engine to be used for processing templates. Handlebars is the default. |
+|    ext |                                      extension to be used for dest files. |
 
 向左對齊
 
-| 選項 | 描述 |
-|:------ |:----------- |
+| 選項   | 描述                                                                      |
+| :----- | :------------------------------------------------------------------------ |
 | data   | path to data files to supply the data that will be passed into templates. |
-| engine | engine to be used for processing templates. Handlebars is the default. |
-| ext    | extension to be used for dest files. |
+| engine | engine to be used for processing templates. Handlebars is the default.    |
+| ext    | extension to be used for dest files.                                      |
 
 置中對齊
 
-| 選項 | 描述 |
-|:------:|:-----------:|
-| data   | path to data files to supply the data that will be passed into templates. |
-| engine | engine to be used for processing templates. Handlebars is the default. |
-| ext    | extension to be used for dest files. |
-
+|  選項  |                                   描述                                    |
+| :----: | :-----------------------------------------------------------------------: |
+|  data  | path to data files to supply the data that will be passed into templates. |
+| engine |  engine to be used for processing templates. Handlebars is the default.   |
+|  ext   |                   extension to be used for dest files.                    |
 
 ### 連結
+
 [連結文字](http://dev.nodeca.com)
-[加上標題的連結文字](http://nodeca.github.io/pica/demo/ "標題文字！")
+[加上標題的連結文字](http://nodeca.github.io/pica/demo/ '標題文字！')
 自動轉換連結 https://github.com/nodeca/pica
 
-
 ### 圖片
+
 ![Minion](https://octodex.github.com/images/minion.png)
-![Stormtroopocat](https://octodex.github.com/images/stormtroopocat.jpg "The Stormtroopocat")
+![Stormtroopocat](https://octodex.github.com/images/stormtroopocat.jpg 'The Stormtroopocat')
 如同連結一般，圖片也可以用註腳語法
 ![Alt text][id]
 使用參考，可以在稍後的文件中再定義圖片網址
 
-[id]: https://octodex.github.com/images/dojocat.jpg  "The Dojocat"
+[id]: https://octodex.github.com/images/dojocat.jpg 'The Dojocat'
 
 ![Minion](https://octodex.github.com/images/minion.png =200x200)
 使用指定的大小顯示圖片
@@ -520,19 +551,22 @@ console.log(foo(5));
 行內註腳^[行內註腳的文字] 定義
 重複的註腳參考[^second].
 
-[^first]: 註腳 **也可以標記**
-    還可以有很多段落
+[^first]:
+
+  註腳 **也可以標記**
+  還可以有很多段落
+
 [^second]: 註腳 文字
 
 ### 定義清單
 
 名詞 1
 
-:   定義 1 快速連續項目
+: 定義 1 快速連續項目
 
-名詞 2 加上 *行內標記*
+名詞 2 加上 _行內標記_
 
-:   定義 2
+: 定義 2
 
         { 這些程式碼屬於 定義 2 的一部分 }
 
@@ -541,15 +575,15 @@ console.log(foo(5));
 _緊密樣式：_
 
 名詞 1
-  ~ 定義 1
+~ 定義 1
 
 名詞 2
-  ~ 定義 2a
-  ~ 定義 2b
+~ 定義 2a
+~ 定義 2b
 
 ### 縮寫
 
 這是 HTML 的縮寫範例
 它會轉換 'HTML'，但是縮寫旁邊其他的部分，例如："xxxHTMLyyy"，不受影響
 
-*[HTML]: Hyper Text Markup Language
+\*[HTML]: Hyper Text Markup Language

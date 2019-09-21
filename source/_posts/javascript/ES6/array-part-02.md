@@ -1,5 +1,6 @@
 ---
 title: 【ES6】陣列麻吉罵下篇：Sort、Every、Find、Some
+urlname: javascript-es6-array-part02
 date: 2018-02-15
 tags:
   - ES6
@@ -27,7 +28,7 @@ photo:
 - Some
   使用 `some` 遍歷陣列的每個元素，當陣列的元素只要有一個符合函式條件，即回傳`true`，陣列中全部的元素都不符合條件，即返回`false`。
 
-# sort
+## sort
 
 ```js
 arr.sort([compareFunction]);

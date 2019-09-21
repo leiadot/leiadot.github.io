@@ -1,15 +1,16 @@
 ---
 title: 【CSS】nth-child 與 nth-of-type
+urlname: css-child-of-type
 tag:
   - CSS
-categories: CodingLife
-photo: 
- - '/img/cover/css.jpg'
+categories: CSS
+photo:
+  - '/img/cover/css.jpg'
 date: 2018-07-23 10:43:55
 modified: 2018-07-23 10:43:55
 ---
 
-早上聽到旁邊的同鞋在討論這個問題，有時候會遇到使用`nth-child`沒反應的狀況，如今是該釐清的時候了。
+早上聽到旁邊的同學在討論這個問題，有時候會遇到使用`nth-child`沒反應的狀況，如今是該釐清的時候了。
 
 <!--more-->
 
@@ -30,8 +31,9 @@ modified: 2018-07-23 10:43:55
   </ul>
 </div>
 ```
+
 ```css
-.container ul:nth-child(2){
+.container ul:nth-child(2) {
   background-color: red;
 }
 ```

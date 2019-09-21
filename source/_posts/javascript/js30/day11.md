@@ -3,9 +3,10 @@ title: 【JS30】Day11：Custom Video Player
 tags:
   - JS30系列
 date: 2018-02-28 10:53:02
+urlname: javascript-30-day11
 categories: CodingLife
 photo:
-- '/img/js30day/small10.jpg'
+  - '/img/js30day/small10.jpg'
 ---
 
 > [javascript 30day](https://javascript30.com/)
@@ -15,6 +16,7 @@ photo:
 ### <span style="color:#ff5900">目標：使用 html5 video tag 控制影片</span>
 
 ### 一、先抓取 html5 video tag DOM 元素
+
 ```js
 // 取得元素
 const player = document.querySelector('.player');
@@ -30,40 +32,38 @@ const ranges = player.querySelectorAll('.player__slider');
 
 ```js
 function togglePlay() {
-
-    const method = video.paused ? 'play' : 'pause';
-    // 三元運算子 true:play ; false:pause
-    video[method]();
-    //抓出video的 play / pause 屬性執行 
+  const method = video.paused ? 'play' : 'pause';
+  // 三元運算子 true:play ; false:pause
+  video[method]();
+  //抓出video的 play / pause 屬性執行
 }
 
 function updateButton() {
-    const icon = this.paused ? '►' : '❚ ❚';
-    console.log(icon);
-    toggle.textContent = icon;
+  const icon = this.paused ? '►' : '❚ ❚';
+  console.log(icon);
+  toggle.textContent = icon;
 }
 
 function skip() {
-    video.currentTime += parseFloat(this.dataset.skip);
-    // parseFloat 解析字串並返回數字
+  video.currentTime += parseFloat(this.dataset.skip);
+  // parseFloat 解析字串並返回數字
 }
 
 function handleRangeUpdate() {
-    video[this.name] = this.value; // volume/playbackRate
-
+  video[this.name] = this.value; // volume/playbackRate
 }
 
 function handleProgress() {
-    const percent = (video.currentTime / video.duration) * 100;
-    progressBar.style.flexBasis = `${percent}%`;
+  const percent = (video.currentTime / video.duration) * 100;
+  progressBar.style.flexBasis = `${percent}%`;
 }
 
 function scrub(e) {
-    const scrubTime = (e.offsetX / progress.offsetWidth) * video.duration;
-    video.currentTime = scrubTime;
+  const scrubTime = (e.offsetX / progress.offsetWidth) * video.duration;
+  video.currentTime = scrubTime;
 }
-
 ```
+
 ### 三、監聽並執行
 
 ```js
@@ -84,6 +84,6 @@ progress.addEventListener('click', scrub); //點擊改變進度條
 progress.addEventListener('mousemove', () => mousedown && scrub(e));
 //拖拉改變進度條，如果mousedown是true，就往後執行scrub(e)，如果false就中斷。
 
-progress.addEventListener('mousedown', () => mousedown = true); //拖拉改變進度條
-progress.addEventListener('mouseup', () => mousedown = false); //拖拉改變進度條
+progress.addEventListener('mousedown', () => (mousedown = true)); //拖拉改變進度條
+progress.addEventListener('mouseup', () => (mousedown = false)); //拖拉改變進度條
 ```

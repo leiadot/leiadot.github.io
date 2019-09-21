@@ -1,5 +1,6 @@
 ---
 title: 【Github】不開 branch 使用 github page
+urlname: github-doc
 tag:
   - github
 categories: CodingLife

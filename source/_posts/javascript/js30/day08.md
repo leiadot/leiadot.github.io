@@ -3,9 +3,10 @@ title: 【JS30】Day08：Fun with HTML5 Canvas
 tags:
   - JS30系列
 date: 2018-02-18 11:39:39
+urlname: javascript-30-day08
 categories: CodingLife
 photo:
-- '/img/js30day/small7.jpg'
+  - '/img/js30day/small7.jpg'
 ---
 
 > [javascript 30day](https://javascript30.com/)
@@ -31,7 +32,7 @@ ctx.lineCap = 'round';
 ctx.lineWidth = 100;
 // 筆劃寬度
 // ctx.globalCompositeOperation = 'multiply';
-  // 圖形相疊時的模式
+// 圖形相疊時的模式
 ```
 
 上述參數設定皆為 Canvas 的基本環境設定，
@@ -68,22 +69,21 @@ function draw(e) {
     hue = 0;
   }
   //但因色相只有360度，只要大於等於360度，色相就再從零開始
-  
+
   if (ctx.lineWidth >= 100 || ctx.lineWidth <= 1) {
     direction = !direction;
   }
   //當筆劃寬度大於等於100或小於等於1，則轉換判斷變數
 
-  if(direction) {
+  if (direction) {
     ctx.lineWidth++;
   } else {
     ctx.lineWidth--;
   }
   // 轉換判斷變數
-
 }
-  
-canvas.addEventListener('mousedown', (e) => {
+
+canvas.addEventListener('mousedown', e => {
   isDrawing = true;
   [lastX, lastY] = [e.offsetX, e.offsetY];
 });
@@ -92,10 +92,11 @@ canvas.addEventListener('mousedown', (e) => {
 
 canvas.addEventListener('mousemove', draw);
 // 滑鼠移動時，仍然執行繪畫函數
-canvas.addEventListener('mouseup', () => isDrawing = false);
-canvas.addEventListener('mouseout', () => isDrawing = false);
+canvas.addEventListener('mouseup', () => (isDrawing = false));
+canvas.addEventListener('mouseout', () => (isDrawing = false));
 // 放開滑鼠時和滑鼠移出時，使繪畫參數為false，不執行繪畫函數。
 ```
 
 ## 使用技巧
+
 - Canvas

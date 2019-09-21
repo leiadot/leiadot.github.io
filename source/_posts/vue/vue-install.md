@@ -4,6 +4,7 @@ tags:
   - Vue
 date: 2018-03-23 14:32:01
 categories: CodingLife
+urlname: vue-cli-2-install
 photo:
   - '/img/cover/vue.png'
 ---
@@ -13,6 +14,7 @@ photo:
 <!-- more -->
 
 ## 安裝
+
 ```
 $ npm install -g vue-cli // 全域安裝
 ```
@@ -29,6 +31,7 @@ vue-cli 官方提供多種樣版結構，可使用`vue list`查看樣板種類�
 ```
 $ vue init <template-name> <project-name>
 ```
+
 這邊我們選擇`webpack`版。
 
 ```
@@ -42,7 +45,7 @@ Generate project in current directory? Yes
 ? Set up unit tests // 使否單元測試
 ? Setup e2e tests with Nightwatch? //是否使用 e2e 測試
 ? Should we run `npm install` for you after the project has been created? Yes, use NPM
-//在專案創建好，是否跑 npm install 
+//在專案創建好，是否跑 npm install
 ```
 
 這邊會有像建置`package.json`一樣的選項讓你填寫，這邊我先選預設，並不安裝其他項目。
@@ -74,4 +77,3 @@ To get started:
 ├── package.json
 └── package-lock.json
 ```
-

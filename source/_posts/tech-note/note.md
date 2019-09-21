@@ -1,5 +1,6 @@
 ---
 title: 【筆記】 如何寫出好註解
+urlname: code-note
 date: 2018-01-26 07:07:23
 tag:
   - 攻城屍筆記

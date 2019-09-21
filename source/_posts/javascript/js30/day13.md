@@ -3,9 +3,10 @@ title: 【JS30】Day13：Slide In on Scroll
 tags:
   - JS30系列
 date: 2018-03-02 10:07:32
+urlname: javascript-30-day13
 categories: CodingLife
 photo:
-- '/img/js30day/small12.jpg'
+  - '/img/js30day/small12.jpg'
 ---
 
 > [javascript 30day](https://javascript30.com/)
@@ -14,7 +15,7 @@ photo:
 
 ### <span style="color:#ff5900">目標：滾動捲軸，使圖片滑動顯示。</span>
 
-## 一、設定transition設定彈跳動畫效果
+## 一、設定 transition 設定彈跳動畫效果
 
 作者已經在 css 上設定好`transition`。
 
@@ -33,33 +34,32 @@ window.addEventListener('scroll', debounce(checkSlide));
 ```js
 function checkSlide(e) {
   sliderImages.forEach(sliderImage => {
-      const slideInAt = (window.scrollY + window.innerHeight) - (sliderImage.height / 2);
-      //圖片1/2的定位點 = 捲軸垂直位移量 + 視窗高度 - 圖片1/2的高度
+    const slideInAt = window.scrollY + window.innerHeight - sliderImage.height / 2;
+    //圖片1/2的定位點 = 捲軸垂直位移量 + 視窗高度 - 圖片1/2的高度
 
-      const imageBottom = sliderImage.offsetTop + sliderImage.height;
-      //圖片底部 = 圖片離視窗頂部的距離 + 圖片高度
-      const isHalfShown = slideInAt > sliderImage.offsetTop;
-      //判斷視窗是否超過圖片的一半，超過顯示
-      const isNotScrolledPast = window.scrollY < imageBottom;
-      //判斷滾動範圍是否超過圖片底部，超過則不顯示
+    const imageBottom = sliderImage.offsetTop + sliderImage.height;
+    //圖片底部 = 圖片離視窗頂部的距離 + 圖片高度
+    const isHalfShown = slideInAt > sliderImage.offsetTop;
+    //判斷視窗是否超過圖片的一半，超過顯示
+    const isNotScrolledPast = window.scrollY < imageBottom;
+    //判斷滾動範圍是否超過圖片底部，超過則不顯示
 
-      if (isHalfShown && isNotScrolledPast) {
-          sliderImage.classList.add('active');
-      } else {
-          sliderImage.classList.remove('active');
-      }
-      //判斷是否顯示圖片
+    if (isHalfShown && isNotScrolledPast) {
+      sliderImage.classList.add('active');
+    } else {
+      sliderImage.classList.remove('active');
+    }
+    //判斷是否顯示圖片
   });
 }
 ```
 
-|`window.scrollY`|`window.innerHeight`|`sliderImage.offsetTop`|`slideInAt`|
-|---|---|---|---|---|
-|捲軸垂直的位移量（不含視窗）|視窗高度|圖片離視窗頂部的高度|圖片1/2的定位點|
-
-
+| `window.scrollY`             | `window.innerHeight` | `sliderImage.offsetTop` | `slideInAt`       |
+| ---------------------------- | -------------------- | ----------------------- | ----------------- |
+| 捲軸垂直的位移量（不含視窗） | 視窗高度             | 圖片離視窗頂部的高度    | 圖片 1/2 的定位點 |
 
 ## 使用技巧
+
 - window.scrollY：瀏覽器 Y 軸滾動的位移量。
 - window.innerHeight：瀏覽器的可視高度。
 - offsetTop：傳回當前元素對於`offsetParent`元素頂部距離的位置。

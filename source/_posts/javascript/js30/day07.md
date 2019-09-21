@@ -1,11 +1,12 @@
 ---
 title: 【JS30】Day07：Array Cardio Day 2
 date: 2018-02-13
+urlname: javascript-30-day07
 tags:
   - JS30系列
 categories: CodingLife
 photo:
-- '/img/js30day/small6.jpg'
+  - '/img/js30day/small6.jpg'
 ---
 
 > [javascript 30day](https://javascript30.com/)
@@ -16,9 +17,9 @@ photo:
 
 ## 使用技巧
 
-*   Array.prototype.some()
-*   Array.prototype.find()
-*   Array.prototype.findIndex()
+- Array.prototype.some()
+- Array.prototype.find()
+- Array.prototype.findIndex()
 
 [參考文章：【 ES6 】陣列麻吉罵下篇：Sort、Every、Find、Some](/2018/02/15/javascript/ES6/array02)
 
@@ -28,10 +29,10 @@ photo:
 
 ```js
 const isAdult = people.some(function(person) {
-    const currentYear = (new Date()).getFullYear();
-    if(currentYear - person.year >= 19) {
+  const currentYear = new Date().getFullYear();
+  if (currentYear - person.year >= 19) {
     return true;
-    }
+  }
 });
 //Output:true
 ```
@@ -39,9 +40,9 @@ const isAdult = people.some(function(person) {
 或改寫成 `arrow function`
 
 ```js
-const isAdult = people.some(person => ((new Date()).getFullYear()) - person.year >= 19);
+const isAdult = people.some(person => new Date().getFullYear() - person.year >= 19);
 
-console.log({isAdult});
+console.log({ isAdult });
 ```
 
 `some`會遍歷整個陣列的元素傳進`function`，確認元素是否符合條件，假設其中一個元素符合條件，
@@ -52,8 +53,8 @@ console.log({isAdult});
 ### 二. 使用 `every` 確認陣列是否有元素 >=19。
 
 ```js
-const allAdults = people.every(person => ((new Date()).getFullYear()) - person.year >= 19);
-console.log({allAdults});
+const allAdults = people.every(person => new Date().getFullYear() - person.year >= 19);
+console.log({ allAdults });
 ```
 
 `every`會遍歷整個陣列的元素傳進`function`，檢查陣列中所有元素是否符合條件，符合條件即回傳`true`，
@@ -65,9 +66,9 @@ console.log({allAdults});
 
 ```js
 const comment = comments.find(function(comment) {
-    if (comment.id == '823423') {
-        return true;
-    }
+  if (comment.id == '823423') {
+    return true;
+  }
 });
 console.log(comment);
 //Output:{text: "Super good", id: 823423}
@@ -98,8 +99,5 @@ comments.splice(index, 1);
 或是將`comments.splice(index, 1);`改寫成
 
 ```js
-const newComments = [
-      ...comments.slice(0, index),
-      ...comments.slice(index + 1)
-    ];
+const newComments = [...comments.slice(0, index), ...comments.slice(index + 1)];
 ```

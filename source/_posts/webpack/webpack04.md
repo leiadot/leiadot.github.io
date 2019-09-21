@@ -4,9 +4,9 @@ tags:
   - Webpack
 date: 2018-03-23 23:19:20
 categories: CodingLife
+urlname: webpack-4-source-map
 photo:
-- '/img/cover/webpack.png'
-
+  - '/img/cover/webpack.png'
 ---
 
 新手從無到有，初探 webpack 的心得。
@@ -46,6 +46,5 @@ module.exports = {
   })
 }
 ```
+
 一樣修改`webpack.config.js`，就會在開發者工具 css 的部份看到 `app.scss`。
-
-

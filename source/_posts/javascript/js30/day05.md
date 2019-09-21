@@ -1,18 +1,19 @@
 ---
 title: 【JS30】Day05：Flex Panel Gallery
 date: 2018-02-01
+urlname: javascript-30-day05
 tags:
   - JS30系列
 categories: CodingLife
 photo:
-- '/img/js30day/small4.jpg'
+  - '/img/js30day/small4.jpg'
 ---
 
 > [javascript 30day](https://javascript30.com/)
 
 <!-- more -->
 
-### <span style="color:#ff5900">目標：利用flex做面板特效</span>
+### <span style="color:#ff5900">目標：利用 flex 做面板特效</span>
 
 ## 一、將主畫面排版
 
@@ -25,5 +26,5 @@ photo:
 
 ## 使用技巧
 
-*   transitionend Event
-*   flexbox
+- transitionend Event
+- flexbox

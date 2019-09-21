@@ -3,9 +3,10 @@ title: 【JS30】Day22：Follow Along Link Highlighter
 tags:
   - JS30系列
 date: 2018-03-28 10:31:37
+urlname: javascript-30-day22
 categories: CodingLife
 photo:
-- '/img/js30day/small21.jpg'
+  - '/img/js30day/small21.jpg'
 ---
 
 > [javascript 30day](https://javascript30.com/)
@@ -31,29 +32,27 @@ document.body.append(highlight);
 
 ```js
 function highlightLink() {
-    const linkCoords = this.getBoundingClientRect();
-    // 取得 a 本身距離瀏覽器窗口的位置
+  const linkCoords = this.getBoundingClientRect();
+  // 取得 a 本身距離瀏覽器窗口的位置
 
-    const coords = {
-        width: linkCoords.width,
-        height: linkCoords.height,
-        top: linkCoords.top + window.scrollY,
-        left: linkCoords.left + window.scrollX
-    }
-    // 建立物件，以便存放位置訊息，因為根據 window 捲軸滑動的關係，必須加上scroll移動值。
+  const coords = {
+    width: linkCoords.width,
+    height: linkCoords.height,
+    top: linkCoords.top + window.scrollY,
+    left: linkCoords.left + window.scrollX,
+  };
+  // 建立物件，以便存放位置訊息，因為根據 window 捲軸滑動的關係，必須加上scroll移動值。
 
-    highlight.style.width = `${coords.width}px`;
-    highlight.style.height = `${coords.height}px`;
-    highlight.style.transform = `translate(${coords.left}px, ${coords.top}px)`;
+  highlight.style.width = `${coords.width}px`;
+  highlight.style.height = `${coords.height}px`;
+  highlight.style.transform = `translate(${coords.left}px, ${coords.top}px)`;
 
-    // 設定效果的寬高及定位
-
+  // 設定效果的寬高及定位
 }
 
 triggers.forEach(a => a.addEventListener('mouseenter', highlightLink));
 // 監聽所有 a 連結的滑鼠移入，觸發 highlightLink
 ```
-
 
 ## 使用技巧
 

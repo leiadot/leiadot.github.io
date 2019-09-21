@@ -23,6 +23,15 @@
     </div>
     <% } %>
     <!-- Tags END -->
+    <div id="tag-cloud">
+      <% site.tags.map(function(tag, index) { %>
+      <a
+        class="tag<%= Math.round(Math.random() * 3) %>"
+        data-name="tag-<%= tag.name %>"
+      >
+        <%= tag.name %></a>
+      <% }) %>
+    </div>
     <!-- NAV START -->
     <%- partial('_partial/nav') %>
     <!-- NAV END -->

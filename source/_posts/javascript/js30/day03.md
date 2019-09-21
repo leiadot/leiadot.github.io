@@ -1,11 +1,12 @@
 ---
 title: 【JS30】Day03：JS Playing with CSS Variables
 date: 2018-01-29
+urlname: javascript-30-day03
 tags:
   - JS30系列
 categories: CodingLife
 photo:
-- '/img/js30day/small2.jpg'
+  - '/img/js30day/small2.jpg'
 ---
 
 > [javascript 30day](https://javascript30.com/)
@@ -20,16 +21,16 @@ photo:
 
 ```css
 :root {
-–base: #ffc600;
-–spacing: 50px;
-–blur: 10px;
+  –base: #ffc600;
+  –spacing: 50px;
+  –blur: 10px;
 }
 // 變數命名
 
 img {
-padding: var(–spacing);
-background-color: var(–base);
-filter: blur(var(–blur));
+  padding: var(–spacing);
+  background-color: var(–base);
+  filter: blur(var(–blur));
 }
 // 呼叫變數
 ```
@@ -40,11 +41,9 @@ filter: blur(var(–blur));
 const inputs = document.querySelectorAll('.controls input');
 
 function handleUpdate() {
-
-    const suffix = this.dataset.sizing || '';
-    document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
-    // 使用 document.documentElement.style.setProperty('變數名稱', '數值');
-
+  const suffix = this.dataset.sizing || '';
+  document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
+  // 使用 document.documentElement.style.setProperty('變數名稱', '數值');
 }
 
 inputs.forEach(input => input.addEventListener('change', handleUpdate));
@@ -53,6 +52,6 @@ inputs.forEach(input => input.addEventListener('mousemove', handleUpdate));
 
 ## 使用技巧
 
-*   css variables
-*   data-attribute
-*   forEach
+- css variables
+- data-attribute
+- forEach

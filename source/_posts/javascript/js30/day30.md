@@ -3,6 +3,7 @@ title: 【JS30】Day30：Whack A Mole Game
 tags:
   - JS30系列
 date: 2018-04-18 09:57:19
+urlname: javascript-30-day30
 categories: CodingLife
 photo:
   - '/img/js30day/small29.jpg'

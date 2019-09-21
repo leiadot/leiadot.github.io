@@ -1,5 +1,6 @@
 ---
 title: 【JS】原型繼承 Prototype
+urlname: javascript-prototype
 tag:
   - JavaScript
 categories: CodingLife
@@ -13,7 +14,7 @@ modified: 2018-08-01 16:22:13
 
 <!--more-->
 
-# 先淺談一下建構式
+## 先淺談一下建構式
 
 這是一個點的建構式，有 `x`、`y` 的座標，以及一個 `position` 的 function，我們用建構式先建立兩個 instance。
 
@@ -43,7 +44,7 @@ console.log(bluePoint);
 
 從上述可以證實兩個物件是獨立的，互不影響，因此他們的狀態可以圖解為上。
 
-# 試看看替建構式加上 prototype
+## 試看看替建構式加上 prototype
 
 我們把建構式的 function 移除，把他改成 prototype。
 
@@ -109,7 +110,7 @@ redPoint.hasOwnProperty('position');
 
 wowww，一切都說得通了，為什麼我們建立 javascript 物件會有 `__proto__` ，原來那是 javascript 的原型練，所有物件的方法都在裡面，而且物件的 prototype 永遠都保持在最上層。
 
-# 建構式的繼承
+## 建構式的繼承
 
 ```js
 function Tire() {}
@@ -187,7 +188,7 @@ console.log(redHonda.print());
 
 ![](/img/prototype/prototype-07.png)
 
-## 物件的繼承
+### 物件的繼承
 
 ```js
 let water = {

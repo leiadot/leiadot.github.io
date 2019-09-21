@@ -3,9 +3,10 @@ title: 【JS30】Day25：Event Capture, Propagation, Bubbling and Once
 tags:
   - JS30系列
 date: 2018-04-09 09:57:27
+urlname: javascript-30-day25
 categories: CodingLife
 photo:
-- '/img/js30day/small24.jpg'
+  - '/img/js30day/small24.jpg'
 ---
 
 > [javascript 30day](https://javascript30.com/)
@@ -15,26 +16,28 @@ photo:
 ### <span style="color:#ff5900">目標：理解事件捕捉、傳遞、氣泡，和單次執行</span>
 
 ## 一、事件模型
+
 ```html
 <div class="one">
   紫色
-    <div class="two">
-      粉色
-      <div class="three">
-        橘色
-      </div>
+  <div class="two">
+    粉色
+    <div class="three">
+      橘色
     </div>
   </div>
+</div>
 ```
 
 ## 二、建立事件點擊
+
 ```js
 const divs = document.querySelectorAll('div');
 
 function logText(e) {
-    console.log(this.classList.value);
+  console.log(this.classList.value);
 }
-divs.forEach(div => div.addEventListener('click', logText))
+divs.forEach(div => div.addEventListener('click', logText));
 ```
 
 當你做事件點擊的監聽，點擊到`three`，而`two`和`one`會被`console.log`出來，
@@ -46,10 +49,13 @@ divs.forEach(div => div.addEventListener('click', logText))
 事件捕捉為不斷向內觸發，那他就會向內觸發，以此類推。
 
 ## 三、監聽事件的第三個參數，capture 屬性
+
 ```js
-divs.forEach(div => div.addEventListener('click', logText, {
-  capture: false, // 預設為false
-}));
+divs.forEach(div =>
+  div.addEventListener('click', logText, {
+    capture: false, // 預設為false
+  }),
+);
 ```
 
 監聽事件有第三個參數，假設不輸入，預設值就為`false`，該監聽事件就為事件氣泡，
@@ -59,23 +65,26 @@ divs.forEach(div => div.addEventListener('click', logText, {
 
 ```js
 function logText(e) {
-    console.log(this.classList.value);
-     e.stopPropagation();
+  console.log(this.classList.value);
+  e.stopPropagation();
 }
 
-divs.forEach(div => div.addEventListener('click', logText))
+divs.forEach(div => div.addEventListener('click', logText));
 ```
+
 使用`stopPropagation();`，就不會向外觸發父元素。
 
 ```js
 function logText(e) {
-    console.log(this.classList.value);
-     e.stopPropagation();
+  console.log(this.classList.value);
+  e.stopPropagation();
 }
 
-divs.forEach(div => div.addEventListener('click', logText, {
-  capture: true,
-}));
+divs.forEach(div =>
+  div.addEventListener('click', logText, {
+    capture: true,
+  }),
+);
 ```
 
 假設在事件捕捉的時候，使用`stopPropagation`，點擊`three`，會觸發`one`，
@@ -83,16 +92,21 @@ divs.forEach(div => div.addEventListener('click', logText, {
 觸發到最外層的`one`元素，便會停止事件捕捉的監聽。
 
 ## 三、第三個參數，once 屬性
+
 ```js
-button.addEventListener('click', () => {
-  console.log('Click!!!');
-}, {
-  once: true
-});
+button.addEventListener(
+  'click',
+  () => {
+    console.log('Click!!!');
+  },
+  {
+    once: true,
+  },
+);
 ```
+
 監聽的`once`屬性，是監聽一次點擊事件後，就會解除對自己本身的事件綁定，
 所以再點擊第二次、第三次，他不會被監聽，因為在監聽第一次的時候，已經解除監聽狀態。
-
 
 ## 使用技巧
 
