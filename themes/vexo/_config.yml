@@ -10,7 +10,7 @@ menu:
   Home: /
   Tags: /tags/
   Archives: /archives/
-  Projects: /project/
+  Repository: /repository/
   About: /about/
 
 # highlight
@@ -37,6 +37,7 @@ baidu_id:
 
 about:
   banner: /css/images/codingwife.png
+  shop: /css/images/banner.jpg
   avatar: /css/images/leia.png
   description: 'Codingwife'
   twitter_username:
