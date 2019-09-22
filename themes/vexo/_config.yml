@@ -11,6 +11,7 @@ menu:
   Tags: /tags/
   Archives: /archives/
   Repository: /repository/
+  Facebook: https://facebook.com/CodingWifeHy2
   About: /about/
 
 # highlight
@@ -43,7 +44,7 @@ about:
   twitter_username:
   github_username: leiadot
   linkedin_username:
-  facebook_username: CodingWifeHy2
+  facebook_username: hy2.902
 
 # MathJax Support
 mathjax:
