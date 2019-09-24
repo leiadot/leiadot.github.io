@@ -66,11 +66,17 @@
     content="<%= config.description %>"
   />
   <% } %>
+  <% if (page.description){ %>
   <meta
     name="description"
-    content="
-<%= config.description  || theme.description %>"
+    content="<%= page.description %>"
   />
+  <% } else if (config.description) { %>
+  <meta
+    name="description"
+    content="<%= config.description %>"
+  />
+  <% } %>
   <meta
     property="og:site_name"
     content="<%= config.title %>"
