@@ -9,7 +9,9 @@ photos:
   - '/img/cover/books.jpg'
 date: 2018-11-07 17:35:13
 modified: 2018-11-07 17:35:13
-keywords: JavaScript Design Pattern
+seo:
+  description: This theme allows you to manually set the items for SEO.
+  author: test
 ---
 
 <!--more-->

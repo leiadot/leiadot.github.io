@@ -16,6 +16,7 @@
     "hexo-generator-seo-friendly-sitemap": "0.0.21",
     "hexo-generator-sitemap": "^1.2.0",
     "hexo-generator-tag": "^0.2.0",
+    "hexo-helper-structured-data": "github:gazf/hexo-helper-structured-data",
     "hexo-renderer-ejs": "^0.3.0",
     "hexo-renderer-markdown-it": "git+https://github.com/hexojs/hexo-renderer-markdown-it.git",
     "hexo-renderer-sass": "^0.3.2",

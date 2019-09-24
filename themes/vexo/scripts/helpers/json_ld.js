@@ -8,8 +8,8 @@ function jsonLd() {
   const config = this.config;
   const theme = this.theme;
   const authorEmail = theme.author.email;
-  const authorImage = theme.author.picture || (authorEmail ? this.gravatar(authorEmail) : null);
-  const authorLinks = theme.sidebar.author_links;
+  const authorImage = theme.url + theme.author.picture || (authorEmail ? this.gravatar(authorEmail) : null);
+  const authorLinks = theme.author_links;
   const links = [];
 
   if (authorLinks) {

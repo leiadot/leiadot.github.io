@@ -1,10 +1,13 @@
-author: 日安 # 作者
 description: 對前端網頁技術、平面設計、社群傳播充滿熱忱，喜歡新鮮新奇的事物，熱愛美食。
-website_cover: /css/images/codingwife.png
+website_cover: /images/codingwife.png
 keyword: front-end, vuejs
-favicon: /css/images/logo.ico
+favicon: /images/logo.ico
 
 excerpt_link: Read more
+
+author:
+  email: luv.hsu@gmail.com
+  picture: /images/leia.png
 
 menu:
   Home: /
@@ -37,14 +40,23 @@ gitalk:
 baidu_id:
 
 about:
-  banner: /css/images/codingwife.png
-  shop: /css/images/banner.jpg
-  avatar: /css/images/leia.png
+  logo: /images/codingwife.png
+  banner: /images/banner.jpg
+  avatar: /images/leia.png
   description: 'Codingwife'
   twitter_username:
   github_username: leiadot
   linkedin_username:
   facebook_username: hy2.902
+
+author_links:
+  github:
+    url: https://github.com/leiadot
+  facebook:
+    title: global.facebook
+    url: https://facebook.com/CodingwifeHy2
+  mail:
+    url: mailto:luv.hsu@gmail.com
 
 # MathJax Support
 mathjax:
