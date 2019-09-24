@@ -4,7 +4,7 @@ tag:
   - 讀書筆記
   - JSDP
 categories: CodingLife
-urlname: javascript-design-pattern-object
+urlname: javascript-design-pattern-object01
 photos:
   - /img/cover/books.jpg
 date: 2018-11-07 17:56:01
@@ -12,7 +12,7 @@ date: 2018-11-07 17:56:01
 
 <!-- more -->
 
-# 命名空間
+## 命名空間
 
 可以降低全域變數的需求量，幫忙避免命名衝突和過度的名稱前綴詞。JavaScript 沒有內建的命名空間，為了避免一堆函式、變數、物件污染全域空間，應該要建立一個全域物件。
 
@@ -37,7 +37,7 @@ MYAPP.modules.modules1.data = {a:1};
 - 唯一的全域實體代表任何程式碼都可以變更這個實體，而接下來的功能也都會使用變更後的狀態。
 - 要多打一點字，它相當於在每個變數和函數之前加上前綴詞。
 
-## 泛用的命名空間函式
+#### 泛用的命名空間函式
 
 有些你正要加入命名空間的屬性也許早已存在了，於是會不小心覆蓋它，因此最好建立命名空間和新增屬性前，先檢查是否存在。
 
@@ -97,7 +97,7 @@ MYAPP.namespace('MYAPP.once.upon.the.time');
 //很長的命名空間
 ```
 
-# 宣告相依性
+## 宣告相依性
 
 JavaScript 通常會使用命名空間，並讓良好的模組化，讓你可以只引用你需要的模組。
 
@@ -147,7 +147,7 @@ alert(a.m2);
 alert(a.m3);
 ```
 
-# Private 屬性與方法
+## Private 屬性與方法
 
 JavaScript 所有的物件成員都是 Public。
 
@@ -162,7 +162,7 @@ console.log(myobj.myprop); // myprop 可被 public 存取
 console.log(myobj.getProp()); // getProp() 也是 public
 ```
 
-## Private 成員
+#### Private 成員
 
 雖然語言本身沒有提供特殊語法，但可以用閉包來實作，任何屬於閉包作用域的變數都不會暴露在建構式之外，以下舉例：
 
@@ -183,13 +183,13 @@ console.log(toy.getName()); //"iPod"
 
 在 JavaScript 表現隱私權很容易，將想要保持 Private 的資料用函式包起來，且確保他是函式的區域變數，為了是不要讓他在函式外被存取。
 
-## 特權方法
+#### 特權方法
 
 存取 private 成員的 public 方法的一個名字。
 
 上一個 `getName()` 就是一個特權函式，因為他對 name 屬性有特別的存取權。
 
-## 隱私權錯誤
+#### 隱私權錯誤
 
 當你直接從特權函式回傳一個 private 變數，且這個變數是個物件或陣列時，外圍的程式碼仍可以更改 private 變數，因為傳遞的是變數的參考。
 
@@ -222,7 +222,7 @@ console.dir(toy.getSpecs());
 
 最低授權原則：以這個範例來說，假設 Gadget 的使用者對於此元件的大小是否符合感興趣，那僅需要的只有大小而已。因此你給全部，不如新的函式，讓函式回傳包含寬和高的物件，甚至你可能都不需要 getSpecs 方法。
 
-## 物件實字與隱私權
+#### 物件實字與隱私權
 
 前面的範例都是使用建構式，那如果使用物件實字仍可能使用 private 成員嗎？
 
@@ -259,7 +259,7 @@ var myobj = (function() {
 myobj.getName(); // "oh, mygod"
 ```
 
-## Prototypes 與隱私權
+#### Prototypes 與隱私權
 
 使用建構式所產生的 private 成員，他們在每次建構式呼叫產生新物件時都重新建立，這是建構式每個 this 成員都有的缺點。
 
@@ -289,7 +289,7 @@ console.log(toy.getName());
 console.log(toy.getBrowser());
 ```
 
-## 將 Private 函式揭露成 Public
+#### 將 Private 函式揭露成 Public
 
 揭露模式：將 private 方法揭露為 public 方法的模式。
 

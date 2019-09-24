@@ -12,7 +12,7 @@ date: 2018-11-07 17:59:05
 
 <!-- more -->
 
-# 原型繼承
+## 原型繼承
 
 原型繼承模式可以開始討論「modern」的無 class 模式，物件要繼承自其他物件。
 
@@ -39,7 +39,7 @@ function object(o) {
 
 這邊讓 暫時建構式 F() 的原型指向父物件，最後在回傳這個實體，在這邊的 child 物件本身為空，但他可以使用 parent 的原型。
 
-# 討論
+## 討論
 
 當使用建構式來實作原型繼承模式，注意自身的屬性和建構式原型的屬性都會被繼承：
 
@@ -84,7 +84,7 @@ typeof kid.getName; //"function" 因為只繼承了 prototype 的函式
 typeof kid.name; //"undefined" 而沒有繼承建構式內的屬性
 ```
 
-## ECMA 5 特性
+### ECMA 5 特性
 
 現在有 `Object.create` 方法，我們不需要再做剛剛 `Object()` 的實作了：
 
@@ -102,7 +102,7 @@ var child = Object.create(parent, {
 child.hasOwnProperty('age'); //true
 ```
 
-# 用複製屬性實作繼承
+## 用複製屬性實作繼承
 
 在這個模式之中，物件像其他物件取得功能的方式，只是簡單的使用複製，只是用迴圈來尋訪父物件的所有成員並複製他們，child 參數是選用的，沒有就會建立一個全新物件並回傳：
 
@@ -183,7 +183,7 @@ dad.reads.paper; //true
 
 而這個模式完全沒有涉及到原型：只有物件跟物件自身的屬性。
 
-# 混搭
+## 混搭
 
 混搭模式，不僅從一個物件複製，可以從任意數量的物件來複製屬性，並將他們混合到一個新物件中，只用迴圈跑過參數列，將傳遞進來的每個物件的每個屬性都複製起來：
 
@@ -209,7 +209,7 @@ function mix() {
 var cake = mix({ egg: 2, large: true }, { butter: 1, salted: true }, { flour: '3 cups' }, { sugar: 'sure!' });
 ```
 
-# 借用方法
+## 借用方法
 
 有時候會發生一個狀況，你只需要物件中的一到兩個方法，，你希望重用他們，但不希望對該物件建立父子物件關係，這時候可以使用借用方法。
 
@@ -224,7 +224,7 @@ notmyobj.doStuff.call(myobj, param1, p2, p3);
 notmyobj.doStuff.apply(myobj, [param1, p2, p3]);
 ```
 
-## 範例：向陣列借用方法
+### 範例：向陣列借用方法
 
 陣列有些有很好用的方法，而像 arguments 則沒有這些方法，這時可以使用 `slice` 跟陣列借用：
 
@@ -240,7 +240,7 @@ f(1, 2, 3, 4, 5, 6); // returns [2,3]
 有個空物件被建立出來，只是為了使用他的方法。
 另一種稍微長的方式是向 `Array.prototype.slice.call(...)`，這個方始要輸入比較常，但是可以省略建立空陣列的運算。
 
-## 借用並綁定
+### 借用並綁定
 
 不管是透過 call、apply 或是簡單的賦值來借用方法，方法內的 this 所指向的物件都是依賴運算式來決定，最好讓 this 的值在事先就綁定在一個特定的值。
 
@@ -303,7 +303,7 @@ twosay('yo'); //"yo, another object"
 
 透過上面的實作可以知道，twosay 被建立成一個全域函式，this 也沒有指向全域物件，而是指向傳遞給 bind 的 two 物件，不管用什麼方式呼叫 twosay，this 都永遠綁定 two。
 
-## Function.prototype.bind()
+### Function.prototype.bind()
 
 ```javascript=
 var newFunc = obj.someFunc.bind(myobj, 1, 2, 3);

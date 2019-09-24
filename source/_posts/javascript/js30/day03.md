@@ -15,7 +15,7 @@ photo:
 
 ### <span id="目標讓使用者可調整邊距顏色-寬度及模糊度"><span style="color:#ff5900">目標：讓使用者可調整邊距顏色、寬度，及模糊度</span></span>
 
-# <span id="js-playing-with-css-variables-and-js-day03">JS Playing with CSS Variables and JS Day03</span>
+## <span id="js-playing-with-css-variables-and-js-day03">JS Playing with CSS Variables and JS Day03</span>
 
 ## <span id="一-將欲改變的屬性命名-css-變數">一、將欲改變的屬性命名 css 變數</span>
 

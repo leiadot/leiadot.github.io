@@ -46,7 +46,7 @@ schema: [
 </component>
 ```
 
-# 判斷輸入類型
+## 判斷輸入類型
 
 ![](/img/vue/vue-dynamic-components/dynamic-01.png)
 

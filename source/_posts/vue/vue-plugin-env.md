@@ -198,15 +198,15 @@ const webpack = require('webpack')
 
 在`webpack.base.config.js`的設定。
 
-# axios
+## axios
 
-## 介紹
+### 介紹
 
 > Promise based HTTP client for the browser and node.js
 
 基於 promise 用於 瀏覽器和 node.js 的 HTTP 客戶端。
 
-## 特色
+### 特色
 
 - 在瀏覽器創建 XMLHttpRequest
 - 從 node.js 發出 http 請求
@@ -233,7 +233,7 @@ Vue.prototype.$axios = Axios;
 
 安裝完之後，把他 import 進`main.js`。
 
-## post 範例執行方法
+### post 範例執行方法
 
 ```js
 created(){
