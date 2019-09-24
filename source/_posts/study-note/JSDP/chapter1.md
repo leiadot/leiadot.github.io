@@ -9,6 +9,9 @@ photos:
   - '/img/cover/books.jpg'
 date: 2018-11-07 17:35:13
 modified: 2018-11-07 17:35:13
+jsonContent:
+  meta: true
+  keywords: JavaScript Design Pattern
 ---
 
 <!--more-->
