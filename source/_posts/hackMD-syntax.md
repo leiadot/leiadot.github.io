@@ -10,15 +10,15 @@ date: 2018-11-12 15:59:11
 modified: 2018-11-12 15:59:11
 ---
 
-# 測試 hackmd 語法
+## 測試 hackmd 語法
 
 此頁是用來測試到底支援了多少 hackmd 原本的寫法
 不過，確實有許多功能不需要照本宣科的移植過來，畢竟身為 hackmd 的愛用者，只要夠用，而不是取代呀
 所以，下面列出目前支援的語法與功能到什麼程度，標示 danger 區塊的則是*不支援*或*沒有這功能*的意思。
 
-## 測試開始
+### 測試開始
 
-# 功能介紹
+## 功能介紹
 
 **[English version](/features)**
 **[中文版](/CwYwhgzAbApgHFAtHAnAIzY4awBNkwCsA7ImFCBCHAIxwBMhhIQAAA==)**
@@ -27,13 +27,13 @@ modified: 2018-11-12 15:59:11
 **請不要修改這份筆記** 非常謝謝您 :smile:
 **如果要說 嗨 或是 玩些東西，請至 [遊樂場](/CwDgDAZgTFCcCmBaAhvAJgVkceA2AzIgEYDGIJiIGIU8GYRYJA7PkAAA)**
 
-# 特賣會
+## 特賣會
 
 **歡迎來自 Front-End Developers Taiwan 的各位！**:100:
 **歡迎來自 g0v 的各位！**:+1:
 **歡迎來自 程式人雜誌 的各位！**:smiley:
 
-# 簡介
+## 簡介
 
 <i class="fa fa-file-text"></i> ** hackmd ** 是個跨平台的 Markdown 即時協作筆記
 所以您可以在**電腦、平板甚至是手機**與其他人做筆記！
@@ -44,9 +44,9 @@ modified: 2018-11-12 15:59:11
 如果需要即時支援，請使用 [Facebook Message](https://www.facebook.com/messages/866415986748945)
 **謝謝您！**
 
-# 工作區
+## 工作區
 
-## 模式
+### 模式
 
 **電腦 & 平板**
 
@@ -59,28 +59,28 @@ modified: 2018-11-12 15:59:11
 <i class="fa fa-toggle-on fa-fw"></i> 檢視：只看到結果
 <i class="fa fa-toggle-off fa-fw"></i> 編輯：只看到編輯器
 
-## 上傳圖片
+### 上傳圖片
 
 只要按下這個按鈕 <i class="fa fa-camera"></i>
 或是 **拖放** 圖片到編輯器，甚至 **貼上** 圖片也可以喔！
 這會自動上傳圖片至 **[imgur](http://imgur.com)**，啥都不必煩惱了 :tada:
 ![](https://i.imgur.com/9cgQVqD.png)
 
-## 分享筆記
+### 分享筆記
 
 如果您想分享 **可編輯的** 筆記，複製這份文件的網址就好
 如果您想分享 **只可讀的** 筆記，按下這個按鈕 <i class="fa fa-share-alt"></i> 然後複製網址
 
-## 儲存
+### 儲存
 
 目前可以儲存至 **Dropbox** <i class="fa fa-dropbox"></i> 或是存放 **.md** <i class="fa fa-file-text"></i> 到您的本機
 
-## 匯入
+### 匯入
 
 就像上面的儲存功能，您可以從 **Dropbox** <i class="fa fa-dropbox"></i> 匯入 **.md** <i class="fa fa-file-text"></i>
 或是從 **剪貼簿** <i class="fa fa-clipboard"></i> 匯入，而且這可以轉換 **html** 喔 :smiley:
 
-## 權限
+### 權限
 
 檢視右上方有個小按鈕，您可以透過以下選項來更改權限：
 
@@ -91,39 +91,39 @@ modified: 2018-11-12 15:59:11
 
 **只有筆記的擁有者可以更改權限**
 
-## 嵌入
+### 嵌入
 
 ```xml
 <iframe width="100%" height="500" src="https:// hackmd .io/features" frameborder="0"></iframe>
 ```
 
-## [簡報模式](./slide-example)
+### [簡報模式](./slide-example)
 
 您可以使用一些語法將您的筆記分成投影片
 然後用 **簡報模式** <i class="fa fa-tv"></i> 來展示，詳細請至上連結
 
-# 檢視
+## 檢視
 
-## 目錄
+### 目錄
 
 在右下角有個目錄的小按鈕 <i class="fa fa-bars"></i>
 按下它會顯示目前的目錄，而且會標明你所在的區塊
 支援到**第三階段的標頭**
 
-## 永久連結
+### 永久連結
 
 每個標頭都會在右側自動加上永久連結
 您可以在滑到上面並且按 <i class="fa fa-chain"></i> 去移到那個錨點
 
-# 編輯
+## 編輯
 
-## 快速鍵
+### 快速鍵
 
 跟又快又方便的 Sublime text 很像
 
 > 更多訊息請至 [這裡](https://codemirror.net/demo/sublime.html)
 
-## 自動完成
+### 自動完成
 
 提供完整的 Markdown 自動完成與提示
 
@@ -138,21 +138,21 @@ modified: 2018-11-12 15:59:11
 - 外部：輸入 `{}` 顯示提示
 - 圖片：輸入 `!` 顯示提示
 
-## 標題
+### 標題
 
 會使用 **第一個第一級標頭** 作為筆記標題
 
-## 標籤
+### 標籤
 
 :::danger
 (這個語法的功能不同)
 如同以下方式來使用標籤，它們會顯示在您的 **歷史紀錄**
 
-###### tags: `功能` `酷` `更新`
+####### tags: `功能` `酷` `更新`
 
 :::
 
-## [YAML metadata](./yaml-metadata)
+### [YAML metadata](./yaml-metadata)
 
 提供描述筆記的資訊，以進階設定瀏覽行為，詳細請至上連結
 
@@ -162,18 +162,18 @@ modified: 2018-11-12 15:59:11
 - breaks: 設定是否使用分行
 - mathjax: 設定是否使用 mathjax
 
-## 表情符號
+### 表情符號
 
 您可以像是這樣使用表情符號 :smile: :smiley: :cry: :wink:
 
 > 完整的表情符號列表 [在這裡](http://www.emoji-cheat-sheet.com/)
 
-## 待辦清單
+### 待辦清單
 
 - [ ] 待辦 - [x] 買些沙拉
   - [x] 刷牙 - [ ] 喝水
 
-## 程式碼區塊
+### 程式碼區塊
 
 我們支援非常多程式語言，使用自動完成來看看有些什麼
 
@@ -225,7 +225,7 @@ alert(s);
 :::danger
 (這一段語法不吃)
 
-## 引用區塊標籤
+### 引用區塊標籤
 
 > 您可以使用以下語法，表明自己的 **姓名、時間與顏色** 並與其他的引用區塊做區別
 > [name=ChengHan Wu][time=sun, jun 28, 2015 9:59 pm] [color=#907bf7]
@@ -234,17 +234,17 @@ alert(s);
 > > [name=ChengHan Wu][time=sun, jun 28, 2015 10:00 pm] [color=red]
 > > :::
 
-## 外部
+### 外部
 
-### Youtube
+#### Youtube
 
 {%youtube 1G4isv_Fylg %}
 
-### Vimeo
+#### Vimeo
 
 {%vimeo 124148255 %}
 
-### Gist
+#### Gist
 
 {%gist schacon/4277%}
 
@@ -252,15 +252,15 @@ alert(s);
 (這一段語法不吃)
 
 ```markdown
-### SlideShare
+#### SlideShare
 
 {%slideshare briansolis/26-disruptive-technology-trends-2016-2018-56796196 %}
 
-### Speakerdeck
+#### Speakerdeck
 
 {%speakerdeck sugarenia/xxlCSS-how-to-scale-CSS-and-keep-your-sanity %}
 
-### PDF
+#### PDF
 
 **注意：請使用 https 的網址，否則可能會被您的瀏覽器阻擋載入**
 {%pdf https://papers.nips.cc/paper/5346-sequence-to-sequence-learning-with-neural-networks.pdf %}
@@ -268,7 +268,7 @@ alert(s);
 
 :::
 
-## MathJax
+### MathJax
 
 您可以使用 **MathJax** 語法 來產生 _LaTeX_ 數學表達式，如同 [math.stackexchange.com](http://math.stackexchange.com/)：
 
@@ -284,9 +284,9 @@ $$
 
 > 更多關於 **LaTeX** 數學表達式 [請至這裡](http://meta.math.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference)
 
-## UML 圖表
+### UML 圖表
 
-### 循序圖
+#### 循序圖
 
 您可以像是以下使用循序圖：
 
@@ -298,7 +298,7 @@ Note left of 艾莉絲: 艾莉絲回應
 艾莉絲->包柏: 最近過得怎樣？
 ```
 
-### 流程圖
+#### 流程圖
 
 您可以像是以下使用流程圖：
 
@@ -317,7 +317,7 @@ cond(no)->op2
 :::danger
 (這一段語法不吃)
 
-### Graphviz
+#### Graphviz
 
 ```graphviz
 digraph hierarchy {
@@ -334,7 +334,7 @@ digraph hierarchy {
 }
 ```
 
-### Mermaid
+#### Mermaid
 
 ```mermaid
 gantt
@@ -354,7 +354,7 @@ gantt
 > 更多關於 **Mermaid** 語法 [在這裡](http://knsv.github.io/mermaid)
 > :::
 
-## 警告區塊
+### 警告區塊
 
 :::success
 耶 :tada:
@@ -372,20 +372,20 @@ gantt
 喔不 :fire:
 :::
 
-## 排版
+### 排版
 
-### 標頭
+#### 標頭
 
 ```
-# h1 標頭
-## h2 標頭
-### h3 標頭
-#### h4 標頭
-##### h5 標頭
-###### h6 標頭
+## h1 標頭
+### h2 標頭
+#### h3 標頭
+##### h4 標頭
+###### h5 標頭
+####### h6 標頭
 ```
 
-### 水平分隔線
+#### 水平分隔線
 
 ---
 
@@ -393,7 +393,7 @@ gantt
 
 ---
 
-### 字形替換
+#### 字形替換
 
 (c) (C) (r) (R) (tm) (TM) (p) (P) +-
 
@@ -407,7 +407,7 @@ Remarkable -- awesome
 
 'Smartypants, 單引號'
 
-### 強調
+#### 強調
 
 **這是粗體文字**
 
@@ -427,7 +427,7 @@ _這是斜體文字_
 
 ==這是標記文字==
 
-### 引用區塊
+#### 引用區塊
 
 > 引用區塊也可以是巢狀的喔...
 >
@@ -435,9 +435,9 @@ _這是斜體文字_
 > >
 > > > ...或是用空白隔開
 
-### 清單
+#### 清單
 
-#### 項目
+##### 項目
 
 - 在行開頭使用 `+` `-` 或是 `*` 來建立清單
 - 空兩個空白就可以產生子清單
@@ -447,7 +447,7 @@ _這是斜體文字_
     - Nulla volutpat aliquam velit
 - 非常簡單！
 
-#### 編號
+##### 編號
 
 1. Lorem ipsum dolor sit amet
 2. Consectetur adipiscing elit
@@ -466,7 +466,7 @@ _這是斜體文字_
 57. foo
 1. bar
 
-### 程式碼
+#### 程式碼
 
 行內 `程式碼`
 
@@ -493,7 +493,7 @@ var foo = function(bar) {
 console.log(foo(5));
 ```
 
-### 表格
+#### 表格
 
 | 選項   | 描述                                                                      |
 | ------ | ------------------------------------------------------------------------- |
@@ -525,13 +525,13 @@ console.log(foo(5));
 | engine |  engine to be used for processing templates. Handlebars is the default.   |
 |  ext   |                   extension to be used for dest files.                    |
 
-### 連結
+#### 連結
 
 [連結文字](http://dev.nodeca.com)
 [加上標題的連結文字](http://nodeca.github.io/pica/demo/ '標題文字！')
 自動轉換連結 https://github.com/nodeca/pica
 
-### 圖片
+#### 圖片
 
 ![Minion](https://octodex.github.com/images/minion.png)
 ![Stormtroopocat](https://octodex.github.com/images/stormtroopocat.jpg 'The Stormtroopocat')
@@ -544,7 +544,7 @@ console.log(foo(5));
 ![Minion](https://octodex.github.com/images/minion.png =200x200)
 使用指定的大小顯示圖片
 
-### 註腳
+#### 註腳
 
 註腳 1 連結[^first].
 註腳 2 連結[^second].
@@ -558,7 +558,7 @@ console.log(foo(5));
 
 [^second]: 註腳 文字
 
-### 定義清單
+#### 定義清單
 
 名詞 1
 
@@ -581,7 +581,7 @@ _緊密樣式：_
 ~ 定義 2a
 ~ 定義 2b
 
-### 縮寫
+#### 縮寫
 
 這是 HTML 的縮寫範例
 它會轉換 'HTML'，但是縮寫旁邊其他的部分，例如："xxxHTMLyyy"，不受影響
