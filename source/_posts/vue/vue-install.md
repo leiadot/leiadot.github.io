@@ -3,8 +3,9 @@ title: 【Vue】Vue-cli 安裝
 tags:
   - Vue
 date: 2018-03-23 14:32:01
-categories: CodingLife
+categories: Vue
 urlname: vue-cli-2-install
+description: Vue Cli 2 安裝方法及多種樣板種類。
 photo:
   - '/img/cover/vue.png'
 ---

@@ -4,7 +4,8 @@ tags:
   - JS30系列
 date: 2018-03-12 10:28:03
 urlname: javascript-30-day16
-categories: CodingLife
+description: JS 30 系列，練習使用操作滑鼠事件控制 CSS 特效。
+categories: JavaScript 30
 photo:
   - '/img/js30day/small15.jpg'
 ---

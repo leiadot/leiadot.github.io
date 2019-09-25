@@ -4,7 +4,8 @@ date: 2018-02-01
 urlname: javascript-30-day05
 tags:
   - JS30系列
-categories: CodingLife
+categories: JavaScript 30
+description: JS 30，是初學 JavaScript 一系列非常好的教材，此篇技巧有 transitionend Event 等等。
 photo:
   - '/img/js30day/small4.jpg'
 ---

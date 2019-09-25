@@ -3,9 +3,10 @@ title: 【Github】不開 branch 使用 github page
 urlname: github-doc
 tag:
   - github
-categories: CodingLife
+categories: Git
 photos:
   - '/img/cover/github.png'
+description: 簡單記錄使用 Vue，不用開 Github 的 branch，也可使用 Github page 的方法。
 date: 2018-07-23 09:43:36
 modified: 2018-07-23 09:43:36
 ---

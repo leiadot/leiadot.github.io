@@ -4,7 +4,8 @@ tags:
   - JS30系列
 date: 2018-04-09 09:57:27
 urlname: javascript-30-day25
-categories: CodingLife
+description: JS 30 系列，此篇了解事件監聽 Event Capture、Propagation 與 Bubbling 差別。
+categories: JavaScript 30
 photo:
   - '/img/js30day/small24.jpg'
 ---

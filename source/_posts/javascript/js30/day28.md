@@ -4,7 +4,8 @@ tags:
   - JS30系列
 date: 2018-04-16 10:27:09
 urlname: javascript-30-day28
-categories: CodingLife
+categories: JavaScript 30
+description: JS 30，是初學 JavaScript 一系列非常好的教材，此篇了解如何使用滑鼠監聽調整速度。
 photo:
   - '/img/js30day/small27.jpg'
 ---

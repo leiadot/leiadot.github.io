@@ -1,15 +1,13 @@
 ---
-title: 【】{{ title }} 
-date: {{ date }}  
-modified: {{ date }}
+title: 【】{{ title }}
+date: { { date } }
+modified: { { date } }
 tag:
- - 
- - 
-categories:  CodingLife
+  -
+  -
+categories:
 photos:
- - '/img/'
+  - '/img/'
 ---
-
-
 
 <!--more-->

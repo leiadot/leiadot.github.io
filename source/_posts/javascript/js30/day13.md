@@ -4,7 +4,8 @@ tags:
   - JS30系列
 date: 2018-03-02 10:07:32
 urlname: javascript-30-day13
-categories: CodingLife
+description: JS 30 系列，操作頁面滾動捲軸的範例，能使圖片擁有滑動顯示的效果。
+categories: JavaScript 30
 photo:
   - '/img/js30day/small12.jpg'
 ---

@@ -4,7 +4,8 @@ tags:
   - JS30系列
 date: 2018-03-23 09:30:03
 urlname: javascript-30-day20
-categories: CodingLife
+description: JS 30，是初學 JavaScript 一系列非常好的教材，在頁面上啟用語音辨識並輸入文字。
+categories: JavaScript 30
 photo:
   - '/img/js30day/small19.jpg'
 ---

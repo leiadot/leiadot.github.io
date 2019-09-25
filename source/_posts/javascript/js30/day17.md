@@ -4,7 +4,8 @@ tags:
   - JS30系列
 date: 2018-03-15 09:24:14
 urlname: javascript-30-day17
-categories: CodingLife
+description: JS 30，是初學 JavaScript 一系列非常好的教材，練習排除某些文字下進行陣列排序。
+categories: JavaScript 30
 photo:
   - '/img/js30day/small16.jpg'
 ---

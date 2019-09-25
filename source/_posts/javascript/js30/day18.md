@@ -4,7 +4,8 @@ tags:
   - JS30系列
 date: 2018-03-16 10:29:06
 urlname: javascript-30-day18
-categories: CodingLife
+description: JS 30，是初學 JavaScript 一系列非常好的教材，練習使用 reduce 總和所有播放影片的時間。
+categories: JavaScript 30
 photo:
   - '/img/js30day/small17.jpg'
 ---

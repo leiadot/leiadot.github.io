@@ -4,7 +4,8 @@ tags:
   - JS30系列
 date: 2018-03-01 13:15:42
 urlname: javascript-30-day12
-categories: CodingLife
+description: JS 30 系列，輸入密碼才出現特效的範例，此篇有 splice、join 等使用方法。
+categories: JavaScript 30
 photo:
   - '/img/js30day/small11.jpg'
 ---

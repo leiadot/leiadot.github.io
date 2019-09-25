@@ -2,10 +2,11 @@
 title: 【Hexo】hackMD 功能
 tag:
   - Hexo
-categories: CodingLife
+categories: Sketch Note
 photos:
   - /img/cover/hackMD.png
-urlname: webpack-4-hackMD
+urlname: hackMD
+description: hackMD 功能介紹欄。
 date: 2018-11-12 15:59:11
 modified: 2018-11-12 15:59:11
 ---

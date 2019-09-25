@@ -4,7 +4,8 @@ tags:
   - JS30系列
 date: 2018-02-28 10:53:02
 urlname: javascript-30-day11
-categories: CodingLife
+description: JS 30 系列，此篇利用 HTML 5 控制影片行為。
+categories: JavaScript 30
 photo:
   - '/img/js30day/small10.jpg'
 ---

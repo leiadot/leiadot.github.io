@@ -3,15 +3,13 @@ title: 【讀書筆記】JavaScript Design Pattern Chapter01 介紹
 tag:
   - 讀書筆記
   - JSDP
-categories: CodingLife
+categories: JavaScript Design Pattern
 urlname: javascript-design-pattern-introduce
 photos:
   - '/img/cover/books.jpg'
+description: JavaScript Design Pattern，第一章的模式介紹。
 date: 2018-11-07 17:35:13
 modified: 2018-11-07 17:35:13
-seo:
-  description: This theme allows you to manually set the items for SEO.
-  author: test
 ---
 
 <!--more-->

@@ -4,7 +4,8 @@ urlname: javascript-es6-array-part01
 date: 2018-02-05
 tags:
   - ES6
-categories: CodingLife
+categories: JavaScript
+description: 初探 JavaScript ES6 各種陣列方法，此篇包含 ForEach、Filter、Map、Reduce，以及使用範例及差別。
 photo:
   - '/img/cover/javascript.jpg'
 ---

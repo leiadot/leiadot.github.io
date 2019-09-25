@@ -4,7 +4,8 @@ date: 2018-01-29
 urlname: javascript-30-day03
 tags:
   - JS30系列
-categories: CodingLife
+categories: JavaScript 30
+description: JS 30，是初學 JavaScript 一系列非常好的教材，此篇技巧有 data-attribute、建立 css variables 等等。
 photo:
   - '/img/js30day/small2.jpg'
 ---

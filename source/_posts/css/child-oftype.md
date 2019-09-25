@@ -4,6 +4,7 @@ urlname: css-child-of-type
 tag:
   - CSS
 categories: CSS
+description: 了解在 CSS 中，nth-child 與 nth-of-type 的差異點，並簡單記錄下來。
 photo:
   - '/img/cover/css.jpg'
 date: 2018-07-23 10:43:55

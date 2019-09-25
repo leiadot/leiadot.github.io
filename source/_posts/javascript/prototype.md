@@ -3,9 +3,10 @@ title: 【JS】原型繼承 Prototype
 urlname: javascript-prototype
 tag:
   - JavaScript
-categories: CodingLife
+categories: JavaScript
 photos:
   - '/img/cover/javascript.jpg'
+description: 圖解 JavaScript 中 原形繼承 Prototype。
 date: 2018-08-01 16:22:13
 modified: 2018-08-01 16:22:13
 ---

@@ -3,9 +3,10 @@ title: 【JS】事件循環 Event-loop
 urlname: javascript-event-loop
 tag:
   - JavaScript
-categories: CodingLife
+categories: JavaScript
 photos:
   - '/img/cover/javascript.jpg'
+description: 了解 JavaScript 中 Event-loop 的運作。
 date: 2018-07-23 12:20:31
 modified: 2018-07-23 12:20:31
 ---

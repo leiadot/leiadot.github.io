@@ -4,7 +4,8 @@ tags:
   - JS30系列
 date: 2018-02-23 11:39:39
 urlname: javascript-30-day09
-categories: CodingLife
+categories: JavaScript 30
+description: JS 30系列是加拿大全端開發者 Wesbos 攝錄的一系列非常好的教材，此篇了解開發人員除錯工具 console 系列使用方法。
 photo:
   - '/img/js30day/small8.jpg'
 ---

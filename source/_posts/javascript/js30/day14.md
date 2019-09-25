@@ -4,7 +4,8 @@ tags:
   - JS30系列
 date: 2018-03-05 12:42:34
 urlname: javascript-30-day14
-categories: CodingLife
+description: JS 30 系列，了解 JavaScript References 與 Copying 的差異。
+categories: JavaScript 30
 photo:
   - '/img/js30day/small13.jpg'
 ---

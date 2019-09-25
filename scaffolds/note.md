@@ -1,9 +1,9 @@
 ---
 title: 【讀書筆記】{{ title }}
-date: {{ date }}
+date: { { date } }
 tag:
-- 讀書筆記
-categories: CodingLife
+  - 讀書筆記
+categories:
 photos:
   - '/img/cover/books.jpg'
 ---

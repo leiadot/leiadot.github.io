@@ -3,10 +3,11 @@ title: 【讀書筆記】JavaScript Design Pattern Chapter04 函式（上）
 tag:
   - 讀書筆記
   - JSDP
-categories: CodingLife
+categories: JavaScript Design Pattern
 urlname: javascript-design-pattern-function01
 photos:
   - /img/cover/books.jpg
+description: JavaScript Design Pattern，第四章函式。
 date: 2018-11-07 17:49:58
 ---
 

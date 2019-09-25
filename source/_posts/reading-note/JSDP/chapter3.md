@@ -3,10 +3,11 @@ title: 【讀書筆記】JavaScript Design Pattern Chapter03 實字與建構式
 tag:
   - 讀書筆記
   - JSDP
-categories: CodingLife
+categories: JavaScript Design Pattern
 urlname: javascript-design-pattern-construction
 photos:
   - /img/cover/books.jpg
+description: JavaScript Design Pattern，第三章實字與建構式。
 date: 2018-11-07 17:49:00
 ---
 

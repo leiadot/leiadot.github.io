@@ -4,7 +4,8 @@ tags:
   - JS30系列
 date: 2018-04-10 09:20:10
 urlname: javascript-30-day26
-categories: CodingLife
+description: JS 30，是初學 JavaScript 一系列非常好的教材，此篇了解導覽列使用方法。
+categories: JavaScript 30
 photo:
   - '/img/js30day/small25.jpg'
 ---

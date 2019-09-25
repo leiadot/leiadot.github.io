@@ -4,7 +4,8 @@ tags:
   - JS30系列
 date: 2018-02-18 11:39:39
 urlname: javascript-30-day08
-categories: CodingLife
+categories: JavaScript 30
+description: JS 30系列是加拿大全端開發者 Wesbos 攝錄的一系列非常好的教材，此篇介紹基礎 canvas 使用。
 photo:
   - '/img/js30day/small7.jpg'
 ---

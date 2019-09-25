@@ -3,10 +3,11 @@ title: 【讀書筆記】JavaScript Design Pattern Chapter05 物件建立模式�
 tag:
   - 讀書筆記
   - JSDP
-categories: CodingLife
+categories: JavaScript Design Pattern
 urlname: javascript-design-pattern-object01
 photos:
   - /img/cover/books.jpg
+description: JavaScript Design Pattern，第五章物件建立模式。
 date: 2018-11-07 17:56:01
 ---
 

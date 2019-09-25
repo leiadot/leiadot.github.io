@@ -4,7 +4,8 @@ tags:
   - JS30系列
 date: 2018-03-30 10:36:20
 urlname: javascript-30-day24
-categories: CodingLife
+description: JS 30 系列，此篇了解偵測頁面高度固定導覽列的方法。
+categories: JavaScript 30
 photo:
   - '/img/js30day/small23.jpg'
 ---

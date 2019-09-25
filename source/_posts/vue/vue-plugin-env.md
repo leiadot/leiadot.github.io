@@ -3,8 +3,9 @@ title: 【Vue】Vue 常用套件環境設定
 tags:
   - Vue
 date: 2018-03-28 10:52:54
-categories: CodingLife
+categories: Vue
 urlname: vue-cli-2-plugin
+description: Vue Cli 2 常用套件與環境設定。
 photo:
   - '/img/cover/vue.png'
 ---

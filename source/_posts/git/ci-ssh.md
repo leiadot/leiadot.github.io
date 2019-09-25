@@ -6,11 +6,9 @@ tags:
   - Hexo
   - TravisCI
 categories: CI/CD
-description: Travis CI 的練習，使用 Tavis CI 自動化部屬 Hexo 部落格。
+description: Travis CI 的練習，記錄並圖解 Travis CI 自動化部屬 Hexo 部落格在 Github 上的詳細步驟。
 photo:
   - '/img/cover/travisci.jpg'
-keywords:
-  - 部署Travis ci
 ---
 
 這兩天忙著處理 Travis CI ，終於有點心得，
