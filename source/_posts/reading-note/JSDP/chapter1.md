@@ -1,6 +1,6 @@
 ---
 title: 【讀書筆記】JavaScript Design Pattern Chapter01 介紹
-tag:
+tags:
   - 讀書筆記
   - JSDP
 categories: JavaScript Design Pattern

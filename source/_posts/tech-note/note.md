@@ -2,7 +2,7 @@
 title: 【筆記】 如何寫出好註解
 urlname: how-to-write-annotation
 date: 2018-01-26 07:07:23
-tag:
+tags:
   - 攻城屍筆記
 categories: Sketch Note
 description: 如何寫出好註解，註解的目的是協助使用者了解程式碼作者的思想。

@@ -2,8 +2,11 @@
   <h1>
     <%- page.title %>
   </h1>
-  <p class="post-date">
+  <p class="post-description">
     <%- date(page.date, "YYYY-MM-DD") %>
+  </p>
+  <p class="post-description">
+    <%- page.description %>
   </p>
   <div class="arrow-down">
     <a href="javascript:;"></a>
@@ -23,18 +26,14 @@
     </div>
     <% } %>
     <!-- Tags END -->
-    <div id="tag-cloud">
-      <% site.tags.map(function(tag, index) { %>
-      <a
-        class="tag<%= Math.round(Math.random() * 3) %>"
-        data-name="tag-<%= tag.name %>"
-      >
-        <%= tag.name %></a>
-      <% }) %>
-    </div>
     <!-- NAV START -->
     <%- partial('_partial/nav') %>
     <!-- NAV END -->
+    <!-- RELATED POST START -->
+    <%-
+    popular_posts( {} , page )
+  %>
+    <!-- RELATED POST END -->
     <div id="comments"></div>
   </article>
   <!-- Article END -->
@@ -44,7 +43,6 @@
   <% } %>
   <!-- Catalog END -->
 </main>
-
 <script>
   (function () {
     var url = '<%= config.url %>/<%= page.path %>';

@@ -1,7 +1,7 @@
 ---
 title: 【JS】事件循環 Event-loop
 urlname: javascript-event-loop
-tag:
+tags:
   - JavaScript
 categories: JavaScript
 photos:

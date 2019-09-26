@@ -1,7 +1,7 @@
 ---
 title: 【CSS】nth-child 與 nth-of-type
 urlname: css-child-of-type
-tag:
+tags:
   - CSS
 categories: CSS
 description: 了解在 CSS 中，nth-child 與 nth-of-type 的差異點，並簡單記錄下來。

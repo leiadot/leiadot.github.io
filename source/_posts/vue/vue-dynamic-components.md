@@ -1,6 +1,6 @@
 ---
 title: 【Vue】如何優雅產生動態表單元件
-tag:
+tags:
   - Vue
   - null
 categories: Vue

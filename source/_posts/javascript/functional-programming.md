@@ -1,7 +1,7 @@
 ---
 title: 【JS】Functional Programming
 urlname: javascript-functional-programming
-tag:
+tags:
   - JavaScript
 categories: JavaScript
 photos:

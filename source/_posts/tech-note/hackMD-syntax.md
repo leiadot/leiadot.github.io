@@ -1,6 +1,6 @@
 ---
 title: 【Hexo】hackMD 功能
-tag:
+tags:
   - Hexo
 categories: Sketch Note
 photos:

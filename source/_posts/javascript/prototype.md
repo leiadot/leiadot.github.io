@@ -1,7 +1,7 @@
 ---
 title: 【JS】原型繼承 Prototype
 urlname: javascript-prototype
-tag:
+tags:
   - JavaScript
 categories: JavaScript
 photos:

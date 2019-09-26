@@ -1,7 +1,7 @@
 ---
 title: 【JS】Debounce and Throttle
 urlname: javascript-debounce-throttle
-tag:
+tags:
   - JavaScript
 categories: JavaScript
 photos:

@@ -1,7 +1,7 @@
 ---
 title: 【讀書筆記】{{ title }}
 date: { { date } }
-tag:
+tags:
   - 讀書筆記
 categories:
 photos:

@@ -1,6 +1,6 @@
 ---
 title: 【讀書筆記】JavaScript Design Pattern Chapter03 實字與建構式
-tag:
+tags:
   - 讀書筆記
   - JSDP
 categories: JavaScript Design Pattern
