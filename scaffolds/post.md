@@ -1,11 +1,12 @@
 ---
 title: 【】{{ title }}
 date: { { date } }
-modified: { { date } }
 tag:
   -
   -
 categories:
+urlname:
+description:
 photos:
   - '/img/'
 ---
