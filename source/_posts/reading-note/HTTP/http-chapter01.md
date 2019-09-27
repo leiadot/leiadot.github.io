@@ -1,5 +1,5 @@
 ---
-title: 【【讀書筆記】圖解 HTTP Chapter 01 了解 Web 及網路基礎
+title: 【讀書筆記】圖解 HTTP Chapter 01 了解 Web 及網路基礎
 date: 2018-10-19 21:49:00
 tags:
   - 圖解 HTTP

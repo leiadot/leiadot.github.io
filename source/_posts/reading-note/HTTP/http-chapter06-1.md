@@ -1,9 +1,9 @@
 ---
-title: 【【讀書筆記】圖解 HTTP Chapter 06 HTTP 首部（上）
+title: 【讀書筆記】圖解 HTTP Chapter 06 HTTP 首部（上）
 date: 2018-10-28 12:12:21
 tags:
   - 圖解 HTTP
-  - http
+  - Http
 categories: 前端讀書筆記
 urlname: graphic-http-chapter06-1
 description: 了解 HTTP 的 Header 的總覽。

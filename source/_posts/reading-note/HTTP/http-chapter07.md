@@ -1,9 +1,9 @@
 ---
-title: 【【讀書筆記】圖解 HTTP Chapter 07 確保 Web 安全的 HTTPS
+title: 【讀書筆記】圖解 HTTP Chapter 07 確保 Web 安全的 HTTPS
 date: 2018-10-31 14:01:21
 tags:
   - 圖解 HTTP
-  - http
+  - Http
 categories: 前端讀書筆記
 urlname: graphic-http-chapter07
 description: 為什麼 HTTP 用得好好的，需要使用 HTTPS 呢？這邊解釋 HTTP 的缺點。

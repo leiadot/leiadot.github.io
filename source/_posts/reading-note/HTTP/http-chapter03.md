@@ -1,9 +1,9 @@
 ---
-title: 【【讀書筆記】圖解 HTTP Chapter 03 HTTP 訊息內的 HTTP 訊息
+title: 【讀書筆記】圖解 HTTP Chapter 03 HTTP 訊息內的 HTTP 訊息
 date: 2018-10-21 11:58:23
 tags:
   - 圖解 HTTP
-  - http
+  - Http
 categories: 前端讀書筆記
 urlname: graphic-http-chapter03
 description: 了解 HTTP 訊息內的 HTTP 訊息，其中包含請求訊息與回應訊息結構等等。

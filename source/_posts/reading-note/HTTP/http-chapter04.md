@@ -1,9 +1,9 @@
 ---
-title: 【【讀書筆記】圖解 HTTP Chapter 04 返回結果的 HTTP 狀態碼
+title: 【讀書筆記】圖解 HTTP Chapter 04 返回結果的 HTTP 狀態碼
 date: 2018-10-22 11:23:21
 tags:
   - 圖解 HTTP
-  - http
+  - Http
 categories: 前端讀書筆記
 urlname: graphic-http-chapter04
 description: 了解返回結果的 HTTP 狀態碼的各種數值及其意義。

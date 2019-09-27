@@ -1,9 +1,9 @@
 ---
-title: 【【讀書筆記】圖解 HTTP Chapter 05 與 HTTP 協作的網頁伺服器
+title: 【讀書筆記】圖解 HTTP Chapter 05 與 HTTP 協作的網頁伺服器
 date: 2018-10-23 14:11:21
 tags:
   - 圖解 HTTP
-  - http
+  - Http
 categories: 前端讀書筆記
 urlname: graphic-http-chapter05
 description: 知道 HTTP 如何與網頁伺服器共同協作。

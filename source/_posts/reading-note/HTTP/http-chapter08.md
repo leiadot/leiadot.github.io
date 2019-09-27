@@ -1,9 +1,9 @@
 ---
-title: 【【讀書筆記】圖解 HTTP Chapter 08 確認訪問用戶身份認證
+title: 【讀書筆記】圖解 HTTP Chapter 08 確認訪問用戶身份認證
 date: 2018-10-31 19:29:21
 tags:
   - 圖解 HTTP
-  - http
+  - Http
 categories: 前端讀書筆記
 urlname: graphic-http-chapter08
 description: 了解 HTTP 訪問身分認證。
