@@ -19,20 +19,16 @@
       <%- page.content %>
     </section>
     <!-- Tags START -->
-    <% if (page.tags && page.tags.length) { %>
-    <div class="tags">
-      <span>Tags:</span>
-      <%- partial('_partial/tag', { tags: page.tags }) %>
-    </div>
-    <% } %>
+    <%- partial('_partial/article-tags') %>
     <!-- Tags END -->
+    <!-- AUTHOR-INFO START -->
+    <%- partial('_partial/author-info') %>
+    <!-- AUTHOR-INFO END -->
     <!-- NAV START -->
     <%- partial('_partial/nav') %>
     <!-- NAV END -->
     <!-- RELATED POST START -->
-    <%-
-    popular_posts( {} , page )
-  %>
+    <%- partial('_partial/related-posts') %>
     <!-- RELATED POST END -->
     <div id="comments"></div>
   </article>
