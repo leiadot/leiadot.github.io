@@ -3,7 +3,7 @@ title: 【讀書筆記】圖解 HTTP Chapter 02 簡單的 HTTP 協議
 date: 2018-10-20 08:12:21
 tags:
   - 圖解 HTTP
-  - Http
+  - HTTP
 categories: 前端讀書筆記
 urlname: graphic-http-chapter02
 description: 了解簡單的 HTTP 協議的特性，HTTP 協議用於客戶端和伺服端之間的通訊並通過請求和回應的交換達成通訊。

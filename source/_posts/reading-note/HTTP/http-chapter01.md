@@ -3,7 +3,7 @@ title: 【讀書筆記】圖解 HTTP Chapter 01 了解 Web 及網路基礎
 date: 2018-10-19 21:49:00
 tags:
   - 圖解 HTTP
-  - http
+  - HTTP
 categories: 前端讀書筆記
 urlname: graphic-http-chapter01
 description: 要了解 HTTP 之前，需要先了解 WEB 及網路基礎認識。

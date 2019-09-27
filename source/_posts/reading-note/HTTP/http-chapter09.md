@@ -3,7 +3,7 @@ title: 【讀書筆記】圖解 HTTP Chapter 09 基於 HTTP 的功能追加協�
 date: 2018-11-01 15:22:21
 tags:
   - 圖解 HTTP
-  - Http
+  - HTTP
 categories: 前端讀書筆記
 urlname: graphic-http-chapter09
 description: 了解 HTTP 功能追加協議。
