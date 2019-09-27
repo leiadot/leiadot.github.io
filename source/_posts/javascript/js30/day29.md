@@ -4,7 +4,7 @@ tags:
   - JS30系列
 date: 2018-04-17 10:44:11
 urlname: javascript-30-day29
-categories: JavaScript 30
+categories: 前端工程
 description: JS 30系列是加拿大全端開發者 Wesbos 攝錄的一系列非常好的教材，此篇教如何製作倒數計時器。
 photo:
   - '/img/js30day/small28.jpg'

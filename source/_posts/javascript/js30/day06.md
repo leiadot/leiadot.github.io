@@ -4,7 +4,7 @@ date: 2018-02-02
 urlname: javascript-30-day06
 tags:
   - JS30系列
-categories: JavaScript 30
+categories: 前端工程
 description: JS 30，是初學 JavaScript 一系列非常好的教材，此篇技巧有 regExp、 spread 展開運算子等等。
 photo:
   - '/img/js30day/small5.jpg'

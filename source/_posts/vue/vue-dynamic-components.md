@@ -3,7 +3,7 @@ title: 【Vue】如何優雅產生動態表單元件
 tags:
   - Vue
   - null
-categories: Vue
+categories: 前端工程
 urlname: vue-dynamic-components
 description: Vue 裡面，記錄如何動態產生表單元件的方法。
 photos:

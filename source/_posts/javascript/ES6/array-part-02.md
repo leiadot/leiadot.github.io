@@ -4,7 +4,7 @@ urlname: javascript-es6-array-part02
 date: 2018-02-15
 tags:
   - ES6
-categories: JavaScript
+categories: 前端工程
 description: 初探 JavaScript ES6 各種陣列方法，此篇包含 Sort、Every、Find、Some，以及使用範例及差別。
 photo:
   - '/img/cover/javascript.jpg'

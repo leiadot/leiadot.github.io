@@ -4,7 +4,7 @@ urlname: javascript-30-day01
 date: 2018-01-22
 tags:
   - JS30系列
-categories: JavaScript 30
+categories: 前端工程
 description: JS 30，是初學 JavaScript 一系列非常好的教材，此篇技巧有 template literals、arrow function 等等。
 photo:
   - '/img/js30day/small0.jpg'

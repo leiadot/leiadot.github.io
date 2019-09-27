@@ -3,7 +3,7 @@ title: 【JS】原型繼承 Prototype
 urlname: javascript-prototype
 tags:
   - JavaScript
-categories: JavaScript
+categories: 前端工程
 photos:
   - '/img/cover/javascript.jpg'
 description: 圖解 JavaScript 中 原形繼承 Prototype。

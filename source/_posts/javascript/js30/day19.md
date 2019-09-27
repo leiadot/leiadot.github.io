@@ -5,7 +5,7 @@ tags:
 date: 2018-03-22 13:42:37
 urlname: javascript-30-day19
 description: JS 30，是初學 JavaScript 一系列非常好的教材，練習請求攝影機來預覽截圖存檔。
-categories: JavaScript 30
+categories: 前端工程
 photo:
   - '/img/js30day/small18.jpg'
 ---

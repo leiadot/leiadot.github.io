@@ -3,7 +3,7 @@ title: 【讀書筆記】JavaScript Design Pattern Chapter01 介紹
 tags:
   - 讀書筆記
   - JSDP
-categories: JavaScript Design Pattern
+categories: 前端讀書筆記
 urlname: javascript-design-pattern-introduce
 photos:
   - '/img/cover/books.jpg'

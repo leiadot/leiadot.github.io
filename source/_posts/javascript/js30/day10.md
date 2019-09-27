@@ -4,7 +4,7 @@ tags:
   - JS30系列
 date: 2018-02-24 13:05:49
 urlname: javascript-30-day10
-categories: JavaScript 30
+categories: 前端工程
 description: JS 30系列是加拿大全端開發者 Wesbos 攝錄的一系列非常好的教材。
 photo:
   - '/img/js30day/small9.jpg'

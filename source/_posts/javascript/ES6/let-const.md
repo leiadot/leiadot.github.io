@@ -4,7 +4,7 @@ urlname: javascript-es6-let-const
 date: 2018-04-17 21:09:34
 tags:
   - ES6
-categories: JavaScript
+categories: 前端工程
 description: 了解 JavaScript ES6 宣告變數的部分，let、const 與 var 的定義與差異性。
 photo:
   - '/img/cover/javascript.jpg'

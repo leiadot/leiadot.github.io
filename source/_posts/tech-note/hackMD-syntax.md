@@ -2,7 +2,7 @@
 title: 【Hexo】hackMD 功能
 tags:
   - Hexo
-categories: Sketch Note
+categories: 工具介紹
 photos:
   - /img/cover/hackMD.png
 urlname: hackMD

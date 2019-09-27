@@ -3,7 +3,7 @@ title: 【JS】Functional Programming
 urlname: javascript-functional-programming
 tags:
   - JavaScript
-categories: JavaScript
+categories: 前端工程
 photos:
   - '/img/cover/javascript.jpg'
 description: 了解 JavaScript 中 Functional Programming 的定義。

@@ -3,7 +3,7 @@ title: 【Vue】Vue 與 webpack
 tags:
   - Vue
 date: 2018-03-26 10:18:05
-categories: Vue
+categories: 前端工程
 urlname: vue-cli-2-webpack
 description: Vue Cli 2 與 webpack。
 photo:

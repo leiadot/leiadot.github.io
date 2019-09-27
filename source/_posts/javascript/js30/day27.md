@@ -5,7 +5,7 @@ tags:
 date: 2018-04-12 09:18:54
 urlname: javascript-30-day27
 description: JS 30，是初學 JavaScript 一系列非常好的教材，此篇了解滑鼠拖移事件的使用。
-categories: JavaScript 30
+categories: 前端工程
 photo:
   - '/img/js30day/small26.jpg'
 ---
