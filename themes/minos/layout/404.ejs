@@ -1,0 +1,41 @@
+     <section class="section">
+       <div class="container">
+         <div class="archive content">
+           <h4 class="title is-4">Not Found</h4>
+         </div>
+       </div>
+     </section>
+     <section class="section">
+       <div class="container">
+         <div class="archive content">
+           <h5><i class="far fa-folder"></i><%= __('common.categories') %></h5>
+           <div class="columns is-variable is-1 is-multiline is-mobile">
+             <% (site._categories || site.categories).forEach(category => {%>
+             <span class="column is-narrow">
+               <a
+                 class="tag is-light article-tag"
+                 href="<%= url_for(category.path) %>"
+               ><%= category.name %>&nbsp;(<%= category.posts.length%>)</a>
+             </span>
+             <% }) %>
+           </div>
+         </div>
+       </div>
+     </section>
+     <section class="section">
+       <div class="container">
+         <div class="archive content">
+           <h5><i class="far fa-folder"></i><%= __('common.tag') %></h5>
+           <div class="columns is-variable is-1 is-multiline is-mobile">
+             <% (site._tags || site.tags).forEach(tag => {%>
+             <span class="column is-narrow">
+               <a
+                 class="tag is-light article-tag"
+                 href="<%= url_for(tag.path) %>"
+               >#<%= tag.name %>&nbsp;(<%= tag.posts.length%>)</a>
+             </span>
+             <% }) %>
+           </div>
+         </div>
+       </div>
+     </section>

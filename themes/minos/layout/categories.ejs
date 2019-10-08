@@ -1,0 +1,44 @@
+<section class="section section-heading">
+    <div class="container">
+        <div class="content">
+            <h5><i class="far fa-folder"></i><%= __('common.categories') %></h5>
+        </div>
+    </div>
+</section>
+<section class="section">
+    <div class="container">
+        <div class="columns is-variable is-1 is-multiline is-mobile">
+            <% (page._categories || page.categories).forEach(category => {%>
+            <span class="column is-narrow">
+                <a
+                    class="tag is-light article-tag"
+                    href="<%= url_for(category.path) %>"
+                ><%= category.name %>&nbsp;(<%= category.posts.length%>)</a>
+            </span>
+            <% }) %>
+        </div>
+        <% (page._categories || page.categories).forEach((category,index) => {%>
+        <div class="archive content">
+            <h4
+                class="title is-4"
+                id="<%= index %>"
+            ><%= category.name %></h4>
+            <div class="articles">
+                <% category.posts.map(function(post) { %>
+                <div class="article content>">
+                    <h6 class="title is-6"><a href="<%- config.root %><%- post.path %>">
+                            <time
+                                class="is-text-small"
+                                datetime="<%= date_xml(post.date) %>"
+                                itemprop="datePublished"
+                            >
+                                <%= format_date(post.date) %>日</time>
+                            <%- post.title %></a>
+                    </h6>
+                </div>
+                <% }) %>
+            </div>
+        </div>
+        <% }) %>
+    </div>
+</section>

@@ -1,0 +1,44 @@
+<section class="section section-heading">
+    <div class="container">
+        <div class="content">
+            <h5>#<%= __('common.tags') %></h5>
+        </div>
+    </div>
+</section>
+<section class="section">
+    <div class="container">
+        <div class="columns is-variable is-1 is-multiline is-mobile">
+            <% (page._tags || page.tags).forEach(tag => {%>
+            <span class="column is-narrow">
+                <a
+                    class="tag is-light article-tag"
+                    href="<%= url_for(tag.path) %>"
+                >#<%= tag.name %>&nbsp;(<%= tag.posts.length%>)</a>
+            </span>
+            <% }) %>
+        </div>
+        <% site.tags.map(function(tag, index){%>
+        <div class="archive content">
+            <h4
+                class="title is-4"
+                id="<%= index %>"
+            ><%= tag.name %></h4>
+            <div class="articles">
+                <% tag.posts.map(function(post) { %>
+                <div class="article content>">
+                    <h6 class="title is-6"><a href="<%- config.root %><%- post.path %>">
+                            <time
+                                class="is-text-small"
+                                datetime="<%= date_xml(post.date) %>"
+                                itemprop="datePublished"
+                            >
+                                <%= format_date(post.date) %>日</time>
+                            <%- post.title %></a>
+                    </h6>
+                </div>
+                <% }) %>
+            </div>
+        </div>
+        <% }) %>
+    </div>
+</section>
