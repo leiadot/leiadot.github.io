@@ -3,13 +3,15 @@ title: 【讀書筆記】JavaScript Design Pattern Chapter04 函式（下）
 tags:
   - 讀書筆記
   - JSDP
-categories: 前端讀書筆記
+categories: Front-end
 urlname: javascript-design-pattern-function02
 photos:
   - /img/cover/books.jpg
 description: JavaScript Design Pattern，第四章函式。
 date: 2018-11-07 17:50:58
 ---
+
+另一種類似立即函式且避免全域污染的方式，此模式建立一個物件，並帶有 `init` 方法，建立物件後立即執行 `init` 做初始化。
 
 <!-- more -->
 

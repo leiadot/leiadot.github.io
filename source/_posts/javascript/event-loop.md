@@ -3,7 +3,7 @@ title: 【JS】事件循環 Event-loop
 urlname: javascript-event-loop
 tags:
   - JavaScript
-categories: 前端工程
+categories: Front-end
 photos:
   - '/img/cover/javascript.jpg'
 description: 了解 JavaScript 中 Event-loop 的運作。

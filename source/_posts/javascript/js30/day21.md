@@ -5,7 +5,7 @@ tags:
 date: 2018-03-27 16:20:57
 urlname: javascript-30-day21
 description: JS 30，是初學 JavaScript 一系列非常好的教材，取得裝置地理位置和移動速度。
-categories: 前端工程
+categories: Front-end
 photo:
   - '/img/js30day/small20.jpg'
 ---

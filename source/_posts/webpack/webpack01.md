@@ -4,7 +4,7 @@ tags:
   - Webpack
 date: 2018-03-19 13:43:56
 urlname: webpack-4-first-try
-categories: Webpack
+categories: Front-end
 description: 新手從無到有，初探 webpack 的心得，webpack 的基本介紹、比較，以及如何運用相關套件簡單運行。
 photo:
   - '/img/cover/webpack.png'

@@ -3,7 +3,7 @@ title: 【Webpack】plugin 與 loader
 tags:
   - Webpack
 date: 2018-03-19 14:09:08
-categories: Webpack
+categories: Front-end
 urlname: webpack-4-plugin-loade
 description: 新手從無到有，初探 webpack 的心得，此篇介紹 plugin 及 loader 簡單的使用方法，承襲上一篇的內容，逐步實作做下去。
 photo:

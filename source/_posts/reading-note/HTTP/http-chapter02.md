@@ -4,12 +4,14 @@ date: 2018-10-20 08:12:21
 tags:
   - 圖解 HTTP
   - HTTP
-categories: 前端讀書筆記
+categories: Front-end
 urlname: graphic-http-chapter02
 description: 了解簡單的 HTTP 協議的特性，HTTP 協議用於客戶端和伺服端之間的通訊並通過請求和回應的交換達成通訊。
 photos:
   - '/img/cover/http.png'
 ---
+
+請求訪問文字或圖像等資料一端稱為客戶端；提供資料的一端稱為伺服器端。
 
 <!--more-->
 

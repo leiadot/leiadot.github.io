@@ -5,7 +5,7 @@ tags:
 date: 2018-03-16 10:29:06
 urlname: javascript-30-day18
 description: JS 30，是初學 JavaScript 一系列非常好的教材，練習使用 reduce 總和所有播放影片的時間。
-categories: 前端工程
+categories: Front-end
 photo:
   - '/img/js30day/small17.jpg'
 ---

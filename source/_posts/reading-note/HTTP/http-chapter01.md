@@ -4,12 +4,16 @@ date: 2018-10-19 21:49:00
 tags:
   - 圖解 HTTP
   - HTTP
-categories: 前端讀書筆記
+categories: Front-end
 urlname: graphic-http-chapter01
 description: 要了解 HTTP 之前，需要先了解 WEB 及網路基礎認識。
 photos:
   - '/img/cover/http.png'
 ---
+
+當在網頁瀏覽器輸入網址之後，瀏覽器會向伺服器請求該網址的資源，並顯示網頁。發送請求取得伺服器資料的網頁瀏覽器，都可以稱為客戶端。
+
+網頁是透過 HTTP 協議完成傳送資料的流程。
 
 <!--more-->
 

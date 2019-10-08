@@ -5,7 +5,7 @@ tags:
 date: 2018-03-28 10:31:37
 urlname: javascript-30-day22
 description: JS 30 系列，了解 JavaScript 滑鼠游標移動 highlight 位置。
-categories: 前端工程
+categories: Front-end
 photo:
   - '/img/js30day/small21.jpg'
 ---

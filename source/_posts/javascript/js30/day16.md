@@ -5,7 +5,7 @@ tags:
 date: 2018-03-12 10:28:03
 urlname: javascript-30-day16
 description: JS 30 系列，練習使用操作滑鼠事件控制 CSS 特效。
-categories: 前端工程
+categories: Front-end
 photo:
   - '/img/js30day/small15.jpg'
 ---

@@ -3,7 +3,7 @@ title: 【JS】Debounce and Throttle
 urlname: javascript-debounce-throttle
 tags:
   - JavaScript
-categories: 前端工程
+categories: Front-end
 photos:
   - '/img/cover/javascript.jpg'
 description: 了解 JavaScript 中 Debounce and Throttle 的運作。

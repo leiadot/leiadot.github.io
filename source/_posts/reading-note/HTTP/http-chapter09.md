@@ -4,12 +4,16 @@ date: 2018-11-01 15:22:21
 tags:
   - 圖解 HTTP
   - HTTP
-categories: 前端讀書筆記
+categories: Front-end
 urlname: graphic-http-chapter09
 description: 了解 HTTP 功能追加協議。
 photos:
   - '/img/cover/http.png'
 ---
+
+當初在制定 HTTP 協議，主要是希望把 HTTP 當作傳輸 HTML 文件的協議，但根據時代演變，網站的用途越來越多樣，像是購物網站、SNS 等（社交網路服務 Social Networking Service），HTTP 協議即使已經滿足需求，但加上本身協議的限制和自身效能的限制，就效能來看不一定是最好的。
+
+因為現在網路瀏覽器的使用已經佈及全世界，已經完全沒辦法離開 HTTP，因此在其他功能上的不足，會需要建立全新的協議來彌補。
 
 <!--more-->
 

@@ -4,12 +4,20 @@ date: 2018-10-31 19:29:21
 tags:
   - 圖解 HTTP
   - HTTP
-categories: 前端讀書筆記
+categories: Front-end
 urlname: graphic-http-chapter08
 description: 了解 HTTP 訪問身分認證。
 photos:
   - '/img/cover/http.png'
 ---
+
+電腦本身沒辦法判斷正在使用電腦的人是誰，為了確認是否為本人，需要核對只有登入者本人才知道的訊息，核對訊息通常是以下：
+
+- 密碼（password）：本人才知道的字串。
+- 動態令牌（dynamic token）：僅限本人擁有設備的一次性密碼。
+- 數位憑證：本人（終端）所有的訊息。
+- 生物辨識：指紋或虹膜的生理訊息。
+- IC 卡：本人所有的訊息。
 
 <!--more-->
 

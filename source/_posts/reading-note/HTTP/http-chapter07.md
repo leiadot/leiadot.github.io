@@ -4,12 +4,20 @@ date: 2018-10-31 14:01:21
 tags:
   - 圖解 HTTP
   - HTTP
-categories: 前端讀書筆記
+categories: Front-end
 urlname: graphic-http-chapter07
 description: 為什麼 HTTP 用得好好的，需要使用 HTTPS 呢？這邊解釋 HTTP 的缺點。
 photos:
   - '/img/cover/http.png'
 ---
+
+缺點
+
+- 通訊使用不加密明文，內容可能會被竊聽
+- 不驗證通訊方身放，可能遭到偽裝
+- 無法證明訊息的完整性，可能會遭到竄改
+
+以上缺點在其他未加密協定也會存在。
 
 <!--more-->
 

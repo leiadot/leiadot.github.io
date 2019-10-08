@@ -4,7 +4,7 @@ tags:
   - JS30系列
 date: 2018-03-06 09:41:48
 urlname: javascript-30-day15
-categories: 前端工程
+categories: Front-end
 description: JS 30 系列，練習使用瀏覽器的 LocalStorage，來製作一個 JavaScript todolist。
 photo:
   - '/img/js30day/small14.jpg'

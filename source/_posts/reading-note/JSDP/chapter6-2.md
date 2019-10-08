@@ -3,13 +3,15 @@ title: 【讀書筆記】JavaScript Design Pattern Chapter06 程式碼重用模�
 tags:
   - 讀書筆記
   - JSDP
-categories: 前端讀書筆記
+categories: Front-end
 urlname: javascript-design-pattern-multiplexing02
 description: JavaScript Design Pattern，第六章程式碼重用模式。
 photos:
   - /img/cover/books.jpg
 date: 2018-11-07 17:59:05
 ---
+
+原型繼承模式可以開始討論「modern」的無 class 模式，物件要繼承自其他物件。
 
 <!-- more -->
 

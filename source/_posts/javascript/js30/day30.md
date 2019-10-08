@@ -4,7 +4,7 @@ tags:
   - JS30系列
 date: 2018-04-18 09:57:19
 urlname: javascript-30-day30
-categories: 前端工程
+categories: Front-end
 description: JS 30系列是加拿大全端開發者 Wesbos 攝錄的一系列非常好的教材，此篇教如何製作打地鼠的小遊戲。
 photo:
   - '/img/js30day/small29.jpg'

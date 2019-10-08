@@ -4,12 +4,16 @@ date: 2018-10-28 12:12:21
 tags:
   - 圖解 HTTP
   - HTTP
-categories: 前端讀書筆記
+categories: Front-end
 urlname: graphic-http-chapter06-2
 description: 了解 HTTP 的通用 Header。
 photos:
   - '/img/cover/http.png'
 ---
+
+## HTTP / 1.1 通用首部字串
+
+就是雙方都會用到的字串。
 
 <!--more-->
 

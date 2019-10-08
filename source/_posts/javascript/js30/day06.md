@@ -4,7 +4,7 @@ date: 2018-02-02
 urlname: javascript-30-day06
 tags:
   - JS30系列
-categories: 前端工程
+categories: Front-end
 description: JS 30，是初學 JavaScript 一系列非常好的教材，此篇技巧有 regExp、 spread 展開運算子等等。
 photo:
   - '/img/js30day/small5.jpg'
@@ -12,7 +12,7 @@ photo:
 
 > [javascript 30day](https://javascript30.com/)
 
-<a id="more"></a>
+<!-- more -->
 
 ### <span style="color:#ff5900">目標：完成搜尋功能，並在搜尋關鍵字加上顏色辨識。</span>
 

@@ -1,6 +1,4 @@
 ---
-title: 404
-date: 2019-09-24 18:31:22
+title: 關於日安
 layout: 404
-permalink: /404
 ---

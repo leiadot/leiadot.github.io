@@ -5,7 +5,7 @@ date: 2018-02-22 15:35:45
 tags:
   - Hexo
   - TravisCI
-categories: 軟體工程
+categories: Others
 description: Travis CI 的練習，記錄並圖解 Travis CI 自動化部屬 Hexo 部落格在 Github 上的詳細步驟。
 photo:
   - '/img/cover/travisci.jpg'

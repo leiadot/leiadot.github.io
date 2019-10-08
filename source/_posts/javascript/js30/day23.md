@@ -4,7 +4,7 @@ tags:
   - JS30系列
 date: 2018-03-29 13:20:38
 urlname: javascript-30-day23
-categories: 前端工程
+categories: Front-end
 description: JS 30 系列，讓文字轉語音，並可以變換音調及速率。
 photo:
   - '/img/js30day/small22.jpg'

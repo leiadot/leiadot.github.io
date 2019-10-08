@@ -3,7 +3,7 @@ title: 【讀書筆記】JavaScript Design Pattern Chapter06 程式碼重用模�
 tags:
   - 讀書筆記
   - JSDP
-categories: 前端讀書筆記
+categories: Front-end
 urlname: javascript-design-pattern-multiplexing01
 description: JavaScript Design Pattern，第六章程式碼重用模式。
 photos:
@@ -11,10 +11,10 @@ photos:
 date: 2018-11-07 17:58:05
 ---
 
-<!-- more -->
-
 - 「多用物件複合，少用類別繼承。」
 - 說到程式碼重用，第一件事想到的就是繼承，但他不是唯一一種方法。
+
+<!-- more -->
 
 ## Classical 繼承模式 v.s. Modern 繼承模式
 

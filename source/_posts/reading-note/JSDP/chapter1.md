@@ -3,7 +3,7 @@ title: 【讀書筆記】JavaScript Design Pattern Chapter01 介紹
 tags:
   - 讀書筆記
   - JSDP
-categories: 前端讀書筆記
+categories: Front-end
 urlname: javascript-design-pattern-introduce
 photos:
   - '/img/cover/books.jpg'
@@ -12,9 +12,9 @@ date: 2018-11-07 17:35:13
 modified: 2018-11-07 17:35:13
 ---
 
-<!--more-->
-
 Javascript 是一個不尋常的語言，他沒有 class，而函式是他的第一級物件（firstclass）。
+
+<!--more-->
 
 ## 模式
 

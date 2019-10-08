@@ -3,7 +3,7 @@ title: 【讀書筆記】JavaScript Design Pattern Chapter04 函式（上）
 tags:
   - 讀書筆記
   - JSDP
-categories: 前端讀書筆記
+categories: Front-end
 urlname: javascript-design-pattern-function01
 photos:
   - /img/cover/books.jpg
@@ -11,9 +11,9 @@ description: JavaScript Design Pattern，第四章函式。
 date: 2018-11-07 17:49:58
 ---
 
-<!-- more -->
-
 接下來會學習到不同定義的函式，首先是函式表達式和函式宣告式，接著看函式作用域與 hosting 如何運作。
+
+<!-- more -->
 
 ## 背景
 

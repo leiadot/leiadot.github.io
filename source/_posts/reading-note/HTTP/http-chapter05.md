@@ -4,12 +4,18 @@ date: 2018-10-23 14:11:21
 tags:
   - 圖解 HTTP
   - HTTP
-categories: 前端讀書筆記
+categories: Front-end
 urlname: graphic-http-chapter05
 description: 知道 HTTP 如何與網頁伺服器共同協作。
 photos:
   - '/img/cover/http.png'
 ---
+
+HTTP / 1.1 開始允許一台伺服器可以建立多個網頁站點。例如：提供網頁寄存服務的公司可以用一台伺服器幫多個客戶服務，以每個客戶持有的域名運作各自的網站，這是利用虛擬主機的關係。
+
+在網路上域名通過 DNS 來進行域名解析，關聯到 IP 地址再訪問目標網站。如果一台伺服器寄存了兩個域名，當收到請求的時候就要知道需要訪問哪個域名。
+
+在一樣 IP 地址下，由於虛擬主機可以寄存不同主機名和域名的 URI，在發送請求時，必須在 host 首部內完整指定主機名稱與 URI。
 
 <!--more-->
 

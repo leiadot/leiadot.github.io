@@ -3,13 +3,15 @@ title: 【讀書筆記】JavaScript Design Pattern Chapter05 物件建立模式�
 tags:
   - 讀書筆記
   - JSDP
-categories: 前端讀書筆記
+categories: Front-end
 urlname: javascript-design-pattern-object02
 photos:
   - /img/cover/books.jpg
 description: JavaScript Design Pattern，第五章物件建立模式。
 date: 2018-11-07 17:56:10
 ---
+
+模組模式提供了結構化，所以被廣泛使用，JavaScript 沒有專給套件用的特殊語法，而模組模式提供工具，來建立自成一體且去耦合的程式碼。
 
 <!-- more -->
 

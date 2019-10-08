@@ -3,15 +3,13 @@ title: 【讀書筆記】JavaScript Design Pattern Chapter02 精要
 tags:
   - 讀書筆記
   - JSDP
-categories: 前端讀書筆記
+categories: Front-end
 urlname: javascript-design-pattern-chapter02
 photos:
   - '/img/cover/books.jpg'
 description: JavaScript Design Pattern，第二章的撰寫可維護的程式碼。
 date: 2018-11-07 17:45:13
 ---
-
-<!--more-->
 
 ## 撰寫可維護的程式碼
 
@@ -22,6 +20,8 @@ date: 2018-11-07 17:45:13
 - 可預料的
 - 看起來像同個人寫的
 - 文件化
+
+<!--more-->
 
 ## 減少全域變數
 

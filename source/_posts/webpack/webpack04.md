@@ -3,7 +3,7 @@ title: 【Webpack】source-map
 tags:
   - Webpack
 date: 2018-03-23 23:19:20
-categories: Webpack
+categories: Front-end
 urlname: webpack-4-source-map
 description: 新手從無到有，初探 webpack 的心得，此篇是 source map 介紹。
 photo:

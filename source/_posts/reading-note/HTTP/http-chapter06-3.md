@@ -4,12 +4,16 @@ date: 2018-10-28 12:12:21
 tags:
   - 圖解 HTTP
   - HTTP
-categories: 前端讀書筆記
+categories: Front-end
 urlname: graphic-http-chapter06-3
 description: 了解 HTTP 的請求 Header。
 photos:
   - '/img/cover/http.png'
 ---
+
+## 請求首部字段
+
+請求 header 就是客戶端發送 http 訊息給伺服端所要補充的附加訊息。
 
 <!--more-->
 

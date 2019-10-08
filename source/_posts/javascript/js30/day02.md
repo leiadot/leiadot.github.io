@@ -4,7 +4,7 @@ date: 2018-01-22
 urlname: javascript-30-day02
 tags:
   - JS30系列
-categories: 前端工程
+categories: Front-end
 description: JS 30，是初學 JavaScript 一系列非常好的教材，此篇技巧有 newDate、transform 等等。
 photo:
   - '/img/js30day/small1.jpg'

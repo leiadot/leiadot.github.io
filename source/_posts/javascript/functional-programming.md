@@ -3,13 +3,16 @@ title: 【JS】Functional Programming
 urlname: javascript-functional-programming
 tags:
   - JavaScript
-categories: 前端工程
+categories: Front-end
 photos:
   - '/img/cover/javascript.jpg'
 description: 了解 JavaScript 中 Functional Programming 的定義。
 date: 2018-11-16 18:06:34
 modified: 2018-11-16 18:06:34
 ---
+
+Functional Programming 是一種程式設計範例，但把函式本身上升到一等公民的位置，
+就像是物件導向編程（Object-oriented Programming）一樣，是一種寫程式的方法。
 
 <!--more-->
 

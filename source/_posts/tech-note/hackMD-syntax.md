@@ -2,7 +2,7 @@
 title: 【Hexo】hackMD 功能
 tags:
   - Hexo
-categories: 工具介紹
+categories: Others
 photos:
   - /img/cover/hackMD.png
 urlname: hackMD
@@ -16,6 +16,8 @@ modified: 2018-11-12 15:59:11
 此頁是用來測試到底支援了多少 hackmd 原本的寫法
 不過，確實有許多功能不需要照本宣科的移植過來，畢竟身為 hackmd 的愛用者，只要夠用，而不是取代呀
 所以，下面列出目前支援的語法與功能到什麼程度，標示 danger 區塊的則是*不支援*或*沒有這功能*的意思。
+
+<!-- more -->
 
 ### 測試開始
 

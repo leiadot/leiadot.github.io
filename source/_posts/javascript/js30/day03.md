@@ -4,7 +4,7 @@ date: 2018-01-29
 urlname: javascript-30-day03
 tags:
   - JS30系列
-categories: 前端工程
+categories: Front-end
 description: JS 30，是初學 JavaScript 一系列非常好的教材，此篇技巧有 data-attribute、建立 css variables 等等。
 photo:
   - '/img/js30day/small2.jpg'
@@ -12,7 +12,7 @@ photo:
 
 > [javascript 30day](https://javascript30.com/)
 
-<a id="more"></a>
+<!-- more -->
 
 ### <span id="目標讓使用者可調整邊距顏色-寬度及模糊度"><span style="color:#ff5900">目標：讓使用者可調整邊距顏色、寬度，及模糊度</span></span>
 

@@ -3,7 +3,7 @@ title: 【Vue】如何優雅產生動態表單元件
 tags:
   - Vue
   - null
-categories: 前端工程
+categories: Front-end
 urlname: vue-dynamic-components
 description: Vue 裡面，記錄如何動態產生表單元件的方法。
 photos:
@@ -12,12 +12,12 @@ date: 2018-08-15 10:39:05
 modified: 2018-08-15 10:39:05
 ---
 
+最近重構一下上個月趕的專案，還有很多地方可以加強優化，現在遇到第一個困難是如何減少 template 的重複性，簡單啊，用一下 v-for 就好了，但是遇到不同表單有各種形式的表現方式（selector、checkbox⋯⋯），我們勢必要使用不同種型態的子元件，但因為型態不同，資料結構就不同，那在這樣的狀況下，我們要如何去使用 v-for 呢？
+
 <!--more-->
 
 > 參考文章
 > [[译]如何优雅地用 Vue 创建数据驱动的用户界面](https://juejin.im/post/5b14a9b46fb9a01e780a4323) > [vue-dynamic-components(codesandbox)](https://codesandbox.io/s/61y919wrk3?from-embed)
-
-最近重構一下上個月趕的專案，還有很多地方可以加強優化，現在遇到第一個困難是如何減少 template 的重複性，簡單啊，用一下 v-for 就好了，但是遇到不同表單有各種形式的表現方式（selector、checkbox⋯⋯），我們勢必要使用不同種型態的子元件，但因為型態不同，資料結構就不同，那在這樣的狀況下，我們要如何去使用 v-for 呢？
 
 強者我朋友花王就貼給我一篇文章，不看還好，看了一下一鳴驚人，完全沒看過這種寫法，接下來根據上面 codesandbox 的連結來討論動態表單元件的運行過程，以 Demo4 為例。
 

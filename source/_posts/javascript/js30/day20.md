@@ -5,7 +5,7 @@ tags:
 date: 2018-03-23 09:30:03
 urlname: javascript-30-day20
 description: JS 30，是初學 JavaScript 一系列非常好的教材，在頁面上啟用語音辨識並輸入文字。
-categories: 前端工程
+categories: Front-end
 photo:
   - '/img/js30day/small19.jpg'
 ---

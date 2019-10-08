@@ -3,7 +3,7 @@ title: 【讀書筆記】JavaScript Design Pattern Chapter03 實字與建構式
 tags:
   - 讀書筆記
   - JSDP
-categories: 前端讀書筆記
+categories: Front-end
 urlname: javascript-design-pattern-construction
 photos:
   - /img/cover/books.jpg
@@ -11,9 +11,9 @@ description: JavaScript Design Pattern，第三章實字與建構式。
 date: 2018-11-07 17:49:00
 ---
 
-<!-- more -->
-
 此章解釋為何實字標記會比內建建構式（`new Object()`、`new Array()`）還好，主要傳達就是訊息的延伸（避免用建構式並用實字替代）。
+
+<!-- more -->
 
 ## 物件實字
 

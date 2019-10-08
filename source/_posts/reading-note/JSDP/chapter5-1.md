@@ -3,13 +3,15 @@ title: 【讀書筆記】JavaScript Design Pattern Chapter05 物件建立模式�
 tags:
   - 讀書筆記
   - JSDP
-categories: 前端讀書筆記
+categories: Front-end
 urlname: javascript-design-pattern-object01
 photos:
   - /img/cover/books.jpg
 description: JavaScript Design Pattern，第五章物件建立模式。
 date: 2018-11-07 17:56:01
 ---
+
+可以降低全域變數的需求量，幫忙避免命名衝突和過度的名稱前綴詞。JavaScript 沒有內建的命名空間，為了避免一堆函式、變數、物件污染全域空間，應該要建立一個全域物件。
 
 <!-- more -->
 

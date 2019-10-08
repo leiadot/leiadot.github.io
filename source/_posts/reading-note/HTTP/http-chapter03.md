@@ -4,12 +4,14 @@ date: 2018-10-21 11:58:23
 tags:
   - 圖解 HTTP
   - HTTP
-categories: 前端讀書筆記
+categories: Front-end
 urlname: graphic-http-chapter03
 description: 了解 HTTP 訊息內的 HTTP 訊息，其中包含請求訊息與回應訊息結構等等。
 photos:
   - '/img/cover/http.png'
 ---
+
+訊息分為兩部分，Header 跟 Body。
 
 <!--more-->
 

@@ -3,7 +3,7 @@ title: 【CSS】nth-child 與 nth-of-type
 urlname: css-child-of-type
 tags:
   - CSS
-categories: 前端工程
+categories: Front-end
 description: 了解在 CSS 中，nth-child 與 nth-of-type 的差異點，並簡單記錄下來。
 photo:
   - '/img/cover/css.jpg'

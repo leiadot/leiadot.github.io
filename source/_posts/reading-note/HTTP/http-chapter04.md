@@ -4,12 +4,13 @@ date: 2018-10-22 11:23:21
 tags:
   - 圖解 HTTP
   - HTTP
-categories: 前端讀書筆記
+categories: Front-end
 urlname: graphic-http-chapter04
 description: 了解返回結果的 HTTP 狀態碼的各種數值及其意義。
 photos:
   - '/img/cover/http.png'
 ---
+狀態碼是當客戶端對伺服端發送請求後，伺服端敘述回傳請求結果的狀態，狀態碼為三位數字組成。
 
 <!--more-->
 

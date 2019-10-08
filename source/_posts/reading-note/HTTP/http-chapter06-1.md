@@ -4,12 +4,14 @@ date: 2018-10-28 12:12:21
 tags:
   - 圖解 HTTP
   - HTTP
-categories: 前端讀書筆記
+categories: Front-end
 urlname: graphic-http-chapter06-1
 description: 了解 HTTP 的 Header 的總覽。
 photos:
   - '/img/cover/http.png'
 ---
+
+HTTP 協議的請求和回應一定含有 http header，客戶端和伺服端的 header 內容，針對處理請求和回應有所不同。請求 header 大部分都不需要親自查看。
 
 <!--more-->
 
