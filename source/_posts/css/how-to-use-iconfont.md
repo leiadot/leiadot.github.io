@@ -35,60 +35,76 @@ Type: CSS
 
 ### 定義 font-face
 
-    font-family: 'iconfont';
-    src: url('iconfont.eot');
-    src: url('iconfont.eot?#iefix') format('embedded-opentype'),
-      url('iconfont.woff2') format('woff2'),
-      url('iconfont.woff') format('woff'),
-      url('iconfont.ttf') format('truetype'),
-      url('iconfont.svg#iconfont') format('svg');
-    }
+```css
+font-family: 'iconfont';
+src: url('iconfont.eot');
+src: url('iconfont.eot?#iefix') format('embedded-opentype'),
+  url('iconfont.woff2') format('woff2'),
+  url('iconfont.woff') format('woff'),
+  url('iconfont.ttf') format('truetype'),
+  url('iconfont.svg#iconfont') format('svg');
+}
+```
 
 ### 使用定義的 iconfont
 
-    .iconfont {
-      font-family: "iconfont" !important;
-      font-size: 16px;
-      font-style: normal;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
+```css
+.iconfont {
+  font-family: 'iconfont' !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+```
 
 ### 使用 Unicode
 
-    <span class="iconfont">&#x33;</span>
+```html
+<span class="iconfont">&#x33;</span>
+```
 
 ## 嵌入 CSS，並以 class 方式引入
 
 ### 引入 CSS
 
-    <link rel="stylesheet" href="./iconfont.css">
+```html
+<link rel="stylesheet" href="./iconfont.css" />
+```
 
 ### 使用
 
-    <span class="iconfont icon-xxx"></span>
+```html
+<span class="iconfont icon-xxx"></span>
+```
 
 ## 引入 JS ，使用 Symbol （SVG 的集合）
 
 ### 引入 JS
 
-    <script src="./iconfont.js"></script>
+```html
+<script src="./iconfont.js"></script>
+```
 
 ### 使用通用的 CSS
 
-    .icon {
-      width: 1em;
-      height: 1em;
-      vertical-align: -0.15em;
-      fill: currentColor;
-      overflow: hidden;
-    }
+```css
+.icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+```
 
 ### 使用 SVG
 
-    <svg class="icon" aria-hidden="true">
-      <use xlink:href="#icon-xxx"></use>
-    </svg>
+```html
+<svg class="icon" aria-hidden="true">
+  <use xlink:href="#icon-xxx"></use>
+</svg>
+```
 
 ## 如何引進 Vue
 
@@ -100,4 +116,6 @@ Type: CSS
 
 把 `iconfont.css` 的檔案也放在 `public` 資料夾底下。
 
-    <link rel="stylesheet" href="<%= BASE_URL %>iconfont.css">
+```html
+<link rel="stylesheet" href="<%= BASE_URL %>iconfont.css" />
+```
