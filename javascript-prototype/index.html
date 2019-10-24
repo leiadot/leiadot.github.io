@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+<title>【JS】原型繼承 Prototype - CodingWife 寇丁人妻日安</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="圖解 JavaScript 中 原形繼承 Prototype。">
+
+
+
+
+
+<meta name="description" content="圖解 JavaScript 中 原形繼承 Prototype。">
+<meta name="keywords" content="JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【JS】原型繼承 Prototype">
+<meta property="og:url" content="http://codingwife.com/javascript-prototype/index.html">
+<meta property="og:site_name" content="CodingWife 寇丁人妻日安">
+<meta property="og:description" content="圖解 JavaScript 中 原形繼承 Prototype。">
+<meta property="og:locale" content="zh-tw">
+<meta property="og:image" content="http://codingwife.com/img/cover/javascript.jpg">
+<meta property="og:updated_time" content="2019-10-24T06:50:39.036Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【JS】原型繼承 Prototype">
+<meta name="twitter:description" content="圖解 JavaScript 中 原形繼承 Prototype。">
+<meta name="twitter:image" content="http://codingwife.com/img/cover/javascript.jpg">
+
+
+
+
+
+<link rel="icon" href="/images/logo.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto+Sans+TC|Open+Sans&display=swap">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+<link rel="stylesheet" href="/css/style.css">
+<script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png"},"articleBody":"當我們每次在 console 會看到 javascript 物件底下有個 __proto__，那到底是什麼呢？\n\n\n先淺談一下建構式這是一個點的建構式，有 x、y 的座標，以及一個 position 的 function，我們用建構式先建立兩個 instance。\nfunction Point() &#123;  this.x = 100;  this.y = 99;  this.position = function() &#123;    console.log(this.x, this.y);  &#125;;&#125;const redPoint = new Point();const bluePoint = new Point();\n接下來我們來對其中一個物件做改變。\nredPoint.x++;console.log(redPoint);// Point &#123;x: 101, y: 99, position: ƒ&#125;console.log(bluePoint);// Point &#123;x: 100, y: 99, position: ƒ&#125;\n\n從上述可以證實兩個物件是獨立的，互不影響，因此他們的狀態可以圖解為上。\n試看看替建構式加上 prototype我們把建構式的 function 移除，把他改成 prototype。\nfunction Point() &#123;  this.x = 100;  this.y = 99;  // this.position = function ()&#123;  //   console.log(this.x,this.y);  // &#125;&#125;Point.prototype.position = function() &#123;  console.log(this.x, this.y);&#125;;const redPoint = new Point();const bluePoint = new Point();console.log(redPoint);console.log(bluePoint);\nomg，會發現我們的 function 不見了，打開 console。\n\n會發現他在 __proto__ 裡面，這中間到底發生什麼事了。\n\n我們可以知道，當我們要建立 instance 的時候，他的屬性等等 blabla 會參照建構式，所以 instance 的 __proto__ 也會參照建構式的 prototype。\n那既然會參照建構式，那 function 還可以正常執行嗎？\nredPoint.position();// 100 99\n可以正常執行，我現在想知道 redPosition 這個物件是不是真的有這些屬性。\nredPoint.hasOwnProperty('x');redPoint.hasOwnProperty('y');redPoint.hasOwnProperty('position');//true//true//false\n為什麼 position 是 false ！？ 他明明就可以執行。\n\b\b\n原來 js 在呼叫屬性的時候，先在屬性找，找不到，就向上找 __proto__ ，__proto__是連結到建構式的 prototype，就找到 position 執行。\n但是我們在 __proto__ 裡面還看到一個 __proto__，打開來看看：\n\n會發現裡面都是我們平時在操縱物件的原生方法，原來我們平常操縱物件的方法都在裡面，因此我們可以理解成這樣。\n\nwowww，一切都說得通了，為什麼我們建立 javascript 物件會有 __proto__ ，原來那是 javascript 的原型練，所有物件的方法都在裡面，而且物件的 prototype 永遠都保持在最上層。\n建構式的繼承function Tire() &#123;&#125;Tire.prototype = &#123;  print() &#123;    return '我是輪胎';  &#125;,&#125;;function Car() &#123;&#125;Car.prototype = Object.create(Tire.prototype);Car.prototype.print = function() &#123;  return '我是車';&#125;;function RedCar() &#123;&#125;RedCar.prototype = Object.create(Car.prototype);RedCar.prototype.print = function() &#123;  return '我是紅色的車';&#125;;const michilin = new Tire();const honda = new Car();const redHonda = new RedCar();console.log(michilin.print());// 我是輪胎console.log(honda.print());// 我是車console.log(redHonda.print());// 我是紅車\n現在有三個建構式，輪胎、車，跟紅車，輪胎繼承在車上，車繼承在紅色車子上，上面各自有可以印出他是什麼的 function，他們再分別建構出了：米其林、宏打、紅宏打。\nfunction Tire() &#123;&#125;Tire.prototype = &#123;  print() &#123;    return '我是輪胎';  &#125;,&#125;;function Car() &#123;&#125;Car.prototype = Object.create(Tire.prototype);Car.prototype.print = function() &#123;  return '我是車';&#125;;function RedCar() &#123;&#125;RedCar.prototype = Object.create(Car.prototype);// RedCar.prototype.print = function()&#123;//   return '我是紅色的車'// &#125;const michilin = new Tire();const honda = new Car();const redHonda = new RedCar();// console.log(michilin.print())// console.log(honda.print())console.log(redHonda.print());\n今天我把紅宏打的 function 註解掉，他現在應該印不出東西來了。\nconsole.log(redHonda.print());// 我是車\n但是他最後還是有執行，印出了我是車，代表他繼承了車的 function。\n\b\b\n物件的繼承let water = &#123;  printName() &#123;    return '我是水';  &#125;,&#125;;let bottle = &#123;  printMaterial() &#123;    return '塑膠';  &#125;,&#125;;console.dir(bottle);\nconsole.dir 可以印出物件的屬性。\nlet water = &#123;  printName() &#123;    return '我是水';  &#125;,&#125;;let bottle = &#123;  printMaterial() &#123;    return '塑膠';  &#125;,&#125;;Object.setPrototypeOf(bottle, water);console.dir(bottle);console.dir(bottle.printName());\n\b\b\n這邊我們可以看到水瓶繼承了水的屬性，所以水瓶可以用水的 function，印出來是我是水。\nlet water = &#123;  printName() &#123;    return '我是水';  &#125;,&#125;;let bottle = &#123;  printName() &#123;    return '我是水瓶';  &#125;,&#125;;Object.setPrototypeOf(bottle, water);console.dir(bottle.printName());\n如果我們把printMaterial改成printName，它理所當然印出我是水瓶。\nlet water = &#123;  printName() &#123;    return '我是水';  &#125;,&#125;;let bottle = &#123;  printName() &#123;    return `$&#123;super.printName()&#125; ---水瓶`;  &#125;,&#125;;Object.setPrototypeOf(bottle, water);console.dir(bottle.printName());\n但是我們在 bottle 裡面使用 super ，他可以繼承原型的屬性，所以他印出了我是水，但也印出了---水瓶，證明他呼叫的是 bottle 的 printName。\njavascript ES6 有出 class 的建構式語法糖，有興趣的可以再去看看，感謝大家。\n","dateCreated":"2018-08-01T16:22:13+00:00","dateModified":"2019-10-24T06:50:39+00:00","datePublished":"2018-08-01T16:22:13+00:00","description":"當我們每次在 console 會看到 javascript 物件底下有個 __proto__，那到底是什麼呢？","headline":"【JS】原型繼承 Prototype","image":["/img/cover/javascript.jpg"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://codingwife.com/javascript-prototype/"},"publisher":{"@type":"Organization","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png","logo":{"@type":"ImageObject","url":"http://codingwife.com/images/leia.png"}},"url":"http://codingwife.com/javascript-prototype/","keywords":"JavaScript"}</script>
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    <img src="/images/codingwife.png" alt height="28">
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item " href="/archives">Archives</a>
+            
+            <a class="navbar-item " href="/categories">Categories</a>
+            
+            <a class="navbar-item " href="/tags">Tags</a>
+            
+            <a class="navbar-item " href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="搜尋" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/leiadot">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            <a class="navbar-item" title="Facebook" href="https://facebook.com/CodingwifeHy2">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+        【JS】原型繼承 Prototype
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">2018-08-01 16:22
+            （<time datetime="2018-08-01T16:22:13.000Z" itemprop="datePublished">8月 1 2018</time>）
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Front-end/">Front-end</a>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+        
+        <p>當我們每次在 console 會看到 javascript 物件底下有個 <code>__proto__</code>，那到底是什麼呢？</p>
+<a id="more"></a>
+
+<h2 id="先淺談一下建構式"><a href="#先淺談一下建構式" class="headerlink" title="先淺談一下建構式"></a>先淺談一下建構式</h2><p>這是一個點的建構式，有 <code>x</code>、<code>y</code> 的座標，以及一個 <code>position</code> 的 function，我們用建構式先建立兩個 instance。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Point</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">this</span>.x = <span class="hljs-number">100</span>;</span><br><span class="line">  <span class="hljs-keyword">this</span>.y = <span class="hljs-number">99</span>;</span><br><span class="line">  <span class="hljs-keyword">this</span>.position = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">this</span>.x, <span class="hljs-keyword">this</span>.y);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-keyword">const</span> redPoint = <span class="hljs-keyword">new</span> Point();</span><br><span class="line"><span class="hljs-keyword">const</span> bluePoint = <span class="hljs-keyword">new</span> Point();</span><br></pre></td></tr></table></figure></p>
+<p>接下來我們來對其中一個物件做改變。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line">redPoint.x++;</span><br><span class="line"><span class="hljs-built_in">console</span>.log(redPoint);</span><br><span class="line"><span class="hljs-comment">// Point &#123;x: 101, y: 99, position: ƒ&#125;</span></span><br><span class="line"><span class="hljs-built_in">console</span>.log(bluePoint);</span><br><span class="line"><span class="hljs-comment">// Point &#123;x: 100, y: 99, position: ƒ&#125;</span></span><br></pre></td></tr></table></figure></p>
+<p><img src="/img/prototype/prototype-01.png" alt></p>
+<p>從上述可以證實兩個物件是獨立的，互不影響，因此他們的狀態可以圖解為上。</p>
+<h2 id="試看看替建構式加上-prototype"><a href="#試看看替建構式加上-prototype" class="headerlink" title="試看看替建構式加上 prototype"></a>試看看替建構式加上 prototype</h2><p>我們把建構式的 function 移除，把他改成 prototype。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Point</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">this</span>.x = <span class="hljs-number">100</span>;</span><br><span class="line">  <span class="hljs-keyword">this</span>.y = <span class="hljs-number">99</span>;</span><br><span class="line">  <span class="hljs-comment">// this.position = function ()&#123;</span></span><br><span class="line">  <span class="hljs-comment">//   console.log(this.x,this.y);</span></span><br><span class="line">  <span class="hljs-comment">// &#125;</span></span><br><span class="line">&#125;</span><br><span class="line">Point.prototype.position = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">this</span>.x, <span class="hljs-keyword">this</span>.y);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="hljs-keyword">const</span> redPoint = <span class="hljs-keyword">new</span> Point();</span><br><span class="line"><span class="hljs-keyword">const</span> bluePoint = <span class="hljs-keyword">new</span> Point();</span><br><span class="line"></span><br><span class="line"><span class="hljs-built_in">console</span>.log(redPoint);</span><br><span class="line"><span class="hljs-built_in">console</span>.log(bluePoint);</span><br></pre></td></tr></table></figure></p>
+<p>omg，會發現我們的 function 不見了，打開 <code>console</code>。</p>
+<p><img src="/img/prototype/prototype-02.png" alt></p>
+<p>會發現他在 <code>__proto__</code> 裡面，這中間到底發生什麼事了。</p>
+<p><img src="/img/prototype/prototype-03.png" alt></p>
+<p>我們可以知道，當我們要建立 instance 的時候，他的屬性等等 blabla 會參照建構式，所以 instance 的 <code>__proto__</code> 也會參照建構式的 <code>prototype</code>。</p>
+<p>那既然會參照建構式，那 function 還可以正常執行嗎？</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line">redPoint.position();</span><br><span class="line"><span class="hljs-comment">// 100 99</span></span><br></pre></td></tr></table></figure></p>
+<p>可以正常執行，我現在想知道 <code>redPosition</code> 這個物件是不是真的有這些屬性。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line">redPoint.hasOwnProperty(<span class="hljs-string">'x'</span>);</span><br><span class="line">redPoint.hasOwnProperty(<span class="hljs-string">'y'</span>);</span><br><span class="line">redPoint.hasOwnProperty(<span class="hljs-string">'position'</span>);</span><br><span class="line"><span class="hljs-comment">//true</span></span><br><span class="line"><span class="hljs-comment">//true</span></span><br><span class="line"><span class="hljs-comment">//false</span></span><br></pre></td></tr></table></figure></p>
+<p>為什麼 <code>position</code> 是 false ！？ 他明明就可以執行。</p>
+<p><img src="/img/prototype/prototype-05.png" alt></p>
+<p>原來 js 在呼叫屬性的時候，先在屬性找，找不到，就向上找 <code>__proto__</code> ，<code>__proto__</code>是連結到建構式的 prototype，就找到 position 執行。</p>
+<p>但是我們在 <code>__proto__</code> 裡面還看到一個 <code>__proto__</code>，打開來看看：</p>
+<p><img src="/img/prototype/prototype-04.png" alt></p>
+<p>會發現裡面都是我們平時在操縱物件的原生方法，原來我們平常操縱物件的方法都在裡面，因此我們可以理解成這樣。</p>
+<p><img src="/img/prototype/prototype-06.png" alt></p>
+<p>wowww，一切都說得通了，為什麼我們建立 javascript 物件會有 <code>__proto__</code> ，原來那是 javascript 的原型練，所有物件的方法都在裡面，而且物件的 prototype 永遠都保持在最上層。</p>
+<h2 id="建構式的繼承"><a href="#建構式的繼承" class="headerlink" title="建構式的繼承"></a>建構式的繼承</h2><p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Tire</span>(<span class="hljs-params"></span>) </span>&#123;&#125;</span><br><span class="line">Tire.prototype = &#123;</span><br><span class="line">  print() &#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-string">'我是輪胎'</span>;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Car</span>(<span class="hljs-params"></span>) </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">Car.prototype = <span class="hljs-built_in">Object</span>.create(Tire.prototype);</span><br><span class="line">Car.prototype.print = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">return</span> <span class="hljs-string">'我是車'</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">RedCar</span>(<span class="hljs-params"></span>) </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">RedCar.prototype = <span class="hljs-built_in">Object</span>.create(Car.prototype);</span><br><span class="line">RedCar.prototype.print = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">return</span> <span class="hljs-string">'我是紅色的車'</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">const</span> michilin = <span class="hljs-keyword">new</span> Tire();</span><br><span class="line"><span class="hljs-keyword">const</span> honda = <span class="hljs-keyword">new</span> Car();</span><br><span class="line"><span class="hljs-keyword">const</span> redHonda = <span class="hljs-keyword">new</span> RedCar();</span><br><span class="line"></span><br><span class="line"><span class="hljs-built_in">console</span>.log(michilin.print());</span><br><span class="line"><span class="hljs-comment">// 我是輪胎</span></span><br><span class="line"><span class="hljs-built_in">console</span>.log(honda.print());</span><br><span class="line"><span class="hljs-comment">// 我是車</span></span><br><span class="line"><span class="hljs-built_in">console</span>.log(redHonda.print());</span><br><span class="line"><span class="hljs-comment">// 我是紅車</span></span><br></pre></td></tr></table></figure></p>
+<p>現在有三個建構式，輪胎、車，跟紅車，輪胎繼承在車上，車繼承在紅色車子上，上面各自有可以印出他是什麼的 function，他們再分別建構出了：米其林、宏打、紅宏打。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Tire</span>(<span class="hljs-params"></span>) </span>&#123;&#125;</span><br><span class="line">Tire.prototype = &#123;</span><br><span class="line">  print() &#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-string">'我是輪胎'</span>;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Car</span>(<span class="hljs-params"></span>) </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">Car.prototype = <span class="hljs-built_in">Object</span>.create(Tire.prototype);</span><br><span class="line">Car.prototype.print = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">return</span> <span class="hljs-string">'我是車'</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">RedCar</span>(<span class="hljs-params"></span>) </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">RedCar.prototype = <span class="hljs-built_in">Object</span>.create(Car.prototype);</span><br><span class="line"><span class="hljs-comment">// RedCar.prototype.print = function()&#123;</span></span><br><span class="line"><span class="hljs-comment">//   return '我是紅色的車'</span></span><br><span class="line"><span class="hljs-comment">// &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">const</span> michilin = <span class="hljs-keyword">new</span> Tire();</span><br><span class="line"><span class="hljs-keyword">const</span> honda = <span class="hljs-keyword">new</span> Car();</span><br><span class="line"><span class="hljs-keyword">const</span> redHonda = <span class="hljs-keyword">new</span> RedCar();</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// console.log(michilin.print())</span></span><br><span class="line"><span class="hljs-comment">// console.log(honda.print())</span></span><br><span class="line"><span class="hljs-built_in">console</span>.log(redHonda.print());</span><br></pre></td></tr></table></figure></p>
+<p>今天我把紅宏打的 function 註解掉，他現在應該印不出東西來了。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-built_in">console</span>.log(redHonda.print());</span><br><span class="line"><span class="hljs-comment">// 我是車</span></span><br></pre></td></tr></table></figure></p>
+<p>但是他最後還是有執行，印出了<code>我是車</code>，代表他繼承了車的 function。</p>
+<p><img src="/img/prototype/prototype-07.png" alt></p>
+<h3 id="物件的繼承"><a href="#物件的繼承" class="headerlink" title="物件的繼承"></a>物件的繼承</h3><p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">let</span> water = &#123;</span><br><span class="line">  printName() &#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-string">'我是水'</span>;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="hljs-keyword">let</span> bottle = &#123;</span><br><span class="line">  printMaterial() &#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-string">'塑膠'</span>;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="hljs-built_in">console</span>.dir(bottle);</span><br></pre></td></tr></table></figure></p>
+<p><code>console.dir</code> 可以印出物件的屬性。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">let</span> water = &#123;</span><br><span class="line">  printName() &#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-string">'我是水'</span>;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="hljs-keyword">let</span> bottle = &#123;</span><br><span class="line">  printMaterial() &#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-string">'塑膠'</span>;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="hljs-built_in">Object</span>.setPrototypeOf(bottle, water);</span><br><span class="line"><span class="hljs-built_in">console</span>.dir(bottle);</span><br><span class="line"><span class="hljs-built_in">console</span>.dir(bottle.printName());</span><br></pre></td></tr></table></figure></p>
+<p><img src="/img/prototype/prototype-08.png" alt></p>
+<p>這邊我們可以看到水瓶繼承了水的屬性，所以水瓶可以用水的 function，印出來是<code>我是水</code>。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">let</span> water = &#123;</span><br><span class="line">  printName() &#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-string">'我是水'</span>;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="hljs-keyword">let</span> bottle = &#123;</span><br><span class="line">  printName() &#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-string">'我是水瓶'</span>;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="hljs-built_in">Object</span>.setPrototypeOf(bottle, water);</span><br><span class="line"><span class="hljs-built_in">console</span>.dir(bottle.printName());</span><br></pre></td></tr></table></figure></p>
+<p>如果我們把<code>printMaterial</code>改成<code>printName</code>，它理所當然印出<code>我是水瓶</code>。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">let</span> water = &#123;</span><br><span class="line">  printName() &#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-string">'我是水'</span>;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="hljs-keyword">let</span> bottle = &#123;</span><br><span class="line">  printName() &#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-string">`<span class="hljs-subst">$&#123;<span class="hljs-keyword">super</span>.printName()&#125;</span> ---水瓶`</span>;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="hljs-built_in">Object</span>.setPrototypeOf(bottle, water);</span><br><span class="line"><span class="hljs-built_in">console</span>.dir(bottle.printName());</span><br></pre></td></tr></table></figure></p>
+<p>但是我們在 <code>bottle</code> 裡面使用 <code>super</code> ，他可以繼承原型的屬性，所以他印出了<code>我是水</code>，但也印出了<code>---水瓶</code>，證明他呼叫的是 <code>bottle</code> 的 <code>printName</code>。</p>
+<p>javascript ES6 有出 <code>class</code> 的建構式語法糖，有興趣的可以再去看看，感謝大家。</p>
+
+        
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+        
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/JavaScript/">#JavaScript</a></span>
+        
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/vue-dynamic-components/">【Vue】如何優雅產生動態表單元件</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/javascript-event-loop/">【JS】事件循環 Event-loop</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="sharethis-inline-share-buttons"></div>
+<script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5d9b1ebc2b036a0011ed0d83&amp;product=inline-share-buttons" async="async"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">評論</h3>
+    
+<div id="comment-container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+	var gitment = new Gitment({
+		id: 'javascript-prototype/',
+		owner: 'leiadot',
+		repo: 'leiadot.github.io',
+		oauth: {
+			client_id: '51ce642a9a95d7ccdf4d',
+			client_secret: '6bf1657de06ee2fbaf452b4752567ab313277f50',
+		},
+	})
+	gitment.render('comment-container')
+</script>
+
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2019 [object Object]&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            <div class="column is-narrow">
+                <div class="columns is-mobile is-multiline is-centered">
+                
+                    
+                <a class="column is-narrow has-text-black" title="GitHub" href="https://github.com/ppoffice/leiadot">
+                    
+                    GitHub
+                    
+                </a>
+                
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("zh-CN");
+</script>
+
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+</script>
+
+    
+    
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+<script src="/js/script.js"></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="站內搜尋">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '頁面',
+                CATEGORIES: '分類',
+                TAGS: '標籤',
+                UNTITLED: '(無標題)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+</body>
+</html>

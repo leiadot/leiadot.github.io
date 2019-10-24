@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+<title>【讀書筆記】圖解 HTTP Chapter 05 與 HTTP 協作的網頁伺服器 - CodingWife 寇丁人妻日安</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="知道 HTTP 如何與網頁伺服器共同協作。">
+
+
+
+
+
+<meta name="description" content="知道 HTTP 如何與網頁伺服器共同協作。">
+<meta name="keywords" content="圖解 HTTP,HTTP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【讀書筆記】圖解 HTTP Chapter 05 與 HTTP 協作的網頁伺服器">
+<meta property="og:url" content="http://codingwife.com/graphic-http-chapter05/index.html">
+<meta property="og:site_name" content="CodingWife 寇丁人妻日安">
+<meta property="og:description" content="知道 HTTP 如何與網頁伺服器共同協作。">
+<meta property="og:locale" content="zh-tw">
+<meta property="og:image" content="http://codingwife.com/img/cover/http.png">
+<meta property="og:updated_time" content="2019-10-24T06:50:39.036Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【讀書筆記】圖解 HTTP Chapter 05 與 HTTP 協作的網頁伺服器">
+<meta name="twitter:description" content="知道 HTTP 如何與網頁伺服器共同協作。">
+<meta name="twitter:image" content="http://codingwife.com/img/cover/http.png">
+
+
+
+
+
+<link rel="icon" href="/images/logo.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto+Sans+TC|Open+Sans&display=swap">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+<link rel="stylesheet" href="/css/style.css">
+<script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png"},"articleBody":"HTTP / 1.1 開始允許一台伺服器可以建立多個網頁站點。例如：提供網頁寄存服務的公司可以用一台伺服器幫多個客戶服務，以每個客戶持有的域名運作各自的網站，這是利用虛擬主機的關係。\n在網路上域名通過 DNS 來進行域名解析，關聯到 IP 地址再訪問目標網站。如果一台伺服器寄存了兩個域名，當收到請求的時候就要知道需要訪問哪個域名。\n在一樣 IP 地址下，由於虛擬主機可以寄存不同主機名和域名的 URI，在發送請求時，必須在 host 首部內完整指定主機名稱與 URI。\n\n\n用單台虛擬主機實作多個域名HTTP / 1.1 開始允許一台伺服器可以建立多個網頁站點。例如：提供網頁寄存服務的公司可以用一台伺服器幫多個客戶服務，以每個客戶持有的域名運作各自的網站，這是利用虛擬主機的關係。\n在網路上域名通過 DNS 來進行域名解析，關聯到 IP 地址再訪問目標網站。如果一台伺服器寄存了兩個域名，當收到請求的時候就要知道需要訪問哪個域名。\n在一樣 IP 地址下，由於虛擬主機可以寄存不同主機名和域名的 URI，在發送請求時，必須在 host 首部內完整指定主機名稱與 URI。\n通訊資料轉發順序：代理、閘道、隧道HTTP 通訊，除了客戶端和伺服端外，還有一些用於通訊資料轉發的程式，例如：代理、閘道、隧道。他們可以將請求轉發給通訊線路上的下一站伺服器，並可以接收從那台伺服器發送的回應再轉發給客戶端。\n\n代理代理是處理轉發的一種程式，他算是伺服端與客戶端的中介站，接收客戶端的請求再轉發給伺服端，也接收伺服端的回應給客戶端。\n\n閘道轉發其他伺服器資料的伺服器，接收從客戶端發出的請求時，他就像擁有資料一樣對請求進行處理，有時候客戶端不會知道自己發出的對象是個閘道。\n\n隧道隧道是在隔很遠的客戶端和伺服器兩者的中間進行中轉，以保持通訊連接。\n\n\n代理代理在接收請求後轉發給其他的伺服器，代理不會改變請求的 URI，會直接轉發給前方持有資源的伺服器，而真正持有資源的伺服器叫做來源伺服器，再從來源伺服器回傳回應，經過代理伺服器再到客戶端。\n每次經過代理伺服器轉發請求或回應，會追加 Via header 訊息來標示經過的主機訊息。在通訊的過程中，可以串連多台代理伺服器，請求和回應會像鍊子一樣被連接起來。\n什麼時候要使用代理伺服器？利用緩存減少網路頻寬的流量，針對特定網站的請求控制等等。\n代理有兩種方式，分為是否使用緩存跟是否修改訊息：\n\n緩存代理：代理轉發回應時，緩存代理會預先將資料緩存在代理伺服器上，當再接收請求時，就可以不用再對來源伺服器那邊取得資料，而是使用保留在代理伺服器上的資料當作回應回傳。\n透明代理：轉發請求或回覆時，不對訊息做任何加工處理稱為透明代理，反之稱為非透明代理。\n\n閘道閘道和代理非常相似，而閘道可以提供通訊線路上非 HTTP 的服務，利用閘道可以提供通訊的安全性，因此可以在客戶端與閘道之間進行加密，例如閘道連接資料庫使用 SQL 語法來查詢資料，另外在購物網站上做信用卡結算時，閘道可以和信用卡系統做連動。\n隧道隧道可以依照需求建立與其他伺服器的通訊線路，到時候可以用 SSL 加密進行通訊，隧道主要是能確保客戶端和伺服端進行安全的通訊，隧道不會去解析 HTTP 請求，也就是保持原本的請求中轉給伺服器，隧道會在雙方斷開連結的時候結束。\n保存資訊的緩存緩存是指代理伺服器和客戶端本地硬碟保存的資料副本，利用緩存可以減少對來源伺服器的訪問，也就節省了流量和時間。\n緩存伺服器是代理伺服器的一種，歸類在緩存代理中，意思就是說當代理轉發從伺服器的回應時，代理伺服器會保存一份資料的複製。\n緩存伺服器可以利用緩存避免多次從來源伺服器轉發資料，因此客戶端可就近從緩存伺服器取得資料，而來源伺服器也不用多次處理相同請求。\n緩存的有效期限即使緩存伺服器裡面有緩存，也不能保證每次都會返回一樣的資料的請求，因為這關係到緩存資料的有效性。當來源伺服器上的資料更新，如果緩存還是一樣，那就會演變成回傳到舊資料。\n即使有緩存，也會因為客戶端的要求、緩存等因素像來源伺服器確認資料的有效性，如果判斷緩存失效，就會再次向來源伺服器取得新資料。\n客戶端的緩存緩存可以存在伺服器，也可以存在客戶端的瀏覽器，如果瀏覽器有緩存就不需要再跟伺服器請求相同的資料，可以直接在本地端讀取，再來當判定緩存過期之後，會再跟來源伺服器確認資料的有效性，但判斷失效，瀏覽器會在請求資料。\n在 HTTP 以前的協議\nFTP\nNNTP\nArchie\nWAIS\nGopher\n\n\n資料來源：《圖解 HTTP》 上野宣 人民郵電出版社筆記純屬推廣及分享，如有侵權，請告知。Please advise to remove immediately if any infringement caused.\n\n","dateCreated":"2018-10-23T14:11:21+00:00","dateModified":"2019-10-24T06:50:39+00:00","datePublished":"2018-10-23T14:11:21+00:00","description":"HTTP / 1.1 開始允許一台伺服器可以建立多個網頁站點。例如：提供網頁寄存服務的公司可以用一台伺服器幫多個客戶服務，以每個客戶持有的域名運作各自的網站，這是利用虛擬主機的關係。\n在網路上域名通過 DNS 來進行域名解析，關聯到 IP 地址再訪問目標網站。如果一台伺服器寄存了兩個域名，當收到請求的時候就要知道需要訪問哪個域名。\n在一樣 IP 地址下，由於虛擬主機可以寄存不同主機名和域名的 URI，在發送請求時，必須在 host 首部內完整指定主機名稱與 URI。","headline":"【讀書筆記】圖解 HTTP Chapter 05 與 HTTP 協作的網頁伺服器","image":["/img/cover/http.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://codingwife.com/graphic-http-chapter05/"},"publisher":{"@type":"Organization","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png","logo":{"@type":"ImageObject","url":"http://codingwife.com/images/leia.png"}},"url":"http://codingwife.com/graphic-http-chapter05/","keywords":"圖解 HTTP, HTTP"}</script>
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    <img src="/images/codingwife.png" alt height="28">
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item " href="/archives">Archives</a>
+            
+            <a class="navbar-item " href="/categories">Categories</a>
+            
+            <a class="navbar-item " href="/tags">Tags</a>
+            
+            <a class="navbar-item " href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="搜尋" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/leiadot">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            <a class="navbar-item" title="Facebook" href="https://facebook.com/CodingwifeHy2">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+        【讀書筆記】圖解 HTTP Chapter 05 與 HTTP 協作的網頁伺服器
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">2018-10-23 14:11
+            （<time datetime="2018-10-23T14:11:21.000Z" itemprop="datePublished">10月 23 2018</time>）
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Front-end/">Front-end</a>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+        
+        <p>HTTP / 1.1 開始允許一台伺服器可以建立多個網頁站點。例如：提供網頁寄存服務的公司可以用一台伺服器幫多個客戶服務，以每個客戶持有的域名運作各自的網站，這是利用虛擬主機的關係。</p>
+<p>在網路上域名通過 DNS 來進行域名解析，關聯到 IP 地址再訪問目標網站。如果一台伺服器寄存了兩個域名，當收到請求的時候就要知道需要訪問哪個域名。</p>
+<p>在一樣 IP 地址下，由於虛擬主機可以寄存不同主機名和域名的 URI，在發送請求時，必須在 host 首部內完整指定主機名稱與 URI。</p>
+<a id="more"></a>
+
+<h2 id="用單台虛擬主機實作多個域名"><a href="#用單台虛擬主機實作多個域名" class="headerlink" title="用單台虛擬主機實作多個域名"></a>用單台虛擬主機實作多個域名</h2><p>HTTP / 1.1 開始允許一台伺服器可以建立多個網頁站點。例如：提供網頁寄存服務的公司可以用一台伺服器幫多個客戶服務，以每個客戶持有的域名運作各自的網站，這是利用虛擬主機的關係。</p>
+<p>在網路上域名通過 DNS 來進行域名解析，關聯到 IP 地址再訪問目標網站。如果一台伺服器寄存了兩個域名，當收到請求的時候就要知道需要訪問哪個域名。</p>
+<p>在一樣 IP 地址下，由於虛擬主機可以寄存不同主機名和域名的 URI，在發送請求時，必須在 host 首部內完整指定主機名稱與 URI。</p>
+<h2 id="通訊資料轉發順序：代理、閘道、隧道"><a href="#通訊資料轉發順序：代理、閘道、隧道" class="headerlink" title="通訊資料轉發順序：代理、閘道、隧道"></a>通訊資料轉發順序：代理、閘道、隧道</h2><p>HTTP 通訊，除了客戶端和伺服端外，還有一些用於通訊資料轉發的程式，例如：代理、閘道、隧道。他們可以將請求轉發給通訊線路上的下一站伺服器，並可以接收從那台伺服器發送的回應再轉發給客戶端。</p>
+<ul>
+<li><p>代理<br>代理是處理轉發的一種程式，他算是伺服端與客戶端的中介站，接收客戶端的請求再轉發給伺服端，也接收伺服端的回應給客戶端。</p>
+</li>
+<li><p>閘道<br>轉發其他伺服器資料的伺服器，接收從客戶端發出的請求時，他就像擁有資料一樣對請求進行處理，有時候客戶端不會知道自己發出的對象是個閘道。</p>
+</li>
+<li><p>隧道<br>隧道是在隔很遠的客戶端和伺服器兩者的中間進行中轉，以保持通訊連接。</p>
+</li>
+</ul>
+<h3 id="代理"><a href="#代理" class="headerlink" title="代理"></a>代理</h3><p>代理在接收請求後轉發給其他的伺服器，代理不會改變請求的 URI，會直接轉發給前方持有資源的伺服器，而真正持有資源的伺服器叫做來源伺服器，再從來源伺服器回傳回應，經過代理伺服器再到客戶端。</p>
+<p>每次經過代理伺服器轉發請求或回應，會追加 Via header 訊息來標示經過的主機訊息。在通訊的過程中，可以串連多台代理伺服器，請求和回應會像鍊子一樣被連接起來。</p>
+<p>什麼時候要使用代理伺服器？利用緩存減少網路頻寬的流量，針對特定網站的請求控制等等。</p>
+<p>代理有兩種方式，分為是否使用緩存跟是否修改訊息：</p>
+<ul>
+<li>緩存代理：代理轉發回應時，緩存代理會預先將資料緩存在代理伺服器上，當再接收請求時，就可以不用再對來源伺服器那邊取得資料，而是使用保留在代理伺服器上的資料當作回應回傳。</li>
+<li>透明代理：轉發請求或回覆時，不對訊息做任何加工處理稱為透明代理，反之稱為非透明代理。</li>
+</ul>
+<h3 id="閘道"><a href="#閘道" class="headerlink" title="閘道"></a>閘道</h3><p>閘道和代理非常相似，而閘道可以提供通訊線路上非 HTTP 的服務，利用閘道可以提供通訊的安全性，因此可以在客戶端與閘道之間進行加密，例如閘道連接資料庫使用 SQL 語法來查詢資料，另外在購物網站上做信用卡結算時，閘道可以和信用卡系統做連動。</p>
+<h3 id="隧道"><a href="#隧道" class="headerlink" title="隧道"></a>隧道</h3><p>隧道可以依照需求建立與其他伺服器的通訊線路，到時候可以用 SSL 加密進行通訊，隧道主要是能確保客戶端和伺服端進行安全的通訊，隧道不會去解析 HTTP 請求，也就是保持原本的請求中轉給伺服器，隧道會在雙方斷開連結的時候結束。</p>
+<h2 id="保存資訊的緩存"><a href="#保存資訊的緩存" class="headerlink" title="保存資訊的緩存"></a>保存資訊的緩存</h2><p>緩存是指代理伺服器和客戶端本地硬碟保存的資料副本，利用緩存可以減少對來源伺服器的訪問，也就節省了流量和時間。</p>
+<p>緩存伺服器是代理伺服器的一種，歸類在緩存代理中，意思就是說當代理轉發從伺服器的回應時，代理伺服器會保存一份資料的複製。</p>
+<p>緩存伺服器可以利用緩存避免多次從來源伺服器轉發資料，因此客戶端可就近從緩存伺服器取得資料，而來源伺服器也不用多次處理相同請求。</p>
+<h3 id="緩存的有效期限"><a href="#緩存的有效期限" class="headerlink" title="緩存的有效期限"></a>緩存的有效期限</h3><p>即使緩存伺服器裡面有緩存，也不能保證每次都會返回一樣的資料的請求，因為這關係到緩存資料的有效性。當來源伺服器上的資料更新，如果緩存還是一樣，那就會演變成回傳到舊資料。</p>
+<p>即使有緩存，也會因為客戶端的要求、緩存等因素像來源伺服器確認資料的有效性，如果判斷緩存失效，就會再次向來源伺服器取得新資料。</p>
+<h3 id="客戶端的緩存"><a href="#客戶端的緩存" class="headerlink" title="客戶端的緩存"></a>客戶端的緩存</h3><p>緩存可以存在伺服器，也可以存在客戶端的瀏覽器，如果瀏覽器有緩存就不需要再跟伺服器請求相同的資料，可以直接在本地端讀取，再來當判定緩存過期之後，會再跟來源伺服器確認資料的有效性，但判斷失效，瀏覽器會在請求資料。</p>
+<h3 id="在-HTTP-以前的協議"><a href="#在-HTTP-以前的協議" class="headerlink" title="在 HTTP 以前的協議"></a>在 HTTP 以前的協議</h3><ul>
+<li>FTP</li>
+<li>NNTP</li>
+<li>Archie</li>
+<li>WAIS</li>
+<li>Gopher</li>
+</ul>
+<blockquote>
+<p>資料來源：《圖解 HTTP》 上野宣 人民郵電出版社<br>筆記純屬推廣及分享，如有侵權，請告知。<br>Please advise to remove immediately if any infringement caused.</p>
+</blockquote>
+
+        
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+        
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/圖解-HTTP/">#圖解 HTTP</a></span>
+        
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/HTTP/">#HTTP</a></span>
+        
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/graphic-http-chapter06-3/">【讀書筆記】圖解 HTTP Chapter 06 HTTP 首部（下）</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/graphic-http-chapter04/">【讀書筆記】圖解 HTTP Chapter 04 返回結果的 HTTP 狀態碼</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="sharethis-inline-share-buttons"></div>
+<script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5d9b1ebc2b036a0011ed0d83&amp;product=inline-share-buttons" async="async"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">評論</h3>
+    
+<div id="comment-container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+	var gitment = new Gitment({
+		id: 'graphic-http-chapter05/',
+		owner: 'leiadot',
+		repo: 'leiadot.github.io',
+		oauth: {
+			client_id: '51ce642a9a95d7ccdf4d',
+			client_secret: '6bf1657de06ee2fbaf452b4752567ab313277f50',
+		},
+	})
+	gitment.render('comment-container')
+</script>
+
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2019 [object Object]&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            <div class="column is-narrow">
+                <div class="columns is-mobile is-multiline is-centered">
+                
+                    
+                <a class="column is-narrow has-text-black" title="GitHub" href="https://github.com/ppoffice/leiadot">
+                    
+                    GitHub
+                    
+                </a>
+                
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("zh-CN");
+</script>
+
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+</script>
+
+    
+    
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+<script src="/js/script.js"></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="站內搜尋">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '頁面',
+                CATEGORIES: '分類',
+                TAGS: '標籤',
+                UNTITLED: '(無標題)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+</body>
+</html>

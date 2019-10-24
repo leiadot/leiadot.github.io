@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+<title>【讀書筆記】JavaScript Design Pattern Chapter06 程式碼重用模式（下） - CodingWife 寇丁人妻日安</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="JavaScript Design Pattern，第六章程式碼重用模式。">
+
+
+
+
+
+<meta name="description" content="JavaScript Design Pattern，第六章程式碼重用模式。">
+<meta name="keywords" content="讀書筆記,JSDP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【讀書筆記】JavaScript Design Pattern Chapter06 程式碼重用模式（下）">
+<meta property="og:url" content="http://codingwife.com/javascript-design-pattern-multiplexing02/index.html">
+<meta property="og:site_name" content="CodingWife 寇丁人妻日安">
+<meta property="og:description" content="JavaScript Design Pattern，第六章程式碼重用模式。">
+<meta property="og:locale" content="zh-tw">
+<meta property="og:image" content="http://codingwife.com/img/cover/books.jpg">
+<meta property="og:updated_time" content="2019-10-24T06:50:39.036Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【讀書筆記】JavaScript Design Pattern Chapter06 程式碼重用模式（下）">
+<meta name="twitter:description" content="JavaScript Design Pattern，第六章程式碼重用模式。">
+<meta name="twitter:image" content="http://codingwife.com/img/cover/books.jpg">
+
+
+
+
+
+<link rel="icon" href="/images/logo.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto+Sans+TC|Open+Sans&display=swap">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+<link rel="stylesheet" href="/css/style.css">
+<script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png"},"articleBody":"原型繼承模式可以開始討論「modern」的無 class 模式，物件要繼承自其他物件。\n\n\n原型繼承原型繼承模式可以開始討論「modern」的無 class 模式，物件要繼承自其他物件。\n假設你有個物件需要重用，需要從這個物件取得功能，已建立第二個物件，會這樣：\n123456var parent = &#123;  name: 'Papa',&#125;;var child = object(parent);alert(child.name); //\"Papa\"\n新增的 child 物件希望讓他和 parent 物件有一樣的屬性和方法，這個新的物件由 object 的函式去建立，但 JavaScript 本身沒有這個函式，那我們必須實作這個函式：\n12345function object(o) &#123;  function F() &#123;&#125;  F.prototype = o;  return new F();&#125;\n這邊讓 暫時建構式 F() 的原型指向父物件，最後在回傳這個實體，在這邊的 child 物件本身為空，但他可以使用 parent 的原型。\n討論當使用建構式來實作原型繼承模式，注意自身的屬性和建構式原型的屬性都會被繼承：\n1234567891011121314151617//父建構式function Person() &#123;  //一個自己的屬性  this.name = 'Adam';&#125;//在原型中新增屬性Person.prototype.getName = function() &#123;  return this.name;&#125;;//建立新的 Personsvar papa = new Person();//繼承var kid = object(papa);//測試自身的屬性和來自原型的屬性是不是都被繼承kid.getName(); //\"Adam\"\n另一個變形範例，你可以選擇是否只繼承建構式的原型物件：\n12345678910111213141516// 父建構式function Person() &#123;  //一個自己的屬性  this.name = 'Adam';&#125;//在原型中新增了一個屬性Person.prototype.getName = function() &#123;  return this.name;&#125;;//繼承var kid = obejct(Person.prototype);typeof kid.getName; //\"function\" 因為只繼承了 prototype 的函式typeof kid.name; //\"undefined\" 而沒有繼承建構式內的屬性\nECMA 5 特性現在有 Object.create 方法，我們不需要再做剛剛 Object() 的實作了：\n1var child = Object.create(parent);\nObject.create 接受了一個額外的參數：一個物件，這個物件的屬性會被加到新物件的屬性內：\n12345var child = Object.create(parent, &#123;  age: &#123; value: 2 &#125;,&#125;);child.hasOwnProperty('age'); //true\n用複製屬性實作繼承在這個模式之中，物件像其他物件取得功能的方式，只是簡單的使用複製，只是用迴圈來尋訪父物件的所有成員並複製他們，child 參數是選用的，沒有就會建立一個全新物件並回傳：\n1234567891011121314function extend(parent, child) &#123;  var i;  child = child || &#123;&#125;;  for (i in parent) &#123;    if (parent.hasOwnProperty(i)) &#123;      child[i] = parent[i];    &#125;  &#125;  return child;&#125;var dad = &#123; name: 'Adam' &#125;;var kid = extend(dad);kid.name; //\"Adam\"\n這邊做的是淺拷貝，因為 JavaScript 的物件是使用參考來傳遞，一樣尋訪每個屬性並複製，只要該屬性是物件，那麼也同時改到父物件：\n12345678var dad = &#123;  counts: [1, 2, 3],  reads: &#123; paper: true &#125;,&#125;;var kid = extend(dad);kid.counts.push(4);dad.counts.toString(); //\"1,2,3,4\"dad.reads === kid.reads; //true\n想要避免這個問題就要使用深拷貝，深拷貝會檢查你要複製的屬性是否為物件或陣列，如果是的話會以遞迴的方式進入該物件。\n你需要做的就是檢查屬性是否為物件，是的話就已遞迴方式複製每個屬性：\n12345678910111213141516171819function extendDeep(parent, child) &#123;  var i,    toStr = Object.prototype.toString,    astr = '[object Array]';  child = child || &#123;&#125;;  for (i in parent) &#123;    if (parent.hasOwnProperty(i)) &#123;      if (typeof parent[i] === 'object') &#123;        child[i] = toStr.call(parent[i]) === astr ? [] : &#123;&#125;;        extendDeep(parent[i], child[i]);      &#125; else &#123;        child[i] = parent[i];      &#125;    &#125;  &#125;  return child;&#125;\n接下來看新的實作，是否真的深拷貝到物件：\n1234567891011121314var dad = &#123;  counts: [1, 2, 3],  reads: &#123; paper: true &#125;,&#125;;var kid = extendDeep(dad);kid.counts.push(4);kid.counts.toString(); //\"1,2,3,4\"dad.counts.toString(); //\"1,2,3\"dad.reads === kids.reads; //falsekid.reads.paper = false;kid.reads.web = true;dad.reads.paper; //true\n而這個模式完全沒有涉及到原型：只有物件跟物件自身的屬性。\n混搭混搭模式，不僅從一個物件複製，可以從任意數量的物件來複製屬性，並將他們混合到一個新物件中，只用迴圈跑過參數列，將傳遞進來的每個物件的每個屬性都複製起來：\n12345678910111213function mix() &#123;  var arg,    prop,    child = &#123;&#125;;  for (arg = 0; arg &lt; arguments.length; args += 1) &#123;    for (prop in arguments[arg]) &#123;      if (arguments[arg].hasOwnProperty(prop)) &#123;        child[prop] = arguments[arg][prop];      &#125;    &#125;  &#125;  return child;&#125;\n現在有個通用的混搭模式，可以傳遞任何數量的物件給他，並得到一個新物件：\n1var cake = mix(&#123; egg: 2, large: true &#125;, &#123; butter: 1, salted: true &#125;, &#123; flour: '3 cups' &#125;, &#123; sugar: 'sure!' &#125;);\n借用方法有時候會發生一個狀況，你只需要物件中的一到兩個方法，，你希望重用他們，但不希望對該物件建立父子物件關係，這時候可以使用借用方法。\n此模式是受益於 call 及 apply，兩者差別在他們接受的參數一個使用陣列表示，一個則接受一個個獨立參數。\n這裡有個物件叫 myobj ，而且你知道另一個 notmyobj 物件裡有個 doStuff 方法，我們需要暫時借用他，你傳入你的物件，讓借來方法的 this 綁在 myobj 物件。\n1234// callnotmyobj.doStuff.call(myobj, param1, p2, p3);// applynotmyobj.doStuff.apply(myobj, [param1, p2, p3]);\n範例：向陣列借用方法陣列有些有很好用的方法，而像 arguments 則沒有這些方法，這時可以使用 slice 跟陣列借用：\n123456function f() &#123;  var args = [].slice.call(arguments, 1, 3);  return args;&#125;f(1, 2, 3, 4, 5, 6); // returns [2,3]\n有個空物件被建立出來，只是為了使用他的方法。另一種稍微長的方式是向 Array.prototype.slice.call(...)，這個方始要輸入比較常，但是可以省略建立空陣列的運算。\n借用並綁定不管是透過 call、apply 或是簡單的賦值來借用方法，方法內的 this 所指向的物件都是依賴運算式來決定，最好讓 this 的值在事先就綁定在一個特定的值。\n123456789var onder = &#123;  name: 'object',  say: function(greet) &#123;    return greet + ', ' + this.name;  &#125;,&#125;;//試用one.say('hi'); //\"hi, object\"\n現在有個 two 沒有 say() 方法，讓他從 one 那邊借用，say() 的 this 指向 two ，因此 this.name 為「another object」：\n12345var two = &#123;  name: 'another object',&#125;;one.say.apply(two, ['hello']); //\"hello, another object\"\n如果將函式指標賦予給全域變數，或者將函式作為 callback，那這樣的狀況該如何處理：\n12345678910111213//將方法指定給變數//方法內的 this 會指向全域物件var say = one.say;say('hoho'); //\"hoho, undefined\"//將方法作為回呼傳遞var yetanother = &#123;  name: 'Yet another object',  method: function(callback) &#123;    return callback('Hola');  &#125;,&#125;;yetanother.method(one.say); //\"Holla, undefined\"\nsay() 內部的 this 都指向了全域，於是上面整段都不如預期，這時候可以用一個簡單的函式，來將一個物件固定，或是綁在方法：\n12345function bind(o, m) &#123;  return function() &#123;    return m.apply(o, [].slice.call(arguments));  &#125;;&#125;\n這個 bind 函式接受一個物件 o 和方法 m，將兩者綁定在一起後回傳一個新函式，新的函式透過閉包來存取 o 和 m，所以即使 bind 回傳之後，裡面那個函式也可以存取指向原本的物件跟方法（o 和 m）。\n12var twosay = bind(two, one.say);twosay('yo'); //\"yo, another object\"\n透過上面的實作可以知道，twosay 被建立成一個全域函式，this 也沒有指向全域物件，而是指向傳遞給 bind 的 two 物件，不管用什麼方式呼叫 twosay，this 都永遠綁定 two。\nFunction.prototype.bind()12var newFunc = obj.someFunc.bind(myobj, 1, 2, 3);// 將 someFunc 和 myobj 綁在一起，並同時域先填好三個參數給 someFunc。\nbind 的實作：\n12345678910if (typeof Function.prototype.bind === 'undefined') &#123;  Function.prototype.bind = function(thisArg) &#123;    var fn = this,      slice = Array.prototype.slice,      args = slice.call(arguments, 1);    return function() &#123;      return fn.apply(thisArg, args.concat(slice.call(arguments)));    &#125;;  &#125;;&#125;\n這份實作使用了部分應用，並串接參數列，包含傳遞給 bind 的參數（不含第一個），還有之後傳給 bind 所建立的新函數的參數，除了要綁的物件之外，沒有傳其他參數：\n12var twosay2 = one.say.bind(two);twosay2('Bonjour'); //\"Bonjour, another object\"\n這個範例，我們傳遞一個參數來做部分應用：\n12var twosay3 = one.say.bind(two, 'hihihi');twosay3(); //\"hihihi, another object\"\n","dateCreated":"2018-11-07T17:59:05+00:00","dateModified":"2019-10-24T06:50:39+00:00","datePublished":"2018-11-07T17:59:05+00:00","description":"原型繼承模式可以開始討論「modern」的無 class 模式，物件要繼承自其他物件。","headline":"【讀書筆記】JavaScript Design Pattern Chapter06 程式碼重用模式（下）","image":["/img/cover/books.jpg"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://codingwife.com/javascript-design-pattern-multiplexing02/"},"publisher":{"@type":"Organization","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png","logo":{"@type":"ImageObject","url":"http://codingwife.com/images/leia.png"}},"url":"http://codingwife.com/javascript-design-pattern-multiplexing02/","keywords":"讀書筆記, JSDP"}</script>
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    <img src="/images/codingwife.png" alt height="28">
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item " href="/archives">Archives</a>
+            
+            <a class="navbar-item " href="/categories">Categories</a>
+            
+            <a class="navbar-item " href="/tags">Tags</a>
+            
+            <a class="navbar-item " href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="搜尋" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/leiadot">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            <a class="navbar-item" title="Facebook" href="https://facebook.com/CodingwifeHy2">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+        【讀書筆記】JavaScript Design Pattern Chapter06 程式碼重用模式（下）
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">2018-11-07 17:59
+            （<time datetime="2018-11-07T17:59:05.000Z" itemprop="datePublished">11月 7 2018</time>）
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Front-end/">Front-end</a>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+        
+        <p>原型繼承模式可以開始討論「modern」的無 class 模式，物件要繼承自其他物件。</p>
+<a id="more"></a>
+
+<h2 id="原型繼承"><a href="#原型繼承" class="headerlink" title="原型繼承"></a>原型繼承</h2><p>原型繼承模式可以開始討論「modern」的無 class 模式，物件要繼承自其他物件。</p>
+<p>假設你有個物件需要重用，需要從這個物件取得功能，已建立第二個物件，會這樣：</p>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> parent = &#123;</span><br><span class="line">  name: <span class="hljs-string">'Papa'</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">var</span> child = object(parent);</span><br><span class="line">alert(child.name); <span class="hljs-comment">//"Papa"</span></span><br></pre></td></tr></table></figure></p>
+<p>新增的 child 物件希望讓他和 parent 物件有一樣的屬性和方法，這個新的物件由 object 的函式去建立，但 JavaScript 本身沒有這個函式，那我們必須實作這個函式：</p>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">object</span>(<span class="hljs-params">o</span>) </span>&#123;</span><br><span class="line">  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">F</span>(<span class="hljs-params"></span>) </span>&#123;&#125;</span><br><span class="line">  F.prototype = o;</span><br><span class="line">  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> F();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>這邊讓 暫時建構式 F() 的原型指向父物件，最後在回傳這個實體，在這邊的 child 物件本身為空，但他可以使用 parent 的原型。</p>
+<h2 id="討論"><a href="#討論" class="headerlink" title="討論"></a>討論</h2><p>當使用建構式來實作原型繼承模式，注意自身的屬性和建構式原型的屬性都會被繼承：</p>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//父建構式</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Person</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-comment">//一個自己的屬性</span></span><br><span class="line">  <span class="hljs-keyword">this</span>.name = <span class="hljs-string">'Adam'</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-comment">//在原型中新增屬性</span></span><br><span class="line">Person.prototype.getName = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.name;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">//建立新的 Persons</span></span><br><span class="line"><span class="hljs-keyword">var</span> papa = <span class="hljs-keyword">new</span> Person();</span><br><span class="line"><span class="hljs-comment">//繼承</span></span><br><span class="line"><span class="hljs-keyword">var</span> kid = object(papa);</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">//測試自身的屬性和來自原型的屬性是不是都被繼承</span></span><br><span class="line">kid.getName(); <span class="hljs-comment">//"Adam"</span></span><br></pre></td></tr></table></figure></p>
+<p>另一個變形範例，你可以選擇是否只繼承建構式的原型物件：</p>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">// 父建構式</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Person</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-comment">//一個自己的屬性</span></span><br><span class="line">  <span class="hljs-keyword">this</span>.name = <span class="hljs-string">'Adam'</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">//在原型中新增了一個屬性</span></span><br><span class="line">Person.prototype.getName = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.name;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">//繼承</span></span><br><span class="line"><span class="hljs-keyword">var</span> kid = obejct(Person.prototype);</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">typeof</span> kid.getName; <span class="hljs-comment">//"function" 因為只繼承了 prototype 的函式</span></span><br><span class="line"><span class="hljs-keyword">typeof</span> kid.name; <span class="hljs-comment">//"undefined" 而沒有繼承建構式內的屬性</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="ECMA-5-特性"><a href="#ECMA-5-特性" class="headerlink" title="ECMA 5 特性"></a>ECMA 5 特性</h3><p>現在有 <code>Object.create</code> 方法，我們不需要再做剛剛 <code>Object()</code> 的實作了：</p>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> child = <span class="hljs-built_in">Object</span>.create(parent);</span><br></pre></td></tr></table></figure></p>
+<p><code>Object.create</code> 接受了一個額外的參數：一個物件，這個物件的屬性會被加到新物件的屬性內：</p>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> child = <span class="hljs-built_in">Object</span>.create(parent, &#123;</span><br><span class="line">  age: &#123; <span class="hljs-attr">value</span>: <span class="hljs-number">2</span> &#125;,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">child.hasOwnProperty(<span class="hljs-string">'age'</span>); <span class="hljs-comment">//true</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="用複製屬性實作繼承"><a href="#用複製屬性實作繼承" class="headerlink" title="用複製屬性實作繼承"></a>用複製屬性實作繼承</h2><p>在這個模式之中，物件像其他物件取得功能的方式，只是簡單的使用複製，只是用迴圈來尋訪父物件的所有成員並複製他們，child 參數是選用的，沒有就會建立一個全新物件並回傳：</p>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">extend</span>(<span class="hljs-params">parent, child</span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">var</span> i;</span><br><span class="line">  child = child || &#123;&#125;;</span><br><span class="line">  <span class="hljs-keyword">for</span> (i <span class="hljs-keyword">in</span> parent) &#123;</span><br><span class="line">    <span class="hljs-keyword">if</span> (parent.hasOwnProperty(i)) &#123;</span><br><span class="line">      child[i] = parent[i];</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="hljs-keyword">return</span> child;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">var</span> dad = &#123; <span class="hljs-attr">name</span>: <span class="hljs-string">'Adam'</span> &#125;;</span><br><span class="line"><span class="hljs-keyword">var</span> kid = extend(dad);</span><br><span class="line">kid.name; <span class="hljs-comment">//"Adam"</span></span><br></pre></td></tr></table></figure></p>
+<p>這邊做的是淺拷貝，因為 JavaScript 的物件是使用參考來傳遞，一樣尋訪每個屬性並複製，只要該屬性是物件，那麼也同時改到父物件：</p>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> dad = &#123;</span><br><span class="line">  counts: [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>],</span><br><span class="line">  reads: &#123; <span class="hljs-attr">paper</span>: <span class="hljs-literal">true</span> &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="hljs-keyword">var</span> kid = extend(dad);</span><br><span class="line">kid.counts.push(<span class="hljs-number">4</span>);</span><br><span class="line">dad.counts.toString(); <span class="hljs-comment">//"1,2,3,4"</span></span><br><span class="line">dad.reads === kid.reads; <span class="hljs-comment">//true</span></span><br></pre></td></tr></table></figure></p>
+<p>想要避免這個問題就要使用深拷貝，深拷貝會檢查你要複製的屬性是否為物件或陣列，如果是的話會以遞迴的方式進入該物件。</p>
+<p>你需要做的就是檢查屬性是否為物件，是的話就已遞迴方式複製每個屬性：</p>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">extendDeep</span>(<span class="hljs-params">parent, child</span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">var</span> i,</span><br><span class="line">    toStr = <span class="hljs-built_in">Object</span>.prototype.toString,</span><br><span class="line">    astr = <span class="hljs-string">'[object Array]'</span>;</span><br><span class="line"></span><br><span class="line">  child = child || &#123;&#125;;</span><br><span class="line"></span><br><span class="line">  <span class="hljs-keyword">for</span> (i <span class="hljs-keyword">in</span> parent) &#123;</span><br><span class="line">    <span class="hljs-keyword">if</span> (parent.hasOwnProperty(i)) &#123;</span><br><span class="line">      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> parent[i] === <span class="hljs-string">'object'</span>) &#123;</span><br><span class="line">        child[i] = toStr.call(parent[i]) === astr ? [] : &#123;&#125;;</span><br><span class="line">        extendDeep(parent[i], child[i]);</span><br><span class="line">      &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">        child[i] = parent[i];</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="hljs-keyword">return</span> child;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>接下來看新的實作，是否真的深拷貝到物件：</p>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> dad = &#123;</span><br><span class="line">  counts: [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>],</span><br><span class="line">  reads: &#123; <span class="hljs-attr">paper</span>: <span class="hljs-literal">true</span> &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="hljs-keyword">var</span> kid = extendDeep(dad);</span><br><span class="line"></span><br><span class="line">kid.counts.push(<span class="hljs-number">4</span>);</span><br><span class="line">kid.counts.toString(); <span class="hljs-comment">//"1,2,3,4"</span></span><br><span class="line">dad.counts.toString(); <span class="hljs-comment">//"1,2,3"</span></span><br><span class="line"></span><br><span class="line">dad.reads === kids.reads; <span class="hljs-comment">//false</span></span><br><span class="line">kid.reads.paper = <span class="hljs-literal">false</span>;</span><br><span class="line">kid.reads.web = <span class="hljs-literal">true</span>;</span><br><span class="line">dad.reads.paper; <span class="hljs-comment">//true</span></span><br></pre></td></tr></table></figure></p>
+<p>而這個模式完全沒有涉及到原型：只有物件跟物件自身的屬性。</p>
+<h2 id="混搭"><a href="#混搭" class="headerlink" title="混搭"></a>混搭</h2><p>混搭模式，不僅從一個物件複製，可以從任意數量的物件來複製屬性，並將他們混合到一個新物件中，只用迴圈跑過參數列，將傳遞進來的每個物件的每個屬性都複製起來：</p>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">mix</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">var</span> arg,</span><br><span class="line">    prop,</span><br><span class="line">    child = &#123;&#125;;</span><br><span class="line">  <span class="hljs-keyword">for</span> (arg = <span class="hljs-number">0</span>; arg &lt; <span class="hljs-built_in">arguments</span>.length; args += <span class="hljs-number">1</span>) &#123;</span><br><span class="line">    <span class="hljs-keyword">for</span> (prop <span class="hljs-keyword">in</span> <span class="hljs-built_in">arguments</span>[arg]) &#123;</span><br><span class="line">      <span class="hljs-keyword">if</span> (<span class="hljs-built_in">arguments</span>[arg].hasOwnProperty(prop)) &#123;</span><br><span class="line">        child[prop] = <span class="hljs-built_in">arguments</span>[arg][prop];</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="hljs-keyword">return</span> child;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>現在有個通用的混搭模式，可以傳遞任何數量的物件給他，並得到一個新物件：</p>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> cake = mix(&#123; <span class="hljs-attr">egg</span>: <span class="hljs-number">2</span>, <span class="hljs-attr">large</span>: <span class="hljs-literal">true</span> &#125;, &#123; <span class="hljs-attr">butter</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">salted</span>: <span class="hljs-literal">true</span> &#125;, &#123; <span class="hljs-attr">flour</span>: <span class="hljs-string">'3 cups'</span> &#125;, &#123; <span class="hljs-attr">sugar</span>: <span class="hljs-string">'sure!'</span> &#125;);</span><br></pre></td></tr></table></figure></p>
+<h2 id="借用方法"><a href="#借用方法" class="headerlink" title="借用方法"></a>借用方法</h2><p>有時候會發生一個狀況，你只需要物件中的一到兩個方法，，你希望重用他們，但不希望對該物件建立父子物件關係，這時候可以使用借用方法。</p>
+<p>此模式是受益於 <code>call</code> 及 <code>apply</code>，兩者差別在他們接受的參數一個使用陣列表示，一個則接受一個個獨立參數。</p>
+<p>這裡有個物件叫 myobj ，而且你知道另一個 notmyobj 物件裡有個 doStuff 方法，我們需要暫時借用他，你傳入你的物件，讓借來方法的 this 綁在 myobj 物件。</p>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">// call</span></span><br><span class="line">notmyobj.doStuff.call(myobj, param1, p2, p3);</span><br><span class="line"><span class="hljs-comment">// apply</span></span><br><span class="line">notmyobj.doStuff.apply(myobj, [param1, p2, p3]);</span><br></pre></td></tr></table></figure></p>
+<h3 id="範例：向陣列借用方法"><a href="#範例：向陣列借用方法" class="headerlink" title="範例：向陣列借用方法"></a>範例：向陣列借用方法</h3><p>陣列有些有很好用的方法，而像 arguments 則沒有這些方法，這時可以使用 <code>slice</code> 跟陣列借用：</p>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">f</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">var</span> args = [].slice.call(<span class="hljs-built_in">arguments</span>, <span class="hljs-number">1</span>, <span class="hljs-number">3</span>);</span><br><span class="line">  <span class="hljs-keyword">return</span> args;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">f(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>); <span class="hljs-comment">// returns [2,3]</span></span><br></pre></td></tr></table></figure></p>
+<p>有個空物件被建立出來，只是為了使用他的方法。<br>另一種稍微長的方式是向 <code>Array.prototype.slice.call(...)</code>，這個方始要輸入比較常，但是可以省略建立空陣列的運算。</p>
+<h3 id="借用並綁定"><a href="#借用並綁定" class="headerlink" title="借用並綁定"></a>借用並綁定</h3><p>不管是透過 call、apply 或是簡單的賦值來借用方法，方法內的 this 所指向的物件都是依賴運算式來決定，最好讓 this 的值在事先就綁定在一個特定的值。</p>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> onder = &#123;</span><br><span class="line">  name: <span class="hljs-string">'object'</span>,</span><br><span class="line">  say: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">greet</span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> greet + <span class="hljs-string">', '</span> + <span class="hljs-keyword">this</span>.name;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">//試用</span></span><br><span class="line">one.say(<span class="hljs-string">'hi'</span>); <span class="hljs-comment">//"hi, object"</span></span><br></pre></td></tr></table></figure></p>
+<p>現在有個 two 沒有 <code>say()</code> 方法，讓他從 one 那邊借用，<code>say()</code> 的 this 指向 two ，因此 this.name 為「another object」：</p>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> two = &#123;</span><br><span class="line">  name: <span class="hljs-string">'another object'</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">one.say.apply(two, [<span class="hljs-string">'hello'</span>]); <span class="hljs-comment">//"hello, another object"</span></span><br></pre></td></tr></table></figure></p>
+<p>如果將函式指標賦予給全域變數，或者將函式作為 callback，那這樣的狀況該如何處理：</p>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//將方法指定給變數</span></span><br><span class="line"><span class="hljs-comment">//方法內的 this 會指向全域物件</span></span><br><span class="line"><span class="hljs-keyword">var</span> say = one.say;</span><br><span class="line">say(<span class="hljs-string">'hoho'</span>); <span class="hljs-comment">//"hoho, undefined"</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">//將方法作為回呼傳遞</span></span><br><span class="line"><span class="hljs-keyword">var</span> yetanother = &#123;</span><br><span class="line">  name: <span class="hljs-string">'Yet another object'</span>,</span><br><span class="line">  method: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">callback</span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> callback(<span class="hljs-string">'Hola'</span>);</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">yetanother.method(one.say); <span class="hljs-comment">//"Holla, undefined"</span></span><br></pre></td></tr></table></figure></p>
+<p><code>say()</code> 內部的 this 都指向了全域，於是上面整段都不如預期，這時候可以用一個簡單的函式，來將一個物件固定，或是綁在方法：</p>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">bind</span>(<span class="hljs-params">o, m</span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> m.apply(o, [].slice.call(<span class="hljs-built_in">arguments</span>));</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>這個 bind 函式接受一個物件 o 和方法 m，將兩者綁定在一起後回傳一個新函式，新的函式透過閉包來存取 o 和 m，所以即使 bind 回傳之後，裡面那個函式也可以存取指向原本的物件跟方法（o 和 m）。</p>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> twosay = bind(two, one.say);</span><br><span class="line">twosay(<span class="hljs-string">'yo'</span>); <span class="hljs-comment">//"yo, another object"</span></span><br></pre></td></tr></table></figure></p>
+<p>透過上面的實作可以知道，twosay 被建立成一個全域函式，this 也沒有指向全域物件，而是指向傳遞給 bind 的 two 物件，不管用什麼方式呼叫 twosay，this 都永遠綁定 two。</p>
+<h3 id="Function-prototype-bind"><a href="#Function-prototype-bind" class="headerlink" title="Function.prototype.bind()"></a>Function.prototype.bind()</h3><p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> newFunc = obj.someFunc.bind(myobj, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>);</span><br><span class="line"><span class="hljs-comment">// 將 someFunc 和 myobj 綁在一起，並同時域先填好三個參數給 someFunc。</span></span><br></pre></td></tr></table></figure></p>
+<p>bind 的實作：</p>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> <span class="hljs-built_in">Function</span>.prototype.bind === <span class="hljs-string">'undefined'</span>) &#123;</span><br><span class="line">  <span class="hljs-built_in">Function</span>.prototype.bind = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">thisArg</span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">var</span> fn = <span class="hljs-keyword">this</span>,</span><br><span class="line">      slice = <span class="hljs-built_in">Array</span>.prototype.slice,</span><br><span class="line">      args = slice.call(<span class="hljs-built_in">arguments</span>, <span class="hljs-number">1</span>);</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">      <span class="hljs-keyword">return</span> fn.apply(thisArg, args.concat(slice.call(<span class="hljs-built_in">arguments</span>)));</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>這份實作使用了部分應用，並串接參數列，包含傳遞給 bind 的參數（不含第一個），還有之後傳給 bind 所建立的新函數的參數，除了要綁的物件之外，沒有傳其他參數：</p>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> twosay2 = one.say.bind(two);</span><br><span class="line">twosay2(<span class="hljs-string">'Bonjour'</span>); <span class="hljs-comment">//"Bonjour, another object"</span></span><br></pre></td></tr></table></figure></p>
+<p>這個範例，我們傳遞一個參數來做部分應用：</p>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> twosay3 = one.say.bind(two, <span class="hljs-string">'hihihi'</span>);</span><br><span class="line">twosay3(); <span class="hljs-comment">//"hihihi, another object"</span></span><br></pre></td></tr></table></figure></p>
+
+        
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+        
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/讀書筆記/">#讀書筆記</a></span>
+        
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/JSDP/">#JSDP</a></span>
+        
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/hackMD/">【Hexo】hackMD 功能</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/javascript-design-pattern-multiplexing01/">【讀書筆記】JavaScript Design Pattern Chapter06 程式碼重用模式（上）</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="sharethis-inline-share-buttons"></div>
+<script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5d9b1ebc2b036a0011ed0d83&amp;product=inline-share-buttons" async="async"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">評論</h3>
+    
+<div id="comment-container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+	var gitment = new Gitment({
+		id: 'javascript-design-pattern-multiplexing02/',
+		owner: 'leiadot',
+		repo: 'leiadot.github.io',
+		oauth: {
+			client_id: '51ce642a9a95d7ccdf4d',
+			client_secret: '6bf1657de06ee2fbaf452b4752567ab313277f50',
+		},
+	})
+	gitment.render('comment-container')
+</script>
+
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2019 [object Object]&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            <div class="column is-narrow">
+                <div class="columns is-mobile is-multiline is-centered">
+                
+                    
+                <a class="column is-narrow has-text-black" title="GitHub" href="https://github.com/ppoffice/leiadot">
+                    
+                    GitHub
+                    
+                </a>
+                
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("zh-CN");
+</script>
+
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+</script>
+
+    
+    
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+<script src="/js/script.js"></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="站內搜尋">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '頁面',
+                CATEGORIES: '分類',
+                TAGS: '標籤',
+                UNTITLED: '(無標題)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+</body>
+</html>

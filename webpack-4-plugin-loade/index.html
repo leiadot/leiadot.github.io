@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+<title>【Webpack】plugin 與 loader - CodingWife 寇丁人妻日安</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="新手從無到有，初探 webpack 的心得，此篇介紹 plugin 及 loader 簡單的使用方法，承襲上一篇的內容，逐步實作做下去。">
+
+
+
+
+
+<meta name="description" content="新手從無到有，初探 webpack 的心得，此篇介紹 plugin 及 loader 簡單的使用方法，承襲上一篇的內容，逐步實作做下去。">
+<meta name="keywords" content="Webpack">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Webpack】plugin 與 loader">
+<meta property="og:url" content="http://codingwife.com/webpack-4-plugin-loade/index.html">
+<meta property="og:site_name" content="CodingWife 寇丁人妻日安">
+<meta property="og:description" content="新手從無到有，初探 webpack 的心得，此篇介紹 plugin 及 loader 簡單的使用方法，承襲上一篇的內容，逐步實作做下去。">
+<meta property="og:locale" content="zh-tw">
+<meta property="og:image" content="http://codingwife.com/img/cover/webpack.png">
+<meta property="og:updated_time" content="2019-10-24T06:50:39.036Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【Webpack】plugin 與 loader">
+<meta name="twitter:description" content="新手從無到有，初探 webpack 的心得，此篇介紹 plugin 及 loader 簡單的使用方法，承襲上一篇的內容，逐步實作做下去。">
+<meta name="twitter:image" content="http://codingwife.com/img/cover/webpack.png">
+
+
+
+
+
+<link rel="icon" href="/images/logo.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto+Sans+TC|Open+Sans&display=swap">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+<link rel="stylesheet" href="/css/style.css">
+<script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png"},"articleBody":"新手從無到有，初探 webpack 的心得。\n此篇介紹 plugin 及 loader 簡單的使用方法，承襲上一篇的內容，逐步實作做下去。介紹的 plgin / loader 如下。\n\n利用 template 產出 html\n載入 css / sass 並另外產出 css 檔並引入\n在本地端運行伺服器\n自動清除殘餘檔案\nbabel 及 pug 轉譯\nHMR\n\n版本：webpack 4.1.1\n\n\nPlugin 與 loader 介紹\nPlugin 為外掛程式，普遍常用，在這邊不多作介紹。\n\n\nLoaders are transformations that are applied on the source code of a module. They allow you to pre-process files as you import or “load” them. Thus, loaders are kind of like “tasks” in other build tools, and provide a powerful way to handle front-end build steps. Loaders can transform files from a different language (like TypeScript) to JavaScript, or inline images as data URLs. Loaders even allow you to do things like import CSS files directly from your JavaScript modules!\n\n官方網站表明，loader 就像其他前端開發任務建構工具一樣，他可以將 typescript 轉換成 js ，或是將圖片轉換成內嵌 url ，或是直接在 js 模組中導入 css 文件。\n使用 html-webpack-plugin$ npm install --save-dev html-webpack-plugin\n在專案資料夾執行命令安裝，安裝完成後，會在package.json檔案下發現\n\"devDependencies\": &#123;   \"html-webpack-plugin\": \"^3.0.6\",   \"webpack\": \"^4.1.1\" &#125;\n產生 html 檔將webpack.config.js更改如下。\nvar HtmlWebpackPlugin = require('html-webpack-plugin');module.exports = &#123;  entry: './src/app.js',  output: &#123;    path: __dirname + '/dist',    filename: 'app.bundle.js',  &#125;,  plugins: [new HtmlWebpackPlugin()],&#125;;\n執行npm run build，就會產生index.html，並自動載入 js 檔。\n自動載入 titlevar HtmlWebpackPlugin = require('html-webpack-plugin');module.exports = &#123;  entry: './src/app.js',  output: &#123;    path: __dirname + '/dist',    filename: 'app.bundle.js',  &#125;,  plugins: [    new HtmlWebpackPlugin(&#123;      title: 'hello world',    &#125;),  ],&#125;;\n更改webpack.config後，標題則會自己更換，但為了不要一個個文件標題都要自行更改，必須使用到 template 。\ntemplatevar HtmlWebpackPlugin = require('html-webpack-plugin');module.exports = &#123;  entry: './src/app.js',  output: &#123;    path: __dirname + '/dist',    filename: 'app.bundle.js',  &#125;,  plugins: [    new HtmlWebpackPlugin(&#123;      title: 'hello world',      template: './src/index.html',      filename: 'index.html',      minify: &#123;        collapseWhitespace: true,      &#125;,    &#125;),  ],&#125;;\n更改webpack.config後，新增src/index.html的 template 樣板。\n&lt;html lang=\"en\"&gt;  &lt;head&gt;    &lt;meta charset=\"UTF-8\" /&gt;    &lt;title&gt;&lt;%= htmlWebpackPlugin.options.title %&gt;&lt;/title&gt;  &lt;/head&gt;  &lt;body&gt;&lt;/body&gt;&lt;/html&gt;\n執行npm run build，因為minify: {collapseWhitespace: true,},，所以輸出的 html 為壓縮形式沒有空格。\n&lt;html lang=\"en\"&gt;  &lt;head&gt;    &lt;meta charset=\"UTF-8\" /&gt;    &lt;title&gt;hi&lt;/title&gt;  &lt;/head&gt;  &lt;body&gt;    &lt;script type=\"text/javascript\" src=\"app.bundle.js\"&gt;&lt;/script&gt;  &lt;/body&gt;&lt;/html&gt;\ncss-loader / style-loader新增src/app.css\nbody &#123;  background: pink;&#125;\n變更src/app.js\nimport css from './app.css';console.log('hello world');\n在一般沒有加裝 loader 的狀況下，webpack 沒有辦法處理 css 文件，此時執行npm run build則會出現錯誤。\n$ npm install --save-dev css-loader style-loader\n因此加裝css-loader及style-loader。\nvar HtmlWebpackPlugin = require('html-webpack-plugin');module.exports = &#123;  entry: './src/app.js',  output: &#123;    path: __dirname + '/dist',    filename: 'app.bundle.js',  &#125;,  plugins: [    new HtmlWebpackPlugin(&#123;      template: './src/index.html',      filename: 'index.html',      minify: &#123;        collapseWhitespace: true,      &#125;,      hash: true,    &#125;),  ],  module: &#123;    rules: [      &#123;        test: /\\.css$/,        use: ['style-loader', 'css-loader'],      &#125;,    ],  &#125;,&#125;;\n然後變更webpack.config.js，運行npm run build，再用瀏覽器打開dist/index.html，則會發現 css 已經載進 html 頁面。\ntest: /\\.css$/表示他是處理 css 文件，在處理 css 文件時，則是由陣列右邊執行到陣列左邊（裝飾模式）。css-loader先解析處理，再由style-loader則會將 css 嵌入 html。\nsass-loaderbody &#123;  background: pink;  p &#123;    color: red;  &#125;&#125;\n將app.css更改為app.scss，並修改為巢狀。\nimport css from './app.scss';console.log('hello world');\n更改app.js。\n&lt;html lang=\"en\"&gt;  &lt;head&gt;    &lt;meta charset=\"UTF-8\" /&gt;    &lt;title&gt;Hello World&lt;/title&gt;  &lt;/head&gt;  &lt;body&gt;    &lt;p&gt;hello world&lt;/p&gt;  &lt;/body&gt;&lt;/html&gt;\nsrc/index.html輸入p段落文字。\nvar HtmlWebpackPlugin = require('html-webpack-plugin');module.exports = &#123;  entry: './src/app.js',  output: &#123;    path: __dirname + '/dist',    filename: 'app.bundle.js',  &#125;,  plugins: [    new HtmlWebpackPlugin(&#123;      template: './src/index.html',      filename: 'index.html',      minify: &#123;        collapseWhitespace: true,      &#125;,      hash: true,    &#125;),  ],  module: &#123;    rules: [      &#123;        test: /\\.scss$/,        use: ['style-loader', 'css-loader', 'sass-loader'],      &#125;,    ],  &#125;,&#125;;\n更改webpack.config.js，則可運行 sass ，打開 source code 會發現裡面只有載入app.bundle.js，但有時候需要將 css 和 js 分離，則使用extract-text-webpack-plugin。\nextract-text-webpack-plugin$ npm i -d extract-text-webpack-plugin@next\n安裝套件。\nvar HtmlWebpackPlugin = require('html-webpack-plugin');const ExtractTextPlugin = require('extract-text-webpack-plugin');module.exports = &#123;  entry: './src/app.js',  output: &#123;    path: __dirname + '/dist',    filename: 'app.bundle.js',  &#125;,  plugins: [    new HtmlWebpackPlugin(&#123;      template: './src/index.html',      filename: 'index.html',      minify: &#123;        collapseWhitespace: true,      &#125;,      hash: true,    &#125;),    new ExtractTextPlugin('style.css'),  ],  module: &#123;    rules: [      &#123;        test: /\\.scss$/,        use: ExtractTextPlugin.extract(&#123;          fallback: 'style-loader',          //resolve-url-loader may be chained before sass-loader if necessary          use: ['css-loader', 'sass-loader'],        &#125;),      &#125;,    ],  &#125;,&#125;;\n更改webpack.config.js後，執行npm run build，則會發現index.html另外載入style.css。\nwebpack-dev-server之前使用的webpack -d --watch適合運作在靜態文件上，但在開發狀態webpack-dev-server是更好的選擇。\n$ npm install -g webpack-dev-server // 全域安裝$ npm install --save-dev webpack-dev-server // 區域安裝\n接著執行。\n$ webpack-dev-server\n\nserver 執行成功，port 號為 8080。\n\n我們也可以到webpack.config.js改 port 號，設定open:true，自動打開瀏覽器。\nproxywebpack-dev-server 有提供代理伺服器的功能。\nmodule.exports = &#123;  entry: './src/app.js',  ...  devServer: &#123;    port: 9000,    open: true,    proxy: &#123;          \"/api\": &#123;            target: \"https://other-server.example.com\"            &#125;          &#125;  &#125;  ...&#125;;\n為了避免跨域的狀況，當請求 api 的時候，便會呼叫 target。\nbabel loaderbabel-loader就是一個轉譯器，將一些瀏覽器不支援的 js 寫法或檔案，轉譯成瀏覽器可以讀取的檔案。\n$ npm install --save-dev babel-loader\n在專案下安裝babel-loader。\nrules: [      ...,      &#123; test: /\\.js$/, loader: 'babel-loader', exclude: /node_modules/ &#125;    ]\n便可執行轉譯。\nclean webpack plugin主要運用在產出檔案前，將原資料夾檔案清空，一開始我們先更改原本的設定。\nwebpack.config.js\n...entry: &#123;    'app.bundle': './src/app.js'&#125;,output: &#123;    path: __dirname + '/dist',    filename: '[name].[chunkhash].js'&#125;,...\n將產出的 js 檔名更改為 hash 值，避免檔名重複出現錯誤。\n這時只要修改src/app.js，webpack就會重新產生一個 js 檔，因此需要clean webpack plugin將原本的舊的檔案清除，如此一來就不會累積過多的舊檔案。\n$ npm i clean-webpack-plugin --save-dev\n在專案資料夾，使用 npm 指令安裝。\n...const CleanWebpackPlugin = require('clean-webpack-plugin');......plugins: [    new CleanWebpackPlugin(['dist']),    ...  ],\n呼叫套件，並指定清空檔案的資料夾，這時候再使用npm run build觀察，此時發現dist資料夾下只剩下一隻 js 檔。\npug-html-loaderpug(jade) 是 html 的樣板語言，猶如 sass 和 css 之間的關係，這邊先不多作解釋。\n$ npm install --save-dev pug pug-html-loader raw-loader\n先安裝 pug 、 pug-html-loader 和 raw-loader。加裝 raw-loader 是因為 pug-html-loader 必須依附在這個 loader 下，google 未果，我不知道為什麼，如果有人知道，歡迎在下方留言告訴我。\ndoctype htmlhtml(lang=&quot;en&quot;)  head    title= pageTitle    script(type=&apos;text/javascript&apos;).      if (foo) bar(1 + 5)  body    h1 Pug - node template engine    #root    #container.col      if youAreUsingPug        p You are amazing      else        p Get on it!      p.        Pug is a terse and simple templating language with a        strong focus on performance and powerful features.\n為了測試是否能正確將 pug 編譯出來，先將src/index.html改為src/index.pug，並將內容更改為 pug 的格式，內容如上。\nplugins: [    ...    new HtmlWebpackPlugin(&#123;      template: './src/index.pug',      ...    &#125;),    ...  ], module: &#123;    rules: [      ...      &#123; test: /\\.pug$/, loader: ['raw-loader', 'pug-html-loader'] &#125;    ]  &#125;\n再將webpack.config.js進行修改，並下指令運行，便可成功轉譯。\n使用 HMR 監看修改的 CSSwebpack --watch及webpack-dev-server 是監聽文件的變化自動刷新瀏覽器，而 HMR \b 不是刷新整個瀏覽器，只會讓已經修改的部分，出現修改後的變化。\n先將剛剛修改的 pug template 改回 html template。\nconst webpack = require('webpack');......devServer: &#123;    port: 9000,    open: true,    hot: true  &#125;......plugins: [    new webpack.NamedModulesPlugin(),    new webpack.HotModuleReplacementPlugin()  ],\n修改webpack.config.js，並運行。\nERROR in chunk app.bundle [entry][name].[chunkhash].jsCannot use [chunkhash] for chunk in &apos;[name].[chunkhash].js&apos; (use [hash] instead)\n接下來就會爆出錯誤訊息，需要將chunkhash改成hash。chunkhash是根據 Entry 文件內容，編譯出對應的 hash 值。hash是只要文件內容有更改，當次被編譯出來的相關文件 hash 都會變更，而且相同。\n另外提一個叫contenthash，假設index.css被index.js引用，但更改的文件只有index.js時，會產生index.css也會被重新編譯，如此會產生重複內容的檔案，這時候輸入contenthash只要該文件內容不改變，也不會重新編譯。\noutput: &#123;    path: __dirname + '/dist',    filename: '[name].[hash].js'&#125;,\n接下來將 output 的檔名進行更改，此時運行時你會發現頁面完全不會改變。\nnew ExtractTextPlugin(&#123;  filename: 'style.css',  disable: true&#125;),\n只要將ExtractTextPlugin修改，便可以自動更新頁面，這意味著產出 css 和 HMR，只能二選一，我們可以將開發環境和生產環境分離，便可以解決。\n","dateCreated":"2018-03-19T14:09:08+00:00","dateModified":"2019-10-24T06:50:39+00:00","datePublished":"2018-03-19T14:09:08+00:00","description":"新手從無到有，初探 webpack 的心得。\n此篇介紹 plugin 及 loader 簡單的使用方法，承襲上一篇的內容，逐步實作做下去。介紹的 plgin / loader 如下。\n\n利用 template 產出 html\n載入 css / sass 並另外產出 css 檔並引入\n在本地端運行伺服器\n自動清除殘餘檔案\nbabel 及 pug 轉譯\nHMR\n\n版本：webpack 4.1.1","headline":"【Webpack】plugin 與 loader","image":["/img/cover/webpack.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://codingwife.com/webpack-4-plugin-loade/"},"publisher":{"@type":"Organization","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png","logo":{"@type":"ImageObject","url":"http://codingwife.com/images/leia.png"}},"url":"http://codingwife.com/webpack-4-plugin-loade/","keywords":"Webpack"}</script>
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    <img src="/images/codingwife.png" alt height="28">
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item " href="/archives">Archives</a>
+            
+            <a class="navbar-item " href="/categories">Categories</a>
+            
+            <a class="navbar-item " href="/tags">Tags</a>
+            
+            <a class="navbar-item " href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="搜尋" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/leiadot">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            <a class="navbar-item" title="Facebook" href="https://facebook.com/CodingwifeHy2">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+        【Webpack】plugin 與 loader
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">2018-03-19 14:09
+            （<time datetime="2018-03-19T14:09:08.000Z" itemprop="datePublished">3月 19 2018</time>）
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Front-end/">Front-end</a>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+        
+        <p>新手從無到有，初探 webpack 的心得。</p>
+<p>此篇介紹 plugin 及 loader 簡單的使用方法，承襲上一篇的內容，逐步實作做下去。<br>介紹的 plgin / loader 如下。</p>
+<ul>
+<li>利用 template 產出 html</li>
+<li>載入 css / sass 並另外產出 css 檔並引入</li>
+<li>在本地端運行伺服器</li>
+<li>自動清除殘餘檔案</li>
+<li>babel 及 pug 轉譯</li>
+<li>HMR</li>
+</ul>
+<p>版本：webpack 4.1.1</p>
+<a id="more"></a>
+
+<h2 id="Plugin-與-loader-介紹"><a href="#Plugin-與-loader-介紹" class="headerlink" title="Plugin 與 loader 介紹"></a>Plugin 與 loader 介紹</h2><blockquote>
+<p>Plugin 為外掛程式，普遍常用，在這邊不多作介紹。</p>
+</blockquote>
+<blockquote>
+<p>Loaders are transformations that are applied on the source code of a module. They allow you to pre-process files as you import or “load” them. Thus, loaders are kind of like “tasks” in other build tools, and provide a powerful way to handle front-end build steps. Loaders can transform files from a different language (like TypeScript) to JavaScript, or inline images as data URLs. Loaders even allow you to do things like import CSS files directly from your JavaScript modules!</p>
+</blockquote>
+<p>官方網站表明，loader 就像其他前端開發任務建構工具一樣，他可以將 typescript 轉換成 js ，<br>或是將圖片轉換成內嵌 url ，或是直接在 js 模組中導入 css 文件。</p>
+<h2 id="使用-html-webpack-plugin"><a href="#使用-html-webpack-plugin" class="headerlink" title="使用 html-webpack-plugin"></a>使用 html-webpack-plugin</h2><p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">$ npm install --save-dev html-webpack-plugin</span><br></pre></td></tr></table></figure></p>
+<p>在專案資料夾執行命令安裝，安裝完成後，會在<code>package.json</code>檔案下發現</p>
+<p><figure class="highlight hljs"><table><tr><td class="code"><pre><span class="line">"devDependencies": &#123;</span><br><span class="line">   "html-webpack-plugin": "^3.0.6",</span><br><span class="line">   "webpack": "^4.1.1"</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="產生-html-檔"><a href="#產生-html-檔" class="headerlink" title="產生 html 檔"></a>產生 html 檔</h4><p>將<code>webpack.config.js</code>更改如下。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> HtmlWebpackPlugin = <span class="hljs-built_in">require</span>(<span class="hljs-string">'html-webpack-plugin'</span>);</span><br><span class="line"></span><br><span class="line"><span class="hljs-built_in">module</span>.exports = &#123;</span><br><span class="line">  entry: <span class="hljs-string">'./src/app.js'</span>,</span><br><span class="line">  output: &#123;</span><br><span class="line">    path: __dirname + <span class="hljs-string">'/dist'</span>,</span><br><span class="line">    filename: <span class="hljs-string">'app.bundle.js'</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [<span class="hljs-keyword">new</span> HtmlWebpackPlugin()],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>執行<code>npm run build</code>，就會產生<code>index.html</code>，並自動載入 js 檔。</p>
+<h4 id="自動載入-title"><a href="#自動載入-title" class="headerlink" title="自動載入 title"></a>自動載入 title</h4><p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> HtmlWebpackPlugin = <span class="hljs-built_in">require</span>(<span class="hljs-string">'html-webpack-plugin'</span>);</span><br><span class="line"></span><br><span class="line"><span class="hljs-built_in">module</span>.exports = &#123;</span><br><span class="line">  entry: <span class="hljs-string">'./src/app.js'</span>,</span><br><span class="line">  output: &#123;</span><br><span class="line">    path: __dirname + <span class="hljs-string">'/dist'</span>,</span><br><span class="line">    filename: <span class="hljs-string">'app.bundle.js'</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="hljs-keyword">new</span> HtmlWebpackPlugin(&#123;</span><br><span class="line">      title: <span class="hljs-string">'hello world'</span>,</span><br><span class="line">    &#125;),</span><br><span class="line">  ],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>更改<code>webpack.config</code>後，標題則會自己更換，但為了不要一個個文件標題都要自行更改，必須使用到 template 。</p>
+<h4 id="template"><a href="#template" class="headerlink" title="template"></a>template</h4><p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> HtmlWebpackPlugin = <span class="hljs-built_in">require</span>(<span class="hljs-string">'html-webpack-plugin'</span>);</span><br><span class="line"></span><br><span class="line"><span class="hljs-built_in">module</span>.exports = &#123;</span><br><span class="line">  entry: <span class="hljs-string">'./src/app.js'</span>,</span><br><span class="line">  output: &#123;</span><br><span class="line">    path: __dirname + <span class="hljs-string">'/dist'</span>,</span><br><span class="line">    filename: <span class="hljs-string">'app.bundle.js'</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="hljs-keyword">new</span> HtmlWebpackPlugin(&#123;</span><br><span class="line">      title: <span class="hljs-string">'hello world'</span>,</span><br><span class="line">      template: <span class="hljs-string">'./src/index.html'</span>,</span><br><span class="line">      filename: <span class="hljs-string">'index.html'</span>,</span><br><span class="line">      minify: &#123;</span><br><span class="line">        collapseWhitespace: <span class="hljs-literal">true</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;),</span><br><span class="line">  ],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>更改<code>webpack.config</code>後，新增<code>src/index.html</code>的 template 樣板。</p>
+<p><figure class="highlight html hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span></span><br><span class="line">  <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"UTF-8"</span> /&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">%=</span> <span class="hljs-attr">htmlWebpackPlugin.options.title</span> %&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span></span><br><span class="line">  <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span></span><br><span class="line">  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>執行<code>npm run build</code>，因為<code>minify: {collapseWhitespace: true,},</code>，<br>所以輸出的 html 為壓縮形式沒有空格。</p>
+<p><figure class="highlight html hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span></span><br><span class="line">  <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"UTF-8"</span> /&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>hi<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span></span><br><span class="line">  <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span></span><br><span class="line">  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"app.bundle.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span><br><span class="line">  <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="css-loader-style-loader"><a href="#css-loader-style-loader" class="headerlink" title="css-loader / style-loader"></a>css-loader / style-loader</h2><p>新增<code>src/app.css</code></p>
+<p><figure class="highlight css hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-selector-tag">body</span> &#123;</span><br><span class="line">  <span class="hljs-attribute">background</span>: pink;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>變更<code>src/app.js</code></p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> css <span class="hljs-keyword">from</span> <span class="hljs-string">'./app.css'</span>;</span><br><span class="line"></span><br><span class="line"><span class="hljs-built_in">console</span>.log(<span class="hljs-string">'hello world'</span>);</span><br></pre></td></tr></table></figure></p>
+<p>在一般沒有加裝 loader 的狀況下，webpack 沒有辦法處理 css 文件，<br>此時執行<code>npm run build</code>則會出現錯誤。</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">$ npm install --save-dev css-loader style-loader</span><br></pre></td></tr></table></figure></p>
+<p>因此加裝<code>css-loader</code>及<code>style-loader</code>。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> HtmlWebpackPlugin = <span class="hljs-built_in">require</span>(<span class="hljs-string">'html-webpack-plugin'</span>);</span><br><span class="line"></span><br><span class="line"><span class="hljs-built_in">module</span>.exports = &#123;</span><br><span class="line">  entry: <span class="hljs-string">'./src/app.js'</span>,</span><br><span class="line">  output: &#123;</span><br><span class="line">    path: __dirname + <span class="hljs-string">'/dist'</span>,</span><br><span class="line">    filename: <span class="hljs-string">'app.bundle.js'</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="hljs-keyword">new</span> HtmlWebpackPlugin(&#123;</span><br><span class="line">      template: <span class="hljs-string">'./src/index.html'</span>,</span><br><span class="line">      filename: <span class="hljs-string">'index.html'</span>,</span><br><span class="line">      minify: &#123;</span><br><span class="line">        collapseWhitespace: <span class="hljs-literal">true</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">      hash: <span class="hljs-literal">true</span>,</span><br><span class="line">    &#125;),</span><br><span class="line">  ],</span><br><span class="line">  <span class="hljs-built_in">module</span>: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="hljs-regexp">/\.css$/</span>,</span><br><span class="line">        use: [<span class="hljs-string">'style-loader'</span>, <span class="hljs-string">'css-loader'</span>],</span><br><span class="line">      &#125;,</span><br><span class="line">    ],</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>然後變更<code>webpack.config.js</code>，運行<code>npm run build</code>，<br>再用瀏覽器打開<code>dist/index.html</code>，則會發現 css 已經載進 html 頁面。</p>
+<p><code>test: /\.css$/</code>表示他是處理 css 文件，在處理 css 文件時，則是由陣列右邊執行到陣列左邊（裝飾模式）。<br><code>css-loader</code>先解析處理，再由<code>style-loader</code>則會將 css 嵌入 html。</p>
+<h2 id="sass-loader"><a href="#sass-loader" class="headerlink" title="sass-loader"></a>sass-loader</h2><p><figure class="highlight scss hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-selector-tag">body</span> &#123;</span><br><span class="line">  <span class="hljs-attribute">background</span>: pink;</span><br><span class="line">  <span class="hljs-selector-tag">p</span> &#123;</span><br><span class="line">    <span class="hljs-attribute">color</span>: red;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>將<code>app.css</code>更改為<code>app.scss</code>，並修改為巢狀。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> css <span class="hljs-keyword">from</span> <span class="hljs-string">'./app.scss'</span>;</span><br><span class="line"></span><br><span class="line"><span class="hljs-built_in">console</span>.log(<span class="hljs-string">'hello world'</span>);</span><br></pre></td></tr></table></figure></p>
+<p>更改<code>app.js</code>。</p>
+<p><figure class="highlight html hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span></span><br><span class="line">  <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"UTF-8"</span> /&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Hello World<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span></span><br><span class="line">  <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span></span><br><span class="line">  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>hello world<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span><br><span class="line">  <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p><code>src/index.html</code>輸入<code>p</code>段落文字。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> HtmlWebpackPlugin = <span class="hljs-built_in">require</span>(<span class="hljs-string">'html-webpack-plugin'</span>);</span><br><span class="line"></span><br><span class="line"><span class="hljs-built_in">module</span>.exports = &#123;</span><br><span class="line">  entry: <span class="hljs-string">'./src/app.js'</span>,</span><br><span class="line">  output: &#123;</span><br><span class="line">    path: __dirname + <span class="hljs-string">'/dist'</span>,</span><br><span class="line">    filename: <span class="hljs-string">'app.bundle.js'</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="hljs-keyword">new</span> HtmlWebpackPlugin(&#123;</span><br><span class="line">      template: <span class="hljs-string">'./src/index.html'</span>,</span><br><span class="line">      filename: <span class="hljs-string">'index.html'</span>,</span><br><span class="line">      minify: &#123;</span><br><span class="line">        collapseWhitespace: <span class="hljs-literal">true</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">      hash: <span class="hljs-literal">true</span>,</span><br><span class="line">    &#125;),</span><br><span class="line">  ],</span><br><span class="line">  <span class="hljs-built_in">module</span>: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="hljs-regexp">/\.scss$/</span>,</span><br><span class="line">        use: [<span class="hljs-string">'style-loader'</span>, <span class="hljs-string">'css-loader'</span>, <span class="hljs-string">'sass-loader'</span>],</span><br><span class="line">      &#125;,</span><br><span class="line">    ],</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>更改<code>webpack.config.js</code>，則可運行 sass ，打開 source code 會發現裡面只有載入<code>app.bundle.js</code>，但有時候需要將 css 和 js 分離，則使用<code>extract-text-webpack-plugin</code>。</p>
+<h2 id="extract-text-webpack-plugin"><a href="#extract-text-webpack-plugin" class="headerlink" title="extract-text-webpack-plugin"></a>extract-text-webpack-plugin</h2><p><figure class="highlight bash hljs"><table><tr><td class="code"><pre><span class="line">$ npm i -d extract-text-webpack-plugin@next</span><br></pre></td></tr></table></figure></p>
+<p>安裝套件。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> HtmlWebpackPlugin = <span class="hljs-built_in">require</span>(<span class="hljs-string">'html-webpack-plugin'</span>);</span><br><span class="line"><span class="hljs-keyword">const</span> ExtractTextPlugin = <span class="hljs-built_in">require</span>(<span class="hljs-string">'extract-text-webpack-plugin'</span>);</span><br><span class="line"></span><br><span class="line"><span class="hljs-built_in">module</span>.exports = &#123;</span><br><span class="line">  entry: <span class="hljs-string">'./src/app.js'</span>,</span><br><span class="line">  output: &#123;</span><br><span class="line">    path: __dirname + <span class="hljs-string">'/dist'</span>,</span><br><span class="line">    filename: <span class="hljs-string">'app.bundle.js'</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="hljs-keyword">new</span> HtmlWebpackPlugin(&#123;</span><br><span class="line">      template: <span class="hljs-string">'./src/index.html'</span>,</span><br><span class="line">      filename: <span class="hljs-string">'index.html'</span>,</span><br><span class="line">      minify: &#123;</span><br><span class="line">        collapseWhitespace: <span class="hljs-literal">true</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">      hash: <span class="hljs-literal">true</span>,</span><br><span class="line">    &#125;),</span><br><span class="line">    <span class="hljs-keyword">new</span> ExtractTextPlugin(<span class="hljs-string">'style.css'</span>),</span><br><span class="line">  ],</span><br><span class="line">  <span class="hljs-built_in">module</span>: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="hljs-regexp">/\.scss$/</span>,</span><br><span class="line">        use: ExtractTextPlugin.extract(&#123;</span><br><span class="line">          fallback: <span class="hljs-string">'style-loader'</span>,</span><br><span class="line">          <span class="hljs-comment">//resolve-url-loader may be chained before sass-loader if necessary</span></span><br><span class="line">          use: [<span class="hljs-string">'css-loader'</span>, <span class="hljs-string">'sass-loader'</span>],</span><br><span class="line">        &#125;),</span><br><span class="line">      &#125;,</span><br><span class="line">    ],</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>更改<code>webpack.config.js</code>後，執行<code>npm run build</code>，則會發現<code>index.html</code>另外載入<code>style.css</code>。</p>
+<h2 id="webpack-dev-server"><a href="#webpack-dev-server" class="headerlink" title="webpack-dev-server"></a>webpack-dev-server</h2><p>之前使用的<code>webpack -d --watch</code>適合運作在靜態文件上，但在開發狀態<code>webpack-dev-server</code>是更好的選擇。</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">$ npm install -g webpack-dev-server // 全域安裝</span><br><span class="line">$ npm install --save-dev webpack-dev-server // 區域安裝</span><br></pre></td></tr></table></figure></p>
+<p>接著執行。</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">$ webpack-dev-server</span><br></pre></td></tr></table></figure></p>
+<p><img src="/img/webpack/webpack03-1.png" alt></p>
+<p>server 執行成功，port 號為 <code>8080</code>。</p>
+<p><img src="/img/webpack/webpack03-2.png" alt></p>
+<p>我們也可以到<code>webpack.config.js</code>改 port 號，設定<code>open:true</code>，自動打開瀏覽器。</p>
+<h4 id="proxy"><a href="#proxy" class="headerlink" title="proxy"></a>proxy</h4><p>webpack-dev-server 有提供代理伺服器的功能。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-built_in">module</span>.exports = &#123;</span><br><span class="line">  entry: <span class="hljs-string">'./src/app.js'</span>,</span><br><span class="line">  ...</span><br><span class="line">  devServer: &#123;</span><br><span class="line">    port: <span class="hljs-number">9000</span>,</span><br><span class="line">    open: <span class="hljs-literal">true</span>,</span><br><span class="line">    proxy: &#123;</span><br><span class="line">          <span class="hljs-string">"/api"</span>: &#123;</span><br><span class="line">            target: <span class="hljs-string">"https://other-server.example.com"</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  ...</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>為了避免跨域的狀況，當請求 api 的時候，便會呼叫 <code>target</code>。</p>
+<h2 id="babel-loader"><a href="#babel-loader" class="headerlink" title="babel loader"></a>babel loader</h2><p><code>babel-loader</code>就是一個轉譯器，將一些瀏覽器不支援的 js 寫法或檔案，轉譯成瀏覽器可以讀取的檔案。</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">$ npm install --save-dev babel-loader</span><br></pre></td></tr></table></figure></p>
+<p>在專案下安裝<code>babel-loader</code>。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line">rules: [</span><br><span class="line">      ...,</span><br><span class="line">      &#123; <span class="hljs-attr">test</span>: <span class="hljs-regexp">/\.js$/</span>, <span class="hljs-attr">loader</span>: <span class="hljs-string">'babel-loader'</span>, <span class="hljs-attr">exclude</span>: <span class="hljs-regexp">/node_modules/</span> &#125;</span><br><span class="line">    ]</span><br></pre></td></tr></table></figure></p>
+<p>便可執行轉譯。</p>
+<h2 id="clean-webpack-plugin"><a href="#clean-webpack-plugin" class="headerlink" title="clean webpack plugin"></a>clean webpack plugin</h2><p>主要運用在產出檔案前，將原資料夾檔案清空，一開始我們先更改原本的設定。</p>
+<p><code>webpack.config.js</code></p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line">...</span><br><span class="line">entry: &#123;</span><br><span class="line">    <span class="hljs-string">'app.bundle'</span>: <span class="hljs-string">'./src/app.js'</span></span><br><span class="line">&#125;,</span><br><span class="line">output: &#123;</span><br><span class="line">    path: __dirname + <span class="hljs-string">'/dist'</span>,</span><br><span class="line">    filename: <span class="hljs-string">'[name].[chunkhash].js'</span></span><br><span class="line">&#125;,</span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
+<p>將產出的 js 檔名更改為 hash 值，避免檔名重複出現錯誤。</p>
+<p>這時只要修改<code>src/app.js</code>，<code>webpack</code>就會重新產生一個 js 檔，<br>因此需要<code>clean webpack plugin</code>將原本的舊的檔案清除，如此一來就不會累積過多的舊檔案。</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">$ npm i clean-webpack-plugin --save-dev</span><br></pre></td></tr></table></figure></p>
+<p>在專案資料夾，使用 npm 指令安裝。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="hljs-keyword">const</span> CleanWebpackPlugin = <span class="hljs-built_in">require</span>(<span class="hljs-string">'clean-webpack-plugin'</span>);</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">plugins: [</span><br><span class="line">    <span class="hljs-keyword">new</span> CleanWebpackPlugin([<span class="hljs-string">'dist'</span>]),</span><br><span class="line">    ...</span><br><span class="line">  ],</span><br></pre></td></tr></table></figure></p>
+<p>呼叫套件，並指定清空檔案的資料夾，這時候再使用<code>npm run build</code>觀察，此時發現<code>dist</code>資料夾下只剩下一隻 js 檔。</p>
+<h2 id="pug-html-loader"><a href="#pug-html-loader" class="headerlink" title="pug-html-loader"></a>pug-html-loader</h2><p>pug(jade) 是 html 的樣板語言，猶如 sass 和 css 之間的關係，這邊先不多作解釋。</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">$ npm install --save-dev pug pug-html-loader raw-loader</span><br></pre></td></tr></table></figure></p>
+<p>先安裝 pug 、 pug-html-loader 和 raw-loader。<br>加裝 raw-loader 是因為 pug-html-loader 必須依附在這個 loader 下，<br>google 未果，我不知道為什麼，如果有人知道，歡迎在下方留言告訴我。</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">doctype html</span><br><span class="line">html(lang=&quot;en&quot;)</span><br><span class="line">  head</span><br><span class="line">    title= pageTitle</span><br><span class="line">    script(type=&apos;text/javascript&apos;).</span><br><span class="line">      if (foo) bar(1 + 5)</span><br><span class="line">  body</span><br><span class="line">    h1 Pug - node template engine</span><br><span class="line">    #root</span><br><span class="line">    #container.col</span><br><span class="line">      if youAreUsingPug</span><br><span class="line">        p You are amazing</span><br><span class="line">      else</span><br><span class="line">        p Get on it!</span><br><span class="line">      p.</span><br><span class="line">        Pug is a terse and simple templating language with a</span><br><span class="line">        strong focus on performance and powerful features.</span><br></pre></td></tr></table></figure></p>
+<p>為了測試是否能正確將 pug 編譯出來，先將<code>src/index.html</code>改為<code>src/index.pug</code>，<br>並將內容更改為 pug 的格式，內容如上。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line">plugins: [</span><br><span class="line">    ...</span><br><span class="line">    <span class="hljs-keyword">new</span> HtmlWebpackPlugin(&#123;</span><br><span class="line">      template: <span class="hljs-string">'./src/index.pug'</span>,</span><br><span class="line">      ...</span><br><span class="line">    &#125;),</span><br><span class="line">    ...</span><br><span class="line">  ],</span><br><span class="line"> <span class="hljs-built_in">module</span>: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      ...</span><br><span class="line">      &#123; <span class="hljs-attr">test</span>: <span class="hljs-regexp">/\.pug$/</span>, <span class="hljs-attr">loader</span>: [<span class="hljs-string">'raw-loader'</span>, <span class="hljs-string">'pug-html-loader'</span>] &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>再將<code>webpack.config.js</code>進行修改，並下指令運行，便可成功轉譯。</p>
+<h2 id="使用-HMR-監看修改的-CSS"><a href="#使用-HMR-監看修改的-CSS" class="headerlink" title="使用 HMR 監看修改的 CSS"></a>使用 HMR 監看修改的 CSS</h2><p><code>webpack --watch</code>及<code>webpack-dev-server</code> 是監聽文件的變化自動刷新瀏覽器，<br>而 HMR  不是刷新整個瀏覽器，只會讓已經修改的部分，出現修改後的變化。</p>
+<p>先將剛剛修改的 pug template 改回 html template。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="hljs-keyword">const</span> webpack = <span class="hljs-built_in">require</span>(<span class="hljs-string">'webpack'</span>);</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">devServer: &#123;</span><br><span class="line">    port: <span class="hljs-number">9000</span>,</span><br><span class="line">    open: <span class="hljs-literal">true</span>,</span><br><span class="line">    hot: <span class="hljs-literal">true</span></span><br><span class="line">  &#125;</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">plugins: [</span><br><span class="line">    <span class="hljs-keyword">new</span> webpack.NamedModulesPlugin(),</span><br><span class="line">    <span class="hljs-keyword">new</span> webpack.HotModuleReplacementPlugin()</span><br><span class="line">  ],</span><br></pre></td></tr></table></figure></p>
+<p>修改<code>webpack.config.js</code>，並運行。</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">ERROR in chunk app.bundle [entry]</span><br><span class="line">[name].[chunkhash].js</span><br><span class="line">Cannot use [chunkhash] for chunk in &apos;[name].[chunkhash].js&apos; (use [hash] instead)</span><br></pre></td></tr></table></figure></p>
+<p>接下來就會爆出錯誤訊息，需要將<code>chunkhash</code>改成<code>hash</code>。<br><code>chunkhash</code>是根據 Entry 文件內容，編譯出對應的 hash 值。<br><code>hash</code>是只要文件內容有更改，當次被編譯出來的相關文件 hash 都會變更，而且相同。</p>
+<p>另外提一個叫<code>contenthash</code>，假設<code>index.css</code>被<code>index.js</code>引用，<br>但更改的文件只有<code>index.js</code>時，會產生<code>index.css</code>也會被重新編譯，<br>如此會產生重複內容的檔案，這時候輸入<code>contenthash</code>只要該文件內容不改變，也不會重新編譯。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line">output: &#123;</span><br><span class="line">    path: __dirname + <span class="hljs-string">'/dist'</span>,</span><br><span class="line">    filename: <span class="hljs-string">'[name].[hash].js'</span></span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure></p>
+<p>接下來將 output 的檔名進行更改，此時運行時你會發現頁面完全不會改變。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">new</span> ExtractTextPlugin(&#123;</span><br><span class="line">  filename: <span class="hljs-string">'style.css'</span>,</span><br><span class="line">  disable: <span class="hljs-literal">true</span></span><br><span class="line">&#125;),</span><br></pre></td></tr></table></figure></p>
+<p>只要將<code>ExtractTextPlugin</code>修改，便可以自動更新頁面，<br>這意味著產出 css 和 HMR，只能二選一，我們可以將開發環境和生產環境分離，便可以解決。</p>
+
+        
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+        
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/Webpack/">#Webpack</a></span>
+        
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/javascript-30-day19/">【JS30】Day19：Unreal Webcam Fun</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/webpack-4-first-try/">【Webpack】認識 webpack</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="sharethis-inline-share-buttons"></div>
+<script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5d9b1ebc2b036a0011ed0d83&amp;product=inline-share-buttons" async="async"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">評論</h3>
+    
+<div id="comment-container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+	var gitment = new Gitment({
+		id: 'webpack-4-plugin-loade/',
+		owner: 'leiadot',
+		repo: 'leiadot.github.io',
+		oauth: {
+			client_id: '51ce642a9a95d7ccdf4d',
+			client_secret: '6bf1657de06ee2fbaf452b4752567ab313277f50',
+		},
+	})
+	gitment.render('comment-container')
+</script>
+
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2019 [object Object]&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            <div class="column is-narrow">
+                <div class="columns is-mobile is-multiline is-centered">
+                
+                    
+                <a class="column is-narrow has-text-black" title="GitHub" href="https://github.com/ppoffice/leiadot">
+                    
+                    GitHub
+                    
+                </a>
+                
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("zh-CN");
+</script>
+
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+</script>
+
+    
+    
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+<script src="/js/script.js"></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="站內搜尋">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '頁面',
+                CATEGORIES: '分類',
+                TAGS: '標籤',
+                UNTITLED: '(無標題)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+</body>
+</html>

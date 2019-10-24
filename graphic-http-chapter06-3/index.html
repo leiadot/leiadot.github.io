@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+<title>【讀書筆記】圖解 HTTP Chapter 06 HTTP 首部（下） - CodingWife 寇丁人妻日安</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="了解 HTTP 的請求 Header。">
+
+
+
+
+
+<meta name="description" content="了解 HTTP 的請求 Header。">
+<meta name="keywords" content="圖解 HTTP,HTTP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【讀書筆記】圖解 HTTP Chapter 06 HTTP 首部（下）">
+<meta property="og:url" content="http://codingwife.com/graphic-http-chapter06-3/index.html">
+<meta property="og:site_name" content="CodingWife 寇丁人妻日安">
+<meta property="og:description" content="了解 HTTP 的請求 Header。">
+<meta property="og:locale" content="zh-tw">
+<meta property="og:image" content="http://codingwife.com/img/cover/http.png">
+<meta property="og:updated_time" content="2019-10-24T06:50:39.036Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【讀書筆記】圖解 HTTP Chapter 06 HTTP 首部（下）">
+<meta name="twitter:description" content="了解 HTTP 的請求 Header。">
+<meta name="twitter:image" content="http://codingwife.com/img/cover/http.png">
+
+
+
+
+
+<link rel="icon" href="/images/logo.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto+Sans+TC|Open+Sans&display=swap">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+<link rel="stylesheet" href="/css/style.css">
+<script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png"},"articleBody":"請求首部字段請求 header 就是客戶端發送 http 訊息給伺服端所要補充的附加訊息。\n\n\n請求首部字段請求 header 就是客戶端發送 http 訊息給伺服端所要補充的附加訊息。\nAcceptAccept: text/html, application/xhtml+xml...\n這個字串可以告訴伺服器，客戶端需要能處理的媒體類型和相對的優先順序。使用的是 type/subtype 型式，可以一次指定多種媒體的方式。\n\n文字文件\ntext/html, text/plain, text/css …\n\n\n圖片文件\nimages/jpeg, image/gif …\n\n\n影音文件\nvideo/mpeg, video/quicktime …\n\n\n應用程序所使用的二進制文件\napplication/zip …\n\n\n\n如果需要優先順序，使用 q= 來表示權重，範圍是0~1，可細分至小數點後三位，並用分號分隔，默認權重是 q=1.0。\nAccept-CharsetAccept-Charset: iso-8859-5, unicode1-1;q=0.8\n這個字串用來通知伺服器客戶端所支援的字串集，及相對順序，一樣可以使用 q 值來表示優先順序。\nAccept-EncodingAccept-Charset: gzip, deflate\n這個字串用來通知伺服器客戶端所支援的編碼，及相對順序，可以一次指定多種編碼。\nAccept-LanguageAccept-Language: zh-cn,zh;q=0.7\n這個字串用來通知伺服器客戶端所支援的語言，及相對優先順序，一樣可以使用 q 值來表示優先順序。\nAuthorizationAuthorization: Basic dWVde3fs..\n這個字串通常是還告訴伺服器，用戶代理的認證訊息。通常想要通過伺服器的用戶代理收到回傳的 401 狀態碼之後，會把Authorization 加入請求中。共用緩存在接收到 Authorization 的請求操作會有所差異。\nExpectExpect: 100-continue\n用戶端用此字串來告訴伺服端，希望伺服端做出某種特別的行為，如果伺服端無法達成就會回傳 417 狀態碼。\nFormForm: info@hacker.jp\n這個字串用來告知伺服器用戶代理的用戶電子郵件地址。通常是為了顯示搜尋引擎等的用戶代理負責人的電子郵件聯繫方式，使用代理時盡量用這個字串，但可能因為代理不同而顯示在 User-Agent 中。\nHost這個字串會告訴伺服器，請求的資料所在的網路主機名稱和埠號，在 Http/1.1 中是唯一一個必須要包含在內的字串部。\nHost 對於單台伺服器分配多個域名的虛擬主機工作機制有很密切的關係。請求被發送到伺服器時，請求的主機名會用 IP 位置來替換處理，如果相同 IP 位置下部署多個域名，那個伺服器就會無法了解是哪個對應的域名做請求，因此就需要 host 來指出請求的主機名稱。\nIf-Match像是以If-開頭的請求字串，皆為條件請求，伺服器接收到附帶條件請求後，只有判斷的條件為真才會執行請求。\nIf-Match: &quot;12345&quot;\n這個字串會先告訴伺服器 ETag 值，當值與伺服器的相同才會執行請求，如果不同就會回傳 412 狀態碼。\n還可以使用星號(*) 指定 If-Match 字串，這時候就會忽略 ETag 值，只要有資料就會進行處理。\nIf-Modified-Since這個字串會告訴伺服器，如果 If-Modified-Since 的值早於資料更新的時間，就處理該請求，如果在此日期之後就回傳 304 狀態碼。\nIf-Modified-Since 是要確認代理與客戶端所有的本地資料的有效性，獲取資料更新的日期和時間可確認伺服端的 Last-Modified 字串。\nIf-None-Match這個字串和 If-Match 的作用相反，ETag 值不一致才會處理該請求，在 Get 或 HEAD 方法中使用此字串就可以取得最新的資料。\nIf-RangeIf-Range: &quot;132455&quot;\n這個字串告訴伺服器如果指定的 If-Range 值（可能是 ETag 或時間）和請求資料的 ETag 或時間相同，就做範圍請求處理，此時伺服端會回傳 Content-Range 及 Content-Length 字串，如果不是的話就回傳全部資料。\n如果不使用 If-Range 的話，伺服器的資料如果更新，那客戶端手上有一部份的資料可能就會無效，這時候伺服端會回傳 412 狀態，目的是催促客戶端再次發送請求。\n比較下來不使用 If-Range ，需要耗費兩倍時間。\nIf-Modified-Since此字串和 If-Modified-Since 相反，他的作用是告訴伺服器，指定的請求資料只能在值指定的時間後，且沒發生更新的狀況才能處理請求，如果在指定時間後發生更新，就以狀態碼 412 回傳。\nMax-ForwardsMax-Forwards: 10\n藉由 Trace 或 option 方法，發送包含這個字串的請求時，這個字串以十進位整數的方式指定可經過伺服器最大數目，伺服器在轉發請求給下個伺服器前，會將 Max-Forwards 的值減一之後再重新賦值，當收到 Max-Forwards 的值為 0 後，就不再進行轉發請求。\n需要這樣是因為當 HTTP 通訊的時候，請求可能會經過多台代理伺服器，如果這些代理伺服器因為某些原因而請求轉發失敗，客戶端就無從得知，所以必須通過此字串來追蹤請求。\nProxy-Authorization接到從代理伺服器的憑證，客戶端會發送此字串 Proxy-Authorization 的請求，以告知伺服器憑證所需要的資訊。\n這個動作和客戶端與伺服器之間的 HTTP 訪問認證相似，但差別在這是發生在客戶端與代理之間。\nRange對於要獲取部分資料的範圍請求，Range 可以告訴伺服器指定的範圍。\n接收到 Range 字串請求的伺服器，會在處理請求後回傳 206 狀態碼，如果無法處理就會回傳所有資料及 200 狀態碼。\nReferer這個字串是告訴伺服器原始資料的 URI。客戶端一般來說都會發送 Referer 字串，但直接在瀏覽器地址輸入 URI，基於安全也可以不發此字串。\n因為原始資料的 URI 的查詢字串也可能含有 ID 和密碼等重要資訊，如果寫進 Referer 轉發給其他伺服器可能會造成保密訊息外洩。\nTE這個字串主要告知伺服器，客戶端能夠處理回應的傳輸編碼方式及優先順序，他和 Accept-Encoding 的功能很像，但是用在傳輸編碼。\n除了指定編碼外，他還可以指定伴隨的 trailer 分快傳輸編碼的方式，應用後者只需要把 trailer 賦值給該字串。\nUser-Agent用於傳達瀏覽器種類，User-Agent 會建立請求瀏覽器和用戶代理等等訊息給伺服端。\n如果由網路爬蟲請求，可能會在這個字串被加上爬蟲作者的電子郵件，如果請求經過代理，那也可能會被加上代理伺服器的名稱。\n響應首部字段回應 header 就是伺服端發送 http 訊息給客戶端所要補充的附加訊息。\nAccept-RangesAccept-Ranges: byte\n此字串是用來告知客戶端是用來告知客戶端是否能進行範圍請求，可處理的話，該值為 byte 不能處理的話該值為 none。\nAgeAge: 600\n這個字串可以告訴客戶端，來源伺服器在多久以前建立回應資料。如果建立資料的是緩存伺服器，那麼 Age 值就是指緩存後的回應資料再發出認證到認證完成的時間值，另外代理伺服器如果建立回應資料，一定要加上此字串值。單位為秒。\nEtagEtag: &quot;82e24848424...&quot;\n這個字串可以告訴客戶端實體標記。他是一種把資料已字串形式作為一標記的方式，伺服器會為了每一份資料分配對應的 Etag。\n而當資料更新時，Etag 也必須要更新，產生 Etag 並沒有固定的計算方法，只是由伺服端分配。\n比方說，同個網站可能有中文版和英文版的資料，那他們都是用同個 URI 資料，這時候伺服端就只能依照 Etag 值給客戶端對應的資料。\n強 Etag 與弱 Tag而在 Etag 中，有分強 Etag 與弱 Tag。\nE-tag: &quot;usagi-1234&quot;\n強 Etag，無論實體發生多細微的變化都會更改值。\nE-tag: &quot;W/usagi-1234&quot;\n弱 tag，只用來提示資料是否相同，只有資料發生根本的改變而產生差異才會改變 E-tag 值，這時候就會在前面加上W/。\nLocationLocation: http://codingwife.com\nLocation 可以將回應接收方引導到某個 URL 位置上的不同資料，基本上該字串會配合 3xx: Redirection 的回應來重新導向 URI。\n幾乎所有瀏覽器在接收此字串的回應後，都會強制性嘗試訪問重新導向資料。\nProxy-Authenticate這個字串會把代理伺服器所要求的認證訊息發送給客戶端。\n這個和客戶端與伺服端之間在發送 HTTP 傳輸的模式類似，只不過這個對象換成客戶端與代理伺服器，而在認證時 WWW-Authenticatea 字串也會有一樣的作用。\nRetry-AfterRetry-After: 120\n這個字串告訴客戶端多久以後再次發送請求，主要是配合 503 或 3xx 狀態一起使用。值可以指定日期，或是建立回應資料後的秒數。\nServer這個字串告訴客戶端目前伺服器上安裝的 HTTP 伺服器程式的訊息，除了軟體名稱外，還可能包括版本和安裝時的選項。\nVary這個字串可以對緩存進行控制，來源伺服器會向代理伺服器傳達關於本地緩存使用方法命令。\n從代理伺服器接收到來源伺服器包含此字串的回應之後，如要再進行緩存，僅對請求含有相同 Vary 的請求回傳緩存。即使對相同資料發起請求，如果 Vary 值不相同，就要重新再從來源伺服器取得資料。\nWWW-Authenticate此字串用於 HTTP 訪問，他會告訴客戶端適用於訪問請求 URI 指定資料的認證方案和帶參數提示的質詢。此字串會包含在回傳 401 狀態回應中。\n實體首部字段這是包含請求和回應訊息的實體部分，所用來補充內容或相關訊息的字串。\nAllowAllow: GET, HEAD\n此字串通知客戶端能夠支援的 Request-URI 指定資料的所有 HTTP 方法。\n當伺服器收到不支援的 HTTP 方法，會回傳 405 狀態碼，除此之外還會把所有支援的 HTTP 方法寫進此字段。\nContent-EncodingContent-Encoding: gzip\n此字串會告知客戶端伺服器對實體主體的部分選用的內容編碼，內容編碼就是在不遺失實體訊息的狀況下所做的壓縮。\n主要採用以下四種編碼：\n\ngzip\ncompress\ndeflate\nidentity\n\nConten-Language此字串告訴客戶端，實體主體主要用的自然語言。\nContent-Length此字串表明實體主體的大小（單位字節）。對實體主體進行內容編碼傳輸時，就不能再用此字段，因為主體大小的計算方式比較複雜，詳細可參考 RFC2616 的 4.4。\nContent-Location此字段給訊息主體相對應的 URI，與 Location 不同的點在於，此字串表示的是訊息主體回傳資料對應的 URI。\n假設使用 Accept-Language 的伺服器發送請求，而回傳的頁面和實際請求的對象不同時，此字串就會寫明對應的 URI。\nContent-MD5此字串的值是由 MD5 算法生成的值，目的在用來檢查主體傳輸過程是否完整，以及再確認是否有傳送到。\n對訊息主體執行 MD5 算法，得到會是 128 位元的二進制數字，再通過 Base 64 編碼後寫進此字段。因為 HTTP 字段沒辦法紀錄二進制值，所以需要通過 Base 64 編碼處理，而客戶端會再對訊息主體執行相同的 MD5 算法，比較過後就可以知道訊息的正確性。\n這種做法的缺點是無法發現內容有偶發性的改變，或是否被惡意竄改。\nContent-RangeContent-Range: bytes 5001-10000/10000\n此字串為針對範圍請求，回傳回應所使用，可以告訴客戶端回傳的實體哪個部分符合範圍請求，以字節為單位，表示當前發送部分及整個實體的大小。\nContent-Type此字串說明了實體內的媒體類型，與 Accept 相同使用 type/subtype 的形式。\nExpires這個字段會告訴客戶端資料的失效日期，緩存伺服器在接收此字串的回應之後，會以緩存來回覆此請求。在此字串值的時間以前，回傳的資料副本會一直留存，而當超過指定的時間後，緩存伺服器會轉向跟來源伺服器來請求有效資料。\n來源伺服器不希望緩存伺服器對資料進行緩存時，最好在此字串內寫和 header 的 Date 一樣的時間，但是當 Cache-Control 有指定 max-age 時，比起此字串，他會先處理 max-age 的指令。\nLast-Modified此字串指定資料最後修改的時間，一般來說就是 Requst-URI 指定資料被修改的時間，但進行動態資料處理時，此字串可能會變成資料最後修改的時間。\n為 Cookie 所服務的首部字段管理伺服器和客戶端之間狀態的 Cookie ，雖還沒有被 HTTP / 1.1 的 RFC2616 列為標準，但在一般網站已經有廣泛應用。\nCookie 的目的是為了用戶識別和狀態管理，網站為了管理客戶狀態，會透過瀏覽器把資料臨時寫到客戶端的電腦，而客戶端再訪問網站時，就可通過通訊方式取回之前發的 Cookie。\n呼叫 Cookie 時，可以檢驗 Cookie 的有效期，以及發送端的網域、路徑等等訊息，所以標準的 Cookie 內的資料不會因來自其他網路和攻擊者的攻擊而洩漏。\nCookie 規格的標準文件有以下：\n\n網景公司發布的規格標準\nRFC2109\nRFC2965\nRFC6265\n\n目前最常用的就是 RFC6265，所以接下來以此規格來說。\nCookie 有兩個字串：\n\nSet-Cookie：開始狀態管理所用的 Cookie 訊息。\nCookie：伺服端收到的 Cookie 訊息。\n\nSet-Cookie當伺服器開始管理客戶端的狀態，會事先告知各種訊息：|屬性|說明||—|—||NAME=VALUE|賦予 Cookie 的名稱和值（必須）||expires=DATE|Cookie 的有效期（如果沒有指點，默認值就是以瀏覽器關閉為止）||path=PATH|伺服器上的文件目錄作為 Cookie 適用的物件（如果沒有指點，默認值就是以所在文件的文件目錄）||domain=域名|Cookie 適用物件的域名（如果沒有指點，默認值就是以創建 Cookie 的伺服器的域名）||Secure|僅在 HTTP 安全通訊才會發送 Cookie||HttpOnly|做限制，不能在 JavaScript 腳本訪問|\nexpires 屬性\nexpires 可以發送 Cookie 的有效期\n沒有指定，默認就是瀏覽器關閉之前\n一旦 Cookie 從伺服器發送到客戶端，伺服器就不存在可以顯示刪除 Cookie 的方法，但可以通過覆蓋已經過期的 Cookie，一樣可以達到對於客戶端 Cookie 刪除的操作。\n\npath 屬性可用於限制指定 Cookie 的發送範圍的文件目錄，不過另外有方法可以避開這個限制。\ndomain通過 Cookie 的 domain 屬性指定的域名可以做到結尾配對相同。比方說指定 codingwife.com ，www.codingwife.com 或 www2.codingwife.com 之類的都可以發送 Cookie。\n除了指定多個域名發送 Cookie 之外，不指定 domain 更顯得安全。\nsecureSet-Cookie: name=value; secure\nCookie 的 secure 僅在 HTTPS 或 SSL 安全連接時，才可會被發送到伺服器。\nHttpOnly這個屬性主要防止 cookie 的擴展功能，它讓 JavaScript 腳本沒辦法取得 Cookie，主要為了防止 XSS 攻擊對 Cookie 的竊取。\nCookie此字串告訴伺服器，當客戶端想取得 HTTP 狀態管理支援時，就會從請求中包含從伺服器接收到的 Cookie。\n其他首部字段HTTP header 可以自行擴展，所以在瀏覽器上會出現一些非標準的字串，以下就幾種最常用的來做說明。\nX-Frame-OptionsX-Frame-Options: DENY\n此字串是回應 header，控制網站內容在其他網站的 Frame 標籤的顯示問題，主要為了防止點擊劫持。\n以下有兩個可以指定的值：\n\nDENY：拒絕\nSAMEORIGIN：僅同源域名下的頁面配對許可。\n舉例：如果指定 codingwife.com 頁面是 SAMEORIGIN，那麼 codingwife.com 下的 frame 都允許可載入該頁面，而其他域名就不行。\n\n\n\nX-XSS-Protection此字串是回應 header，這是一個控制 XSS 對策的一個字串，用於控制瀏覽器 XSS 防護機制的開關。\n\n0：將 XSS 過濾設置成無效狀態\n1：將 XSS 過濾設置成有效狀態\n\nDNT此字串是請求 header，意思是拒絕個人訊息被收集，表示拒絕被精準廣告追蹤的一種方法。\n\n0：同意被追蹤。\n1：拒絕被追蹤。\n\n這個字串必須要有伺服端對應的支援。\nP3P通過這個技術，可以讓網站上的個人隱私變成一種可以提供程式理解的形式，以保護用戶端隱私。\n\n建立 P3P 隱私\n建立對照文件後，保存命名在 w3c/p3p.xml 中。\n從 P3P 隱私中建立 Compact policies，輸出到 HTTP 回應中。\n資料來源：《圖解 HTTP》 上野宣 人民郵電出版社筆記純屬推廣及分享，如有侵權，請告知。Please advise to remove immediately if any infringement caused.\n\n\n\n","dateCreated":"2018-10-28T12:12:21+00:00","dateModified":"2019-10-24T06:50:39+00:00","datePublished":"2018-10-28T12:12:21+00:00","description":"請求首部字段請求 header 就是客戶端發送 http 訊息給伺服端所要補充的附加訊息。","headline":"【讀書筆記】圖解 HTTP Chapter 06 HTTP 首部（下）","image":["/img/cover/http.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://codingwife.com/graphic-http-chapter06-3/"},"publisher":{"@type":"Organization","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png","logo":{"@type":"ImageObject","url":"http://codingwife.com/images/leia.png"}},"url":"http://codingwife.com/graphic-http-chapter06-3/","keywords":"圖解 HTTP, HTTP"}</script>
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    <img src="/images/codingwife.png" alt height="28">
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item " href="/archives">Archives</a>
+            
+            <a class="navbar-item " href="/categories">Categories</a>
+            
+            <a class="navbar-item " href="/tags">Tags</a>
+            
+            <a class="navbar-item " href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="搜尋" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/leiadot">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            <a class="navbar-item" title="Facebook" href="https://facebook.com/CodingwifeHy2">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+        【讀書筆記】圖解 HTTP Chapter 06 HTTP 首部（下）
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">2018-10-28 12:12
+            （<time datetime="2018-10-28T12:12:21.000Z" itemprop="datePublished">10月 28 2018</time>）
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Front-end/">Front-end</a>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+        
+        <h2 id="請求首部字段"><a href="#請求首部字段" class="headerlink" title="請求首部字段"></a>請求首部字段</h2><p>請求 header 就是客戶端發送 http 訊息給伺服端所要補充的附加訊息。</p>
+<a id="more"></a>
+
+<h2 id="請求首部字段-1"><a href="#請求首部字段-1" class="headerlink" title="請求首部字段"></a>請求首部字段</h2><p>請求 header 就是客戶端發送 http 訊息給伺服端所要補充的附加訊息。</p>
+<h3 id="Accept"><a href="#Accept" class="headerlink" title="Accept"></a>Accept</h3><p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">Accept: text/html, application/xhtml+xml...</span><br></pre></td></tr></table></figure></p>
+<p>這個字串可以告訴伺服器，客戶端需要能處理的媒體類型和相對的優先順序。<br>使用的是 type/subtype 型式，可以一次指定多種媒體的方式。</p>
+<ul>
+<li>文字文件<ul>
+<li>text/html, text/plain, text/css …</li>
+</ul>
+</li>
+<li>圖片文件<ul>
+<li>images/jpeg, image/gif …</li>
+</ul>
+</li>
+<li>影音文件<ul>
+<li>video/mpeg, video/quicktime …</li>
+</ul>
+</li>
+<li>應用程序所使用的二進制文件<ul>
+<li>application/zip …</li>
+</ul>
+</li>
+</ul>
+<p>如果需要優先順序，使用 <code>q=</code> 來表示權重，範圍是<code>0~1</code>，可細分至小數點後三位，並用分號分隔，默認權重是 <code>q=1.0</code>。</p>
+<h4 id="Accept-Charset"><a href="#Accept-Charset" class="headerlink" title="Accept-Charset"></a>Accept-Charset</h4><p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">Accept-Charset: iso-8859-5, unicode1-1;q=0.8</span><br></pre></td></tr></table></figure></p>
+<p>這個字串用來通知伺服器客戶端所支援的字串集，及相對順序，一樣可以使用 q 值來表示優先順序。</p>
+<h4 id="Accept-Encoding"><a href="#Accept-Encoding" class="headerlink" title="Accept-Encoding"></a>Accept-Encoding</h4><p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">Accept-Charset: gzip, deflate</span><br></pre></td></tr></table></figure></p>
+<p>這個字串用來通知伺服器客戶端所支援的編碼，及相對順序，可以一次指定多種編碼。</p>
+<h4 id="Accept-Language"><a href="#Accept-Language" class="headerlink" title="Accept-Language"></a>Accept-Language</h4><p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">Accept-Language: zh-cn,zh;q=0.7</span><br></pre></td></tr></table></figure></p>
+<p>這個字串用來通知伺服器客戶端所支援的語言，及相對優先順序，一樣可以使用 q 值來表示優先順序。</p>
+<h3 id="Authorization"><a href="#Authorization" class="headerlink" title="Authorization"></a>Authorization</h3><p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">Authorization: Basic dWVde3fs..</span><br></pre></td></tr></table></figure></p>
+<p>這個字串通常是還告訴伺服器，用戶代理的認證訊息。通常想要通過伺服器的用戶代理收到回傳的 401 狀態碼之後，會把<code>Authorization</code> 加入請求中。共用緩存在接收到 Authorization 的請求操作會有所差異。</p>
+<h3 id="Expect"><a href="#Expect" class="headerlink" title="Expect"></a>Expect</h3><p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">Expect: 100-continue</span><br></pre></td></tr></table></figure></p>
+<p>用戶端用此字串來告訴伺服端，希望伺服端做出某種特別的行為，如果伺服端無法達成就會回傳 417 狀態碼。</p>
+<h3 id="Form"><a href="#Form" class="headerlink" title="Form"></a>Form</h3><p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">Form: info@hacker.jp</span><br></pre></td></tr></table></figure></p>
+<p>這個字串用來告知伺服器用戶代理的用戶電子郵件地址。通常是為了顯示搜尋引擎等的用戶代理負責人的電子郵件聯繫方式，使用代理時盡量用這個字串，但可能因為代理不同而顯示在 User-Agent 中。</p>
+<h3 id="Host"><a href="#Host" class="headerlink" title="Host"></a>Host</h3><p>這個字串會告訴伺服器，請求的資料所在的網路主機名稱和埠號，在 Http/1.1 中是唯一一個必須要包含在內的字串部。</p>
+<p>Host 對於單台伺服器分配多個域名的虛擬主機工作機制有很密切的關係。<br>請求被發送到伺服器時，請求的主機名會用 IP 位置來替換處理，如果相同 IP 位置下部署多個域名，那個伺服器就會無法了解是哪個對應的域名做請求，因此就需要 host 來指出請求的主機名稱。</p>
+<h3 id="If-Match"><a href="#If-Match" class="headerlink" title="If-Match"></a>If-Match</h3><p>像是以<code>If-</code>開頭的請求字串，皆為條件請求，伺服器接收到附帶條件請求後，只有判斷的條件為真才會執行請求。</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">If-Match: &quot;12345&quot;</span><br></pre></td></tr></table></figure></p>
+<p>這個字串會先告訴伺服器 ETag 值，當值與伺服器的相同才會執行請求，如果不同就會回傳 412 狀態碼。</p>
+<p>還可以使用星號(*) 指定 If-Match 字串，這時候就會忽略 ETag 值，只要有資料就會進行處理。</p>
+<h3 id="If-Modified-Since"><a href="#If-Modified-Since" class="headerlink" title="If-Modified-Since"></a>If-Modified-Since</h3><p>這個字串會告訴伺服器，如果 If-Modified-Since 的值早於資料更新的時間，就處理該請求，如果在此日期之後就回傳 304 狀態碼。</p>
+<p>If-Modified-Since 是要確認代理與客戶端所有的本地資料的有效性，獲取資料更新的日期和時間可確認伺服端的 Last-Modified 字串。</p>
+<h3 id="If-None-Match"><a href="#If-None-Match" class="headerlink" title="If-None-Match"></a>If-None-Match</h3><p>這個字串和 If-Match 的作用相反，ETag 值不一致才會處理該請求，在 Get 或 HEAD 方法中使用此字串就可以取得最新的資料。</p>
+<h3 id="If-Range"><a href="#If-Range" class="headerlink" title="If-Range"></a>If-Range</h3><p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">If-Range: &quot;132455&quot;</span><br></pre></td></tr></table></figure></p>
+<p>這個字串告訴伺服器如果指定的 If-Range 值（可能是 ETag 或時間）和請求資料的 ETag 或時間相同，就做範圍請求處理，此時伺服端會回傳 Content-Range 及 Content-Length 字串，如果不是的話就回傳全部資料。</p>
+<p>如果不使用 If-Range 的話，伺服器的資料如果更新，那客戶端手上有一部份的資料可能就會無效，這時候伺服端會回傳 412 狀態，目的是催促客戶端再次發送請求。</p>
+<p>比較下來不使用 If-Range ，需要耗費兩倍時間。</p>
+<h3 id="If-Modified-Since-1"><a href="#If-Modified-Since-1" class="headerlink" title="If-Modified-Since"></a>If-Modified-Since</h3><p>此字串和 If-Modified-Since 相反，他的作用是告訴伺服器，指定的請求資料只能在值指定的時間後，且沒發生更新的狀況才能處理請求，如果在指定時間後發生更新，就以狀態碼 412 回傳。</p>
+<h3 id="Max-Forwards"><a href="#Max-Forwards" class="headerlink" title="Max-Forwards"></a>Max-Forwards</h3><p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">Max-Forwards: 10</span><br></pre></td></tr></table></figure></p>
+<p>藉由 Trace 或 option 方法，發送包含這個字串的請求時，這個字串以十進位整數的方式指定可經過伺服器最大數目，伺服器在轉發請求給下個伺服器前，會將 Max-Forwards 的值減一之後再重新賦值，當收到 Max-Forwards 的值為 0 後，就不再進行轉發請求。</p>
+<p>需要這樣是因為當 HTTP 通訊的時候，請求可能會經過多台代理伺服器，如果這些代理伺服器因為某些原因而請求轉發失敗，客戶端就無從得知，所以必須通過此字串來追蹤請求。</p>
+<h3 id="Proxy-Authorization"><a href="#Proxy-Authorization" class="headerlink" title="Proxy-Authorization"></a>Proxy-Authorization</h3><p>接到從代理伺服器的憑證，客戶端會發送此字串 Proxy-Authorization 的請求，以告知伺服器憑證所需要的資訊。</p>
+<p>這個動作和客戶端與伺服器之間的 HTTP 訪問認證相似，但差別在這是發生在客戶端與代理之間。</p>
+<h3 id="Range"><a href="#Range" class="headerlink" title="Range"></a>Range</h3><p>對於要獲取部分資料的範圍請求，Range 可以告訴伺服器指定的範圍。</p>
+<p>接收到 Range 字串請求的伺服器，會在處理請求後回傳 206 狀態碼，如果無法處理就會回傳所有資料及 200 狀態碼。</p>
+<h3 id="Referer"><a href="#Referer" class="headerlink" title="Referer"></a>Referer</h3><p>這個字串是告訴伺服器原始資料的 URI。客戶端一般來說都會發送 Referer 字串，但直接在瀏覽器地址輸入 URI，基於安全也可以不發此字串。</p>
+<p>因為原始資料的 URI 的查詢字串也可能含有 ID 和密碼等重要資訊，如果寫進 Referer 轉發給其他伺服器可能會造成保密訊息外洩。</p>
+<h3 id="TE"><a href="#TE" class="headerlink" title="TE"></a>TE</h3><p>這個字串主要告知伺服器，客戶端能夠處理回應的傳輸編碼方式及優先順序，他和 Accept-Encoding 的功能很像，但是用在傳輸編碼。</p>
+<p>除了指定編碼外，他還可以指定伴隨的 trailer 分快傳輸編碼的方式，應用後者只需要把 trailer 賦值給該字串。</p>
+<h3 id="User-Agent"><a href="#User-Agent" class="headerlink" title="User-Agent"></a>User-Agent</h3><p>用於傳達瀏覽器種類，User-Agent 會建立請求瀏覽器和用戶代理等等訊息給伺服端。</p>
+<p>如果由網路爬蟲請求，可能會在這個字串被加上爬蟲作者的電子郵件，如果請求經過代理，那也可能會被加上代理伺服器的名稱。</p>
+<h2 id="響應首部字段"><a href="#響應首部字段" class="headerlink" title="響應首部字段"></a>響應首部字段</h2><p>回應 header 就是伺服端發送 http 訊息給客戶端所要補充的附加訊息。</p>
+<h3 id="Accept-Ranges"><a href="#Accept-Ranges" class="headerlink" title="Accept-Ranges"></a>Accept-Ranges</h3><p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">Accept-Ranges: byte</span><br></pre></td></tr></table></figure></p>
+<p>此字串是用來告知客戶端是用來告知客戶端是否能進行範圍請求，可處理的話，該值為 <code>byte</code> 不能處理的話該值為 <code>none</code>。</p>
+<h3 id="Age"><a href="#Age" class="headerlink" title="Age"></a>Age</h3><p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">Age: 600</span><br></pre></td></tr></table></figure></p>
+<p>這個字串可以告訴客戶端，來源伺服器在多久以前建立回應資料。<br>如果建立資料的是緩存伺服器，那麼 Age 值就是指緩存後的回應資料再發出認證到認證完成的時間值，另外代理伺服器如果建立回應資料，一定要加上此字串值。單位為秒。</p>
+<h3 id="Etag"><a href="#Etag" class="headerlink" title="Etag"></a>Etag</h3><p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">Etag: &quot;82e24848424...&quot;</span><br></pre></td></tr></table></figure></p>
+<p>這個字串可以告訴客戶端實體標記。他是一種把資料已字串形式作為一標記的方式，伺服器會為了每一份資料分配對應的 Etag。</p>
+<p>而當資料更新時，Etag 也必須要更新，產生 Etag 並沒有固定的計算方法，只是由伺服端分配。</p>
+<p>比方說，同個網站可能有中文版和英文版的資料，那他們都是用同個 URI 資料，這時候伺服端就只能依照 Etag 值給客戶端對應的資料。</p>
+<h4 id="強-Etag-與弱-Tag"><a href="#強-Etag-與弱-Tag" class="headerlink" title="強 Etag 與弱 Tag"></a>強 Etag 與弱 Tag</h4><p>而在 Etag 中，有分強 Etag 與弱 Tag。</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">E-tag: &quot;usagi-1234&quot;</span><br></pre></td></tr></table></figure></p>
+<p>強 Etag，無論實體發生多細微的變化都會更改值。</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">E-tag: &quot;W/usagi-1234&quot;</span><br></pre></td></tr></table></figure></p>
+<p>弱 tag，只用來提示資料是否相同，只有資料發生根本的改變而產生差異才會改變 E-tag 值，這時候就會在前面加上<code>W/</code>。</p>
+<h3 id="Location"><a href="#Location" class="headerlink" title="Location"></a>Location</h3><p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">Location: http://codingwife.com</span><br></pre></td></tr></table></figure></p>
+<p>Location 可以將回應接收方引導到某個 URL 位置上的不同資料，基本上該字串會配合 <code>3xx: Redirection</code> 的回應來重新導向 URI。</p>
+<p>幾乎所有瀏覽器在接收此字串的回應後，都會強制性嘗試訪問重新導向資料。</p>
+<h3 id="Proxy-Authenticate"><a href="#Proxy-Authenticate" class="headerlink" title="Proxy-Authenticate"></a>Proxy-Authenticate</h3><p>這個字串會把代理伺服器所要求的認證訊息發送給客戶端。</p>
+<p>這個和客戶端與伺服端之間在發送 HTTP 傳輸的模式類似，只不過這個對象換成客戶端與代理伺服器，而在認證時 <code>WWW-Authenticatea</code> 字串也會有一樣的作用。</p>
+<h3 id="Retry-After"><a href="#Retry-After" class="headerlink" title="Retry-After"></a>Retry-After</h3><p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">Retry-After: 120</span><br></pre></td></tr></table></figure></p>
+<p>這個字串告訴客戶端多久以後再次發送請求，主要是配合 503 或 3xx 狀態一起使用。值可以指定日期，或是建立回應資料後的秒數。</p>
+<h3 id="Server"><a href="#Server" class="headerlink" title="Server"></a>Server</h3><p>這個字串告訴客戶端目前伺服器上安裝的 HTTP 伺服器程式的訊息，除了軟體名稱外，還可能包括版本和安裝時的選項。</p>
+<h3 id="Vary"><a href="#Vary" class="headerlink" title="Vary"></a>Vary</h3><p>這個字串可以對緩存進行控制，來源伺服器會向代理伺服器傳達關於本地緩存使用方法命令。</p>
+<p>從代理伺服器接收到來源伺服器包含此字串的回應之後，如要再進行緩存，僅對請求含有相同 Vary 的請求回傳緩存。即使對相同資料發起請求，如果 Vary 值不相同，就要重新再從來源伺服器取得資料。</p>
+<h3 id="WWW-Authenticate"><a href="#WWW-Authenticate" class="headerlink" title="WWW-Authenticate"></a>WWW-Authenticate</h3><p>此字串用於 HTTP 訪問，他會告訴客戶端適用於訪問請求 URI 指定資料的認證方案和帶參數提示的質詢。此字串會包含在回傳 401 狀態回應中。</p>
+<h2 id="實體首部字段"><a href="#實體首部字段" class="headerlink" title="實體首部字段"></a>實體首部字段</h2><p>這是包含請求和回應訊息的實體部分，所用來補充內容或相關訊息的字串。</p>
+<h3 id="Allow"><a href="#Allow" class="headerlink" title="Allow"></a>Allow</h3><p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">Allow: GET, HEAD</span><br></pre></td></tr></table></figure></p>
+<p>此字串通知客戶端能夠支援的 Request-URI 指定資料的所有 HTTP 方法。</p>
+<p>當伺服器收到不支援的 HTTP 方法，會回傳 405 狀態碼，除此之外還會把所有支援的 HTTP 方法寫進此字段。</p>
+<h3 id="Content-Encoding"><a href="#Content-Encoding" class="headerlink" title="Content-Encoding"></a>Content-Encoding</h3><p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">Content-Encoding: gzip</span><br></pre></td></tr></table></figure></p>
+<p>此字串會告知客戶端伺服器對實體主體的部分選用的內容編碼，內容編碼就是在不遺失實體訊息的狀況下所做的壓縮。</p>
+<p>主要採用以下四種編碼：</p>
+<ul>
+<li>gzip</li>
+<li>compress</li>
+<li>deflate</li>
+<li>identity</li>
+</ul>
+<h3 id="Conten-Language"><a href="#Conten-Language" class="headerlink" title="Conten-Language"></a>Conten-Language</h3><p>此字串告訴客戶端，實體主體主要用的自然語言。</p>
+<h3 id="Content-Length"><a href="#Content-Length" class="headerlink" title="Content-Length"></a>Content-Length</h3><p>此字串表明實體主體的大小（單位字節）。<br>對實體主體進行內容編碼傳輸時，就不能再用此字段，因為主體大小的計算方式比較複雜，詳細可參考 RFC2616 的 4.4。</p>
+<h3 id="Content-Location"><a href="#Content-Location" class="headerlink" title="Content-Location"></a>Content-Location</h3><p>此字段給訊息主體相對應的 URI，與 Location 不同的點在於，此字串表示的是訊息主體回傳資料對應的 URI。</p>
+<p>假設使用 Accept-Language 的伺服器發送請求，而回傳的頁面和實際請求的對象不同時，此字串就會寫明對應的 URI。</p>
+<h3 id="Content-MD5"><a href="#Content-MD5" class="headerlink" title="Content-MD5"></a>Content-MD5</h3><p>此字串的值是由 MD5 算法生成的值，目的在用來檢查主體傳輸過程是否完整，以及再確認是否有傳送到。</p>
+<p>對訊息主體執行 MD5 算法，得到會是 128 位元的二進制數字，再通過 Base 64 編碼後寫進此字段。因為 HTTP 字段沒辦法紀錄二進制值，所以需要通過 Base 64 編碼處理，而客戶端會再對訊息主體執行相同的 MD5 算法，比較過後就可以知道訊息的正確性。</p>
+<p>這種做法的缺點是無法發現內容有偶發性的改變，或是否被惡意竄改。</p>
+<h3 id="Content-Range"><a href="#Content-Range" class="headerlink" title="Content-Range"></a>Content-Range</h3><p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">Content-Range: bytes 5001-10000/10000</span><br></pre></td></tr></table></figure></p>
+<p>此字串為針對範圍請求，回傳回應所使用，可以告訴客戶端回傳的實體哪個部分符合範圍請求，以字節為單位，表示當前發送部分及整個實體的大小。</p>
+<h3 id="Content-Type"><a href="#Content-Type" class="headerlink" title="Content-Type"></a>Content-Type</h3><p>此字串說明了實體內的媒體類型，與 Accept 相同使用 type/subtype 的形式。</p>
+<h3 id="Expires"><a href="#Expires" class="headerlink" title="Expires"></a>Expires</h3><p>這個字段會告訴客戶端資料的失效日期，緩存伺服器在接收此字串的回應之後，會以緩存來回覆此請求。在此字串值的時間以前，回傳的資料副本會一直留存，而當超過指定的時間後，緩存伺服器會轉向跟來源伺服器來請求有效資料。</p>
+<p>來源伺服器不希望緩存伺服器對資料進行緩存時，最好在此字串內寫和 header 的 Date 一樣的時間，但是當 Cache-Control 有指定 max-age 時，比起此字串，他會先處理 max-age 的指令。</p>
+<h3 id="Last-Modified"><a href="#Last-Modified" class="headerlink" title="Last-Modified"></a>Last-Modified</h3><p>此字串指定資料最後修改的時間，一般來說就是 Requst-URI 指定資料被修改的時間，但進行動態資料處理時，此字串可能會變成資料最後修改的時間。</p>
+<h2 id="為-Cookie-所服務的首部字段"><a href="#為-Cookie-所服務的首部字段" class="headerlink" title="為 Cookie 所服務的首部字段"></a>為 Cookie 所服務的首部字段</h2><p>管理伺服器和客戶端之間狀態的 Cookie ，雖還沒有被 HTTP / 1.1 的 RFC2616 列為標準，但在一般網站已經有廣泛應用。</p>
+<p>Cookie 的目的是為了用戶識別和狀態管理，網站為了管理客戶狀態，會透過瀏覽器把資料臨時寫到客戶端的電腦，而客戶端再訪問網站時，就可通過通訊方式取回之前發的 Cookie。</p>
+<p>呼叫 Cookie 時，可以檢驗 Cookie 的有效期，以及發送端的網域、路徑等等訊息，所以標準的 Cookie 內的資料不會因來自其他網路和攻擊者的攻擊而洩漏。</p>
+<p>Cookie 規格的標準文件有以下：</p>
+<ul>
+<li>網景公司發布的規格標準</li>
+<li>RFC2109</li>
+<li>RFC2965</li>
+<li>RFC6265</li>
+</ul>
+<p>目前最常用的就是 RFC6265，所以接下來以此規格來說。</p>
+<p>Cookie 有兩個字串：</p>
+<ul>
+<li>Set-Cookie：開始狀態管理所用的 Cookie 訊息。</li>
+<li>Cookie：伺服端收到的 Cookie 訊息。</li>
+</ul>
+<h3 id="Set-Cookie"><a href="#Set-Cookie" class="headerlink" title="Set-Cookie"></a>Set-Cookie</h3><p>當伺服器開始管理客戶端的狀態，會事先告知各種訊息：<br>|屬性|說明|<br>|—|—|<br>|NAME=VALUE|賦予 Cookie 的名稱和值（必須）|<br>|expires=DATE|Cookie 的有效期（如果沒有指點，默認值就是以瀏覽器關閉為止）|<br>|path=PATH|伺服器上的文件目錄作為 Cookie 適用的物件（如果沒有指點，默認值就是以所在文件的文件目錄）|<br>|domain=域名|Cookie 適用物件的域名（如果沒有指點，默認值就是以創建 Cookie 的伺服器的域名）|<br>|Secure|僅在 HTTP 安全通訊才會發送 Cookie|<br>|HttpOnly|做限制，不能在 JavaScript 腳本訪問|</p>
+<h4 id="expires-屬性"><a href="#expires-屬性" class="headerlink" title="expires 屬性"></a>expires 屬性</h4><ul>
+<li>expires 可以發送 Cookie 的有效期</li>
+<li>沒有指定，默認就是瀏覽器關閉之前</li>
+<li>一旦 Cookie 從伺服器發送到客戶端，伺服器就不存在可以顯示刪除 Cookie 的方法，但可以通過覆蓋已經過期的 Cookie，一樣可以達到對於客戶端 Cookie 刪除的操作。</li>
+</ul>
+<h4 id="path-屬性"><a href="#path-屬性" class="headerlink" title="path 屬性"></a>path 屬性</h4><p>可用於限制指定 Cookie 的發送範圍的文件目錄，不過另外有方法可以避開這個限制。</p>
+<h4 id="domain"><a href="#domain" class="headerlink" title="domain"></a>domain</h4><p>通過 Cookie 的 domain 屬性指定的域名可以做到結尾配對相同。<br>比方說指定 codingwife.com ，<a href="http://www.codingwife.com" target="_blank" rel="noopener">www.codingwife.com</a> 或 www2.codingwife.com 之類的都可以發送 Cookie。</p>
+<p>除了指定多個域名發送 Cookie 之外，不指定 domain 更顯得安全。</p>
+<h4 id="secure"><a href="#secure" class="headerlink" title="secure"></a>secure</h4><p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">Set-Cookie: name=value; secure</span><br></pre></td></tr></table></figure></p>
+<p>Cookie 的 secure 僅在 HTTPS 或 SSL 安全連接時，才可會被發送到伺服器。</p>
+<h4 id="HttpOnly"><a href="#HttpOnly" class="headerlink" title="HttpOnly"></a>HttpOnly</h4><p>這個屬性主要防止 cookie 的擴展功能，它讓 JavaScript 腳本沒辦法取得 Cookie，主要為了防止 XSS 攻擊對 Cookie 的竊取。</p>
+<h3 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h3><p>此字串告訴伺服器，當客戶端想取得 HTTP 狀態管理支援時，就會從請求中包含從伺服器接收到的 Cookie。</p>
+<h2 id="其他首部字段"><a href="#其他首部字段" class="headerlink" title="其他首部字段"></a>其他首部字段</h2><p>HTTP header 可以自行擴展，所以在瀏覽器上會出現一些非標準的字串，以下就幾種最常用的來做說明。</p>
+<h3 id="X-Frame-Options"><a href="#X-Frame-Options" class="headerlink" title="X-Frame-Options"></a>X-Frame-Options</h3><p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">X-Frame-Options: DENY</span><br></pre></td></tr></table></figure></p>
+<p>此字串是回應 header，控制網站內容在其他網站的 Frame 標籤的顯示問題，主要為了防止點擊劫持。</p>
+<p>以下有兩個可以指定的值：</p>
+<ul>
+<li>DENY：拒絕</li>
+<li>SAMEORIGIN：僅同源域名下的頁面配對許可。<ul>
+<li>舉例：如果指定 codingwife.com 頁面是 SAMEORIGIN，那麼 codingwife.com 下的 frame 都允許可載入該頁面，而其他域名就不行。</li>
+</ul>
+</li>
+</ul>
+<h3 id="X-XSS-Protection"><a href="#X-XSS-Protection" class="headerlink" title="X-XSS-Protection"></a>X-XSS-Protection</h3><p>此字串是回應 header，這是一個控制 XSS 對策的一個字串，用於控制瀏覽器 XSS 防護機制的開關。</p>
+<ul>
+<li>0：將 XSS 過濾設置成無效狀態</li>
+<li>1：將 XSS 過濾設置成有效狀態</li>
+</ul>
+<h3 id="DNT"><a href="#DNT" class="headerlink" title="DNT"></a>DNT</h3><p>此字串是請求 header，意思是拒絕個人訊息被收集，表示拒絕被精準廣告追蹤的一種方法。</p>
+<ul>
+<li>0：同意被追蹤。</li>
+<li>1：拒絕被追蹤。</li>
+</ul>
+<p>這個字串必須要有伺服端對應的支援。</p>
+<h3 id="P3P"><a href="#P3P" class="headerlink" title="P3P"></a>P3P</h3><p>通過這個技術，可以讓網站上的個人隱私變成一種可以提供程式理解的形式，以保護用戶端隱私。</p>
+<ol>
+<li>建立 P3P 隱私</li>
+<li>建立對照文件後，保存命名在 w3c/p3p.xml 中。</li>
+<li>從 P3P 隱私中建立 Compact policies，輸出到 HTTP 回應中。<blockquote>
+<p>資料來源：《圖解 HTTP》 上野宣 人民郵電出版社<br>筆記純屬推廣及分享，如有侵權，請告知。<br>Please advise to remove immediately if any infringement caused.</p>
+</blockquote>
+</li>
+</ol>
+
+        
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+        
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/圖解-HTTP/">#圖解 HTTP</a></span>
+        
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/HTTP/">#HTTP</a></span>
+        
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/graphic-http-chapter06-1/">【讀書筆記】圖解 HTTP Chapter 06 HTTP 首部（上）</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/graphic-http-chapter05/">【讀書筆記】圖解 HTTP Chapter 05 與 HTTP 協作的網頁伺服器</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="sharethis-inline-share-buttons"></div>
+<script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5d9b1ebc2b036a0011ed0d83&amp;product=inline-share-buttons" async="async"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">評論</h3>
+    
+<div id="comment-container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+	var gitment = new Gitment({
+		id: 'graphic-http-chapter06-3/',
+		owner: 'leiadot',
+		repo: 'leiadot.github.io',
+		oauth: {
+			client_id: '51ce642a9a95d7ccdf4d',
+			client_secret: '6bf1657de06ee2fbaf452b4752567ab313277f50',
+		},
+	})
+	gitment.render('comment-container')
+</script>
+
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2019 [object Object]&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            <div class="column is-narrow">
+                <div class="columns is-mobile is-multiline is-centered">
+                
+                    
+                <a class="column is-narrow has-text-black" title="GitHub" href="https://github.com/ppoffice/leiadot">
+                    
+                    GitHub
+                    
+                </a>
+                
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("zh-CN");
+</script>
+
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+</script>
+
+    
+    
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+<script src="/js/script.js"></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="站內搜尋">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '頁面',
+                CATEGORIES: '分類',
+                TAGS: '標籤',
+                UNTITLED: '(無標題)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+</body>
+</html>

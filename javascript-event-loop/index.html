@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+<title>【JS】事件循環 Event-loop - CodingWife 寇丁人妻日安</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="了解 JavaScript 中 Event-loop 的運作。">
+
+
+
+
+
+<meta name="description" content="了解 JavaScript 中 Event-loop 的運作。">
+<meta name="keywords" content="JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【JS】事件循環 Event-loop">
+<meta property="og:url" content="http://codingwife.com/javascript-event-loop/index.html">
+<meta property="og:site_name" content="CodingWife 寇丁人妻日安">
+<meta property="og:description" content="了解 JavaScript 中 Event-loop 的運作。">
+<meta property="og:locale" content="zh-tw">
+<meta property="og:image" content="http://codingwife.com/img/cover/javascript.jpg">
+<meta property="og:updated_time" content="2019-10-24T06:50:39.032Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【JS】事件循環 Event-loop">
+<meta name="twitter:description" content="了解 JavaScript 中 Event-loop 的運作。">
+<meta name="twitter:image" content="http://codingwife.com/img/cover/javascript.jpg">
+
+
+
+
+
+<link rel="icon" href="/images/logo.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto+Sans+TC|Open+Sans&display=swap">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+<link rel="stylesheet" href="/css/style.css">
+<script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png"},"articleBody":"javascript 身為一個單線程語言，我們必須了解他在運行事件的方法是如何，才能避免一些值在錯誤的時機出現。\n\n\n\n程式碼擷取自 Philip Roberts: What the heck is the event loop anyway?\n\n在了解事件循環前，必須先瞭解幾個專有名詞。\n單線程 single threaded意味同一時間，只能做一件事。在 javascript 裡面，則是會依據順序堆疊（stack）執行，而且一次只能執行一段程式碼。\nstack 堆疊執行堆疊，javascript 為單線程，因此在進入函式中執行程式碼，該函式會被加在堆疊最上方，直到函式執行完成後被抽離堆疊，下方程式碼為堆疊範例。\nfunction multiply(a, b) &#123;  return a * b;&#125;function square(n) &#123;  return multiply(n, n);&#125;function printSquare(n) &#123;  let squared = square(n);  console.log(squared);&#125;printSquare(4);\n無窮迴圈如果執行無窮迴圈，堆疊會不斷增加到瀏覽器出現錯誤為止。\nfunction foo() &#123;  return foo();&#125;foo();\nBlocking 阻塞當瀏覽器進行同步請求，在等待期間的狀態，就稱為 blocking，blocking 狀態會使瀏覽器形成假死狀態，所有動作無法運行，因此為了避免 blocking 的狀況，所以一般使用非同步請求，關於同步與非同步，請看此 。\nconsole.log('hi');$.get('url', function cb(data) &#123;  console.log(data);&#125;);console.log('JSConfEU');\ntask queue 任務佇列在取得 web api 的結果後，瀏覽器會將回呼函式推進一個等待的地方，就是任務佇列（task queue ）。等瀏覽器執行完 stack 的程式，便會開始讀取任務佇列的回呼函式，讀取完成之後便會開始執行，再讀取下一個回呼。\n非同步的事件循環其實重點在任務佇列的部分已經說完了，就是瀏覽器必須等主任務（stack）執行完後，再開始讀取任務佇列並執行回呼函式，稱為事件循環。\n範例一：執行順序為 h1 → setTimeout（非同步） → JSConfEU → thereconsole.log('hi');setTimeout(function() &#123;  console.log('there');&#125;, 5000);console.log('JSConfEU');\n範例二：執行順序為setTimeout（非同步） → 接回結果，放入佇列 →setTimeout（非同步） → 接回結果，放入佇列 →setTimeout（非同步） → 接回結果，放入佇列 →setTimeout（非同步） → 接回結果，放入佇列 →\n讀取timeout();，執行 →console.log(&#39;hi&#39;)，讀取timeout();，執行 →console.log(&#39;hi&#39;)，讀取timeout();，執行 →console.log(&#39;hi&#39;)，讀取timeout();，執行 →console.log(&#39;hi&#39;)，結束。\nsetTimeout(function timeout() &#123;  console.log('hi');&#125;, 1000);setTimeout(function timeout() &#123;  console.log('hi');&#125;, 1000);setTimeout(function timeout() &#123;  console.log('hi');&#125;, 1000);setTimeout(function timeout() &#123;  console.log('hi');&#125;, 1000);\n其他可以參考講者寫的一個事件循環模擬器。\n","dateCreated":"2018-07-23T12:20:31+00:00","dateModified":"2019-10-24T06:50:39+00:00","datePublished":"2018-07-23T12:20:31+00:00","description":"javascript 身為一個單線程語言，我們必須了解他在運行事件的方法是如何，才能避免一些值在錯誤的時機出現。","headline":"【JS】事件循環 Event-loop","image":["/img/cover/javascript.jpg"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://codingwife.com/javascript-event-loop/"},"publisher":{"@type":"Organization","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png","logo":{"@type":"ImageObject","url":"http://codingwife.com/images/leia.png"}},"url":"http://codingwife.com/javascript-event-loop/","keywords":"JavaScript"}</script>
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    <img src="/images/codingwife.png" alt height="28">
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item " href="/archives">Archives</a>
+            
+            <a class="navbar-item " href="/categories">Categories</a>
+            
+            <a class="navbar-item " href="/tags">Tags</a>
+            
+            <a class="navbar-item " href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="搜尋" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/leiadot">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            <a class="navbar-item" title="Facebook" href="https://facebook.com/CodingwifeHy2">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+        【JS】事件循環 Event-loop
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">2018-07-23 12:20
+            （<time datetime="2018-07-23T12:20:31.000Z" itemprop="datePublished">7月 23 2018</time>）
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Front-end/">Front-end</a>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+        
+        <p>javascript 身為一個單線程語言，我們必須了解他在運行事件的方法是如何，才能避免一些值在錯誤的時機出現。</p>
+<a id="more"></a>
+
+<blockquote>
+<p>程式碼擷取自 <a href="https://2014.jsconf.eu/speakers/philip-roberts-what-the-heck-is-the-event-loop-anyway.html" target="_blank" rel="noopener">Philip Roberts: What the heck is the event loop anyway?</a></p>
+</blockquote>
+<p>在了解事件循環前，必須先瞭解幾個專有名詞。</p>
+<h2 id="單線程-single-threaded"><a href="#單線程-single-threaded" class="headerlink" title="單線程 single threaded"></a>單線程 single threaded</h2><p>意味同一時間，只能做一件事。在 javascript 裡面，則是會依據順序堆疊（stack）執行，而且一次只能執行一段程式碼。</p>
+<h2 id="stack-堆疊"><a href="#stack-堆疊" class="headerlink" title="stack 堆疊"></a>stack 堆疊</h2><p>執行堆疊，javascript 為單線程，因此在進入函式中執行程式碼，該函式會被加在堆疊最上方，直到函式執行完成後被抽離堆疊，下方程式碼為堆疊範例。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">multiply</span>(<span class="hljs-params">a, b</span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">return</span> a * b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">square</span>(<span class="hljs-params">n</span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">return</span> multiply(n, n);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">printSquare</span>(<span class="hljs-params">n</span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">let</span> squared = square(n);</span><br><span class="line">  <span class="hljs-built_in">console</span>.log(squared);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">printSquare(<span class="hljs-number">4</span>);</span><br></pre></td></tr></table></figure></p>
+<h2 id="無窮迴圈"><a href="#無窮迴圈" class="headerlink" title="無窮迴圈"></a>無窮迴圈</h2><p>如果執行無窮迴圈，堆疊會不斷增加到瀏覽器出現錯誤為止。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">return</span> foo();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo();</span><br></pre></td></tr></table></figure></p>
+<h2 id="Blocking-阻塞"><a href="#Blocking-阻塞" class="headerlink" title="Blocking 阻塞"></a>Blocking 阻塞</h2><p>當瀏覽器進行同步請求，在等待期間的狀態，就稱為 <strong>blocking</strong>，blocking 狀態會使瀏覽器形成假死狀態，所有動作無法運行，因此為了避免 blocking 的狀況，所以一般使用非同步請求，關於同步與非同步，請看<a href="https://developer.mozilla.org/zh-TW/docs/Web/API/XMLHttpRequest/Synchronous_and_Asynchronous_Requests" target="_blank" rel="noopener">此</a> 。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-built_in">console</span>.log(<span class="hljs-string">'hi'</span>);</span><br><span class="line"></span><br><span class="line">$.<span class="hljs-keyword">get</span>('url', function cb(data) &#123;</span><br><span class="line">  <span class="hljs-built_in">console</span>.log(data);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="hljs-built_in">console</span>.log(<span class="hljs-string">'JSConfEU'</span>);</span><br></pre></td></tr></table></figure></p>
+<h2 id="task-queue-任務佇列"><a href="#task-queue-任務佇列" class="headerlink" title="task queue 任務佇列"></a>task queue 任務佇列</h2><p>在取得 web api 的結果後，瀏覽器會將回呼函式推進一個等待的地方，就是任務佇列（task queue ）。等瀏覽器執行完 stack 的程式，便會開始讀取任務佇列的回呼函式，讀取完成之後便會開始執行，再讀取下一個回呼。</p>
+<h2 id="非同步的事件循環"><a href="#非同步的事件循環" class="headerlink" title="非同步的事件循環"></a>非同步的事件循環</h2><p>其實重點在任務佇列的部分已經說完了，就是瀏覽器必須等主任務（stack）執行完後，再開始讀取任務佇列並執行回呼函式，稱為事件循環。</p>
+<h3 id="範例一：執行順序為-h1-→-setTimeout（非同步）-→-JSConfEU-→-there"><a href="#範例一：執行順序為-h1-→-setTimeout（非同步）-→-JSConfEU-→-there" class="headerlink" title="範例一：執行順序為 h1 → setTimeout（非同步） → JSConfEU → there"></a>範例一：執行順序為 h1 → setTimeout（非同步） → JSConfEU → there</h3><p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-built_in">console</span>.log(<span class="hljs-string">'hi'</span>);</span><br><span class="line"></span><br><span class="line">setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'there'</span>);</span><br><span class="line">&#125;, <span class="hljs-number">5000</span>);</span><br><span class="line"></span><br><span class="line"><span class="hljs-built_in">console</span>.log(<span class="hljs-string">'JSConfEU'</span>);</span><br></pre></td></tr></table></figure></p>
+<h3 id="範例二：執行順序為"><a href="#範例二：執行順序為" class="headerlink" title="範例二：執行順序為"></a>範例二：執行順序為</h3><p>setTimeout（非同步） → 接回結果，放入佇列 →<br>setTimeout（非同步） → 接回結果，放入佇列 →<br>setTimeout（非同步） → 接回結果，放入佇列 →<br>setTimeout（非同步） → 接回結果，放入佇列 →</p>
+<p>讀取<code>timeout();</code>，執行 →<code>console.log(&#39;hi&#39;)</code>，<br>讀取<code>timeout();</code>，執行 →<code>console.log(&#39;hi&#39;)</code>，<br>讀取<code>timeout();</code>，執行 →<code>console.log(&#39;hi&#39;)</code>，<br>讀取<code>timeout();</code>，執行 →<code>console.log(&#39;hi&#39;)</code>，<br>結束。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line">setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">timeout</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'hi'</span>);</span><br><span class="line">&#125;, <span class="hljs-number">1000</span>);</span><br><span class="line"></span><br><span class="line">setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">timeout</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'hi'</span>);</span><br><span class="line">&#125;, <span class="hljs-number">1000</span>);</span><br><span class="line"></span><br><span class="line">setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">timeout</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'hi'</span>);</span><br><span class="line">&#125;, <span class="hljs-number">1000</span>);</span><br><span class="line"></span><br><span class="line">setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">timeout</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'hi'</span>);</span><br><span class="line">&#125;, <span class="hljs-number">1000</span>);</span><br></pre></td></tr></table></figure></p>
+<p>其他可以參考講者寫的一個<a href="http://latentflip.com/loupe/?code=ZnVuY3Rpb24gbXVsdGlwbHkoYSwgYikgewogIHJldHVybiBhICogYgp9CgpmdW5jdGlvbiBzcXVhcmUobikgewogIHJldHVybiBtdWx0aXBseShuLCBuKQp9CgpmdW5jdGlvbiBwcmludFNxdWFyZShuKSB7CiAgdmFyIHNxdWFyZWQgPSBzcXVhcmUobikKICBjb25zb2xlLmxvZyhzcXVhcmVkKQp9CgpwcmludFNxdWFyZSg0KTs%3D!!!PGJ1dHRvbj5DbGljayBtZSE8L2J1dHRvbj4%3D" target="_blank" rel="noopener">事件循環模擬器</a>。</p>
+
+        
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+        
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/JavaScript/">#JavaScript</a></span>
+        
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/javascript-prototype/">【JS】原型繼承 Prototype</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/css-child-of-type/">【CSS】nth-child 與 nth-of-type</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="sharethis-inline-share-buttons"></div>
+<script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5d9b1ebc2b036a0011ed0d83&amp;product=inline-share-buttons" async="async"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">評論</h3>
+    
+<div id="comment-container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+	var gitment = new Gitment({
+		id: 'javascript-event-loop/',
+		owner: 'leiadot',
+		repo: 'leiadot.github.io',
+		oauth: {
+			client_id: '51ce642a9a95d7ccdf4d',
+			client_secret: '6bf1657de06ee2fbaf452b4752567ab313277f50',
+		},
+	})
+	gitment.render('comment-container')
+</script>
+
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2019 [object Object]&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            <div class="column is-narrow">
+                <div class="columns is-mobile is-multiline is-centered">
+                
+                    
+                <a class="column is-narrow has-text-black" title="GitHub" href="https://github.com/ppoffice/leiadot">
+                    
+                    GitHub
+                    
+                </a>
+                
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("zh-CN");
+</script>
+
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+</script>
+
+    
+    
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+<script src="/js/script.js"></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="站內搜尋">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '頁面',
+                CATEGORIES: '分類',
+                TAGS: '標籤',
+                UNTITLED: '(無標題)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+</body>
+</html>

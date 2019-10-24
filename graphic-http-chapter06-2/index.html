@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+<title>【讀書筆記】圖解 HTTP Chapter 06 HTTP 首部（中） - CodingWife 寇丁人妻日安</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="了解 HTTP 的通用 Header。">
+
+
+
+
+
+<meta name="description" content="了解 HTTP 的通用 Header。">
+<meta name="keywords" content="圖解 HTTP,HTTP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【讀書筆記】圖解 HTTP Chapter 06 HTTP 首部（中）">
+<meta property="og:url" content="http://codingwife.com/graphic-http-chapter06-2/index.html">
+<meta property="og:site_name" content="CodingWife 寇丁人妻日安">
+<meta property="og:description" content="了解 HTTP 的通用 Header。">
+<meta property="og:locale" content="zh-tw">
+<meta property="og:image" content="http://codingwife.com/img/cover/http.png">
+<meta property="og:updated_time" content="2019-10-24T06:50:39.036Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【讀書筆記】圖解 HTTP Chapter 06 HTTP 首部（中）">
+<meta name="twitter:description" content="了解 HTTP 的通用 Header。">
+<meta name="twitter:image" content="http://codingwife.com/img/cover/http.png">
+
+
+
+
+
+<link rel="icon" href="/images/logo.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto+Sans+TC|Open+Sans&display=swap">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+<link rel="stylesheet" href="/css/style.css">
+<script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png"},"articleBody":"HTTP / 1.1 通用首部字串就是雙方都會用到的字串。\n\n\nHTTP / 1.1 通用首部字串就是雙方都會用到的字串。\nCache-ControlCache-Control: private, max-age=0, no-cache\n操作緩存的工作，多個指令可以透過逗點分隔。\n客戶端：請求緩存伺服端：控制緩存資料\n緩存請求指令表\nno-cache：（無參數）強制跟來源伺服器再認證\nno-store：（無參數）不緩存請求或回應任何內容\nmax-age = [ 秒]：（必須）回應的最大 age 值\nmax-stale(= [ 秒])：（可省略）接收已過期的回應\nmin-fresh：（必須）希望在限定時間內的回應能有效\nno-transform：（無參數）代理不可更改的媒介類型\nonly-if-cached：（無參數）從緩存取得資料\ncache-extension：新指令標記\n\n緩存回應指令表\npublic：（無參數）可向任意一方提供任何緩存\nprivate：（可省略）謹向特別用戶回傳回應資料\nno-cache：（可省略）緩存前必須確認有效性\nno-store：（無參數）不緩存請求或回應內容\nno-transform：（無參數）代理不可以更改媒體類型\nmust-revalidate：（無參數）可緩存，但必須向來源伺服器再次確認\nproxy-revalidate：（無參數）要求中間的緩存伺服器對緩存的回應有效性進行再次確認\nmax-age = [ 秒]：（必須）回傳最大的 age 值\ns-maxage = [ 秒]：（必須）公共緩存伺服器最大的 age 值\ncache-extension：新指令標記\n\npublic 指令表示其他用戶可以利用緩存。\nCache-Control: public\nprivate 指令與 public 相反，只回應資料給特定用戶，其他人則不會回傳資料。\nCache-Control: private\nno-cache 指令Cache-Control: no-cache\n為了防止從緩存資料裡面回傳過期的資料。\n如果客戶端有包含 no-cache 指令，則表示客戶端不會接受緩存過的回應，因此必須把客戶端的請求轉發到來源伺服器。\n如果伺服端有包含 no-cache 指令，則緩存伺服器不能對資料進行緩存，瀏覽器以後也不能再對緩存伺服器請求中提出資料是否有效的確認，也禁止對回應資料做緩存。\nCache-Control: no-cache=Location\n由伺服端回傳的回應中，訊息中的 header 的 Cache-Control 如果在 no-cache 字串指定參數，客戶端在接收這個被指定的參數值所對應的回應訊息後，就不能進行緩存，換句話說就是沒有參數值的 header 字串可以進行緩存。\n控制可以進行緩存的物件的指令no-store 指令Cache-Control: no-store\n當使用這個指令，暗示這段通訊（請求或回應）包含機密訊息。有些人以為no-cache是不緩存，但其實是不緩存過期資源，而no-store才是真的不緩存。\n因此這個指令規定不能在本地儲存請求或回應中的任何一部份。\n指定緩存期限和認證指令s-maxage 指令Cache-Control: s-maxage=604800(秒)\n這個指令和等等要介紹的max-age指令一樣，差別在於s-maxage只適合給多個使用者使用的公共緩存伺服器，換句話說對於單一使用者重複回應的伺服器來說這個指令是沒用的。\n另外使用這個指令會忽略Expires指令和max-age指令。\nmax-age 指令Cache-Control: max-age=604800(秒)\n當客戶端發出的請求有這個指令，如果判定緩存資料的緩存時間比指定的時間數更小，那麼客戶端就會接收緩存的資源，如果指定數值是 0，那緩存伺服器就會把請求轉給來源伺服器。\n當伺服器回傳的回應有這個指令，緩存就不會確認資料是否還具有有效性，而這個指令的數值是代表這個資料能夠緩存的最長時間。\nHTTP / 1.1 版本的緩存服務遇到同時存在Expires指令的情快，會優先處理max-age指令，而忽略Expires指令，但 HTTP / 1.0 則完全相反。\nmin-fresh 指令Cache-Control: min-fresh=60(秒)\n這個指定是指說當發出請求後，指定的時間過後的資料都沒辦法再進行回應。以上述來說min-fresh=60是指過超過了 60 秒的資料都沒辦法當作回應回傳。\nmax-stale 指令Cache-Control: max-stale=360(秒)\n使用這個指令就算資料已經過期了，還是可以進行緩存。\n如果指令中沒有參數，則表示不管資料過期多久，客戶端都會收到回應；如果有具體數字，那個即使過期，只要在這個指定的時間內，仍然會被客戶端所接收。\nonly-if-cached 指令Cache-Control: only-if-cached\n使用這個指令意思是發生請求後，緩存伺服器會不斷載入來源伺服器的回應，也不會重複確認資料的有效性，如果發生請求緩存伺服器，而緩存伺服器的本地沒有來源伺服器給的資料，就會發出 504。\nmust-revalidate 指令使用這個指令，代理會向來源伺服器再驗證要回傳的回應緩存資料是否有效，如果代理無法透過來源伺服器再次拿到有效的資料，那麼代理就會回傳 504 給客戶端。\n另外使用這個指令也會忽略max-stale的請求。\nproxy-revalidate 指令這個指令意思是，如果客戶端傳出帶有這個指令的請求，那麼緩存伺服器在回傳回應資料前，要先再驗證資料的有效性。\nno-transform 指令使用這個指令無論在請求或是回應，緩存都不能改變實體的媒體類型，這樣可以防止緩存或代理壓縮圖片等等。\nCache-Contorl 擴展cache-extension tokenCache-Control: private, community=&quot;UCI&quot;\nConnectionConnection header 字串有兩個功能：\n\n控制不再轉發給代理的 header：在客戶端發送請求和伺服器回傳回應，使用 Connection 可以控制不要再轉發給代理 header（hop-by-hop）。\n管理持久連接：HTTP / 1.1 的默認連接都是持久，所以客戶端會在持久連結上持續發送請求，當伺服端要斷開連結時，就會指名 Connection 為 close。\n\nConnection: Keep-Alive\nHttp / 1.1 之前的版本默認連結都不是持久連結，所以需要指定 Connection 是 Keep-Alive。\nDate建立 HTTP 訊息的時間和日期，1.1 的版本使用 RFC1123 規定的日期時間格式：\nDate: Tue, 03 Jul 2012 04:40:59 GMT\nPragmaPragma 是為了向後兼容而存在，它只支援 HTTP/1.0 的緩存伺服器，因為當時 HTTP / 1.1 的 Cache-Control 還沒有支援。雖然是通用 header ，但只用在客戶端發送的請求，客戶端會要求所有中介的伺服器不回傳緩存資料。\n如果都使用 HTTP / 1.1 版本，那直接使用Cache-Control: no-cache 是最好，但仍有些無法版本沒有支援，所以發送的請求最好如下：\nCache-Control: no-cachePragma: no-cache\nTrailerTrailer 的作用是讓發送端在分塊發送的訊息後面增加其他訊息。\nTransfer-EncodingTransfer-Encoding 的作用是規定傳送的 HTTP 訊息是採用哪個編碼方式。\nUpgrade這個字串是用來檢測 HTTP 協議與其他協議是否可以用更新的版本來通訊，參數可以用來指定不同的通訊版本。\nConnection: UpgradeUpgrade: TLS/1.0\nConnection 要設定為 Upgrade，才能使用 Upgrade 字串。\nViaVia 是為了要追蹤客戶端與伺服端之間的請求（回應）的 HTTP 訊息傳輸路徑而存在，另外還能避免回環的狀況。\n當訊息經過代理或閘道，會加上 Via header，再進行轉發，這個和 traceroute 與 Received header 的工作模式很像。\n通常使用 Via 會和 Trace 方法一起使用，例如代理伺服器收到 Trace 方法（Max-Forwards: 0）傳來的請求，代理就不能再轉發這個請求，如此代理會把自己的訊息加上 Via header 再回傳請求要求的回應。\nWarning這個字串會告知使用者一些與緩存相關的問題警告，HTTP 1.1 制定了七種警告，警告具有擴展性，未來還有可能再新增。\n\n110 - Response is stale：代理回傳的資料已經過期。\n111 - Revalidate failed：代理再驗證後，資料有效性失效。\n112 - Disconnection operation：代理與網路被蓄意切斷。\n113 - Heuristic expiration：回應使用期間已經超過 24 小時。\n199 - Miscellaneous warning：任何警告內容。\n214 - Transformation applied：代理對內容編碼或媒體類型進行處理。\n299 - Miscellaneous persistent warning：任意警告內容。\n資料來源：《圖解 HTTP》 上野宣 人民郵電出版社筆記純屬推廣及分享，如有侵權，請告知。Please advise to remove immediately if any infringement caused.\n\n\n\n","dateCreated":"2018-10-28T12:12:21+00:00","dateModified":"2019-10-24T06:50:39+00:00","datePublished":"2018-10-28T12:12:21+00:00","description":"HTTP / 1.1 通用首部字串就是雙方都會用到的字串。","headline":"【讀書筆記】圖解 HTTP Chapter 06 HTTP 首部（中）","image":["/img/cover/http.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://codingwife.com/graphic-http-chapter06-2/"},"publisher":{"@type":"Organization","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png","logo":{"@type":"ImageObject","url":"http://codingwife.com/images/leia.png"}},"url":"http://codingwife.com/graphic-http-chapter06-2/","keywords":"圖解 HTTP, HTTP"}</script>
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    <img src="/images/codingwife.png" alt height="28">
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item " href="/archives">Archives</a>
+            
+            <a class="navbar-item " href="/categories">Categories</a>
+            
+            <a class="navbar-item " href="/tags">Tags</a>
+            
+            <a class="navbar-item " href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="搜尋" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/leiadot">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            <a class="navbar-item" title="Facebook" href="https://facebook.com/CodingwifeHy2">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+        【讀書筆記】圖解 HTTP Chapter 06 HTTP 首部（中）
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">2018-10-28 12:12
+            （<time datetime="2018-10-28T12:12:21.000Z" itemprop="datePublished">10月 28 2018</time>）
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Front-end/">Front-end</a>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+        
+        <h2 id="HTTP-1-1-通用首部字串"><a href="#HTTP-1-1-通用首部字串" class="headerlink" title="HTTP / 1.1 通用首部字串"></a>HTTP / 1.1 通用首部字串</h2><p>就是雙方都會用到的字串。</p>
+<a id="more"></a>
+
+<h2 id="HTTP-1-1-通用首部字串-1"><a href="#HTTP-1-1-通用首部字串-1" class="headerlink" title="HTTP / 1.1 通用首部字串"></a>HTTP / 1.1 通用首部字串</h2><p>就是雙方都會用到的字串。</p>
+<h3 id="Cache-Control"><a href="#Cache-Control" class="headerlink" title="Cache-Control"></a>Cache-Control</h3><p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">Cache-Control: private, max-age=0, no-cache</span><br></pre></td></tr></table></figure></p>
+<p>操作緩存的工作，多個指令可以透過逗點分隔。</p>
+<p>客戶端：請求緩存<br>伺服端：控制緩存資料</p>
+<h4 id="緩存請求指令表"><a href="#緩存請求指令表" class="headerlink" title="緩存請求指令表"></a>緩存請求指令表</h4><ul>
+<li>no-cache：（無參數）強制跟來源伺服器再認證</li>
+<li>no-store：（無參數）不緩存請求或回應任何內容</li>
+<li>max-age = [ 秒]：（必須）回應的最大 age 值</li>
+<li>max-stale(= [ 秒])：（可省略）接收已過期的回應</li>
+<li>min-fresh：（必須）希望在限定時間內的回應能有效</li>
+<li>no-transform：（無參數）代理不可更改的媒介類型</li>
+<li>only-if-cached：（無參數）從緩存取得資料</li>
+<li>cache-extension：新指令標記</li>
+</ul>
+<h4 id="緩存回應指令表"><a href="#緩存回應指令表" class="headerlink" title="緩存回應指令表"></a>緩存回應指令表</h4><ul>
+<li>public：（無參數）可向任意一方提供任何緩存</li>
+<li>private：（可省略）謹向特別用戶回傳回應資料</li>
+<li>no-cache：（可省略）緩存前必須確認有效性</li>
+<li>no-store：（無參數）不緩存請求或回應內容</li>
+<li>no-transform：（無參數）代理不可以更改媒體類型</li>
+<li>must-revalidate：（無參數）可緩存，但必須向來源伺服器再次確認</li>
+<li>proxy-revalidate：（無參數）要求中間的緩存伺服器對緩存的回應有效性進行再次確認</li>
+<li>max-age = [ 秒]：（必須）回傳最大的 age 值</li>
+<li>s-maxage = [ 秒]：（必須）公共緩存伺服器最大的 age 值</li>
+<li>cache-extension：新指令標記</li>
+</ul>
+<h4 id="public-指令"><a href="#public-指令" class="headerlink" title="public 指令"></a>public 指令</h4><p>表示其他用戶可以利用緩存。</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">Cache-Control: public</span><br></pre></td></tr></table></figure></p>
+<h4 id="private-指令"><a href="#private-指令" class="headerlink" title="private 指令"></a>private 指令</h4><p>與 public 相反，只回應資料給特定用戶，其他人則不會回傳資料。</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">Cache-Control: private</span><br></pre></td></tr></table></figure></p>
+<h4 id="no-cache-指令"><a href="#no-cache-指令" class="headerlink" title="no-cache 指令"></a>no-cache 指令</h4><p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">Cache-Control: no-cache</span><br></pre></td></tr></table></figure></p>
+<p>為了防止從緩存資料裡面回傳過期的資料。</p>
+<p>如果客戶端有包含 no-cache 指令，則表示客戶端不會接受緩存過的回應，因此必須把客戶端的請求轉發到來源伺服器。</p>
+<p>如果伺服端有包含 no-cache 指令，則緩存伺服器不能對資料進行緩存，瀏覽器以後也不能再對緩存伺服器請求中提出資料是否有效的確認，也禁止對回應資料做緩存。</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">Cache-Control: no-cache=Location</span><br></pre></td></tr></table></figure></p>
+<p>由伺服端回傳的回應中，訊息中的 header 的 Cache-Control 如果在 no-cache 字串指定參數，客戶端在接收這個被指定的參數值所對應的回應訊息後，就不能進行緩存，換句話說就是沒有參數值的 header 字串可以進行緩存。</p>
+<h4 id="控制可以進行緩存的物件的指令"><a href="#控制可以進行緩存的物件的指令" class="headerlink" title="控制可以進行緩存的物件的指令"></a>控制可以進行緩存的物件的指令</h4><h4 id="no-store-指令"><a href="#no-store-指令" class="headerlink" title="no-store 指令"></a>no-store 指令</h4><p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">Cache-Control: no-store</span><br></pre></td></tr></table></figure></p>
+<p>當使用這個指令，暗示這段通訊（請求或回應）包含機密訊息。<br>有些人以為<code>no-cache</code>是不緩存，但其實是不緩存過期資源，而<code>no-store</code>才是真的不緩存。</p>
+<p>因此這個指令規定不能在本地儲存請求或回應中的任何一部份。</p>
+<h4 id="指定緩存期限和認證指令"><a href="#指定緩存期限和認證指令" class="headerlink" title="指定緩存期限和認證指令"></a>指定緩存期限和認證指令</h4><h4 id="s-maxage-指令"><a href="#s-maxage-指令" class="headerlink" title="s-maxage 指令"></a>s-maxage 指令</h4><p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">Cache-Control: s-maxage=604800(秒)</span><br></pre></td></tr></table></figure></p>
+<p>這個指令和等等要介紹的<code>max-age</code>指令一樣，差別在於<code>s-maxage</code>只適合給多個使用者使用的公共緩存伺服器，換句話說對於單一使用者重複回應的伺服器來說這個指令是沒用的。</p>
+<p>另外使用這個指令會忽略<code>Expires</code>指令和<code>max-age</code>指令。</p>
+<h4 id="max-age-指令"><a href="#max-age-指令" class="headerlink" title="max-age 指令"></a>max-age 指令</h4><p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">Cache-Control: max-age=604800(秒)</span><br></pre></td></tr></table></figure></p>
+<p>當客戶端發出的請求有這個指令，如果判定緩存資料的緩存時間比指定的時間數更小，那麼客戶端就會接收緩存的資源，如果指定數值是 0，那緩存伺服器就會把請求轉給來源伺服器。</p>
+<p>當伺服器回傳的回應有這個指令，緩存就不會確認資料是否還具有有效性，而這個指令的數值是代表這個資料能夠緩存的最長時間。</p>
+<p>HTTP / 1.1 版本的緩存服務遇到同時存在<code>Expires</code>指令的情快，會優先處理<code>max-age</code>指令，而忽略<code>Expires</code>指令，但 HTTP / 1.0 則完全相反。</p>
+<h4 id="min-fresh-指令"><a href="#min-fresh-指令" class="headerlink" title="min-fresh 指令"></a>min-fresh 指令</h4><p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">Cache-Control: min-fresh=60(秒)</span><br></pre></td></tr></table></figure></p>
+<p>這個指定是指說當發出請求後，指定的時間過後的資料都沒辦法再進行回應。<br>以上述來說<code>min-fresh=60</code>是指過超過了 60 秒的資料都沒辦法當作回應回傳。</p>
+<h4 id="max-stale-指令"><a href="#max-stale-指令" class="headerlink" title="max-stale 指令"></a>max-stale 指令</h4><p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">Cache-Control: max-stale=360(秒)</span><br></pre></td></tr></table></figure></p>
+<p>使用這個指令就算資料已經過期了，還是可以進行緩存。</p>
+<p>如果指令中沒有參數，則表示不管資料過期多久，客戶端都會收到回應；如果有具體數字，那個即使過期，只要在這個指定的時間內，仍然會被客戶端所接收。</p>
+<h4 id="only-if-cached-指令"><a href="#only-if-cached-指令" class="headerlink" title="only-if-cached 指令"></a>only-if-cached 指令</h4><p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">Cache-Control: only-if-cached</span><br></pre></td></tr></table></figure></p>
+<p>使用這個指令意思是發生請求後，緩存伺服器會不斷載入來源伺服器的回應，也不會重複確認資料的有效性，如果發生請求緩存伺服器，而緩存伺服器的本地沒有來源伺服器給的資料，就會發出 504。</p>
+<h4 id="must-revalidate-指令"><a href="#must-revalidate-指令" class="headerlink" title="must-revalidate 指令"></a>must-revalidate 指令</h4><p>使用這個指令，代理會向來源伺服器再驗證要回傳的回應緩存資料是否有效，如果代理無法透過來源伺服器再次拿到有效的資料，那麼代理就會回傳 504 給客戶端。</p>
+<p>另外使用這個指令也會忽略<code>max-stale</code>的請求。</p>
+<h4 id="proxy-revalidate-指令"><a href="#proxy-revalidate-指令" class="headerlink" title="proxy-revalidate 指令"></a>proxy-revalidate 指令</h4><p>這個指令意思是，如果客戶端傳出帶有這個指令的請求，那麼緩存伺服器在回傳回應資料前，要先再驗證資料的有效性。</p>
+<h4 id="no-transform-指令"><a href="#no-transform-指令" class="headerlink" title="no-transform 指令"></a>no-transform 指令</h4><p>使用這個指令無論在請求或是回應，緩存都不能改變實體的媒體類型，這樣可以防止緩存或代理壓縮圖片等等。</p>
+<h4 id="Cache-Contorl-擴展"><a href="#Cache-Contorl-擴展" class="headerlink" title="Cache-Contorl 擴展"></a><strong>Cache-Contorl 擴展</strong></h4><h4 id="cache-extension-token"><a href="#cache-extension-token" class="headerlink" title="cache-extension token"></a>cache-extension token</h4><p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">Cache-Control: private, community=&quot;UCI&quot;</span><br></pre></td></tr></table></figure></p>
+<h3 id="Connection"><a href="#Connection" class="headerlink" title="Connection"></a>Connection</h3><p>Connection header 字串有兩個功能：</p>
+<ul>
+<li>控制不再轉發給代理的 header：在客戶端發送請求和伺服器回傳回應，使用 Connection 可以控制不要再轉發給代理 header（hop-by-hop）。</li>
+<li>管理持久連接：HTTP / 1.1 的默認連接都是持久，所以客戶端會在持久連結上持續發送請求，當伺服端要斷開連結時，就會指名 Connection 為 close。</li>
+</ul>
+<p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">Connection: Keep-Alive</span><br></pre></td></tr></table></figure></p>
+<p>Http / 1.1 之前的版本默認連結都不是持久連結，所以需要指定 Connection 是 Keep-Alive。</p>
+<h3 id="Date"><a href="#Date" class="headerlink" title="Date"></a>Date</h3><p>建立 HTTP 訊息的時間和日期，1.1 的版本使用 RFC1123 規定的日期時間格式：</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">Date: Tue, 03 Jul 2012 04:40:59 GMT</span><br></pre></td></tr></table></figure></p>
+<h3 id="Pragma"><a href="#Pragma" class="headerlink" title="Pragma"></a>Pragma</h3><p>Pragma 是為了向後兼容而存在，它只支援 HTTP/1.0 的緩存伺服器，因為當時 HTTP / 1.1 的 Cache-Control 還沒有支援。<br>雖然是通用 header ，但只用在客戶端發送的請求，客戶端會要求所有中介的伺服器不回傳緩存資料。</p>
+<p>如果都使用 HTTP / 1.1 版本，那直接使用<code>Cache-Control: no-cache</code> 是最好，但仍有些無法版本沒有支援，所以發送的請求最好如下：</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">Cache-Control: no-cache</span><br><span class="line">Pragma: no-cache</span><br></pre></td></tr></table></figure></p>
+<h3 id="Trailer"><a href="#Trailer" class="headerlink" title="Trailer"></a>Trailer</h3><p>Trailer 的作用是讓發送端在分塊發送的訊息後面增加其他訊息。</p>
+<h3 id="Transfer-Encoding"><a href="#Transfer-Encoding" class="headerlink" title="Transfer-Encoding"></a>Transfer-Encoding</h3><p>Transfer-Encoding 的作用是規定傳送的 HTTP 訊息是採用哪個編碼方式。</p>
+<h3 id="Upgrade"><a href="#Upgrade" class="headerlink" title="Upgrade"></a>Upgrade</h3><p>這個字串是用來檢測 HTTP 協議與其他協議是否可以用更新的版本來通訊，參數可以用來指定不同的通訊版本。</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">Connection: Upgrade</span><br><span class="line">Upgrade: TLS/1.0</span><br></pre></td></tr></table></figure></p>
+<p>Connection 要設定為 Upgrade，才能使用 Upgrade 字串。</p>
+<h3 id="Via"><a href="#Via" class="headerlink" title="Via"></a>Via</h3><p>Via 是為了要追蹤客戶端與伺服端之間的請求（回應）的 HTTP 訊息傳輸路徑而存在，另外還能避免回環的狀況。</p>
+<p>當訊息經過代理或閘道，會加上 Via header，再進行轉發，這個和 traceroute 與 Received header 的工作模式很像。</p>
+<p>通常使用 Via 會和 Trace 方法一起使用，例如代理伺服器收到 Trace 方法（Max-Forwards: 0）傳來的請求，代理就不能再轉發這個請求，如此代理會把自己的訊息加上 Via header 再回傳請求要求的回應。</p>
+<h3 id="Warning"><a href="#Warning" class="headerlink" title="Warning"></a>Warning</h3><p>這個字串會告知使用者一些與緩存相關的問題警告，HTTP 1.1 制定了七種警告，警告具有擴展性，未來還有可能再新增。</p>
+<ul>
+<li>110 - Response is stale：代理回傳的資料已經過期。</li>
+<li>111 - Revalidate failed：代理再驗證後，資料有效性失效。</li>
+<li>112 - Disconnection operation：代理與網路被蓄意切斷。</li>
+<li>113 - Heuristic expiration：回應使用期間已經超過 24 小時。</li>
+<li>199 - Miscellaneous warning：任何警告內容。</li>
+<li>214 - Transformation applied：代理對內容編碼或媒體類型進行處理。</li>
+<li>299 - Miscellaneous persistent warning：任意警告內容。<blockquote>
+<p>資料來源：《圖解 HTTP》 上野宣 人民郵電出版社<br>筆記純屬推廣及分享，如有侵權，請告知。<br>Please advise to remove immediately if any infringement caused.</p>
+</blockquote>
+</li>
+</ul>
+
+        
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+        
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/圖解-HTTP/">#圖解 HTTP</a></span>
+        
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/HTTP/">#HTTP</a></span>
+        
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/graphic-http-chapter07/">【讀書筆記】圖解 HTTP Chapter 07 確保 Web 安全的 HTTPS</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/graphic-http-chapter06-1/">【讀書筆記】圖解 HTTP Chapter 06 HTTP 首部（上）</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="sharethis-inline-share-buttons"></div>
+<script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5d9b1ebc2b036a0011ed0d83&amp;product=inline-share-buttons" async="async"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">評論</h3>
+    
+<div id="comment-container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+	var gitment = new Gitment({
+		id: 'graphic-http-chapter06-2/',
+		owner: 'leiadot',
+		repo: 'leiadot.github.io',
+		oauth: {
+			client_id: '51ce642a9a95d7ccdf4d',
+			client_secret: '6bf1657de06ee2fbaf452b4752567ab313277f50',
+		},
+	})
+	gitment.render('comment-container')
+</script>
+
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2019 [object Object]&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            <div class="column is-narrow">
+                <div class="columns is-mobile is-multiline is-centered">
+                
+                    
+                <a class="column is-narrow has-text-black" title="GitHub" href="https://github.com/ppoffice/leiadot">
+                    
+                    GitHub
+                    
+                </a>
+                
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("zh-CN");
+</script>
+
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+</script>
+
+    
+    
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+<script src="/js/script.js"></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="站內搜尋">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '頁面',
+                CATEGORIES: '分類',
+                TAGS: '標籤',
+                UNTITLED: '(無標題)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+</body>
+</html>

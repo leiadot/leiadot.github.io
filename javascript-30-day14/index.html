@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+<title>【JS30】Day14： JavaScript References VS Copying - CodingWife 寇丁人妻日安</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="JS 30 系列，了解 JavaScript References 與 Copying 的差異。">
+
+
+
+
+
+<meta name="description" content="JS 30 系列，了解 JavaScript References 與 Copying 的差異。">
+<meta name="keywords" content="JS30系列">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【JS30】Day14： JavaScript References VS Copying">
+<meta property="og:url" content="http://codingwife.com/javascript-30-day14/index.html">
+<meta property="og:site_name" content="CodingWife 寇丁人妻日安">
+<meta property="og:description" content="JS 30 系列，了解 JavaScript References 與 Copying 的差異。">
+<meta property="og:locale" content="zh-tw">
+<meta property="og:image" content="http://codingwife.com/img/js30day/small13.jpg">
+<meta property="og:updated_time" content="2019-10-24T06:50:39.032Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【JS30】Day14： JavaScript References VS Copying">
+<meta name="twitter:description" content="JS 30 系列，了解 JavaScript References 與 Copying 的差異。">
+<meta name="twitter:image" content="http://codingwife.com/img/js30day/small13.jpg">
+
+
+
+
+
+<link rel="icon" href="/images/logo.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto+Sans+TC|Open+Sans&display=swap">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+<link rel="stylesheet" href="/css/style.css">
+<script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png"},"articleBody":"\njavascript 30day\n\n\n\n目標：理解 javascript reference 與 copy原始型別let age = 100;let age2 = age;console.log(age, age2);//100,100age = 200;console.log(age, age2);//200,100\n原始型別都是 Call by value，所以複製時不影響，當age = 200，因為age2已經被定義過，則age的改變不會影響age2。\n陣列const players = ['Wes', 'Sarah', 'Ryan', 'Poppy'];const team = players;team[3] = 'Lux';console.log(team, players);//['Wes', 'Sarah', 'Ryan', 'Lux']//['Wes', 'Sarah', 'Ryan', 'Lux']\n陣列為 Call by reference ，因為我們更新team，但team本身沒有陣列可以更改，team本身參照player的原始陣列，所以如果你修改原始陣列，或當你更新任何陣列，他就會被修改，陣列參照不同於數字、布林及字串。\n假設你是想複製且更新一份陣列。\nconst team2 = players.slice();const team3 = [].concat(players);const team4 = [...players];const team5 = Array.from(players);\n物件const person = &#123;  name: 'Wes Bos',  age: 80,&#125;;const captain = person;captain.number = 99;\n物件和陣列相同，屬於 call by reference ，因此為了不要污染到person。\nconst cap3 = &#123; ...person &#125;;\n或\nconst cap2 = Object.assign(&#123;&#125;, person, &#123;  number: 99,  age: 12,&#125;);console.log(cap2);\n如此，可覆寫原本屬性與值的配對，且person則不會被污染到，但有例外的是。\nconst wes = &#123;  name: 'Wes',  age: 100,  social: &#123;    twitter: '@wesbos',    facebook: 'wesbos.developer',  &#125;,&#125;;const dev = Object.assign(&#123;&#125;, wes);dev.social.twitter = '@coolman';console.log(dev.social);// Object &#123; twitter: '@coolman' , facebook: 'wesbos.developer'&#125;console.log(wes.social);// Object &#123; twitter: '@coolman' , facebook: 'wesbos.developer'&#125;\nObject.assign僅能做一層複製。\nconst dev2 = JSON.parse(JSON.stringify(wes));\n可使用以上做破解。因為使用JSON.stringify，將原本物件的內容，全部轉換成字串，回到原始型別，在用JSON.parse轉成物件，則全部內容都能被複製成功。\n使用技巧\nslice()\nconcat()\nes6 Spread\nArray.from()\nObject.assign()\n\n","dateCreated":"2018-03-05T12:42:34+00:00","dateModified":"2019-10-24T06:50:39+00:00","datePublished":"2018-03-05T12:42:34+00:00","description":"\njavascript 30day\n","headline":"【JS30】Day14： JavaScript References VS Copying","image":["/img/js30day/small13.jpg"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://codingwife.com/javascript-30-day14/"},"publisher":{"@type":"Organization","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png","logo":{"@type":"ImageObject","url":"http://codingwife.com/images/leia.png"}},"url":"http://codingwife.com/javascript-30-day14/","keywords":"JS30系列"}</script>
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    <img src="/images/codingwife.png" alt height="28">
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item " href="/archives">Archives</a>
+            
+            <a class="navbar-item " href="/categories">Categories</a>
+            
+            <a class="navbar-item " href="/tags">Tags</a>
+            
+            <a class="navbar-item " href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="搜尋" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/leiadot">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            <a class="navbar-item" title="Facebook" href="https://facebook.com/CodingwifeHy2">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+        【JS30】Day14： JavaScript References VS Copying
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">2018-03-05 12:42
+            （<time datetime="2018-03-05T12:42:34.000Z" itemprop="datePublished">3月 5 2018</time>）
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Front-end/">Front-end</a>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+        
+        <blockquote>
+<p><a href="https://javascript30.com/" target="_blank" rel="noopener">javascript 30day</a></p>
+</blockquote>
+<a id="more"></a>
+
+<h3 id="目標：理解-javascript-reference-與-copy"><a href="#目標：理解-javascript-reference-與-copy" class="headerlink" title="目標：理解 javascript reference 與 copy"></a><span style="color:#ff5900">目標：理解 javascript reference 與 copy</span></h3><h2 id="原始型別"><a href="#原始型別" class="headerlink" title="原始型別"></a>原始型別</h2><p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">let</span> age = <span class="hljs-number">100</span>;</span><br><span class="line"><span class="hljs-keyword">let</span> age2 = age;</span><br><span class="line"></span><br><span class="line"><span class="hljs-built_in">console</span>.log(age, age2);</span><br><span class="line"><span class="hljs-comment">//100,100</span></span><br><span class="line"></span><br><span class="line">age = <span class="hljs-number">200</span>;</span><br><span class="line"></span><br><span class="line"><span class="hljs-built_in">console</span>.log(age, age2);</span><br><span class="line"><span class="hljs-comment">//200,100</span></span><br></pre></td></tr></table></figure></p>
+<p>原始型別都是 Call by value，所以複製時不影響，當<code>age = 200</code>，<br>因為<code>age2</code>已經被定義過，則<code>age</code>的改變不會影響<code>age2</code>。</p>
+<h2 id="陣列"><a href="#陣列" class="headerlink" title="陣列"></a>陣列</h2><p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">const</span> players = [<span class="hljs-string">'Wes'</span>, <span class="hljs-string">'Sarah'</span>, <span class="hljs-string">'Ryan'</span>, <span class="hljs-string">'Poppy'</span>];</span><br><span class="line"><span class="hljs-keyword">const</span> team = players;</span><br><span class="line"></span><br><span class="line">team[<span class="hljs-number">3</span>] = <span class="hljs-string">'Lux'</span>;</span><br><span class="line"></span><br><span class="line"><span class="hljs-built_in">console</span>.log(team, players);</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">//['Wes', 'Sarah', 'Ryan', 'Lux']</span></span><br><span class="line"><span class="hljs-comment">//['Wes', 'Sarah', 'Ryan', 'Lux']</span></span><br></pre></td></tr></table></figure></p>
+<p>陣列為 Call by reference ，因為我們更新<code>team</code>，<br>但<code>team</code>本身沒有陣列可以更改，<code>team</code>本身參照<code>player</code>的原始陣列，<br>所以如果你修改原始陣列，或當你更新任何陣列，他就會被修改，陣列參照不同於數字、布林及字串。</p>
+<p>假設你是想複製且更新一份陣列。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">const</span> team2 = players.slice();</span><br><span class="line"><span class="hljs-keyword">const</span> team3 = [].concat(players);</span><br><span class="line"><span class="hljs-keyword">const</span> team4 = [...players];</span><br><span class="line"><span class="hljs-keyword">const</span> team5 = <span class="hljs-built_in">Array</span>.from(players);</span><br></pre></td></tr></table></figure></p>
+<h2 id="物件"><a href="#物件" class="headerlink" title="物件"></a>物件</h2><p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">const</span> person = &#123;</span><br><span class="line">  name: <span class="hljs-string">'Wes Bos'</span>,</span><br><span class="line">  age: <span class="hljs-number">80</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">const</span> captain = person;</span><br><span class="line">captain.number = <span class="hljs-number">99</span>;</span><br></pre></td></tr></table></figure></p>
+<p>物件和陣列相同，屬於 call by reference ，因此為了不要污染到<code>person</code>。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">const</span> cap3 = &#123; ...person &#125;;</span><br></pre></td></tr></table></figure></p>
+<p>或</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">const</span> cap2 = <span class="hljs-built_in">Object</span>.assign(&#123;&#125;, person, &#123;</span><br><span class="line">  number: <span class="hljs-number">99</span>,</span><br><span class="line">  age: <span class="hljs-number">12</span>,</span><br><span class="line">&#125;);</span><br><span class="line"><span class="hljs-built_in">console</span>.log(cap2);</span><br></pre></td></tr></table></figure></p>
+<p>如此，可覆寫原本屬性與值的配對，且<code>person</code>則不會被污染到，但有例外的是。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">const</span> wes = &#123;</span><br><span class="line">  name: <span class="hljs-string">'Wes'</span>,</span><br><span class="line">  age: <span class="hljs-number">100</span>,</span><br><span class="line">  social: &#123;</span><br><span class="line">    twitter: <span class="hljs-string">'@wesbos'</span>,</span><br><span class="line">    facebook: <span class="hljs-string">'wesbos.developer'</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">const</span> dev = <span class="hljs-built_in">Object</span>.assign(&#123;&#125;, wes);</span><br><span class="line"></span><br><span class="line">dev.social.twitter = <span class="hljs-string">'@coolman'</span>;</span><br><span class="line"></span><br><span class="line"><span class="hljs-built_in">console</span>.log(dev.social);</span><br><span class="line"><span class="hljs-comment">// Object &#123; twitter: '@coolman' , facebook: 'wesbos.developer'&#125;</span></span><br><span class="line"><span class="hljs-built_in">console</span>.log(wes.social);</span><br><span class="line"><span class="hljs-comment">// Object &#123; twitter: '@coolman' , facebook: 'wesbos.developer'&#125;</span></span><br></pre></td></tr></table></figure></p>
+<p><code>Object.assign</code>僅能做一層複製。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">const</span> dev2 = <span class="hljs-built_in">JSON</span>.parse(<span class="hljs-built_in">JSON</span>.stringify(wes));</span><br></pre></td></tr></table></figure></p>
+<p>可使用以上做破解。<br>因為使用<code>JSON.stringify</code>，將原本物件的內容，全部轉換成字串，<br>回到原始型別，在用<code>JSON.parse</code>轉成物件，則全部內容都能被複製成功。</p>
+<h2 id="使用技巧"><a href="#使用技巧" class="headerlink" title="使用技巧"></a>使用技巧</h2><ul>
+<li>slice()</li>
+<li>concat()</li>
+<li>es6 Spread</li>
+<li>Array.from()</li>
+<li>Object.assign()</li>
+</ul>
+
+        
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+        
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/JS30系列/">#JS30系列</a></span>
+        
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/javascript-30-day15/">【JS30】Day15：LocalStorage</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/javascript-30-day13/">【JS30】Day13：Slide In on Scroll</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="sharethis-inline-share-buttons"></div>
+<script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5d9b1ebc2b036a0011ed0d83&amp;product=inline-share-buttons" async="async"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">評論</h3>
+    
+<div id="comment-container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+	var gitment = new Gitment({
+		id: 'javascript-30-day14/',
+		owner: 'leiadot',
+		repo: 'leiadot.github.io',
+		oauth: {
+			client_id: '51ce642a9a95d7ccdf4d',
+			client_secret: '6bf1657de06ee2fbaf452b4752567ab313277f50',
+		},
+	})
+	gitment.render('comment-container')
+</script>
+
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2019 [object Object]&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            <div class="column is-narrow">
+                <div class="columns is-mobile is-multiline is-centered">
+                
+                    
+                <a class="column is-narrow has-text-black" title="GitHub" href="https://github.com/ppoffice/leiadot">
+                    
+                    GitHub
+                    
+                </a>
+                
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("zh-CN");
+</script>
+
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+</script>
+
+    
+    
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+<script src="/js/script.js"></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="站內搜尋">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '頁面',
+                CATEGORIES: '分類',
+                TAGS: '標籤',
+                UNTITLED: '(無標題)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+</body>
+</html>

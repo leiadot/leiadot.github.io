@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+<title>【JS30】Day12：Key Sequence Detection - CodingWife 寇丁人妻日安</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="JS 30 系列，輸入密碼才出現特效的範例，此篇有 splice、join 等使用方法。">
+
+
+
+
+
+<meta name="description" content="JS 30 系列，輸入密碼才出現特效的範例，此篇有 splice、join 等使用方法。">
+<meta name="keywords" content="JS30系列">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【JS30】Day12：Key Sequence Detection">
+<meta property="og:url" content="http://codingwife.com/javascript-30-day12/index.html">
+<meta property="og:site_name" content="CodingWife 寇丁人妻日安">
+<meta property="og:description" content="JS 30 系列，輸入密碼才出現特效的範例，此篇有 splice、join 等使用方法。">
+<meta property="og:locale" content="zh-tw">
+<meta property="og:image" content="http://codingwife.com/img/js30day/small11.jpg">
+<meta property="og:updated_time" content="2019-10-24T06:50:39.032Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【JS30】Day12：Key Sequence Detection">
+<meta name="twitter:description" content="JS 30 系列，輸入密碼才出現特效的範例，此篇有 splice、join 等使用方法。">
+<meta name="twitter:image" content="http://codingwife.com/img/js30day/small11.jpg">
+
+
+
+
+
+<link rel="icon" href="/images/logo.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto+Sans+TC|Open+Sans&display=swap">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+<link rel="stylesheet" href="/css/style.css">
+<script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png"},"articleBody":"\njavascript 30day\n\n\n\n目標：只有輸入某段特別密碼，才會出現特效。const pressed = []; //保存已輸入值的陣列const secretCode = 'wesbos'; //密碼window.addEventListener('keyup', e =&gt; &#123;  console.log(e.key);  pressed.push(e.key);  pressed.splice(-secretCode.length - 1, pressed.length - secretCode.length);  if (pressed.join('').includes(secretCode)) &#123;    console.log('DING DING!');    cornify_add();  &#125;  console.log(pressed);&#125;);\n使用keyup監聽按鍵行為，觸發時利用陣列的push塞入已經按下按鍵的內容，利用splice來控制陣列的長度，使陣列為最後輸入的五個字元，再以join、includes來驗證輸入值是否和密碼相同，若相同則出現特效。\n使用技巧\nsplice\ninclude\njoin\n\nsplice 刪除array.splice(start[, deleteCount[, item1[, item2[, …]]]])\n\nstart索引位置（從 0 開始），如果索引大於陣列長度，則索引值會被設為陣列長度；如果索引為負值（從 -1 開始），則會從陣列最後一個元素往前更動，且若此負數的絕對值大於陣列長度，則會被設置為 0 。\n\ndeleteCount，選擇性。表示要刪除原本陣列數量的整數。\n\nitem1,item2…，選擇性。從start位置起始，要加入到陣列的元素。\n\n\n回傳：一個被包含刪除的元素陣列，如果只有一個元素被刪除，依舊是回傳包含一個元素的陣列，倘若沒有元素被刪除，則會回傳空陣列。\ninclude 包含arr.includes(searchElement[, fromIndex])\n\nsearchElement要搜尋的元素\n\nfromIndex，選擇性。預設值為 0 ，要在此陣列搜尋searchElement的位置。如果是負數，則自array.length - fromIndex開始搜尋，預設值為 0 。\n\n\n回傳：布林值\njoin 合併字串arr.join([separator])\n\nseparator，選擇性。用來隔開陣列中每個元素的字串。\n\n如果必要的話，separator 會自動被轉成字串型態，未傳入參數，陣列中的元素將預設用英文逗號（「,」）隔開。如果 separator 是空字串，合併後，元素間不會有任何字元。\n回傳：一個合併所有陣列元素的字串。假如arr.length為 0，將回傳空字串。\n","dateCreated":"2018-03-01T13:15:42+00:00","dateModified":"2019-10-24T06:50:39+00:00","datePublished":"2018-03-01T13:15:42+00:00","description":"\njavascript 30day\n","headline":"【JS30】Day12：Key Sequence Detection","image":["/img/js30day/small11.jpg"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://codingwife.com/javascript-30-day12/"},"publisher":{"@type":"Organization","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png","logo":{"@type":"ImageObject","url":"http://codingwife.com/images/leia.png"}},"url":"http://codingwife.com/javascript-30-day12/","keywords":"JS30系列"}</script>
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    <img src="/images/codingwife.png" alt height="28">
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item " href="/archives">Archives</a>
+            
+            <a class="navbar-item " href="/categories">Categories</a>
+            
+            <a class="navbar-item " href="/tags">Tags</a>
+            
+            <a class="navbar-item " href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="搜尋" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/leiadot">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            <a class="navbar-item" title="Facebook" href="https://facebook.com/CodingwifeHy2">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+        【JS30】Day12：Key Sequence Detection
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">2018-03-01 13:15
+            （<time datetime="2018-03-01T13:15:42.000Z" itemprop="datePublished">3月 1 2018</time>）
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Front-end/">Front-end</a>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+        
+        <blockquote>
+<p><a href="https://javascript30.com/" target="_blank" rel="noopener">javascript 30day</a></p>
+</blockquote>
+<a id="more"></a>
+
+<h3 id="目標：只有輸入某段特別密碼，才會出現特效。"><a href="#目標：只有輸入某段特別密碼，才會出現特效。" class="headerlink" title="目標：只有輸入某段特別密碼，才會出現特效。"></a><span style="color:#ff5900">目標：只有輸入某段特別密碼，才會出現特效。</span></h3><p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">const</span> pressed = []; <span class="hljs-comment">//保存已輸入值的陣列</span></span><br><span class="line"><span class="hljs-keyword">const</span> secretCode = <span class="hljs-string">'wesbos'</span>; <span class="hljs-comment">//密碼</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">'keyup'</span>, e =&gt; &#123;</span><br><span class="line">  <span class="hljs-built_in">console</span>.log(e.key);</span><br><span class="line">  pressed.push(e.key);</span><br><span class="line">  pressed.splice(-secretCode.length - <span class="hljs-number">1</span>, pressed.length - secretCode.length);</span><br><span class="line">  <span class="hljs-keyword">if</span> (pressed.join(<span class="hljs-string">''</span>).includes(secretCode)) &#123;</span><br><span class="line">    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'DING DING!'</span>);</span><br><span class="line">    cornify_add();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="hljs-built_in">console</span>.log(pressed);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>使用<code>keyup</code>監聽按鍵行為，觸發時利用陣列的<code>push</code>塞入已經按下按鍵的內容，<br>利用<code>splice</code>來控制陣列的長度，使陣列為最後輸入的五個字元，<br>再以<code>join</code>、<code>includes</code>來驗證輸入值是否和密碼相同，若相同則出現特效。</p>
+<h2 id="使用技巧"><a href="#使用技巧" class="headerlink" title="使用技巧"></a>使用技巧</h2><ul>
+<li>splice</li>
+<li>include</li>
+<li>join</li>
+</ul>
+<h2 id="splice-刪除"><a href="#splice-刪除" class="headerlink" title="splice 刪除"></a>splice 刪除</h2><p><strong>array.splice(start[, deleteCount[, item1[, item2[, …]]]])</strong></p>
+<ul>
+<li><p><strong>start</strong><br>索引位置（從 0 開始），如果索引大於陣列長度，則索引值會被設為陣列長度；<br>如果索引為負值（從 -1 開始），則會從陣列最後一個元素往前更動，<br>且若此負數的絕對值大於陣列長度，則會被設置為 0 。</p>
+</li>
+<li><p><strong>deleteCount</strong>，選擇性。<br>表示要刪除原本陣列數量的整數。</p>
+</li>
+<li><p><strong>item1,item2…</strong>，選擇性。<br>從<code>start</code>位置起始，要加入到陣列的元素。</p>
+</li>
+</ul>
+<p>回傳：一個被包含刪除的元素陣列，如果只有一個元素被刪除，<br>依舊是回傳包含一個元素的陣列，倘若沒有元素被刪除，則會回傳空陣列。</p>
+<h2 id="include-包含"><a href="#include-包含" class="headerlink" title="include 包含"></a>include 包含</h2><p><strong>arr.includes(searchElement[, fromIndex])</strong></p>
+<ul>
+<li><p><strong>searchElement</strong><br>要搜尋的元素</p>
+</li>
+<li><p><strong>fromIndex</strong>，選擇性。<br>預設值為 0 ，要在此陣列搜尋<code>searchElement</code>的位置。<br>如果是負數，則自<code>array.length - fromIndex</code>開始搜尋，預設值為 0 。</p>
+</li>
+</ul>
+<p>回傳：布林值</p>
+<h2 id="join-合併字串"><a href="#join-合併字串" class="headerlink" title="join 合併字串"></a>join 合併字串</h2><p><strong>arr.join([separator])</strong></p>
+<ul>
+<li><strong>separator</strong>，選擇性。<br>用來隔開陣列中每個元素的字串。</li>
+</ul>
+<p>如果必要的話，separator 會自動被轉成字串型態，未傳入參數，陣列中的元素將預設用英文逗號（「,」）隔開。<br>如果 separator 是空字串，合併後，元素間不會有任何字元。</p>
+<p>回傳：一個合併所有陣列元素的字串。假如<code>arr.length</code>為 0，將回傳空字串。</p>
+
+        
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+        
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/JS30系列/">#JS30系列</a></span>
+        
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/javascript-30-day13/">【JS30】Day13：Slide In on Scroll</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/javascript-30-day11/">【JS30】Day11：Custom Video Player</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="sharethis-inline-share-buttons"></div>
+<script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5d9b1ebc2b036a0011ed0d83&amp;product=inline-share-buttons" async="async"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">評論</h3>
+    
+<div id="comment-container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+	var gitment = new Gitment({
+		id: 'javascript-30-day12/',
+		owner: 'leiadot',
+		repo: 'leiadot.github.io',
+		oauth: {
+			client_id: '51ce642a9a95d7ccdf4d',
+			client_secret: '6bf1657de06ee2fbaf452b4752567ab313277f50',
+		},
+	})
+	gitment.render('comment-container')
+</script>
+
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2019 [object Object]&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            <div class="column is-narrow">
+                <div class="columns is-mobile is-multiline is-centered">
+                
+                    
+                <a class="column is-narrow has-text-black" title="GitHub" href="https://github.com/ppoffice/leiadot">
+                    
+                    GitHub
+                    
+                </a>
+                
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("zh-CN");
+</script>
+
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+</script>
+
+    
+    
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+<script src="/js/script.js"></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="站內搜尋">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '頁面',
+                CATEGORIES: '分類',
+                TAGS: '標籤',
+                UNTITLED: '(無標題)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+</body>
+</html>

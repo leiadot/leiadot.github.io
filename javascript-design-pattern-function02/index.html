@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+<title>【讀書筆記】JavaScript Design Pattern Chapter04 函式（下） - CodingWife 寇丁人妻日安</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="JavaScript Design Pattern，第四章函式。">
+
+
+
+
+
+<meta name="description" content="JavaScript Design Pattern，第四章函式。">
+<meta name="keywords" content="讀書筆記,JSDP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【讀書筆記】JavaScript Design Pattern Chapter04 函式（下）">
+<meta property="og:url" content="http://codingwife.com/javascript-design-pattern-function02/index.html">
+<meta property="og:site_name" content="CodingWife 寇丁人妻日安">
+<meta property="og:description" content="JavaScript Design Pattern，第四章函式。">
+<meta property="og:locale" content="zh-tw">
+<meta property="og:image" content="http://codingwife.com/img/cover/books.jpg">
+<meta property="og:updated_time" content="2019-10-24T06:50:39.036Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【讀書筆記】JavaScript Design Pattern Chapter04 函式（下）">
+<meta name="twitter:description" content="JavaScript Design Pattern，第四章函式。">
+<meta name="twitter:image" content="http://codingwife.com/img/cover/books.jpg">
+
+
+
+
+
+<link rel="icon" href="/images/logo.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto+Sans+TC|Open+Sans&display=swap">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+<link rel="stylesheet" href="/css/style.css">
+<script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png"},"articleBody":"另一種類似立即函式且避免全域污染的方式，此模式建立一個物件，並帶有 init 方法，建立物件後立即執行 init 做初始化。\n\n\n立即物件初始化另一種類似立即函式且避免全域污染的方式，此模式建立一個物件，並帶有 init 方法，建立物件後立即執行 init 做初始化。\n(&#123;\tmaxwidth: 500,\tmaxheight: 30,\tgimmeMax:function ()&#123;\t\treturn this.maxwidth + \"x\" + this.maxheight\t&#125;,\tinit:function() &#123;\t\tconsole.log(this.gimmeMax();)\t&#125;&#125;).init();\n用括號包起物件實字，關閉括號之後立即呼叫 init ，意思就是下方兩種寫法都成立。\n(&#123;...&#125;).init();(&#123;...&#125;.init());\n優點：\n\n與立即函式相同，執行一次性初始化工作，也不會汙染全域物件\n適合一次性工作\n\n初始階段的分支將功能分開測試，並使用初始化分支做唯一一次檢查。\n函式屬性——記憶模式任何函式都具有length屬性，用來表示預期接收的參數數量。\nfunction func(a, b)&#123; ... &#125;console.log(func.length); //2\n可以隨時將你的函式新增屬性，一種自訂屬性的案例是用它來快取函式的運算結果（回傳值），快取函式的結果也被稱為記憶模式。\n假設限定函式只接受原始型別的參數，如果有更複雜的參數，可以將參數序列化，化為一個 JSON 字串，並用此字串作為 catch 物件的鍵值。\n序列化後，物件的識別會消失，如果有兩個不同物件但剛好有相同屬性，這兩個物件會共用同一個快取項目。\n設定值物件設定值模式是提供乾淨 API 的一種方式，在建立函式庫或是給其他開發者使用的程式，此模式會特別有效。\n在編寫函式時需要傳遞大量參數，有一種更好的方法，就是將所有參數替換成唯一一個，讓此參數變成一個物件來表示設定值。\nvar conf = &#123;  username: 'batman',  first: 'Bruce',  last: 'Wayne',&#125;;addPerson(conf);\n設定設定值的優點：\n\n不需要記住參數和順序\n可以更安全略過選用參數\n更容易閱讀和維護\n更容易新增和移除參數\n\n缺點：\n\n需要知道參數名稱\n設定值物件的屬性名稱無法被最小化\n\nCurry函式的應用在純函式的程式語言中，函式並不是被呼叫而是被應用，因為 JavaScript 的函式其實是物件而且有自己的方法。\n// 定義函式var sayHi = function(who) &#123;  return 'Hello' + (who ? ',' + who : '') + '!';&#125;;// 呼叫函式sayHi(); // \"Hello\"sayHi('world'); // 'Hello, world'// 應用函式sayHi.apply(null, ['hello']); //Hello, hello\n呼叫函式和應用函式的結果都相同，apply() 需要兩個參數，第一個參數是物件，用來綁定函式內部的 this，第二個參數是參數陣列，會成為函式內可使用的類陣列 arguments 物件。如果第一個參數值是 null ，則 this 會指向全域物件，這正是當你呼叫一個非物件內方法的函式時會發生的事。\n如果函式是某物件的方式，就不會像前面例子傳遞 null 參考，而物件會成為 apply 的第一個參數。\nvar alien = &#123;\tsayHi : function (who) &#123;\t\treturn \"Hello\" + (who ? \",\" + who : \"\") + \"!\";\t&#125;;&#125;sayHi.apply(alien, [\"hello\"]);\n除了 apply 之外，有另一個 call 方法，可省下建立陣列的工作。\n部分應用程式碼的執行過程：\n// 定義函式function add(x, y)&#123;\treturn x + y;&#125;// 知道參數並呼叫add(5, 4);//程式執行：步驟一function add(5, y)&#123;\treturn 5 + y;&#125;//程式執行：步驟二function add(5, 4)&#123;\treturn 5 + 4;&#125;\n此階段步驟一可稱為部分應用，意思是用第一個參數替換函式中的未知數，但我們並沒有得到結果（解答），而是得到另一個函式。\n現在讓我們假想一個函式叫做 partialApply()。（以下為非正規用法）\nfunction add(x, y) &#123;  return x + y;&#125;//全應用add(5, 4);//部分應用var newadd = add.partialApply(null, [5]);newadd.apply(null, [4]); //9\n部分運用給了另一個函式，該函式可以在之後用別的參數呼叫，等同於 add(5, 4); ，因為 add(5) 會回傳一個函式，於是可以用 (4) 呼叫，換句話說 add(5, 4); 只是 add(5)(4) 的語法糖。\n這種單一輸入、單一輸出並讓函式可以理解，並處理部分應用的過程，稱為 curry 化。\nCurrycurry 是一種轉換的過程——我們在轉換函式。（拆解函式）\n泛用的 curry 化函式：\nfunction curry(fn) &#123;  var slice = Array.prototype.slice,    stored_args = slice.call(arguments, 1);  // arguments : curry 的參數。因為傳進參數的第一個參數值是 function 必須刪除，  // 但因為參數是類陣列，無法用陣列的方法，因此用 call 將 slice 指向 arguments，使arguments 為陣列，以使用陣列的方法，並刪除第一個參數。  // 如同：arguments.slice(1);  return function() &#123;    var new_args = slice.call(arguments),      // 第二組傳入的參數，同上，將參數轉陣列      args = stored_args.concat(new_args);    //將第一組和第二組傳入的參數合併    return fn.apply(null, args);    //將合併的新參數傳入 fn  &#125;;&#125;\n承上，新解釋範例如下：\nfunction add(x, y) &#123;  return x + y;&#125;var newadd = curry(add, 5);newadd(4); //9//另一種寫法curry(add, 6)(7); //13\n第二個範例：\nfunction add(a, b, c, d, e) &#123;  return a + b + c + d + e;&#125;//可以轉換任何數量的參數curry(add, 1, 2, 3)(5, 5);//兩步驟的 curry 也可以。var addOne = curry(add, 1);addOne(10, 10, 10, 10); //41\n使用 Curry 的時機當呼叫某個函式，發現傳入的參數大多相同，這時可以用柯里化，可以運用部分應用的方式，傳入一些參數給函式，並動態產生新的函式，新函式幫你保留重複的那些參數，於是不用每次都傳遞，並用他們預先填入原始函式，預期接受完整的參數列。\n//不使用柯里化add(1, 2, 3, 'abby');add(1, 2, 3, 'leia');add(1, 2, 3, 'jammy');add(1, 2, 3, 'lisa');//使用柯里化var curryFn = curry(add, 1, 2, 3);curryFn('abby');curryFn('leia');curryFn('jammy');curryFn('lisa');\n總結\nJavaScript 是第一級物件，他們可以和原始型別值）一樣作為參數傳遞，也可以擴充屬性和方法。\n函式提供區域作用域，而大括號產生的區塊則沒有，區域變數的宣告會被提升到區域作用的頂端。\n\n建立函式的語法：\n\n具名函式表示式\n函式表示式：和上一個相同，只是缺少名字，也稱為匿名函式\n韓式宣告式：類似其他語言\n\n好用的函式模式：\n\nAPI 模式：使函式介面更簡潔 - 回呼模式：將函式作為參數傳遞 - 設定值物件：幫助你讓函式的參數數量 - 回傳函式：函式的回傳值是另一個函式 - curry 化：用現有的函式加上部分參數列產生新的函式\n初始化模式：結構化的方式來執行初始和設定，不會因暫時變數污染全域 - 立即函式：定義後立即執行 - 立即物件初始化：結構化初始工作被包進一個匿名函式中，此模式提供一個立即呼叫的方法。 - 初始階段的分支：初始階段執行唯一一次分支，而不是在應用程式的生命週期中執行許多次。\n效能模式： - 記憶模式：使函式屬性暫存，運算過的值不必重複運算 - 自我定義函式：函式使用新的定義覆蓋自己，在第二次呼叫過後省下工作\n\n","dateCreated":"2018-11-07T17:50:58+00:00","dateModified":"2019-10-24T06:50:39+00:00","datePublished":"2018-11-07T17:50:58+00:00","description":"另一種類似立即函式且避免全域污染的方式，此模式建立一個物件，並帶有 init 方法，建立物件後立即執行 init 做初始化。","headline":"【讀書筆記】JavaScript Design Pattern Chapter04 函式（下）","image":["/img/cover/books.jpg"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://codingwife.com/javascript-design-pattern-function02/"},"publisher":{"@type":"Organization","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png","logo":{"@type":"ImageObject","url":"http://codingwife.com/images/leia.png"}},"url":"http://codingwife.com/javascript-design-pattern-function02/","keywords":"讀書筆記, JSDP"}</script>
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    <img src="/images/codingwife.png" alt height="28">
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item " href="/archives">Archives</a>
+            
+            <a class="navbar-item " href="/categories">Categories</a>
+            
+            <a class="navbar-item " href="/tags">Tags</a>
+            
+            <a class="navbar-item " href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="搜尋" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/leiadot">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            <a class="navbar-item" title="Facebook" href="https://facebook.com/CodingwifeHy2">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+        【讀書筆記】JavaScript Design Pattern Chapter04 函式（下）
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">2018-11-07 17:50
+            （<time datetime="2018-11-07T17:50:58.000Z" itemprop="datePublished">11月 7 2018</time>）
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Front-end/">Front-end</a>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+        
+        <p>另一種類似立即函式且避免全域污染的方式，此模式建立一個物件，並帶有 <code>init</code> 方法，建立物件後立即執行 <code>init</code> 做初始化。</p>
+<a id="more"></a>
+
+<h2 id="立即物件初始化"><a href="#立即物件初始化" class="headerlink" title="立即物件初始化"></a>立即物件初始化</h2><p>另一種類似立即函式且避免全域污染的方式，此模式建立一個物件，並帶有 <code>init</code> 方法，建立物件後立即執行 <code>init</code> 做初始化。</p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line">(&#123;</span><br><span class="line">	maxwidth: <span class="hljs-number">500</span>,</span><br><span class="line">	maxheight: <span class="hljs-number">30</span>,</span><br><span class="line">	gimmeMax:<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>)</span>&#123;</span><br><span class="line">		<span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.maxwidth + <span class="hljs-string">"x"</span> + <span class="hljs-keyword">this</span>.maxheight</span><br><span class="line">	&#125;,</span><br><span class="line">	init:<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">		<span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">this</span>.gimmeMax();)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;).init();</span><br></pre></td></tr></table></figure></p>
+<p>用括號包起物件實字，關閉括號之後立即呼叫 <code>init</code> ，意思就是下方兩種寫法都成立。</p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line">(&#123;...&#125;).init();</span><br><span class="line">(&#123;...&#125;.init());</span><br></pre></td></tr></table></figure></p>
+<p>優點：</p>
+<ul>
+<li>與立即函式相同，執行一次性初始化工作，也不會汙染全域物件</li>
+<li>適合一次性工作</li>
+</ul>
+<h2 id="初始階段的分支"><a href="#初始階段的分支" class="headerlink" title="初始階段的分支"></a>初始階段的分支</h2><p>將功能分開測試，並使用初始化分支做唯一一次檢查。</p>
+<h2 id="函式屬性——記憶模式"><a href="#函式屬性——記憶模式" class="headerlink" title="函式屬性——記憶模式"></a>函式屬性——記憶模式</h2><p>任何函式都具有<code>length</code>屬性，用來表示預期接收的參數數量。</p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">func</span>(<span class="hljs-params">a, b</span>)</span>&#123; ... &#125;</span><br><span class="line"><span class="hljs-built_in">console</span>.log(func.length); <span class="hljs-comment">//2</span></span><br></pre></td></tr></table></figure></p>
+<p>可以隨時將你的函式新增屬性，一種自訂屬性的案例是用它來快取函式的運算結果（回傳值），快取函式的結果也被稱為記憶模式。</p>
+<p>假設限定函式只接受原始型別的參數，如果有更複雜的參數，可以將參數序列化，化為一個 JSON 字串，並用此字串作為 catch 物件的鍵值。</p>
+<p>序列化後，物件的識別會消失，如果有兩個不同物件但剛好有相同屬性，這兩個物件會共用同一個快取項目。</p>
+<h2 id="設定值物件"><a href="#設定值物件" class="headerlink" title="設定值物件"></a>設定值物件</h2><p>設定值模式是提供乾淨 API 的一種方式，在建立函式庫或是給其他開發者使用的程式，此模式會特別有效。</p>
+<p>在編寫函式時需要傳遞大量參數，有一種更好的方法，就是將所有參數替換成唯一一個，讓此參數變成一個物件來表示設定值。</p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> conf = &#123;</span><br><span class="line">  username: <span class="hljs-string">'batman'</span>,</span><br><span class="line">  first: <span class="hljs-string">'Bruce'</span>,</span><br><span class="line">  last: <span class="hljs-string">'Wayne'</span>,</span><br><span class="line">&#125;;</span><br><span class="line">addPerson(conf);</span><br></pre></td></tr></table></figure></p>
+<p>設定設定值的優點：</p>
+<ul>
+<li>不需要記住參數和順序</li>
+<li>可以更安全略過選用參數</li>
+<li>更容易閱讀和維護</li>
+<li>更容易新增和移除參數</li>
+</ul>
+<p>缺點：</p>
+<ul>
+<li>需要知道參數名稱</li>
+<li>設定值物件的屬性名稱無法被最小化</li>
+</ul>
+<h2 id="Curry"><a href="#Curry" class="headerlink" title="Curry"></a>Curry</h2><h3 id="函式的應用"><a href="#函式的應用" class="headerlink" title="函式的應用"></a>函式的應用</h3><p>在純函式的程式語言中，函式並不是被呼叫而是被應用，因為 JavaScript 的函式其實是物件而且有自己的方法。</p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-comment">// 定義函式</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">var</span> sayHi = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">who</span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">return</span> <span class="hljs-string">'Hello'</span> + (who ? <span class="hljs-string">','</span> + who : <span class="hljs-string">''</span>) + <span class="hljs-string">'!'</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 呼叫函式</span></span><br><span class="line"></span><br><span class="line">sayHi(); <span class="hljs-comment">// "Hello"</span></span><br><span class="line">sayHi(<span class="hljs-string">'world'</span>); <span class="hljs-comment">// 'Hello, world'</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 應用函式</span></span><br><span class="line">sayHi.apply(<span class="hljs-literal">null</span>, [<span class="hljs-string">'hello'</span>]); <span class="hljs-comment">//Hello, hello</span></span><br></pre></td></tr></table></figure></p>
+<p>呼叫函式和應用函式的結果都相同，<code>apply()</code> 需要兩個參數，第一個參數是物件，用來綁定函式內部的 this，第二個參數是參數陣列，會成為函式內可使用的類陣列 arguments 物件。如果第一個參數值是 null ，則 this 會指向全域物件，這正是當你呼叫一個非物件內方法的函式時會發生的事。</p>
+<p>如果函式是某物件的方式，就不會像前面例子傳遞 null 參考，而物件會成為 apply 的第一個參數。</p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> alien = &#123;</span><br><span class="line">	sayHi : <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">who</span>) </span>&#123;</span><br><span class="line">		<span class="hljs-keyword">return</span> <span class="hljs-string">"Hello"</span> + (who ? <span class="hljs-string">","</span> + who : <span class="hljs-string">""</span>) + <span class="hljs-string">"!"</span>;</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">sayHi.apply(alien, [<span class="hljs-string">"hello"</span>]);</span><br></pre></td></tr></table></figure></p>
+<p><strong>除了 apply 之外，有另一個 call 方法，可省下建立陣列的工作。</strong></p>
+<h3 id="部分應用"><a href="#部分應用" class="headerlink" title="部分應用"></a>部分應用</h3><p>程式碼的執行過程：</p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-comment">// 定義函式</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">add</span>(<span class="hljs-params">x, y</span>)</span>&#123;</span><br><span class="line">	<span class="hljs-keyword">return</span> x + y;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-comment">// 知道參數並呼叫</span></span><br><span class="line">add(<span class="hljs-number">5</span>, <span class="hljs-number">4</span>);</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">//程式執行：步驟一</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">add</span>(<span class="hljs-params"><span class="hljs-number">5</span>, y</span>)</span>&#123;</span><br><span class="line">	<span class="hljs-keyword">return</span> <span class="hljs-number">5</span> + y;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-comment">//程式執行：步驟二</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">add</span>(<span class="hljs-params"><span class="hljs-number">5</span>, <span class="hljs-number">4</span></span>)</span>&#123;</span><br><span class="line">	<span class="hljs-keyword">return</span> <span class="hljs-number">5</span> + <span class="hljs-number">4</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>此階段步驟一可稱為部分應用，意思是用第一個參數替換函式中的未知數，但我們並沒有得到結果（解答），而是得到另一個函式。</p>
+<p>現在讓我們假想一個函式叫做 <code>partialApply()</code>。（以下為非正規用法）</p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">add</span>(<span class="hljs-params">x, y</span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">return</span> x + y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">//全應用</span></span><br><span class="line">add(<span class="hljs-number">5</span>, <span class="hljs-number">4</span>);</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">//部分應用</span></span><br><span class="line"><span class="hljs-keyword">var</span> newadd = add.partialApply(<span class="hljs-literal">null</span>, [<span class="hljs-number">5</span>]);</span><br><span class="line">newadd.apply(<span class="hljs-literal">null</span>, [<span class="hljs-number">4</span>]); <span class="hljs-comment">//9</span></span><br></pre></td></tr></table></figure></p>
+<p>部分運用給了另一個函式，該函式可以在之後用別的參數呼叫，等同於 <code>add(5, 4);</code> ，因為 <code>add(5)</code> 會回傳一個函式，於是可以用 <code>(4)</code> 呼叫，換句話說 <code>add(5, 4);</code> 只是 <code>add(5)(4)</code> 的語法糖。</p>
+<p>這種單一輸入、單一輸出並讓函式可以理解，並處理部分應用的過程，稱為 curry 化。</p>
+<h4 id="Curry-1"><a href="#Curry-1" class="headerlink" title="Curry"></a>Curry</h4><p>curry 是一種轉換的過程——我們在轉換函式。<br>（拆解函式）</p>
+<p>泛用的 curry 化函式：</p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">curry</span>(<span class="hljs-params">fn</span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">var</span> slice = <span class="hljs-built_in">Array</span>.prototype.slice,</span><br><span class="line">    stored_args = slice.call(<span class="hljs-built_in">arguments</span>, <span class="hljs-number">1</span>);</span><br><span class="line">  <span class="hljs-comment">// arguments : curry 的參數。因為傳進參數的第一個參數值是 function 必須刪除，</span></span><br><span class="line">  <span class="hljs-comment">// 但因為參數是類陣列，無法用陣列的方法，因此用 call 將 slice 指向 arguments，使arguments 為陣列，以使用陣列的方法，並刪除第一個參數。</span></span><br><span class="line">  <span class="hljs-comment">// 如同：arguments.slice(1);</span></span><br><span class="line">  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">var</span> new_args = slice.call(<span class="hljs-built_in">arguments</span>),</span><br><span class="line">      <span class="hljs-comment">// 第二組傳入的參數，同上，將參數轉陣列</span></span><br><span class="line">      args = stored_args.concat(new_args);</span><br><span class="line">    <span class="hljs-comment">//將第一組和第二組傳入的參數合併</span></span><br><span class="line">    <span class="hljs-keyword">return</span> fn.apply(<span class="hljs-literal">null</span>, args);</span><br><span class="line">    <span class="hljs-comment">//將合併的新參數傳入 fn</span></span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>承上，新解釋範例如下：</p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">add</span>(<span class="hljs-params">x, y</span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">return</span> x + y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">var</span> newadd = curry(add, <span class="hljs-number">5</span>);</span><br><span class="line">newadd(<span class="hljs-number">4</span>); <span class="hljs-comment">//9</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">//另一種寫法</span></span><br><span class="line">curry(add, <span class="hljs-number">6</span>)(<span class="hljs-number">7</span>); <span class="hljs-comment">//13</span></span><br></pre></td></tr></table></figure></p>
+<p>第二個範例：</p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">add</span>(<span class="hljs-params">a, b, c, d, e</span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">return</span> a + b + c + d + e;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">//可以轉換任何數量的參數</span></span><br><span class="line">curry(add, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>)(<span class="hljs-number">5</span>, <span class="hljs-number">5</span>);</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">//兩步驟的 curry 也可以。</span></span><br><span class="line"><span class="hljs-keyword">var</span> addOne = curry(add, <span class="hljs-number">1</span>);</span><br><span class="line">addOne(<span class="hljs-number">10</span>, <span class="hljs-number">10</span>, <span class="hljs-number">10</span>, <span class="hljs-number">10</span>); <span class="hljs-comment">//41</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="使用-Curry-的時機"><a href="#使用-Curry-的時機" class="headerlink" title="使用 Curry 的時機"></a>使用 Curry 的時機</h2><p>當呼叫某個函式，發現傳入的參數大多相同，這時可以用柯里化，可以運用部分應用的方式，傳入一些參數給函式，並動態產生新的函式，新函式幫你保留重複的那些參數，於是不用每次都傳遞，並用他們預先填入原始函式，預期接受完整的參數列。</p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-comment">//不使用柯里化</span></span><br><span class="line">add(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-string">'abby'</span>);</span><br><span class="line">add(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-string">'leia'</span>);</span><br><span class="line">add(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-string">'jammy'</span>);</span><br><span class="line">add(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-string">'lisa'</span>);</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">//使用柯里化</span></span><br><span class="line"><span class="hljs-keyword">var</span> curryFn = curry(add, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>);</span><br><span class="line">curryFn(<span class="hljs-string">'abby'</span>);</span><br><span class="line">curryFn(<span class="hljs-string">'leia'</span>);</span><br><span class="line">curryFn(<span class="hljs-string">'jammy'</span>);</span><br><span class="line">curryFn(<span class="hljs-string">'lisa'</span>);</span><br></pre></td></tr></table></figure></p>
+<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><ul>
+<li>JavaScript 是第一級物件，他們可以和原始型別值）一樣作為參數傳遞，也可以擴充屬性和方法。</li>
+<li>函式提供區域作用域，而大括號產生的區塊則沒有，區域變數的宣告會被提升到區域作用的頂端。</li>
+</ul>
+<p>建立函式的語法：</p>
+<ul>
+<li>具名函式表示式</li>
+<li>函式表示式：和上一個相同，只是缺少名字，也稱為匿名函式</li>
+<li>韓式宣告式：類似其他語言</li>
+</ul>
+<p>好用的函式模式：</p>
+<ul>
+<li>API 模式：使函式介面更簡潔 - 回呼模式：將函式作為參數傳遞 - 設定值物件：幫助你讓函式的參數數量 - 回傳函式：函式的回傳值是另一個函式 - curry 化：用現有的函式加上部分參數列產生新的函式</li>
+<li>初始化模式：結構化的方式來執行初始和設定，不會因暫時變數污染全域 - 立即函式：定義後立即執行 - 立即物件初始化：結構化初始工作被包進一個匿名函式中，此模式提供一個立即呼叫的方法。 - 初始階段的分支：初始階段執行唯一一次分支，而不是在應用程式的生命週期中執行許多次。</li>
+<li>效能模式： - 記憶模式：使函式屬性暫存，運算過的值不必重複運算 - 自我定義函式：函式使用新的定義覆蓋自己，在第二次呼叫過後省下工作</li>
+</ul>
+
+        
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+        
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/讀書筆記/">#讀書筆記</a></span>
+        
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/JSDP/">#JSDP</a></span>
+        
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/javascript-design-pattern-object01/">【讀書筆記】JavaScript Design Pattern Chapter05 物件建立模式（上）</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/javascript-design-pattern-function01/">【讀書筆記】JavaScript Design Pattern Chapter04 函式（上）</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="sharethis-inline-share-buttons"></div>
+<script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5d9b1ebc2b036a0011ed0d83&amp;product=inline-share-buttons" async="async"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">評論</h3>
+    
+<div id="comment-container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+	var gitment = new Gitment({
+		id: 'javascript-design-pattern-function02/',
+		owner: 'leiadot',
+		repo: 'leiadot.github.io',
+		oauth: {
+			client_id: '51ce642a9a95d7ccdf4d',
+			client_secret: '6bf1657de06ee2fbaf452b4752567ab313277f50',
+		},
+	})
+	gitment.render('comment-container')
+</script>
+
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2019 [object Object]&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            <div class="column is-narrow">
+                <div class="columns is-mobile is-multiline is-centered">
+                
+                    
+                <a class="column is-narrow has-text-black" title="GitHub" href="https://github.com/ppoffice/leiadot">
+                    
+                    GitHub
+                    
+                </a>
+                
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("zh-CN");
+</script>
+
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+</script>
+
+    
+    
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+<script src="/js/script.js"></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="站內搜尋">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '頁面',
+                CATEGORIES: '分類',
+                TAGS: '標籤',
+                UNTITLED: '(無標題)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+</body>
+</html>

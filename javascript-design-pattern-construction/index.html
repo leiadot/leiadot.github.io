@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+<title>【讀書筆記】JavaScript Design Pattern Chapter03 實字與建構式 - CodingWife 寇丁人妻日安</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="JavaScript Design Pattern，第三章實字與建構式。">
+
+
+
+
+
+<meta name="description" content="JavaScript Design Pattern，第三章實字與建構式。">
+<meta name="keywords" content="讀書筆記,JSDP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【讀書筆記】JavaScript Design Pattern Chapter03 實字與建構式">
+<meta property="og:url" content="http://codingwife.com/javascript-design-pattern-construction/index.html">
+<meta property="og:site_name" content="CodingWife 寇丁人妻日安">
+<meta property="og:description" content="JavaScript Design Pattern，第三章實字與建構式。">
+<meta property="og:locale" content="zh-tw">
+<meta property="og:image" content="http://codingwife.com/img/cover/books.jpg">
+<meta property="og:updated_time" content="2019-10-24T06:50:39.036Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【讀書筆記】JavaScript Design Pattern Chapter03 實字與建構式">
+<meta name="twitter:description" content="JavaScript Design Pattern，第三章實字與建構式。">
+<meta name="twitter:image" content="http://codingwife.com/img/cover/books.jpg">
+
+
+
+
+
+<link rel="icon" href="/images/logo.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto+Sans+TC|Open+Sans&display=swap">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+<link rel="stylesheet" href="/css/style.css">
+<script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png"},"articleBody":"此章解釋為何實字標記會比內建建構式（new Object()、new Array()）還好，主要傳達就是訊息的延伸（避免用建構式並用實字替代）。\n\n\n物件實字\n名值對的雜湊表，類似其他語言的關聯式陣列。\n值可以是原始型別或另一個物件，稱之屬性；值可以是函式，稱為方法。\nJavaScript 允許任何時刻改變、移除、增加屬性和方法。\n\n物件實字語法\n將物件用大括號（{}）包起來\n以逗號分格每個屬性和函式\n分號分隔屬性名稱和屬性值\n將物件賦予給變數，記得右大括號後要加上分號\n\n用建構式創造物件JavaScript 沒有 class，但有建構函式，它使用非常類似其他語言以 class 為基礎的物件建立語法。\nvar car = &#123; goes: 'far' &#125;;// 實字var car = new Object();car.goes = 'far';//建構式\n實字是更好的物件建立模式，程式碼比較短，且實字不需要作用域的判斷，意思就是你可能會創造其他相同名稱的區域建構式，而解譯器需要你從呼叫的 Object() 所在的作用域，一路向外查找整個作用域鍊，直到找到 Object() 建構式。\n自訂建構式以 new 來呼叫建構式，會經過以下流程：\n\n建立一個空物件，參考至 this 變數，並繼承此函式的原型\n藉由 this 的參考，將屬性和方法加入到此物件\n這個 this 所參考的物件，會隱晦地回傳出去\n\n如下\nvar Person = function(name) &#123;  // 使用物件實字  // 建立一個空物件  // var this = &#123;&#125;;  this.name = name;  this.say = function() &#123;    return \"I'm\" + this.name;  &#125;;  //return this;  //隱晦回傳&#125;;\n將 say() 方法加入 this ，每次呼叫 new Person() 一次，一個新的函式就會建立在記憶體中，這樣是非常消耗效能的，較好的方法是加入到原型中：\nPerson.prototype.say = function() &#123;  return 'I am' + this.name;&#125;;\n只要可重複利用的成員，例如方法，都應該放入原型。上述的建立空物件，並不是真的空，比較像是：var this = Object.create(Person.prototype);。\n建構式的回傳值在建構函式中，沒有使用 return 的敘述，預設就是回傳 this 所參考的物件，另外你也可以自由回傳任何物件，只要是物件就好，如果回傳的不是物件就會被忽略，回傳就會是 this 所參考的物件。\n強制 new 模式建構式只是用 new 呼叫，但本質還是函式，如果忘記加上 new，建構式中的 this 會指向全域物件，例如在瀏覽器中會指向 window ，這樣的行為如同替全域物件加上屬性，因此必須要使用 new 呼叫建構式。\n命名慣例建構式的名字首部大寫，其他一般函式則首字小寫。\n使用 thatfunction Wattle() &#123;  var that = &#123;&#125;;  that.tasts = 'yummy';  return that;&#125;\n等同於\nfunction Wattle()&#123;\treturn &#123;\t\tthat.tasts = 'yummy';\t&#125;;&#125;\n使用 that 輸出結果與一般建構式結果無異，但如果使用 that 方法，會讓建構式失去原本繼承的 prototype 屬性，物件實體會和原型本身失去連結。\n自我呼叫的建構式為了解決前一個模式的問題，讓物件實體可以使用原型可以考慮以下方法：\nfunction Waffle() &#123;  if (!(this instanceof Waffle)) &#123;    return new Waffle();  &#125;  this.tastes = 'yummy';&#125;Waffle.prototype.wantAnother = true;\n令人好奇的陣列實字當你傳入單一數值給 new Array() 該數值不會變成陣列的第一個元素，而是變成陣列的長度，如果傳入一個符點數，就會造成錯誤。\n檢查陣列陣列的型別是物件，但如果要檢查一個值是不是陣列，可以用程式檢查 length 屬性是否存在，更健全的方法是使用 isArray 方法，但如果環境不支援此方法，可對陣列呼叫 toString 的 call 方法，應會回傳[Object Array]。\nJSONJSON 和物件實字在語法上唯一不同是 JSON 屬性名稱須用引號包起來，對於物件實字，屬性名稱只有在不合法的狀況下才需要包，例如中間穿插空格。在 JSON 中不可以使用函式及正規表示式實字。\n正規表示式實字JavaScript 的正規表示式也是一種物件，可以透過兩種方式建立：\n\n使用 new RegExp() 建構式\n使用正規表示式實字\n\nvar re = /\\\\/gm;//實字var re = new RegExp('\\\\\\\\', 'gm');\n使用正規表示式實字符號需要跳脫字元，甚至經常需要兩個反斜線。\n正規表示式實字語法正規實字符號使用斜線（”/“）來包住檢查對應的正規表示格式，第二個斜線後面可以加入格式的修飾詞，修飾詞的格式是不加引號的字母：\n\ng：全域檢查\nm：檢查多行\ni：不分大小寫\n\n使用實字和建構式之間的差異：\n\n遇到接受正規表示物件的函數（String.prototype.replace()），使用實字可以讓程式碼更簡潔\n正規表示格式無法事先得知，而是要在執行階段才能知道，可使用建構式。\n實字在語法解析時就已產生，而且只產生一個物件。如果在迴圈中使用同樣的正規表示式，前面建立的物件就會回傳，而且保留已設定過的所有屬性。\n如果不使用 new 呼叫 RegExp() ，行為如同有使用 new。\n\n原始型別包裹JavaScript 有五種原始型別：數值、布林、字串、物件、null、undefined ，除了最後兩種，其餘型別皆有原始型別包裹物件。包裹物件可使用建構式來建立。\n包裹物件（new Number()…）擁有一些屬性和方法可以使用，但原始數值在呼叫方法時，會在背後暫時轉型為一個物件，因此可以表現得像物件一樣使用那些屬性和方法。\n使用包裹物件唯一理由是，你想要擴充並保持狀態，因為原始物件不是物件，他們無法擴充以新增屬性，但擴充字串、布林、數字，這些狀況很少用到，狀況如下：\nvar greeting = 'hello';//原始字串greeting.split(' ')[0]; //hello//暫時轉型成物件，可使用方法greeting.smile = true;//企圖擴充原始型別不會產生錯誤typeof greeting.smile; //undefined//但其實沒有用\n錯誤物件JavaScript 有數個內建的錯誤物件，隨著 thorow 敘述一起使用：Error()、SyntaxError()、TypeError() 等等，這些錯誤物件具有下列屬性：\n\nname：建立錯誤物件的建構式函式名稱\nmessage：建立錯誤物件時傳遞給建構式的字串\n\nthrow 可以跟任何物件一起運作，不一定是錯誤物件，可搭配 catch 敘述去處理資訊，錯誤物件的建構式如果沒有用 new 呼叫，結果會跟使用建構式呼叫一樣。\n","dateCreated":"2018-11-07T17:49:00+00:00","dateModified":"2019-10-24T06:50:39+00:00","datePublished":"2018-11-07T17:49:00+00:00","description":"此章解釋為何實字標記會比內建建構式（new Object()、new Array()）還好，主要傳達就是訊息的延伸（避免用建構式並用實字替代）。","headline":"【讀書筆記】JavaScript Design Pattern Chapter03 實字與建構式","image":["/img/cover/books.jpg"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://codingwife.com/javascript-design-pattern-construction/"},"publisher":{"@type":"Organization","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png","logo":{"@type":"ImageObject","url":"http://codingwife.com/images/leia.png"}},"url":"http://codingwife.com/javascript-design-pattern-construction/","keywords":"讀書筆記, JSDP"}</script>
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    <img src="/images/codingwife.png" alt height="28">
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item " href="/archives">Archives</a>
+            
+            <a class="navbar-item " href="/categories">Categories</a>
+            
+            <a class="navbar-item " href="/tags">Tags</a>
+            
+            <a class="navbar-item " href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="搜尋" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/leiadot">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            <a class="navbar-item" title="Facebook" href="https://facebook.com/CodingwifeHy2">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+        【讀書筆記】JavaScript Design Pattern Chapter03 實字與建構式
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">2018-11-07 17:49
+            （<time datetime="2018-11-07T17:49:00.000Z" itemprop="datePublished">11月 7 2018</time>）
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Front-end/">Front-end</a>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+        
+        <p>此章解釋為何實字標記會比內建建構式（<code>new Object()</code>、<code>new Array()</code>）還好，主要傳達就是訊息的延伸（避免用建構式並用實字替代）。</p>
+<a id="more"></a>
+
+<h2 id="物件實字"><a href="#物件實字" class="headerlink" title="物件實字"></a>物件實字</h2><ul>
+<li>名值對的雜湊表，類似其他語言的關聯式陣列。</li>
+<li>值可以是原始型別或另一個物件，稱之屬性；值可以是函式，稱為方法。</li>
+<li>JavaScript 允許任何時刻改變、移除、增加屬性和方法。</li>
+</ul>
+<h2 id="物件實字語法"><a href="#物件實字語法" class="headerlink" title="物件實字語法"></a>物件實字語法</h2><ul>
+<li>將物件用大括號（<code>{}</code>）包起來</li>
+<li>以逗號分格每個屬性和函式</li>
+<li>分號分隔屬性名稱和屬性值</li>
+<li>將物件賦予給變數，記得右大括號後要加上分號</li>
+</ul>
+<h2 id="用建構式創造物件"><a href="#用建構式創造物件" class="headerlink" title="用建構式創造物件"></a>用建構式創造物件</h2><p>JavaScript 沒有 class，但有建構函式，它使用非常類似其他語言以 class 為基礎的物件建立語法。</p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> car = &#123; <span class="hljs-attr">goes</span>: <span class="hljs-string">'far'</span> &#125;;</span><br><span class="line"><span class="hljs-comment">// 實字</span></span><br><span class="line"><span class="hljs-keyword">var</span> car = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Object</span>();</span><br><span class="line">car.goes = <span class="hljs-string">'far'</span>;</span><br><span class="line"><span class="hljs-comment">//建構式</span></span><br></pre></td></tr></table></figure></p>
+<p>實字是更好的物件建立模式，程式碼比較短，且實字不需要作用域的判斷，意思就是你可能會創造其他相同名稱的區域建構式，而解譯器需要你從呼叫的 <code>Object()</code> 所在的作用域，一路向外查找整個作用域鍊，直到找到 <code>Object()</code> 建構式。</p>
+<h2 id="自訂建構式"><a href="#自訂建構式" class="headerlink" title="自訂建構式"></a>自訂建構式</h2><p>以 <code>new</code> 來呼叫建構式，會經過以下流程：</p>
+<ul>
+<li>建立一個空物件，參考至 this 變數，並繼承此函式的原型</li>
+<li>藉由 this 的參考，將屬性和方法加入到此物件</li>
+<li>這個 this 所參考的物件，會隱晦地回傳出去</li>
+</ul>
+<p>如下</p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> Person = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">name</span>) </span>&#123;</span><br><span class="line">  <span class="hljs-comment">// 使用物件實字</span></span><br><span class="line">  <span class="hljs-comment">// 建立一個空物件</span></span><br><span class="line">  <span class="hljs-comment">// var this = &#123;&#125;;</span></span><br><span class="line"></span><br><span class="line">  <span class="hljs-keyword">this</span>.name = name;</span><br><span class="line">  <span class="hljs-keyword">this</span>.say = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-string">"I'm"</span> + <span class="hljs-keyword">this</span>.name;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="hljs-comment">//return this;</span></span><br><span class="line">  <span class="hljs-comment">//隱晦回傳</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>將 <code>say()</code> 方法加入 this ，每次呼叫 <code>new Person()</code> 一次，一個新的函式就會建立在記憶體中，這樣是非常消耗效能的，較好的方法是加入到原型中：</p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line">Person.prototype.say = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">return</span> <span class="hljs-string">'I am'</span> + <span class="hljs-keyword">this</span>.name;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>只要可重複利用的成員，例如方法，都應該放入原型。<br>上述的<code>建立空物件</code>，並不是真的空，比較像是：<code>var this = Object.create(Person.prototype);</code>。</p>
+<h2 id="建構式的回傳值"><a href="#建構式的回傳值" class="headerlink" title="建構式的回傳值"></a>建構式的回傳值</h2><p>在建構函式中，沒有使用 <code>return</code> 的敘述，預設就是回傳 <code>this</code> 所參考的物件，另外你也可以自由回傳任何物件，只要是物件就好，如果回傳的不是物件就會被忽略，回傳就會是 <code>this</code> 所參考的物件。</p>
+<h2 id="強制-new-模式"><a href="#強制-new-模式" class="headerlink" title="強制 new 模式"></a>強制 new 模式</h2><p>建構式只是用 <code>new</code> 呼叫，但本質還是函式，如果忘記加上 <code>new</code>，建構式中的 <code>this</code> 會指向全域物件，例如在瀏覽器中會指向 window ，這樣的行為如同替全域物件加上屬性，因此必須要使用 <code>new</code> 呼叫建構式。</p>
+<h2 id="命名慣例"><a href="#命名慣例" class="headerlink" title="命名慣例"></a>命名慣例</h2><p>建構式的名字首部大寫，其他一般函式則首字小寫。</p>
+<h2 id="使用-that"><a href="#使用-that" class="headerlink" title="使用 that"></a>使用 that</h2><p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Wattle</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">var</span> that = &#123;&#125;;</span><br><span class="line">  that.tasts = <span class="hljs-string">'yummy'</span>;</span><br><span class="line">  <span class="hljs-keyword">return</span> that;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>等同於</p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Wattle</span>(<span class="hljs-params"></span>)</span>&#123;</span><br><span class="line">	<span class="hljs-keyword">return</span> &#123;</span><br><span class="line">		that.tasts = <span class="hljs-string">'yummy'</span>;</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>使用 that 輸出結果與一般建構式結果無異，但如果使用 that 方法，會讓建構式失去原本繼承的 prototype 屬性，物件實體會和原型本身失去連結。</p>
+<h2 id="自我呼叫的建構式"><a href="#自我呼叫的建構式" class="headerlink" title="自我呼叫的建構式"></a>自我呼叫的建構式</h2><p>為了解決前一個模式的問題，讓物件實體可以使用原型可以考慮以下方法：</p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Waffle</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">if</span> (!(<span class="hljs-keyword">this</span> <span class="hljs-keyword">instanceof</span> Waffle)) &#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Waffle();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="hljs-keyword">this</span>.tastes = <span class="hljs-string">'yummy'</span>;</span><br><span class="line">&#125;</span><br><span class="line">Waffle.prototype.wantAnother = <span class="hljs-literal">true</span>;</span><br></pre></td></tr></table></figure></p>
+<h2 id="令人好奇的陣列實字"><a href="#令人好奇的陣列實字" class="headerlink" title="令人好奇的陣列實字"></a>令人好奇的陣列實字</h2><p>當你傳入單一數值給 <code>new Array()</code> 該數值不會變成陣列的第一個元素，而是變成陣列的長度，如果傳入一個符點數，就會造成錯誤。</p>
+<h2 id="檢查陣列"><a href="#檢查陣列" class="headerlink" title="檢查陣列"></a>檢查陣列</h2><p>陣列的型別是物件，但如果要檢查一個值是不是陣列，可以用程式檢查 <code>length</code> 屬性是否存在，更健全的方法是使用 <code>isArray</code> 方法，但如果環境不支援此方法，可對陣列呼叫 <code>toString</code> 的 <code>call</code> 方法，應會回傳<code>[Object Array]</code>。</p>
+<h2 id="JSON"><a href="#JSON" class="headerlink" title="JSON"></a>JSON</h2><p>JSON 和物件實字在語法上唯一不同是 JSON 屬性名稱須用引號包起來，對於物件實字，屬性名稱只有在不合法的狀況下才需要包，例如中間穿插空格。在 JSON 中不可以使用函式及正規表示式實字。</p>
+<h2 id="正規表示式實字"><a href="#正規表示式實字" class="headerlink" title="正規表示式實字"></a>正規表示式實字</h2><p>JavaScript 的正規表示式也是一種物件，可以透過兩種方式建立：</p>
+<ul>
+<li>使用 new RegExp() 建構式</li>
+<li>使用正規表示式實字</li>
+</ul>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> re = <span class="hljs-regexp">/\\/gm</span>;</span><br><span class="line"><span class="hljs-comment">//實字</span></span><br><span class="line"><span class="hljs-keyword">var</span> re = <span class="hljs-keyword">new</span> <span class="hljs-built_in">RegExp</span>(<span class="hljs-string">'\\\\'</span>, <span class="hljs-string">'gm'</span>);</span><br></pre></td></tr></table></figure></p>
+<p>使用正規表示式實字符號需要跳脫字元，甚至經常需要兩個反斜線。</p>
+<h2 id="正規表示式實字語法"><a href="#正規表示式實字語法" class="headerlink" title="正規表示式實字語法"></a>正規表示式實字語法</h2><p>正規實字符號使用斜線（”/“）來包住檢查對應的正規表示格式，第二個斜線後面可以加入格式的修飾詞，修飾詞的格式是不加引號的字母：</p>
+<ul>
+<li>g：全域檢查</li>
+<li>m：檢查多行</li>
+<li>i：不分大小寫</li>
+</ul>
+<p>使用實字和建構式之間的差異：</p>
+<ul>
+<li>遇到接受正規表示物件的函數（String.prototype.replace()），使用實字可以讓程式碼更簡潔</li>
+<li>正規表示格式無法事先得知，而是要在執行階段才能知道，可使用建構式。</li>
+<li>實字在語法解析時就已產生，而且只產生一個物件。如果在迴圈中使用同樣的正規表示式，前面建立的物件就會回傳，而且保留已設定過的所有屬性。</li>
+<li>如果不使用 new 呼叫 RegExp() ，行為如同有使用 new。</li>
+</ul>
+<h2 id="原始型別包裹"><a href="#原始型別包裹" class="headerlink" title="原始型別包裹"></a>原始型別包裹</h2><p>JavaScript 有五種原始型別：數值、布林、字串、物件、null、undefined ，除了最後兩種，其餘型別皆有原始型別包裹物件。包裹物件可使用建構式來建立。</p>
+<p>包裹物件（new Number()…）擁有一些屬性和方法可以使用，但原始數值在呼叫方法時，會在背後暫時轉型為一個物件，因此可以表現得像物件一樣使用那些屬性和方法。</p>
+<p>使用包裹物件唯一理由是，你想要擴充並保持狀態，因為原始物件不是物件，他們無法擴充以新增屬性，但擴充字串、布林、數字，這些狀況很少用到，狀況如下：</p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> greeting = <span class="hljs-string">'hello'</span>;</span><br><span class="line"><span class="hljs-comment">//原始字串</span></span><br><span class="line">greeting.split(<span class="hljs-string">' '</span>)[<span class="hljs-number">0</span>]; <span class="hljs-comment">//hello</span></span><br><span class="line"><span class="hljs-comment">//暫時轉型成物件，可使用方法</span></span><br><span class="line">greeting.smile = <span class="hljs-literal">true</span>;</span><br><span class="line"><span class="hljs-comment">//企圖擴充原始型別不會產生錯誤</span></span><br><span class="line"><span class="hljs-keyword">typeof</span> greeting.smile; <span class="hljs-comment">//undefined</span></span><br><span class="line"><span class="hljs-comment">//但其實沒有用</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="錯誤物件"><a href="#錯誤物件" class="headerlink" title="錯誤物件"></a>錯誤物件</h2><p>JavaScript 有數個內建的錯誤物件，隨著 thorow 敘述一起使用：Error()、SyntaxError()、TypeError() 等等，這些錯誤物件具有下列屬性：</p>
+<ul>
+<li>name：建立錯誤物件的建構式函式名稱</li>
+<li>message：建立錯誤物件時傳遞給建構式的字串</li>
+</ul>
+<p>throw 可以跟任何物件一起運作，不一定是錯誤物件，可搭配 <code>catch</code> 敘述去處理資訊，錯誤物件的建構式如果沒有用 new 呼叫，結果會跟使用建構式呼叫一樣。</p>
+
+        
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+        
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/讀書筆記/">#讀書筆記</a></span>
+        
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/JSDP/">#JSDP</a></span>
+        
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/javascript-design-pattern-function01/">【讀書筆記】JavaScript Design Pattern Chapter04 函式（上）</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/javascript-design-pattern-chapter02/">【讀書筆記】JavaScript Design Pattern Chapter02 精要</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="sharethis-inline-share-buttons"></div>
+<script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5d9b1ebc2b036a0011ed0d83&amp;product=inline-share-buttons" async="async"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">評論</h3>
+    
+<div id="comment-container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+	var gitment = new Gitment({
+		id: 'javascript-design-pattern-construction/',
+		owner: 'leiadot',
+		repo: 'leiadot.github.io',
+		oauth: {
+			client_id: '51ce642a9a95d7ccdf4d',
+			client_secret: '6bf1657de06ee2fbaf452b4752567ab313277f50',
+		},
+	})
+	gitment.render('comment-container')
+</script>
+
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2019 [object Object]&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            <div class="column is-narrow">
+                <div class="columns is-mobile is-multiline is-centered">
+                
+                    
+                <a class="column is-narrow has-text-black" title="GitHub" href="https://github.com/ppoffice/leiadot">
+                    
+                    GitHub
+                    
+                </a>
+                
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("zh-CN");
+</script>
+
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+</script>
+
+    
+    
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+<script src="/js/script.js"></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="站內搜尋">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '頁面',
+                CATEGORIES: '分類',
+                TAGS: '標籤',
+                UNTITLED: '(無標題)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+</body>
+</html>

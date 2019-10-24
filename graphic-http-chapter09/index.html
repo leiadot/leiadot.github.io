@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+<title>【讀書筆記】圖解 HTTP Chapter 09 基於 HTTP 的功能追加協議 - CodingWife 寇丁人妻日安</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="了解 HTTP 功能追加協議。">
+
+
+
+
+
+<meta name="description" content="了解 HTTP 功能追加協議。">
+<meta name="keywords" content="圖解 HTTP,HTTP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【讀書筆記】圖解 HTTP Chapter 09 基於 HTTP 的功能追加協議">
+<meta property="og:url" content="http://codingwife.com/graphic-http-chapter09/index.html">
+<meta property="og:site_name" content="CodingWife 寇丁人妻日安">
+<meta property="og:description" content="了解 HTTP 功能追加協議。">
+<meta property="og:locale" content="zh-tw">
+<meta property="og:image" content="http://codingwife.com/img/cover/http.png">
+<meta property="og:updated_time" content="2019-10-24T06:50:39.036Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【讀書筆記】圖解 HTTP Chapter 09 基於 HTTP 的功能追加協議">
+<meta name="twitter:description" content="了解 HTTP 功能追加協議。">
+<meta name="twitter:image" content="http://codingwife.com/img/cover/http.png">
+
+
+
+
+
+<link rel="icon" href="/images/logo.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto+Sans+TC|Open+Sans&display=swap">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+<link rel="stylesheet" href="/css/style.css">
+<script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png"},"articleBody":"當初在制定 HTTP 協議，主要是希望把 HTTP 當作傳輸 HTML 文件的協議，但根據時代演變，網站的用途越來越多樣，像是購物網站、SNS 等（社交網路服務 Social Networking Service），HTTP 協議即使已經滿足需求，但加上本身協議的限制和自身效能的限制，就效能來看不一定是最好的。\n因為現在網路瀏覽器的使用已經佈及全世界，已經完全沒辦法離開 HTTP，因此在其他功能上的不足，會需要建立全新的協議來彌補。\n\n\n基於 HTTP 協議當初在制定 HTTP 協議，主要是希望把 HTTP 當作傳輸 HTML 文件的協議，但根據時代演變，網站的用途越來越多樣，像是購物網站、SNS 等（社交網路服務 Social Networking Service），HTTP 協議即使已經滿足需求，但加上本身協議的限制和自身效能的限制，就效能來看不一定是最好的。\n因為現在網路瀏覽器的使用已經佈及全世界，已經完全沒辦法離開 HTTP，因此在其他功能上的不足，會需要建立全新的協議來彌補。\n消除 HTTP 瓶頸的 SPDYGoogle 在 2010 年發佈了 SPDY，開發宗旨是要解決 HTTP 的效能瓶頸，縮短頁面的載入時間。\nhttp://www.chromium.org/spdy/\nHTTP 的瓶頸在 SNS 網站上，可以看到海量的用戶所發佈的內容，這使網站需要短時間的大量更新內容，為了盡量顯示內容，伺服器內容有更新就馬上回靠到客戶端的頁面上，但這項任務對於 HTTP 來說卻相當困難，因為需要頻繁地從客戶端到伺服端進行確認，如果伺服器上的內容沒更新，就會有多餘的傳輸動作。\n希望網站實現所需要的功能，HTTP 目前遇到下面的瓶頸：\n\n一條連接只能發送一個請求\n請求只能從客戶端開始，客戶端不能接收除了響應以外的指令\n請求 / 響應首部未經壓縮就發送，首部訊息越多延遲越大\n發送冗長的首部，每次互相發送相同首部造成的浪費較多。\n\nAJAX 解決方法AJAX 是一種利用 JavaScript 和 DOM 的做，已達到局部網站頁面替換的非同步手段，和以前同步通訊相比，由於他只更新頁面的一部份，響應傳輸量會因此減少。\nAJAX 的核心技術是 XMLHttpRequest 的 API ，透過 JavaScript 的呼叫就可以讓伺服器進行 HTTP 通訊，利用 AJAX 從伺服器取得內容，有可能導致大量請求產生，還是沒辦法解決 HTTP 根本的問題。\nComet 解決方法只要伺服器有更新，Comet 不會讓請求等待，而是直接給客戶端響應，這是透過一個延遲應答，模擬伺服器向客戶端推播的功能。\n伺服器收到請求，處理完就會馬上回傳響應，但為了實現推播的功能，Comet 會掛起一個連結，當伺服器更新的時候再回傳響應，因此在伺服端有更新就可以立即回傳給客戶端。\n在內容上雖然可以做到實際的更新，但為了保留響應，一次連續時間也變成，過程中消耗的效能也更多，所以 Comet 也沒有解決 HTTP 協議存在的問題。\nSPDY 的設計與功能處於持續開發狀態中的 SPDY 協議，就是為了消除 HTTP 所遭遇的瓶頸。\nSPDY 沒有改寫 HTTP 協議，而是在 TCP/IP 的應用層與傳輸層之間通過新加會一層形式，同時考慮到安全性，SPDY 規定在通訊中必須使用 SSL。SPDY 以會議層的形式加入，控制對資料的流動，但還是採用了 HTTP 建立通訊的連接，可照常使用 HTTP 的方法等。\n使用 SPDY 可以獲得以下功能：\n\n多路復用流透過單一 TCP 連接，可以無限制處理多個 HTTP 請求，所有請求都在一條 TCP 完成，效率因此提高。\n賦予請求優先順序SPDY 不僅無限制地處理請求，還能分配優先順序，因此解決了頻寬導致的響應變慢的問題。\n壓縮 HTTP 首部壓縮 HTTP 首部，讓封包數量和字串數變少。\n推播功能支援伺服器向客戶端推波資料，因此伺服器可發送資料，也不需要等客戶端的請求。\n伺服器提示服務伺服器可以主動提示客戶端所需要的資料，因此客戶端發現資料之前就可以知道其存在，因此在緩存的狀況下可以避免發送不需要的請求。\n\nSPDY 消除 Web 的瓶頸了嗎希望使用 SPDY 時，希望網站的內容不要做特別的變動，而網站的瀏覽器和伺服器都要為對應的 SPDY 做一定程度的變動，有很多瀏覽器廠商針對 SPDY 做了相對應的調整，但進展不太好。\n因為 SPDY 只是將單個域名（IP 位置）的通訊多路復用，所以當一個網站使用多個域名資料的狀況下，改善效果就會被受到限制。\nSPDY 確實可以消除 HTTP 的瓶頸，但很多網站的問題不僅僅是因為 HTTP 的瓶頸所導致的，對網站效能的提升應該從其他可鑽研的地方下手。\n使用瀏覽器進行全雙工的 WebSocket利用 AJAX 和 Comet 的通訊技術可以提升網站的瀏覽速度，但如果使用 HTTP 協議就無法徹底解決問題，而 WebSocket 就是為了解決這些問題而實現的新協議及 API。\nWebSocket 的設計與功能WebSocket 就是網站瀏覽器和伺服器之間的全雙工通訊標準。當中 WebSocket 協議由 IETF 所提供，由 W3C 訂定標準，仍在開發中的 WebSocket 技術主要為了解決 AJAX 和 Comet 之中 XMLHttpRequest 附帶的缺陷所引起的問題。\nWebSocket 協議一旦伺服器和客戶端之間建立起 WebSocket 協議的通訊，之後的通訊都是靠這個協議在進行，通訊過程可以發送任何格式的資料。由於是建立在 HTTP 基礎上的協議，因此發起端還是客戶端，只要 WebSocket 連接到了，無論伺服器還是客戶端，任何一方都可以直接向對方發起 HTTP 報文。\n主要特點：\n\n推播功能：支援由伺服器對客服端推送資料的推播功能，這樣伺服端就可以直接發送資料，而不用等客戶端的請求。\n\n減少通訊量只要建立連接後，就會希望持續下去，和 HTTP 比，不但每次連接的消耗變小，而且因為 WebSocket 的首部訊息很少，通訊量也相對變小了。\n為了做 WebSocket 通訊，在 HTTP 連結建立之後，還需要完成一次握手（Handshaking）的步驟。\n\n握手。請求：為了實現 WebSocket 通訊，需要 HTTP 的 Upgrade 首部字串，告訴伺服器產生改變，已達到握手的目的。\n\nSec-WebSocket-Key字串裡紀錄握手過程必須的鍵值。\nSec-WebSocket-Protocol 記錄使用的子協議。子協議按 WebSocket 協議標準在連結分開時使用，定義那些連接的名稱。\n\n\n握手。響應：對於之前的請求，返回狀態碼 101 的響應。\n\nSec-WebSocket-Accept 的字串是由請求中的Sec-WebSocket-Key的字串產生。\n成功建立 WebSocket 連接後，通訊就不再使用 http 資料幀。\n\n\n\nWebSocket API：JavaScript 可呼叫「The WebSocket API」來實現 WebSocket 協議下的全雙工通訊。\n\n\n\n\n期盼已久的 HTTP/2.0\nhttp 2.0 的特點：http 2.0 的目標是改善用戶在網站上的使用速度體驗。\nSPDY\nHTTPSpeed + Mobility（Speed + Mobility）：微軟公司發起，用於提升移動裝置的通訊速度和性能，他建立在 SPDY 與 WebSocket 的基礎。\nNetwork-Friendly HTTP Upgrade（Friendly）：主要是改善 HTTP 效能的標準。\n\n\nHTTP/2.0 的七項紀錄與討論\n壓縮：SPDY、Friendly\n多路復用：SPDY\nTLS 義務化：Speed + Mobility\n協商：Speed + Mobility, Friendly\n客戶端拉曳、伺服端推播：Speed + Mobility\n流量控制：SPDY\nWebSocket：Speed + Mobility\n\n\n\nWeb 伺服器管理文件的 WebDAVWebDAV 是一個可對伺服器上的內容進行文件的複製、編輯等操作的分布式文件系統，除了新增、刪除文件等基本功能，還對文件建立者管理、文件編輯過程中禁止其他用戶內容覆蓋的加鎖功能，以及對文件內容修改的版本控制功能。\n使用 http/1.1 的 put 和 delete 方法，就對伺服器上的文件進行新增和刪除，但基於安全和便利性，一般不使用。\n擴展 http/1.1 的 WebDAV\n集合：是一種統一管理資源的概念\n資源：把文件或集合稱為資源\n屬性：定義資源的屬性\n鎖：把文件設置為無狀態，多人編輯可以防止同一時間寫入。\n\nWebDAV 內新增的方法及狀態碼為了實踐遠端文件管理，在 http 1.1 中也新增了以下這些方法：\n\nPROPFIND：獲取屬性。\nPROPPATCH：修改屬性。\nMKCOL：建立集合。\nCOPY：複製資源及屬性。\nMOVE：移動資源。\nLOCK：資源加鎖。\nUNLOCK：資源解鎖。\n\n為了配合拓展，狀態碼也隨之新增：\n\n102：可正常處理請求，但處理中。\n207：存在多種狀態。\n422：格式正確，內容有誤。\n423：資源已被加鎖。\n424：處理與請求關聯的請求失敗，因此不再維持依賴關係。\n507：保存空間不足。\n\n\n為什麼不一直用 HTTPS 就好？其實只要與個人資訊相關等敏感資料再做加密通訊就好，除了上述缺點外，節約開銷也是重點。資料來源：《圖解 HTTP》 上野宣 人民郵電出版社筆記純屬推廣及分享，如有侵權，請告知。Please advise to remove immediately if any infringement caused.\n\n","dateCreated":"2018-11-01T15:22:21+00:00","dateModified":"2019-10-24T06:50:39+00:00","datePublished":"2018-11-01T15:22:21+00:00","description":"當初在制定 HTTP 協議，主要是希望把 HTTP 當作傳輸 HTML 文件的協議，但根據時代演變，網站的用途越來越多樣，像是購物網站、SNS 等（社交網路服務 Social Networking Service），HTTP 協議即使已經滿足需求，但加上本身協議的限制和自身效能的限制，就效能來看不一定是最好的。\n因為現在網路瀏覽器的使用已經佈及全世界，已經完全沒辦法離開 HTTP，因此在其他功能上的不足，會需要建立全新的協議來彌補。","headline":"【讀書筆記】圖解 HTTP Chapter 09 基於 HTTP 的功能追加協議","image":["/img/cover/http.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://codingwife.com/graphic-http-chapter09/"},"publisher":{"@type":"Organization","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png","logo":{"@type":"ImageObject","url":"http://codingwife.com/images/leia.png"}},"url":"http://codingwife.com/graphic-http-chapter09/","keywords":"圖解 HTTP, HTTP"}</script>
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    <img src="/images/codingwife.png" alt height="28">
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item " href="/archives">Archives</a>
+            
+            <a class="navbar-item " href="/categories">Categories</a>
+            
+            <a class="navbar-item " href="/tags">Tags</a>
+            
+            <a class="navbar-item " href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="搜尋" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/leiadot">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            <a class="navbar-item" title="Facebook" href="https://facebook.com/CodingwifeHy2">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+        【讀書筆記】圖解 HTTP Chapter 09 基於 HTTP 的功能追加協議
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">2018-11-01 15:22
+            （<time datetime="2018-11-01T15:22:21.000Z" itemprop="datePublished">11月 1 2018</time>）
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Front-end/">Front-end</a>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+        
+        <p>當初在制定 HTTP 協議，主要是希望把 HTTP 當作傳輸 HTML 文件的協議，但根據時代演變，網站的用途越來越多樣，像是購物網站、SNS 等（社交網路服務 Social Networking Service），HTTP 協議即使已經滿足需求，但加上本身協議的限制和自身效能的限制，就效能來看不一定是最好的。</p>
+<p>因為現在網路瀏覽器的使用已經佈及全世界，已經完全沒辦法離開 HTTP，因此在其他功能上的不足，會需要建立全新的協議來彌補。</p>
+<a id="more"></a>
+
+<h2 id="基於-HTTP-協議"><a href="#基於-HTTP-協議" class="headerlink" title="基於 HTTP 協議"></a>基於 HTTP 協議</h2><p>當初在制定 HTTP 協議，主要是希望把 HTTP 當作傳輸 HTML 文件的協議，但根據時代演變，網站的用途越來越多樣，像是購物網站、SNS 等（社交網路服務 Social Networking Service），HTTP 協議即使已經滿足需求，但加上本身協議的限制和自身效能的限制，就效能來看不一定是最好的。</p>
+<p>因為現在網路瀏覽器的使用已經佈及全世界，已經完全沒辦法離開 HTTP，因此在其他功能上的不足，會需要建立全新的協議來彌補。</p>
+<h2 id="消除-HTTP-瓶頸的-SPDY"><a href="#消除-HTTP-瓶頸的-SPDY" class="headerlink" title="消除 HTTP 瓶頸的 SPDY"></a>消除 HTTP 瓶頸的 SPDY</h2><p>Google 在 2010 年發佈了 SPDY，開發宗旨是要解決 HTTP 的效能瓶頸，縮短頁面的載入時間。</p>
+<p><a href="http://www.chromium.org/spdy/" target="_blank" rel="noopener">http://www.chromium.org/spdy/</a></p>
+<h3 id="HTTP-的瓶頸"><a href="#HTTP-的瓶頸" class="headerlink" title="HTTP 的瓶頸"></a>HTTP 的瓶頸</h3><p>在 SNS 網站上，可以看到海量的用戶所發佈的內容，這使網站需要短時間的大量更新內容，為了盡量顯示內容，伺服器內容有更新就馬上回靠到客戶端的頁面上，但這項任務對於 HTTP 來說卻相當困難，因為需要頻繁地從客戶端到伺服端進行確認，如果伺服器上的內容沒更新，就會有多餘的傳輸動作。</p>
+<p>希望網站實現所需要的功能，HTTP 目前遇到下面的瓶頸：</p>
+<ul>
+<li>一條連接只能發送一個請求</li>
+<li>請求只能從客戶端開始，客戶端不能接收除了響應以外的指令</li>
+<li>請求 / 響應首部未經壓縮就發送，首部訊息越多延遲越大</li>
+<li>發送冗長的首部，每次互相發送相同首部造成的浪費較多。</li>
+</ul>
+<h4 id="AJAX-解決方法"><a href="#AJAX-解決方法" class="headerlink" title="AJAX 解決方法"></a>AJAX 解決方法</h4><p>AJAX 是一種利用 JavaScript 和 DOM 的做，已達到局部網站頁面替換的非同步手段，和以前同步通訊相比，由於他只更新頁面的一部份，響應傳輸量會因此減少。</p>
+<p>AJAX 的核心技術是 XMLHttpRequest 的 API ，透過 JavaScript 的呼叫就可以讓伺服器進行 HTTP 通訊，利用 AJAX 從伺服器取得內容，有可能導致大量請求產生，還是沒辦法解決 HTTP 根本的問題。</p>
+<h4 id="Comet-解決方法"><a href="#Comet-解決方法" class="headerlink" title="Comet 解決方法"></a>Comet 解決方法</h4><p>只要伺服器有更新，Comet 不會讓請求等待，而是直接給客戶端響應，這是透過一個延遲應答，模擬伺服器向客戶端推播的功能。</p>
+<p>伺服器收到請求，處理完就會馬上回傳響應，但為了實現推播的功能，Comet 會掛起一個連結，當伺服器更新的時候再回傳響應，因此在伺服端有更新就可以立即回傳給客戶端。</p>
+<p>在內容上雖然可以做到實際的更新，但為了保留響應，一次連續時間也變成，過程中消耗的效能也更多，所以 Comet 也沒有解決 HTTP 協議存在的問題。</p>
+<h3 id="SPDY-的設計與功能"><a href="#SPDY-的設計與功能" class="headerlink" title="SPDY 的設計與功能"></a>SPDY 的設計與功能</h3><p>處於持續開發狀態中的 SPDY 協議，就是為了消除 HTTP 所遭遇的瓶頸。</p>
+<p>SPDY 沒有改寫 HTTP 協議，而是在 TCP/IP 的應用層與傳輸層之間通過新加會一層形式，同時考慮到安全性，SPDY 規定在通訊中必須使用 SSL。SPDY 以會議層的形式加入，控制對資料的流動，但還是採用了 HTTP 建立通訊的連接，可照常使用 HTTP 的方法等。</p>
+<p>使用 SPDY 可以獲得以下功能：</p>
+<ul>
+<li>多路復用流<br>透過單一 TCP 連接，可以無限制處理多個 HTTP 請求，所有請求都在一條 TCP 完成，效率因此提高。</li>
+<li>賦予請求優先順序<br>SPDY 不僅無限制地處理請求，還能分配優先順序，因此解決了頻寬導致的響應變慢的問題。</li>
+<li>壓縮 HTTP 首部<br>壓縮 HTTP 首部，讓封包數量和字串數變少。</li>
+<li>推播功能<br>支援伺服器向客戶端推波資料，因此伺服器可發送資料，也不需要等客戶端的請求。</li>
+<li>伺服器提示服務<br>伺服器可以主動提示客戶端所需要的資料，因此客戶端發現資料之前就可以知道其存在，因此在緩存的狀況下可以避免發送不需要的請求。</li>
+</ul>
+<h3 id="SPDY-消除-Web-的瓶頸了嗎"><a href="#SPDY-消除-Web-的瓶頸了嗎" class="headerlink" title="SPDY 消除 Web 的瓶頸了嗎"></a>SPDY 消除 Web 的瓶頸了嗎</h3><p>希望使用 SPDY 時，希望網站的內容不要做特別的變動，而網站的瀏覽器和伺服器都要為對應的 SPDY 做一定程度的變動，有很多瀏覽器廠商針對 SPDY 做了相對應的調整，但進展不太好。</p>
+<p>因為 SPDY 只是將單個域名（IP 位置）的通訊多路復用，所以當一個網站使用多個域名資料的狀況下，改善效果就會被受到限制。</p>
+<p>SPDY 確實可以消除 HTTP 的瓶頸，但很多網站的問題不僅僅是因為 HTTP 的瓶頸所導致的，對網站效能的提升應該從其他可鑽研的地方下手。</p>
+<h2 id="使用瀏覽器進行全雙工的-WebSocket"><a href="#使用瀏覽器進行全雙工的-WebSocket" class="headerlink" title="使用瀏覽器進行全雙工的 WebSocket"></a>使用瀏覽器進行全雙工的 WebSocket</h2><p>利用 AJAX 和 Comet 的通訊技術可以提升網站的瀏覽速度，但如果使用 HTTP 協議就無法徹底解決問題，而 WebSocket 就是為了解決這些問題而實現的新協議及 API。</p>
+<h3 id="WebSocket-的設計與功能"><a href="#WebSocket-的設計與功能" class="headerlink" title="WebSocket 的設計與功能"></a>WebSocket 的設計與功能</h3><p>WebSocket 就是網站瀏覽器和伺服器之間的全雙工通訊標準。當中 WebSocket 協議由 IETF 所提供，由 W3C 訂定標準，仍在開發中的 WebSocket 技術主要為了解決 AJAX 和 Comet 之中 XMLHttpRequest 附帶的缺陷所引起的問題。</p>
+<h3 id="WebSocket-協議"><a href="#WebSocket-協議" class="headerlink" title="WebSocket 協議"></a>WebSocket 協議</h3><p>一旦伺服器和客戶端之間建立起 WebSocket 協議的通訊，之後的通訊都是靠這個協議在進行，通訊過程可以發送任何格式的資料。由於是建立在 HTTP 基礎上的協議，因此發起端還是客戶端，只要 WebSocket 連接到了，無論伺服器還是客戶端，任何一方都可以直接向對方發起 HTTP 報文。</p>
+<p>主要特點：</p>
+<ul>
+<li><p>推播功能：<br>支援由伺服器對客服端推送資料的推播功能，這樣伺服端就可以直接發送資料，而不用等客戶端的請求。</p>
+</li>
+<li><p>減少通訊量<br>只要建立連接後，就會希望持續下去，和 HTTP 比，不但每次連接的消耗變小，而且因為 WebSocket 的首部訊息很少，通訊量也相對變小了。</p>
+<p>為了做 WebSocket 通訊，在 HTTP 連結建立之後，還需要完成一次握手（Handshaking）的步驟。</p>
+<ul>
+<li><p>握手。請求：為了實現 WebSocket 通訊，需要 HTTP 的 Upgrade 首部字串，告訴伺服器產生改變，已達到握手的目的。</p>
+<ul>
+<li><code>Sec-WebSocket-Key</code>字串裡紀錄握手過程必須的鍵值。</li>
+<li><code>Sec-WebSocket-Protocol</code> 記錄使用的子協議。子協議按 WebSocket 協議標準在連結分開時使用，定義那些連接的名稱。</li>
+</ul>
+</li>
+<li><p>握手。響應：對於之前的請求，返回狀態碼 101 的響應。</p>
+<ul>
+<li><p><code>Sec-WebSocket-Accept</code> 的字串是由請求中的<code>Sec-WebSocket-Key</code>的字串產生。</p>
+<p>成功建立 WebSocket 連接後，通訊就不再使用 http 資料幀。</p>
+</li>
+</ul>
+</li>
+<li><p>WebSocket API：JavaScript 可呼叫「The WebSocket API」來實現 WebSocket 協議下的全雙工通訊。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="期盼已久的-HTTP-2-0"><a href="#期盼已久的-HTTP-2-0" class="headerlink" title="期盼已久的 HTTP/2.0"></a>期盼已久的 HTTP/2.0</h2><ul>
+<li>http 2.0 的特點：http 2.0 的目標是改善用戶在網站上的使用速度體驗。<ul>
+<li>SPDY</li>
+<li>HTTPSpeed + Mobility（Speed + Mobility）：微軟公司發起，用於提升移動裝置的通訊速度和性能，他建立在 SPDY 與 WebSocket 的基礎。</li>
+<li>Network-Friendly HTTP Upgrade（Friendly）：主要是改善 HTTP 效能的標準。</li>
+</ul>
+</li>
+<li>HTTP/2.0 的七項紀錄與討論<ul>
+<li>壓縮：SPDY、Friendly</li>
+<li>多路復用：SPDY</li>
+<li>TLS 義務化：Speed + Mobility</li>
+<li>協商：Speed + Mobility, Friendly</li>
+<li>客戶端拉曳、伺服端推播：Speed + Mobility</li>
+<li>流量控制：SPDY</li>
+<li>WebSocket：Speed + Mobility</li>
+</ul>
+</li>
+</ul>
+<h2 id="Web-伺服器管理文件的-WebDAV"><a href="#Web-伺服器管理文件的-WebDAV" class="headerlink" title="Web 伺服器管理文件的 WebDAV"></a>Web 伺服器管理文件的 WebDAV</h2><p>WebDAV 是一個可對伺服器上的內容進行文件的複製、編輯等操作的分布式文件系統，除了新增、刪除文件等基本功能，還對文件建立者管理、文件編輯過程中禁止其他用戶內容覆蓋的加鎖功能，以及對文件內容修改的版本控制功能。</p>
+<p>使用 http/1.1 的 put 和 delete 方法，就對伺服器上的文件進行新增和刪除，但基於安全和便利性，一般不使用。</p>
+<h3 id="擴展-http-1-1-的-WebDAV"><a href="#擴展-http-1-1-的-WebDAV" class="headerlink" title="擴展 http/1.1 的 WebDAV"></a>擴展 http/1.1 的 WebDAV</h3><ul>
+<li>集合：是一種統一管理資源的概念</li>
+<li>資源：把文件或集合稱為資源</li>
+<li>屬性：定義資源的屬性</li>
+<li>鎖：把文件設置為無狀態，多人編輯可以防止同一時間寫入。</li>
+</ul>
+<h3 id="WebDAV-內新增的方法及狀態碼"><a href="#WebDAV-內新增的方法及狀態碼" class="headerlink" title="WebDAV 內新增的方法及狀態碼"></a>WebDAV 內新增的方法及狀態碼</h3><p>為了實踐遠端文件管理，在 http 1.1 中也新增了以下這些方法：</p>
+<ul>
+<li>PROPFIND：獲取屬性。</li>
+<li>PROPPATCH：修改屬性。</li>
+<li>MKCOL：建立集合。</li>
+<li>COPY：複製資源及屬性。</li>
+<li>MOVE：移動資源。</li>
+<li>LOCK：資源加鎖。</li>
+<li>UNLOCK：資源解鎖。</li>
+</ul>
+<p>為了配合拓展，狀態碼也隨之新增：</p>
+<ul>
+<li>102：可正常處理請求，但處理中。</li>
+<li>207：存在多種狀態。</li>
+<li>422：格式正確，內容有誤。</li>
+<li>423：資源已被加鎖。</li>
+<li>424：處理與請求關聯的請求失敗，因此不再維持依賴關係。</li>
+<li>507：保存空間不足。</li>
+</ul>
+<blockquote>
+<p>為什麼不一直用 HTTPS 就好？其實只要與個人資訊相關等敏感資料再做加密通訊就好，除了上述缺點外，節約開銷也是重點。<br>資料來源：《圖解 HTTP》 上野宣 人民郵電出版社<br>筆記純屬推廣及分享，如有侵權，請告知。<br>Please advise to remove immediately if any infringement caused.</p>
+</blockquote>
+
+        
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+        
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/圖解-HTTP/">#圖解 HTTP</a></span>
+        
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/HTTP/">#HTTP</a></span>
+        
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/javascript-design-pattern-introduce/">【讀書筆記】JavaScript Design Pattern Chapter01 介紹</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/graphic-http-chapter08/">【讀書筆記】圖解 HTTP Chapter 08 確認訪問用戶身份認證</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="sharethis-inline-share-buttons"></div>
+<script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5d9b1ebc2b036a0011ed0d83&amp;product=inline-share-buttons" async="async"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">評論</h3>
+    
+<div id="comment-container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+	var gitment = new Gitment({
+		id: 'graphic-http-chapter09/',
+		owner: 'leiadot',
+		repo: 'leiadot.github.io',
+		oauth: {
+			client_id: '51ce642a9a95d7ccdf4d',
+			client_secret: '6bf1657de06ee2fbaf452b4752567ab313277f50',
+		},
+	})
+	gitment.render('comment-container')
+</script>
+
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2019 [object Object]&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            <div class="column is-narrow">
+                <div class="columns is-mobile is-multiline is-centered">
+                
+                    
+                <a class="column is-narrow has-text-black" title="GitHub" href="https://github.com/ppoffice/leiadot">
+                    
+                    GitHub
+                    
+                </a>
+                
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("zh-CN");
+</script>
+
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+</script>
+
+    
+    
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+<script src="/js/script.js"></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="站內搜尋">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '頁面',
+                CATEGORIES: '分類',
+                TAGS: '標籤',
+                UNTITLED: '(無標題)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+</body>
+</html>

@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+<title>【讀書筆記】JavaScript Design Pattern Chapter02 精要 - CodingWife 寇丁人妻日安</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="JavaScript Design Pattern，第二章的撰寫可維護的程式碼。">
+
+
+
+
+
+<meta name="description" content="JavaScript Design Pattern，第二章的撰寫可維護的程式碼。">
+<meta name="keywords" content="讀書筆記,JSDP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【讀書筆記】JavaScript Design Pattern Chapter02 精要">
+<meta property="og:url" content="http://codingwife.com/javascript-design-pattern-chapter02/index.html">
+<meta property="og:site_name" content="CodingWife 寇丁人妻日安">
+<meta property="og:description" content="JavaScript Design Pattern，第二章的撰寫可維護的程式碼。">
+<meta property="og:locale" content="zh-tw">
+<meta property="og:image" content="http://codingwife.com/img/cover/books.jpg">
+<meta property="og:updated_time" content="2019-10-24T06:50:39.036Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【讀書筆記】JavaScript Design Pattern Chapter02 精要">
+<meta name="twitter:description" content="JavaScript Design Pattern，第二章的撰寫可維護的程式碼。">
+<meta name="twitter:image" content="http://codingwife.com/img/cover/books.jpg">
+
+
+
+
+
+<link rel="icon" href="/images/logo.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto+Sans+TC|Open+Sans&display=swap">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+<link rel="stylesheet" href="/css/style.css">
+<script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png"},"articleBody":"撰寫可維護的程式碼容易維護的程式碼必須具備下列條件：\n\n可讀性\n一致性\n可預料的\n看起來像同個人寫的\n文件化\n\n\n\n減少全域變數JavaScript 使用函數來管理作用域。\n\n區域變數：在函式內的變數對於該函數來說為區域變數。\n全域變數：定義在函式作用域之外，或者沒被宣告就直接使用的變數。\n\n每種 JavaScript 執行環境都有全域物件，在函式作用域之外用this就可以存取得到，所有建立的全域變數都會成為全域物件的屬性。\n全域變數的問題因為都存在在相同的全域命名空間，會有命名衝突的問題，之後會學習到命名空間模式，和自我執行的立即執行函式。\n不小心建立全域變數的兩個狀況\n\n未宣告就使用變數，會自動為全域物件的屬性。\n連續賦值（var a = b = 0;，a 為區域變數，b 為全域變數）。\n\n遺漏 var 的副作用明確定義的全域變數和隱含的全域變數有個微小差別，就是是否能用delete運算子將變數刪除。\n\n用 var 創造出的全域變數不可刪除\n不使用 var 隱含創造出的全域變數可以刪除\n\n意思是說隱含創造出的全域變數並不是真的變數，而是全域物件的屬性，屬性可以透過delete運算子刪除，但是變數不行。\n存取全域物件在瀏覽器上，任何程式碼都可以透過 window 屬性存取全域物件。\n單一 var 模式在函式最開頭使用單一 var 述句是個非常有用的模式：\n\n再找所有函式所需的變數，只需找一個地方就好。\n避免未宣告就使用變數所造成的邏輯錯誤。\n盡少使用全域變數\n較少的程式碼\n\n用單一 var 述句宣告多個變數，並用逗號隔開，同時也賦予初始值，可避免邏輯錯誤。\nHosting：分散的 var 所製造的問題JavaScript 允許一個函式內有多個 var 述句，並放在任何位置，他們的行為跟在函式頂端宣告一樣，此行為叫做 Hosting（提升）。\n程式碼會進行兩個處理：\n\n第一階段：語法分析和讀取內容，將產生變數、函數宣告，以及函式參數。\n第二階段：執行時期，將產生函式表達式和不合格識別字。但為特殊目的，有時我們仍可以採用 hosting 概念。\n\nfor 迴圈使用迴圈可以重複整個陣列或類似陣列的物件，如果可以最好是預先計算陣列的長度。\n遵照單一 var 模式，可以將 var 提出迴圈外：\nfunction looper()&#123;\tvar i=0,\t\tmax,\t\tmyarray=[];\tfor(i=0,max=myarray.length;i&lt;max;i++)&#123;\t\t...\t&#125;&#125;\n優點：一致性缺點：重構時，若要將迴圈複製，要確認有把i及max複製過去。調整：將i++替換為i=i+1、i+=1。（JSLint 對++及--提示「過度使用伎倆」）\nfor-in 迴圈for-in應該使用在重複非陣列物件，又稱為列舉，而陣列應該使用for迴圈。\n在列舉屬性很重要的是使用hasOwnProperty()方法來過濾掉原型鍊的屬性。\nvar man = &#123;  hands: 2,  legs: 2,  head: 1,&#125;;if (typeof Object.prototype.clone === 'undefined') &#123;  Object.prototype.clone = function() &#123;    console.log('hi');  &#125;;&#125;for (var i in man) &#123;  if (man.hasOwnProperty(i)) &#123;    console.log(i, ':', man[i]);  &#125;&#125;// hands : 2// legs : 2// head : 1//for (var i in man) &#123;  console.log(i, ':', man[i]);&#125;// hands : 2// legs : 2// head : 1// clone : ƒ ()&#123; console.log('hi')&#125;\n意思就是假設你有自訂prototype，使用for-in也會將prototype的屬性列舉出來，不使用檢查也沒問題，只要你可以預期你的程式碼，但如果你不確定的話，最好還是加上去。\n另一種過濾方法\nvar i,\thasOwn = Object.prototype.hasOwnProperty;for (i in man)&#123;\tif(hasOwn.call(man, i)&#123;\t\tconsole.log(i, ':', man[i])\t&#125;&#125;\n不要擴充內建型別的原型如果擴充Object()、Array()，或是Function()，可能會讓程式碼難以預測。\n以下可破例的狀況：\n\n可預期 ECMA 將你新增的方法實作為未來瀏覽器可能有用的功能\n你確定你的方法在原生的 prototype 不存在，也沒有在其他程式碼中被實作過。\n你已經清楚與你的團隊溝通這個變更並文件化\n\nswitch 模式\n將每個 case 與 switch 並排（這是大括號規則的例外）\n將每個 case 內的程式碼縮排\n用清楚的break;結束每個 case\n避免未完結的 case （意思就是特別刪除break），如果堅決如此，應該寫文件說明\n用一個default:結束 switch ，以確保都有合理的結果\n\n避免隱含的型別轉換JavaScript 在比較變數時會做隱含的型別轉換，例如：false == 0或&quot;&quot; == 0皆會回傳 true 。\n建議皆使用 === 和 !== 以維持程式碼的一致性，也可以減少一些精神閱讀。\n避免使用 eval()eval 會將傳入的字串當作程式碼執行，同樣傳遞字串給 setInterval()、setTimeOut() 和 Function()也是如此。\n為了避免安全性的問題，應避免使用 eval()。\nnew Function() 建構式和 eval() 非常接近，假設真的非用 eval() 那不如使用 new Function() 建構式取代，優點是在函式作用域中執行，只要使用 var 宣告的變數都不會自動變成全域變數，而使用 eval() 則是在全域的環境執行。\n另外注意：Function 與 new Function() 是不同的。\n使用 parseInt() 轉型成數值使用 parseInt() 將一個字串轉換成數值，第二個參數是轉型用的基數，第二個參數通常會被忽略，然而不該如此。如果當要轉換的字串開頭為 0 時，而又忽略第二個參數，基數可能為 10 或 8 ，具體狀況則要根據瀏覽器環境而決定。\n將字串轉為數值也可使用Number()。\n編碼規範縮排不統一的縮排比沒縮排更糟糕。\n大括號在 if 或 for 的單行敘述，不加大括號可以執行，但應該加上大括號，以避免新增新的一行導致錯誤。\n左括號的位置有些狀況下會因為括號的位置造成程式執行結果不同，影響原因是因為分號插入機制，如果在行尾遺漏分號，JavaScript 會自動補齊，但應該永遠在行尾加入分號，避免 JavaScript 隱晦的補上，而導致程式碼有含糊之處。\n空格建議使用空格的地方：\n\n區隔 for 迴圈各部分分號之後\nfor 迴圈，初始化多個變數之間\n區隔 array 物件的逗號之後\n物件屬性間的逗號之後，以及區隔 key/value 的分號之後\n區隔參數的逗號之後\n區隔函式宣告的左括號之前\n匿名函式的 function 之後\n區隔所有運算元及運算子\n在左大括號（{）之前\n\n命名慣例讓建構式字母為大寫將建構式命名為大寫，可快速辨別是建構式還是普通函式。\n字詞的分隔方式針對建構式可用大駝峰寫法，一般函式使用小駝峰寫法，非函式的變數也可以用全小寫，中間底線區隔。\n其他命名模式在整個程式的生命週期都不會變動的常數，可採用全大寫的命名方式。還有一種 private 成員命名慣例是在屬性和方法前面加上底線，以表示為 private 。\n下方為其他 _private 規範的變化：\n\n在變數尾巴加上底線表示。\n用一個底線的前綴作為 _protected 屬性、用兩個底線作為 __private 屬性。\nFirefox 有一些內部屬性命名前後都會加上兩個底線。\n\n撰寫註解通常要為每個函式的參數、回傳值以及不常見的技術編寫註解。假設你有五到六行的程式碼來執行一個工作，用一行簡單敘述程式碼的目的為何寫在此，之後閱讀程式碼的人就不用詳讀細節。\n持續更新註解，過時的註解比沒註解更糟\n撰寫 API 文件推薦工具：\n\nJSDoc Toolkit\nYUIDoc\n\nAPI 文件生成\n\n發布工具產生的結果（通常是 HTML 頁面）\n撰寫特別格式的程式碼\n執行工具來分析程式碼和註解\n\n練習寫註解區塊：\n/** * 反轉一個字串 * * @param &#123;String&#125; 輸入字串來做反轉 * @return &#123;String&#125; 反轉後的字串 */var reverse = function (input)&#123;\t// ...\treturn output;&#125;\n","dateCreated":"2018-11-07T17:45:13+00:00","dateModified":"2019-10-24T06:50:39+00:00","datePublished":"2018-11-07T17:45:13+00:00","description":"撰寫可維護的程式碼容易維護的程式碼必須具備下列條件：\n\n可讀性\n一致性\n可預料的\n看起來像同個人寫的\n文件化\n","headline":"【讀書筆記】JavaScript Design Pattern Chapter02 精要","image":["/img/cover/books.jpg"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://codingwife.com/javascript-design-pattern-chapter02/"},"publisher":{"@type":"Organization","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png","logo":{"@type":"ImageObject","url":"http://codingwife.com/images/leia.png"}},"url":"http://codingwife.com/javascript-design-pattern-chapter02/","keywords":"讀書筆記, JSDP"}</script>
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    <img src="/images/codingwife.png" alt height="28">
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item " href="/archives">Archives</a>
+            
+            <a class="navbar-item " href="/categories">Categories</a>
+            
+            <a class="navbar-item " href="/tags">Tags</a>
+            
+            <a class="navbar-item " href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="搜尋" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/leiadot">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            <a class="navbar-item" title="Facebook" href="https://facebook.com/CodingwifeHy2">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+        【讀書筆記】JavaScript Design Pattern Chapter02 精要
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">2018-11-07 17:45
+            （<time datetime="2018-11-07T17:45:13.000Z" itemprop="datePublished">11月 7 2018</time>）
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Front-end/">Front-end</a>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+        
+        <h2 id="撰寫可維護的程式碼"><a href="#撰寫可維護的程式碼" class="headerlink" title="撰寫可維護的程式碼"></a>撰寫可維護的程式碼</h2><p>容易維護的程式碼必須具備下列條件：</p>
+<ul>
+<li>可讀性</li>
+<li>一致性</li>
+<li>可預料的</li>
+<li>看起來像同個人寫的</li>
+<li>文件化</li>
+</ul>
+<a id="more"></a>
+
+<h2 id="減少全域變數"><a href="#減少全域變數" class="headerlink" title="減少全域變數"></a>減少全域變數</h2><p>JavaScript 使用函數來管理作用域。</p>
+<ul>
+<li>區域變數：在函式內的變數對於該函數來說為區域變數。</li>
+<li>全域變數：定義在函式作用域之外，或者沒被宣告就直接使用的變數。</li>
+</ul>
+<p>每種 JavaScript 執行環境都有全域物件，在函式作用域之外用<code>this</code>就可以存取得到，所有建立的全域變數都會成為全域物件的屬性。</p>
+<h2 id="全域變數的問題"><a href="#全域變數的問題" class="headerlink" title="全域變數的問題"></a>全域變數的問題</h2><p>因為都存在在相同的全域命名空間，會有命名衝突的問題，之後會學習到命名空間模式，和自我執行的立即執行函式。</p>
+<p>不小心建立全域變數的兩個狀況</p>
+<ul>
+<li>未宣告就使用變數，會自動為全域物件的屬性。</li>
+<li>連續賦值（<code>var a = b = 0;</code>，a 為區域變數，b 為全域變數）。</li>
+</ul>
+<h2 id="遺漏-var-的副作用"><a href="#遺漏-var-的副作用" class="headerlink" title="遺漏 var 的副作用"></a>遺漏 var 的副作用</h2><p>明確定義的全域變數和隱含的全域變數有個微小差別，就是是否能用<code>delete</code>運算子將變數刪除。</p>
+<ul>
+<li>用 var 創造出的全域變數不可刪除</li>
+<li>不使用 var 隱含創造出的全域變數可以刪除</li>
+</ul>
+<p>意思是說隱含創造出的全域變數並不是真的變數，而是全域物件的屬性，屬性可以透過<code>delete</code>運算子刪除，但是變數不行。</p>
+<h2 id="存取全域物件"><a href="#存取全域物件" class="headerlink" title="存取全域物件"></a>存取全域物件</h2><p>在瀏覽器上，任何程式碼都可以透過 window 屬性存取全域物件。</p>
+<h2 id="單一-var-模式"><a href="#單一-var-模式" class="headerlink" title="單一 var 模式"></a>單一 var 模式</h2><p>在函式最開頭使用單一 var 述句是個非常有用的模式：</p>
+<ul>
+<li>再找所有函式所需的變數，只需找一個地方就好。</li>
+<li>避免未宣告就使用變數所造成的邏輯錯誤。</li>
+<li>盡少使用全域變數</li>
+<li>較少的程式碼</li>
+</ul>
+<p>用單一 var 述句宣告多個變數，並用逗號隔開，同時也賦予初始值，可避免邏輯錯誤。</p>
+<h2 id="Hosting：分散的-var-所製造的問題"><a href="#Hosting：分散的-var-所製造的問題" class="headerlink" title="Hosting：分散的 var 所製造的問題"></a>Hosting：分散的 var 所製造的問題</h2><p>JavaScript 允許一個函式內有多個 var 述句，並放在任何位置，他們的行為跟在函式頂端宣告一樣，此行為叫做 Hosting（提升）。</p>
+<p>程式碼會進行兩個處理：</p>
+<ul>
+<li>第一階段：語法分析和讀取內容，將產生變數、函數宣告，以及函式參數。</li>
+<li>第二階段：執行時期，將產生函式表達式和不合格識別字。但為特殊目的，有時我們仍可以採用 hosting 概念。</li>
+</ul>
+<h2 id="for-迴圈"><a href="#for-迴圈" class="headerlink" title="for 迴圈"></a>for 迴圈</h2><p>使用迴圈可以重複整個陣列或類似陣列的物件，如果可以最好是預先計算陣列的長度。</p>
+<p>遵照單一 var 模式，可以將 var 提出迴圈外：</p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">looper</span>(<span class="hljs-params"></span>)</span>&#123;</span><br><span class="line">	<span class="hljs-keyword">var</span> i=<span class="hljs-number">0</span>,</span><br><span class="line">		max,</span><br><span class="line">		myarray=[];</span><br><span class="line">	<span class="hljs-keyword">for</span>(i=<span class="hljs-number">0</span>,max=myarray.length;i&lt;max;i++)&#123;</span><br><span class="line">		...</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>優點：一致性<br>缺點：重構時，若要將迴圈複製，要確認有把<code>i</code>及<code>max</code>複製過去。<br>調整：將<code>i++</code>替換為<code>i=i+1</code>、<code>i+=1</code>。<br>（JSLint 對<code>++</code>及<code>--</code>提示「過度使用伎倆」）</p>
+<h2 id="for-in-迴圈"><a href="#for-in-迴圈" class="headerlink" title="for-in 迴圈"></a>for-in 迴圈</h2><p><code>for-in</code>應該使用在重複非陣列物件，又稱為列舉，而陣列應該使用<code>for</code>迴圈。</p>
+<p>在列舉屬性很重要的是使用<code>hasOwnProperty()</code>方法來過濾掉原型鍊的屬性。</p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> man = &#123;</span><br><span class="line">  hands: <span class="hljs-number">2</span>,</span><br><span class="line">  legs: <span class="hljs-number">2</span>,</span><br><span class="line">  head: <span class="hljs-number">1</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> <span class="hljs-built_in">Object</span>.prototype.clone === <span class="hljs-string">'undefined'</span>) &#123;</span><br><span class="line">  <span class="hljs-built_in">Object</span>.prototype.clone = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'hi'</span>);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i <span class="hljs-keyword">in</span> man) &#123;</span><br><span class="line">  <span class="hljs-keyword">if</span> (man.hasOwnProperty(i)) &#123;</span><br><span class="line">    <span class="hljs-built_in">console</span>.log(i, <span class="hljs-string">':'</span>, man[i]);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-comment">// hands : 2</span></span><br><span class="line"><span class="hljs-comment">// legs : 2</span></span><br><span class="line"><span class="hljs-comment">// head : 1</span></span><br><span class="line"><span class="hljs-comment">//</span></span><br><span class="line"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i <span class="hljs-keyword">in</span> man) &#123;</span><br><span class="line">  <span class="hljs-built_in">console</span>.log(i, <span class="hljs-string">':'</span>, man[i]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-comment">// hands : 2</span></span><br><span class="line"><span class="hljs-comment">// legs : 2</span></span><br><span class="line"><span class="hljs-comment">// head : 1</span></span><br><span class="line"><span class="hljs-comment">// clone : ƒ ()&#123; console.log('hi')&#125;</span></span><br></pre></td></tr></table></figure></p>
+<p>意思就是假設你有自訂<code>prototype</code>，使用<code>for-in</code>也會將<code>prototype</code>的屬性列舉出來，不使用檢查也沒問題，只要你可以預期你的程式碼，但如果你不確定的話，最好還是加上去。</p>
+<p>另一種過濾方法</p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> i,</span><br><span class="line">	hasOwn = <span class="hljs-built_in">Object</span>.prototype.hasOwnProperty;</span><br><span class="line"><span class="hljs-keyword">for</span> (i <span class="hljs-keyword">in</span> man)&#123;</span><br><span class="line">	<span class="hljs-keyword">if</span>(hasOwn.call(man, i)&#123;</span><br><span class="line">		<span class="hljs-built_in">console</span>.log(i, <span class="hljs-string">':'</span>, man[i])</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="不要擴充內建型別的原型"><a href="#不要擴充內建型別的原型" class="headerlink" title="不要擴充內建型別的原型"></a>不要擴充內建型別的原型</h2><p>如果擴充<code>Object()</code>、<code>Array()</code>，或是<code>Function()</code>，可能會讓程式碼難以預測。</p>
+<p>以下可破例的狀況：</p>
+<ul>
+<li>可預期 ECMA 將你新增的方法實作為未來瀏覽器可能有用的功能</li>
+<li>你確定你的方法在原生的 prototype 不存在，也沒有在其他程式碼中被實作過。</li>
+<li>你已經清楚與你的團隊溝通這個變更並文件化</li>
+</ul>
+<h2 id="switch-模式"><a href="#switch-模式" class="headerlink" title="switch 模式"></a>switch 模式</h2><ul>
+<li>將每個 case 與 switch 並排（這是大括號規則的例外）</li>
+<li>將每個 case 內的程式碼縮排</li>
+<li>用清楚的<code>break;</code>結束每個 case</li>
+<li>避免未完結的 case （意思就是特別刪除<code>break</code>），如果堅決如此，應該寫文件說明</li>
+<li>用一個<code>default:</code>結束 switch ，以確保都有合理的結果</li>
+</ul>
+<h2 id="避免隱含的型別轉換"><a href="#避免隱含的型別轉換" class="headerlink" title="避免隱含的型別轉換"></a>避免隱含的型別轉換</h2><p>JavaScript 在比較變數時會做隱含的型別轉換，例如：<code>false == 0</code>或<code>&quot;&quot; == 0</code>皆會回傳 true 。</p>
+<p>建議皆使用 <code>===</code> 和 <code>!==</code> 以維持程式碼的一致性，也可以減少一些精神閱讀。</p>
+<h3 id="避免使用-eval"><a href="#避免使用-eval" class="headerlink" title="避免使用 eval()"></a>避免使用 eval()</h3><p>eval 會將傳入的字串當作程式碼執行，同樣傳遞字串給 <code>setInterval()</code>、<code>setTimeOut()</code> 和 <code>Function()</code>也是如此。</p>
+<p>為了避免安全性的問題，應避免使用 <code>eval()</code>。</p>
+<p><code>new Function()</code> 建構式和 <code>eval()</code> 非常接近，假設真的非用 <code>eval()</code> 那不如使用 <code>new Function()</code> 建構式取代，優點是在函式作用域中執行，只要使用 <code>var</code> 宣告的變數都不會自動變成全域變數，而使用 <code>eval()</code> 則是在全域的環境執行。</p>
+<p>另外注意：<code>Function</code> 與 <code>new Function()</code> 是不同的。</p>
+<h2 id="使用-parseInt-轉型成數值"><a href="#使用-parseInt-轉型成數值" class="headerlink" title="使用 parseInt() 轉型成數值"></a>使用 parseInt() 轉型成數值</h2><p>使用 <code>parseInt()</code> 將一個字串轉換成數值，第二個參數是轉型用的基數，第二個參數通常會被忽略，然而不該如此。<br>如果當要轉換的字串開頭為 0 時，而又忽略第二個參數，基數可能為 <code>10</code> 或 <code>8</code> ，具體狀況則要根據瀏覽器環境而決定。</p>
+<p>將字串轉為數值也可使用<code>Number()</code>。</p>
+<h2 id="編碼規範"><a href="#編碼規範" class="headerlink" title="編碼規範"></a>編碼規範</h2><h3 id="縮排"><a href="#縮排" class="headerlink" title="縮排"></a>縮排</h3><p>不統一的縮排比沒縮排更糟糕。</p>
+<h3 id="大括號"><a href="#大括號" class="headerlink" title="大括號"></a>大括號</h3><p>在 <code>if</code> 或 <code>for</code> 的單行敘述，不加大括號可以執行，但應該加上大括號，以避免新增新的一行導致錯誤。</p>
+<h3 id="左括號的位置"><a href="#左括號的位置" class="headerlink" title="左括號的位置"></a>左括號的位置</h3><p>有些狀況下會因為括號的位置造成程式執行結果不同，影響原因是因為<strong>分號插入機制</strong>，如果在行尾遺漏分號，JavaScript 會自動補齊，但應該永遠在行尾加入分號，避免 JavaScript 隱晦的補上，而導致程式碼有含糊之處。</p>
+<h3 id="空格"><a href="#空格" class="headerlink" title="空格"></a>空格</h3><p>建議使用空格的地方：</p>
+<ul>
+<li>區隔 for 迴圈各部分分號之後</li>
+<li>for 迴圈，初始化多個變數之間</li>
+<li>區隔 array 物件的逗號之後</li>
+<li>物件屬性間的逗號之後，以及區隔 key/value 的分號之後</li>
+<li>區隔參數的逗號之後</li>
+<li>區隔函式宣告的左括號之前</li>
+<li>匿名函式的 function 之後</li>
+<li>區隔所有運算元及運算子</li>
+<li>在左大括號（<code>{</code>）之前</li>
+</ul>
+<h2 id="命名慣例"><a href="#命名慣例" class="headerlink" title="命名慣例"></a>命名慣例</h2><h3 id="讓建構式字母為大寫"><a href="#讓建構式字母為大寫" class="headerlink" title="讓建構式字母為大寫"></a>讓建構式字母為大寫</h3><p>將建構式命名為大寫，可快速辨別是建構式還是普通函式。</p>
+<h3 id="字詞的分隔方式"><a href="#字詞的分隔方式" class="headerlink" title="字詞的分隔方式"></a>字詞的分隔方式</h3><p>針對建構式可用大駝峰寫法，一般函式使用小駝峰寫法，非函式的變數也可以用全小寫，中間底線區隔。</p>
+<h3 id="其他命名模式"><a href="#其他命名模式" class="headerlink" title="其他命名模式"></a>其他命名模式</h3><p>在整個程式的生命週期都不會變動的常數，可採用全大寫的命名方式。<br>還有一種 private 成員命名慣例是在屬性和方法前面加上底線，以表示為 private 。</p>
+<p>下方為其他 _private 規範的變化：</p>
+<ul>
+<li>在變數尾巴加上底線表示。</li>
+<li>用一個底線的前綴作為 _protected 屬性、用兩個底線作為 __private 屬性。</li>
+<li>Firefox 有一些內部屬性命名前後都會加上兩個底線。</li>
+</ul>
+<h3 id="撰寫註解"><a href="#撰寫註解" class="headerlink" title="撰寫註解"></a>撰寫註解</h3><p>通常要為每個函式的參數、回傳值以及不常見的技術編寫註解。假設你有五到六行的程式碼來執行一個工作，用一行簡單敘述程式碼的目的為何寫在此，之後閱讀程式碼的人就不用詳讀細節。</p>
+<p><strong>持續更新註解，過時的註解比沒註解更糟</strong></p>
+<h2 id="撰寫-API-文件"><a href="#撰寫-API-文件" class="headerlink" title="撰寫 API 文件"></a>撰寫 API 文件</h2><p>推薦工具：</p>
+<ul>
+<li>JSDoc Toolkit</li>
+<li>YUIDoc</li>
+</ul>
+<p>API 文件生成</p>
+<ul>
+<li>發布工具產生的結果（通常是 HTML 頁面）</li>
+<li>撰寫特別格式的程式碼</li>
+<li>執行工具來分析程式碼和註解</li>
+</ul>
+<p>練習寫註解區塊：</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 反轉一個字串</span><br><span class="line"> *</span><br><span class="line"> * @param &#123;String&#125; 輸入字串來做反轉</span><br><span class="line"> * @return &#123;String&#125; 反轉後的字串</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">var reverse = function (input)&#123;</span><br><span class="line">	// ...</span><br><span class="line">	return output;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+        
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+        
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/讀書筆記/">#讀書筆記</a></span>
+        
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/JSDP/">#JSDP</a></span>
+        
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/javascript-design-pattern-construction/">【讀書筆記】JavaScript Design Pattern Chapter03 實字與建構式</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/javascript-design-pattern-introduce/">【讀書筆記】JavaScript Design Pattern Chapter01 介紹</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="sharethis-inline-share-buttons"></div>
+<script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5d9b1ebc2b036a0011ed0d83&amp;product=inline-share-buttons" async="async"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">評論</h3>
+    
+<div id="comment-container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+	var gitment = new Gitment({
+		id: 'javascript-design-pattern-chapter02/',
+		owner: 'leiadot',
+		repo: 'leiadot.github.io',
+		oauth: {
+			client_id: '51ce642a9a95d7ccdf4d',
+			client_secret: '6bf1657de06ee2fbaf452b4752567ab313277f50',
+		},
+	})
+	gitment.render('comment-container')
+</script>
+
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2019 [object Object]&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            <div class="column is-narrow">
+                <div class="columns is-mobile is-multiline is-centered">
+                
+                    
+                <a class="column is-narrow has-text-black" title="GitHub" href="https://github.com/ppoffice/leiadot">
+                    
+                    GitHub
+                    
+                </a>
+                
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("zh-CN");
+</script>
+
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+</script>
+
+    
+    
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+<script src="/js/script.js"></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="站內搜尋">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '頁面',
+                CATEGORIES: '分類',
+                TAGS: '標籤',
+                UNTITLED: '(無標題)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+</body>
+</html>

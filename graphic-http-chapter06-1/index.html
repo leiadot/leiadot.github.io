@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+<title>【讀書筆記】圖解 HTTP Chapter 06 HTTP 首部（上） - CodingWife 寇丁人妻日安</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="了解 HTTP 的 Header 的總覽。">
+
+
+
+
+
+<meta name="description" content="了解 HTTP 的 Header 的總覽。">
+<meta name="keywords" content="圖解 HTTP,HTTP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【讀書筆記】圖解 HTTP Chapter 06 HTTP 首部（上）">
+<meta property="og:url" content="http://codingwife.com/graphic-http-chapter06-1/index.html">
+<meta property="og:site_name" content="CodingWife 寇丁人妻日安">
+<meta property="og:description" content="了解 HTTP 的 Header 的總覽。">
+<meta property="og:locale" content="zh-tw">
+<meta property="og:image" content="http://codingwife.com/img/cover/http.png">
+<meta property="og:updated_time" content="2019-10-24T06:50:39.036Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【讀書筆記】圖解 HTTP Chapter 06 HTTP 首部（上）">
+<meta name="twitter:description" content="了解 HTTP 的 Header 的總覽。">
+<meta name="twitter:image" content="http://codingwife.com/img/cover/http.png">
+
+
+
+
+
+<link rel="icon" href="/images/logo.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto+Sans+TC|Open+Sans&display=swap">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+<link rel="stylesheet" href="/css/style.css">
+<script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png"},"articleBody":"HTTP 協議的請求和回應一定含有 http header，客戶端和伺服端的 header 內容，針對處理請求和回應有所不同。請求 header 大部分都不需要親自查看。\n\n\nHTTP 訊息的 headerHTTP 協議的請求和回應一定含有 http header，客戶端和伺服端的 header 內容，針對處理請求和回應有所不同。請求 header 大部分都不需要親自查看。\n請求 header\n請求列\n請求 header\n通用 header\n實體 header\n\n回應 header\n狀態列\n回應 header\n通用 header\n實體 header\n\nHTTP 首部字段結構由字串和值來形成，例如：\nContent-type: text/html\n也有可能一個字串配多個值，例如：\nKeep-Alive: timeout=15, max=100\n字串類型\n通用 header：請求訊息和回應訊息都會用的 header\n請求 header：從客戶端對伺服端發出請求訊息所使用的，包含補充請求的附加內容、客戶端訊息等等\n回應 header：從伺服器端回傳給客戶端所需要的，包含回應附加內容，也會要求客戶端附加額外的訊息內容\n實體 header：針對請求和回應訊息的實體使用，包含要補充的資料內容、更新時間等等\n\nHTTP/1.1 header 字串一覽HTTP/1.1 規範了 47 種字串。\n通用 header\nCache-Control：控制緩存行為\nConnetion：逐跳 header、連接的管理\nDate：創建日期\nPragma：訊息指令\nTrailer：訊息尾端的 header 一覽\nTransfer-Encoding：指定訊息主體的傳輸編碼方式\nUpgrade：升級為其他協議\nVia：代理伺服器相關訊息\nWarning：錯誤通知\n\n請求 header\nAccept：用戶代理可處理的媒體類型\nAccept-Charset：優先的字串集\nAccept-Encoding：優先的內容編碼\nAccept-Language：優先的自然語言\nAuthorization：網頁認證訊息\nExpect：期待伺服器的特定行為\nForm：用戶的電子信箱地址\nHost：請求資料的伺服器位置\nIf-Match：比較實體標記（ETag）\nIf-Modified-Since：比較資料更新時間\nIf-None-Match：比較實體標記（與 If-Match 相反）\nIf-Range：資料未更新時發送的實體 Byte 的範圍請求\nIf-Unmodified-Since：比較資料更新時間（與 If-Modified-Since 相反）\nMax-Forwards：最大傳輸逐格跳\nProxy-Authorization：代理伺服器要求客戶端的認證訊息\nRange：實體的字串範圍請求\nReferer：對請求的 URI 的原始獲得方\nTE：傳輸編碼的優先級\nUser-Agent：HTTP 客戶端程式訊息\n\n回應 header\nAccept-Range：是否接受字串範圍請求\nAge：推算資料建立時間\nEtag：資料匹配訊息\nLocation：讓客戶端重新導向的 URI\nProxy-Authenticate：代理伺服器對客戶端的認證訊息\nRetry-After：對再次發請求的時機要求\nServer：HTTP 伺服器的安裝訊息\nVary：代理伺服器緩存的認證訊息\nWWW-Authenticate：伺服器對客戶端的認證訊息\n\n實體 header\nAllow：資料可支援的 HTTP 方式\nContent-Encoding：實體適用的編碼方式\nContent-Language：實體的自然語言\nContent-Length：實體的大小（字元）\nContent-Location：代替對應資料的 URI\nContent-MD5：實體的訊息摘要\nContent-Range：實體的位置範圍\nContent-Type：實體的媒體類型\nExpires：實體過期日期時間\nLast-Modified：資料最後修改日期時間\n\n非 HTTP/1.1 的首部字串HTTP 所使用的字串，不限於 RFC2616 定義的 47 種，還有 Cookie、Set-Cookie 和 Content-Desposition 等等。\nEnd-to-end header 和 Hop-by-hop headerHTTP header 定義成緩存代理和非緩存代理兩種類型：\n\nEnd-to-end header：分在此類的 header 會轉發給請求 / 回應對應的最後接收目標，且必須保存由緩存所產生的回應中，另外規定他必須要被轉發。\nHop-by-hop header：分在此類的 header 只會對單次的轉發有效，會因為緩存或代理的關係而不再需要被轉發，HTTP/1.1 和之後的版本，如果要用此類型，需要提供 Connection header 字串。\n\n以下除了這八個 header 字串之外，其他都算 End-to-end header 字串：\n\nConnection\nKeep-Alive\nProxy-Authenticate\nTrailer\nTE\nTransfer-Encoding\nUpgrade\n\n\n資料來源：《圖解 HTTP》 上野宣 人民郵電出版社筆記純屬推廣及分享，如有侵權，請告知。Please advise to remove immediately if any infringement caused.\n\n","dateCreated":"2018-10-28T12:12:21+00:00","dateModified":"2019-10-24T06:50:39+00:00","datePublished":"2018-10-28T12:12:21+00:00","description":"HTTP 協議的請求和回應一定含有 http header，客戶端和伺服端的 header 內容，針對處理請求和回應有所不同。請求 header 大部分都不需要親自查看。","headline":"【讀書筆記】圖解 HTTP Chapter 06 HTTP 首部（上）","image":["/img/cover/http.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://codingwife.com/graphic-http-chapter06-1/"},"publisher":{"@type":"Organization","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png","logo":{"@type":"ImageObject","url":"http://codingwife.com/images/leia.png"}},"url":"http://codingwife.com/graphic-http-chapter06-1/","keywords":"圖解 HTTP, HTTP"}</script>
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    <img src="/images/codingwife.png" alt height="28">
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item " href="/archives">Archives</a>
+            
+            <a class="navbar-item " href="/categories">Categories</a>
+            
+            <a class="navbar-item " href="/tags">Tags</a>
+            
+            <a class="navbar-item " href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="搜尋" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/leiadot">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            <a class="navbar-item" title="Facebook" href="https://facebook.com/CodingwifeHy2">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+        【讀書筆記】圖解 HTTP Chapter 06 HTTP 首部（上）
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">2018-10-28 12:12
+            （<time datetime="2018-10-28T12:12:21.000Z" itemprop="datePublished">10月 28 2018</time>）
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Front-end/">Front-end</a>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+        
+        <p>HTTP 協議的請求和回應一定含有 http header，客戶端和伺服端的 header 內容，針對處理請求和回應有所不同。請求 header 大部分都不需要親自查看。</p>
+<a id="more"></a>
+
+<h2 id="HTTP-訊息的-header"><a href="#HTTP-訊息的-header" class="headerlink" title="HTTP 訊息的 header"></a>HTTP 訊息的 header</h2><p>HTTP 協議的請求和回應一定含有 http header，客戶端和伺服端的 header 內容，針對處理請求和回應有所不同。請求 header 大部分都不需要親自查看。</p>
+<h3 id="請求-header"><a href="#請求-header" class="headerlink" title="請求 header"></a>請求 header</h3><ul>
+<li>請求列</li>
+<li>請求 header</li>
+<li>通用 header</li>
+<li>實體 header</li>
+</ul>
+<h3 id="回應-header"><a href="#回應-header" class="headerlink" title="回應 header"></a>回應 header</h3><ul>
+<li>狀態列</li>
+<li>回應 header</li>
+<li>通用 header</li>
+<li>實體 header</li>
+</ul>
+<h2 id="HTTP-首部字段"><a href="#HTTP-首部字段" class="headerlink" title="HTTP 首部字段"></a>HTTP 首部字段</h2><h3 id="結構"><a href="#結構" class="headerlink" title="結構"></a>結構</h3><p>由字串和值來形成，例如：</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">Content-type: text/html</span><br></pre></td></tr></table></figure></p>
+<p>也有可能一個字串配多個值，例如：</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">Keep-Alive: timeout=15, max=100</span><br></pre></td></tr></table></figure></p>
+<h3 id="字串類型"><a href="#字串類型" class="headerlink" title="字串類型"></a>字串類型</h3><ul>
+<li>通用 header：請求訊息和回應訊息都會用的 header</li>
+<li>請求 header：從客戶端對伺服端發出請求訊息所使用的，包含補充請求的附加內容、客戶端訊息等等</li>
+<li>回應 header：從伺服器端回傳給客戶端所需要的，包含回應附加內容，也會要求客戶端附加額外的訊息內容</li>
+<li>實體 header：針對請求和回應訊息的實體使用，包含要補充的資料內容、更新時間等等</li>
+</ul>
+<h3 id="HTTP-1-1-header-字串一覽"><a href="#HTTP-1-1-header-字串一覽" class="headerlink" title="HTTP/1.1 header 字串一覽"></a>HTTP/1.1 header 字串一覽</h3><p>HTTP/1.1 規範了 47 種字串。</p>
+<h4 id="通用-header"><a href="#通用-header" class="headerlink" title="通用 header"></a>通用 header</h4><ul>
+<li>Cache-Control：控制緩存行為</li>
+<li>Connetion：逐跳 header、連接的管理</li>
+<li>Date：創建日期</li>
+<li>Pragma：訊息指令</li>
+<li>Trailer：訊息尾端的 header 一覽</li>
+<li>Transfer-Encoding：指定訊息主體的傳輸編碼方式</li>
+<li>Upgrade：升級為其他協議</li>
+<li>Via：代理伺服器相關訊息</li>
+<li>Warning：錯誤通知</li>
+</ul>
+<h4 id="請求-header-1"><a href="#請求-header-1" class="headerlink" title="請求 header"></a>請求 header</h4><ul>
+<li>Accept：用戶代理可處理的媒體類型</li>
+<li>Accept-Charset：優先的字串集</li>
+<li>Accept-Encoding：優先的內容編碼</li>
+<li>Accept-Language：優先的自然語言</li>
+<li>Authorization：網頁認證訊息</li>
+<li>Expect：期待伺服器的特定行為</li>
+<li>Form：用戶的電子信箱地址</li>
+<li>Host：請求資料的伺服器位置</li>
+<li>If-Match：比較實體標記（ETag）</li>
+<li>If-Modified-Since：比較資料更新時間</li>
+<li>If-None-Match：比較實體標記（與 If-Match 相反）</li>
+<li>If-Range：資料未更新時發送的實體 Byte 的範圍請求</li>
+<li>If-Unmodified-Since：比較資料更新時間（與 If-Modified-Since 相反）</li>
+<li>Max-Forwards：最大傳輸逐格跳</li>
+<li>Proxy-Authorization：代理伺服器要求客戶端的認證訊息</li>
+<li>Range：實體的字串範圍請求</li>
+<li>Referer：對請求的 URI 的原始獲得方</li>
+<li>TE：傳輸編碼的優先級</li>
+<li>User-Agent：HTTP 客戶端程式訊息</li>
+</ul>
+<h4 id="回應-header-1"><a href="#回應-header-1" class="headerlink" title="回應 header"></a>回應 header</h4><ul>
+<li>Accept-Range：是否接受字串範圍請求</li>
+<li>Age：推算資料建立時間</li>
+<li>Etag：資料匹配訊息</li>
+<li>Location：讓客戶端重新導向的 URI</li>
+<li>Proxy-Authenticate：代理伺服器對客戶端的認證訊息</li>
+<li>Retry-After：對再次發請求的時機要求</li>
+<li>Server：HTTP 伺服器的安裝訊息</li>
+<li>Vary：代理伺服器緩存的認證訊息</li>
+<li>WWW-Authenticate：伺服器對客戶端的認證訊息</li>
+</ul>
+<h4 id="實體-header"><a href="#實體-header" class="headerlink" title="實體 header"></a>實體 header</h4><ul>
+<li>Allow：資料可支援的 HTTP 方式</li>
+<li>Content-Encoding：實體適用的編碼方式</li>
+<li>Content-Language：實體的自然語言</li>
+<li>Content-Length：實體的大小（字元）</li>
+<li>Content-Location：代替對應資料的 URI</li>
+<li>Content-MD5：實體的訊息摘要</li>
+<li>Content-Range：實體的位置範圍</li>
+<li>Content-Type：實體的媒體類型</li>
+<li>Expires：實體過期日期時間</li>
+<li>Last-Modified：資料最後修改日期時間</li>
+</ul>
+<h4 id="非-HTTP-1-1-的首部字串"><a href="#非-HTTP-1-1-的首部字串" class="headerlink" title="非 HTTP/1.1 的首部字串"></a>非 HTTP/1.1 的首部字串</h4><p>HTTP 所使用的字串，不限於 RFC2616 定義的 47 種，還有 Cookie、Set-Cookie 和 Content-Desposition 等等。</p>
+<h4 id="End-to-end-header-和-Hop-by-hop-header"><a href="#End-to-end-header-和-Hop-by-hop-header" class="headerlink" title="End-to-end header 和 Hop-by-hop header"></a>End-to-end header 和 Hop-by-hop header</h4><p>HTTP header 定義成緩存代理和非緩存代理兩種類型：</p>
+<ul>
+<li>End-to-end header：分在此類的 header 會轉發給請求 / 回應對應的最後接收目標，且必須保存由緩存所產生的回應中，另外規定他必須要被轉發。</li>
+<li>Hop-by-hop header：分在此類的 header 只會對單次的轉發有效，會因為緩存或代理的關係而不再需要被轉發，HTTP/1.1 和之後的版本，如果要用此類型，需要提供 Connection header 字串。</li>
+</ul>
+<p>以下除了這八個 header 字串之外，其他都算 End-to-end header 字串：</p>
+<ul>
+<li>Connection</li>
+<li>Keep-Alive</li>
+<li>Proxy-Authenticate</li>
+<li>Trailer</li>
+<li>TE</li>
+<li>Transfer-Encoding</li>
+<li>Upgrade</li>
+</ul>
+<blockquote>
+<p>資料來源：《圖解 HTTP》 上野宣 人民郵電出版社<br>筆記純屬推廣及分享，如有侵權，請告知。<br>Please advise to remove immediately if any infringement caused.</p>
+</blockquote>
+
+        
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+        
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/圖解-HTTP/">#圖解 HTTP</a></span>
+        
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/HTTP/">#HTTP</a></span>
+        
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/graphic-http-chapter06-2/">【讀書筆記】圖解 HTTP Chapter 06 HTTP 首部（中）</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/graphic-http-chapter06-3/">【讀書筆記】圖解 HTTP Chapter 06 HTTP 首部（下）</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="sharethis-inline-share-buttons"></div>
+<script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5d9b1ebc2b036a0011ed0d83&amp;product=inline-share-buttons" async="async"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">評論</h3>
+    
+<div id="comment-container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+	var gitment = new Gitment({
+		id: 'graphic-http-chapter06-1/',
+		owner: 'leiadot',
+		repo: 'leiadot.github.io',
+		oauth: {
+			client_id: '51ce642a9a95d7ccdf4d',
+			client_secret: '6bf1657de06ee2fbaf452b4752567ab313277f50',
+		},
+	})
+	gitment.render('comment-container')
+</script>
+
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2019 [object Object]&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            <div class="column is-narrow">
+                <div class="columns is-mobile is-multiline is-centered">
+                
+                    
+                <a class="column is-narrow has-text-black" title="GitHub" href="https://github.com/ppoffice/leiadot">
+                    
+                    GitHub
+                    
+                </a>
+                
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("zh-CN");
+</script>
+
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+</script>
+
+    
+    
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+<script src="/js/script.js"></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="站內搜尋">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '頁面',
+                CATEGORIES: '分類',
+                TAGS: '標籤',
+                UNTITLED: '(無標題)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+</body>
+</html>

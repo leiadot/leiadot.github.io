@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+<title>【Webpack】認識 webpack - CodingWife 寇丁人妻日安</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="新手從無到有，初探 webpack 的心得，webpack 的基本介紹、比較，以及如何運用相關套件簡單運行。">
+
+
+
+
+
+<meta name="description" content="新手從無到有，初探 webpack 的心得，webpack 的基本介紹、比較，以及如何運用相關套件簡單運行。">
+<meta name="keywords" content="Webpack">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Webpack】認識 webpack">
+<meta property="og:url" content="http://codingwife.com/webpack-4-first-try/index.html">
+<meta property="og:site_name" content="CodingWife 寇丁人妻日安">
+<meta property="og:description" content="新手從無到有，初探 webpack 的心得，webpack 的基本介紹、比較，以及如何運用相關套件簡單運行。">
+<meta property="og:locale" content="zh-tw">
+<meta property="og:image" content="http://codingwife.com/img/cover/webpack.png">
+<meta property="og:updated_time" content="2019-10-24T06:50:39.036Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【Webpack】認識 webpack">
+<meta name="twitter:description" content="新手從無到有，初探 webpack 的心得，webpack 的基本介紹、比較，以及如何運用相關套件簡單運行。">
+<meta name="twitter:image" content="http://codingwife.com/img/cover/webpack.png">
+
+
+
+
+
+<link rel="icon" href="/images/logo.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto+Sans+TC|Open+Sans&display=swap">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+<link rel="stylesheet" href="/css/style.css">
+<script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png"},"articleBody":"新手從無到有，初探 webpack 的心得，webpack 的基本介紹、比較，以及如何運用相關套件簡單運行。\n版本：webpack 4.1.1\n\n\n定義\nAt its core, webpack is a static module bundler for modern JavaScript applications. When webpack processes your application, it recursively builds a dependency graph that includes every module your application needs, then packages all of those modules into one or more bundles.\n\nwebpack ，\b 簡單來說就是一個模組打包工具，可以將開發中的資料，如 html 文件、sass、圖片等資料，模組化，利用loader、plugin轉換成瀏覽器可以閱讀的資料並打包。\n比較有些人會拿 webpack 跟 gulp 之類的工具做比較，讓我們先看看 gulp 官網的解釋。\n\ngulp is a toolkit for automating painful or time-consuming tasks in your development workflow, so you can stop messing around and build something.\n\ngulp ，用於在開發流程中，自動執行較耗時或較痛苦的任務，意思是 gulp 為任務執行工具，可以通過定義task自動化來執行處理任務。\ngulp 為任務執行工具，注重的是開發流程； webpack 強調模組化開發，處理壓縮文件、圖片等。\n安裝webpack 必須運行在 node.js 的環境下。\n$ npm install -g webpack\n全域安裝 webpack。\nwebpack -v\n安裝完後檢測版本，確認是否已經安裝。\nnpm 初始化先進到你要存放的目錄\n$ mkdir webpack-demo$ cd webpack-demo$ npm init\n接下來會出現package.json配置，可以全部 enter 跑預設。\nname: (webpack-demo)version: (1.0.0)description:entry point: (index.js)test command:git repository:\n接下來在webpack-demo下面出現package.json。\n&#123;  \"name\": \"webpack-demo\",  \"version\": \"1.0.0\",  \"description\": \"\",  \"main\": \"index.js\",  \"scripts\": &#123;    \"test\": \"echo \\\"Error: no test specified\\\" &amp;&amp; exit 1\"  &#125;,  \"author\": \"\",  \"license\": \"ISC\"&#125;\n這些都是關於這個專案的內容，可以根據專案狀況更改。\n$ npm install --save-dev webpack\n接下來在專案上安裝 webpack 。\n\"devDependencies\": &#123;    \"webpack\": \"^4.1.1\"  &#125;\npackage.json就會出現 webpack 的安裝資料。\n運行 webpack現在來試著運作 webpack ，在目錄下新增src/app.js，內容如下。\nconsole.log('hello webpack');\n在 terminal 輸入指令。\n$ webpack ./src/app.js --output ./dist/app.bundle.js\n目錄資料結構就變成這樣\n.├── dist|   └── app.bundle.js├── node_modules├── package.json└── src    └── app.js\napp.bundle.js\nwebpack 指令watchwebpack --watch ./src/app.js ./dist/app.bundle.js\nwatch指令可以監聽檔案狀況做變更。\n$ webpack -p ./src/app.js ./dist/app.bundle.js\n-p指令可以產出生產版壓縮過的檔案。\n如果想看其他指令可以在 terminal 輸入\n$ webpack --help\n假設你只有在專案上面安裝 webpack，則輸入\n$ npx webpack --help\n配置 webpack在根目錄創建webpack.config.js的檔案，內容如下。\nmodule.exports = &#123;  entry: './src/app.js',  output: &#123;    filename: './app.bundle.js',  &#125;,&#125;;\nentry為 source code，output是輸出的目標文件，配置完後，在 terminal 輸入 webpack 即可運行。\n快速下 webpack 指令$ npm install webpack-cli -d\n安裝webpack-cli，再改寫目前的package.json。\n&#123;  \"name\": \"wepback-demo\",  \"version\": \"1.0.0\",  \"description\": \"\",  \"main\": \"index.js\",  \"scripts\": &#123;    \"build\": \"webpack -d --watch\",    \"prod\": \"webpack -p\"  &#125;,  \"author\": \"\",  \"license\": \"ISC\",  \"devDependencies\": &#123;    \"webpack\": \"^3.8.1\"  &#125;&#125;\n改寫之後，在 terminal 輸入指令。\n$ npm run build\n則會運行webpack -d --watch。\n$ npm run prod\n則會運行webpack -p。\n使用script指令的好處是把所有命令集中在一起，方便維護查看，其他開發者只要看package.json就可以知道大概運行的開發指令是什麼。\n","dateCreated":"2018-03-19T13:43:56+00:00","dateModified":"2019-10-24T06:50:39+00:00","datePublished":"2018-03-19T13:43:56+00:00","description":"新手從無到有，初探 webpack 的心得，webpack 的基本介紹、比較，以及如何運用相關套件簡單運行。\n版本：webpack 4.1.1","headline":"【Webpack】認識 webpack","image":["/img/cover/webpack.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://codingwife.com/webpack-4-first-try/"},"publisher":{"@type":"Organization","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png","logo":{"@type":"ImageObject","url":"http://codingwife.com/images/leia.png"}},"url":"http://codingwife.com/webpack-4-first-try/","keywords":"Webpack"}</script>
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    <img src="/images/codingwife.png" alt height="28">
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item " href="/archives">Archives</a>
+            
+            <a class="navbar-item " href="/categories">Categories</a>
+            
+            <a class="navbar-item " href="/tags">Tags</a>
+            
+            <a class="navbar-item " href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="搜尋" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/leiadot">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            <a class="navbar-item" title="Facebook" href="https://facebook.com/CodingwifeHy2">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+        【Webpack】認識 webpack
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">2018-03-19 13:43
+            （<time datetime="2018-03-19T13:43:56.000Z" itemprop="datePublished">3月 19 2018</time>）
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Front-end/">Front-end</a>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+        
+        <p>新手從無到有，初探 webpack 的心得，webpack 的基本介紹、比較，以及如何運用相關套件簡單運行。</p>
+<p>版本：webpack 4.1.1</p>
+<a id="more"></a>
+
+<h2 id="定義"><a href="#定義" class="headerlink" title="定義"></a>定義</h2><blockquote>
+<p>At its core, webpack is a static module bundler for modern JavaScript applications. When webpack processes your application, it recursively builds a dependency graph that includes every module your application needs, then packages all of those modules into one or more bundles.</p>
+</blockquote>
+<p>webpack ， 簡單來說就是一個模組打包工具，可以將開發中的資料，如 html 文件、sass、圖片等資料，<br>模組化，利用<code>loader</code>、<code>plugin</code>轉換成瀏覽器可以閱讀的資料並打包。</p>
+<h2 id="比較"><a href="#比較" class="headerlink" title="比較"></a>比較</h2><p>有些人會拿 webpack 跟 gulp 之類的工具做比較，讓我們先看看 gulp 官網的解釋。</p>
+<blockquote>
+<p>gulp is a toolkit for automating painful or time-consuming tasks in your development workflow, so you can stop messing around and build something.</p>
+</blockquote>
+<p>gulp ，用於在開發流程中，自動執行較耗時或較痛苦的任務，<br>意思是 gulp 為任務執行工具，可以通過定義<code>task</code>自動化來執行處理任務。</p>
+<p>gulp 為任務執行工具，注重的是開發流程； webpack 強調模組化開發，處理壓縮文件、圖片等。</p>
+<h2 id="安裝"><a href="#安裝" class="headerlink" title="安裝"></a>安裝</h2><p>webpack 必須運行在 <code>node.js</code> 的環境下。</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">$ npm install -g webpack</span><br></pre></td></tr></table></figure></p>
+<p>全域安裝 webpack。</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">webpack -v</span><br></pre></td></tr></table></figure></p>
+<p>安裝完後檢測版本，確認是否已經安裝。</p>
+<h2 id="npm-初始化"><a href="#npm-初始化" class="headerlink" title="npm 初始化"></a>npm 初始化</h2><p>先進到你要存放的目錄</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">$ mkdir webpack-demo</span><br><span class="line">$ cd webpack-demo</span><br><span class="line">$ npm init</span><br></pre></td></tr></table></figure></p>
+<p>接下來會出現<code>package.json</code>配置，可以全部 enter 跑預設。</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">name: (webpack-demo)</span><br><span class="line">version: (1.0.0)</span><br><span class="line">description:</span><br><span class="line">entry point: (index.js)</span><br><span class="line">test command:</span><br><span class="line">git repository:</span><br></pre></td></tr></table></figure></p>
+<p>接下來在<code>webpack-demo</code>下面出現<code>package.json</code>。</p>
+<p><figure class="highlight json hljs"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"webpack-demo"</span>,</span><br><span class="line">  <span class="hljs-attr">"version"</span>: <span class="hljs-string">"1.0.0"</span>,</span><br><span class="line">  <span class="hljs-attr">"description"</span>: <span class="hljs-string">""</span>,</span><br><span class="line">  <span class="hljs-attr">"main"</span>: <span class="hljs-string">"index.js"</span>,</span><br><span class="line">  <span class="hljs-attr">"scripts"</span>: &#123;</span><br><span class="line">    <span class="hljs-attr">"test"</span>: <span class="hljs-string">"echo \"Error: no test specified\" &amp;&amp; exit 1"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="hljs-attr">"author"</span>: <span class="hljs-string">""</span>,</span><br><span class="line">  <span class="hljs-attr">"license"</span>: <span class="hljs-string">"ISC"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>這些都是關於這個專案的內容，可以根據專案狀況更改。</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">$ npm install --save-dev webpack</span><br></pre></td></tr></table></figure></p>
+<p>接下來在專案上安裝 webpack 。</p>
+<p><figure class="highlight hljs"><table><tr><td class="code"><pre><span class="line">"devDependencies": &#123;</span><br><span class="line">    "webpack": "^4.1.1"</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>package.json</code>就會出現 webpack 的安裝資料。</p>
+<h2 id="運行-webpack"><a href="#運行-webpack" class="headerlink" title="運行 webpack"></a>運行 webpack</h2><p>現在來試著運作 webpack ，在目錄下新增<code>src/app.js</code>，內容如下。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-built_in">console</span>.log(<span class="hljs-string">'hello webpack'</span>);</span><br></pre></td></tr></table></figure></p>
+<p>在 terminal 輸入指令。</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">$ webpack ./src/app.js --output ./dist/app.bundle.js</span><br></pre></td></tr></table></figure></p>
+<p>目錄資料結構就變成這樣</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">.</span><br><span class="line">├── dist</span><br><span class="line">|   └── app.bundle.js</span><br><span class="line">├── node_modules</span><br><span class="line">├── package.json</span><br><span class="line">└── src</span><br><span class="line">    └── app.js</span><br></pre></td></tr></table></figure></p>
+<p><code>app.bundle.js</code><br><img src="/img/webpack/webpack01.png" alt></p>
+<h2 id="webpack-指令"><a href="#webpack-指令" class="headerlink" title="webpack 指令"></a>webpack 指令</h2><h3 id="watch"><a href="#watch" class="headerlink" title="watch"></a>watch</h3><p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">webpack --watch ./src/app.js ./dist/app.bundle.js</span><br></pre></td></tr></table></figure></p>
+<p><code>watch</code>指令可以監聽檔案狀況做變更。</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">$ webpack -p ./src/app.js ./dist/app.bundle.js</span><br></pre></td></tr></table></figure></p>
+<p><code>-p</code>指令可以產出生產版壓縮過的檔案。</p>
+<p>如果想看其他指令可以在 terminal 輸入</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">$ webpack --help</span><br></pre></td></tr></table></figure></p>
+<p>假設你只有在專案上面安裝 webpack，則輸入</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">$ npx webpack --help</span><br></pre></td></tr></table></figure></p>
+<h2 id="配置-webpack"><a href="#配置-webpack" class="headerlink" title="配置 webpack"></a>配置 webpack</h2><p>在根目錄創建<code>webpack.config.js</code>的檔案，內容如下。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-built_in">module</span>.exports = &#123;</span><br><span class="line">  entry: <span class="hljs-string">'./src/app.js'</span>,</span><br><span class="line">  output: &#123;</span><br><span class="line">    filename: <span class="hljs-string">'./app.bundle.js'</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p><code>entry</code>為 source code，<code>output</code>是輸出的目標文件，配置完後，在 terminal 輸入 <code>webpack</code> 即可運行。</p>
+<h2 id="快速下-webpack-指令"><a href="#快速下-webpack-指令" class="headerlink" title="快速下 webpack 指令"></a>快速下 webpack 指令</h2><p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">$ npm install webpack-cli -d</span><br></pre></td></tr></table></figure></p>
+<p>安裝<code>webpack-cli</code>，再改寫目前的<code>package.json</code>。</p>
+<p><figure class="highlight json hljs"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"wepback-demo"</span>,</span><br><span class="line">  <span class="hljs-attr">"version"</span>: <span class="hljs-string">"1.0.0"</span>,</span><br><span class="line">  <span class="hljs-attr">"description"</span>: <span class="hljs-string">""</span>,</span><br><span class="line">  <span class="hljs-attr">"main"</span>: <span class="hljs-string">"index.js"</span>,</span><br><span class="line">  <span class="hljs-attr">"scripts"</span>: &#123;</span><br><span class="line">    <span class="hljs-attr">"build"</span>: <span class="hljs-string">"webpack -d --watch"</span>,</span><br><span class="line">    <span class="hljs-attr">"prod"</span>: <span class="hljs-string">"webpack -p"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="hljs-attr">"author"</span>: <span class="hljs-string">""</span>,</span><br><span class="line">  <span class="hljs-attr">"license"</span>: <span class="hljs-string">"ISC"</span>,</span><br><span class="line">  <span class="hljs-attr">"devDependencies"</span>: &#123;</span><br><span class="line">    <span class="hljs-attr">"webpack"</span>: <span class="hljs-string">"^3.8.1"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>改寫之後，在 terminal 輸入指令。</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">$ npm run build</span><br></pre></td></tr></table></figure></p>
+<p>則會運行<code>webpack -d --watch</code>。</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">$ npm run prod</span><br></pre></td></tr></table></figure></p>
+<p>則會運行<code>webpack -p</code>。</p>
+<p>使用<code>script</code>指令的好處是把所有命令集中在一起，方便維護查看，<br>其他開發者只要看<code>package.json</code>就可以知道大概運行的開發指令是什麼。</p>
+
+        
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+        
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/Webpack/">#Webpack</a></span>
+        
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/webpack-4-plugin-loade/">【Webpack】plugin 與 loader</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/javascript-30-day18/">【JS30】Day18：Adding Up Times with Reduce</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="sharethis-inline-share-buttons"></div>
+<script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5d9b1ebc2b036a0011ed0d83&amp;product=inline-share-buttons" async="async"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">評論</h3>
+    
+<div id="comment-container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+	var gitment = new Gitment({
+		id: 'webpack-4-first-try/',
+		owner: 'leiadot',
+		repo: 'leiadot.github.io',
+		oauth: {
+			client_id: '51ce642a9a95d7ccdf4d',
+			client_secret: '6bf1657de06ee2fbaf452b4752567ab313277f50',
+		},
+	})
+	gitment.render('comment-container')
+</script>
+
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2019 [object Object]&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            <div class="column is-narrow">
+                <div class="columns is-mobile is-multiline is-centered">
+                
+                    
+                <a class="column is-narrow has-text-black" title="GitHub" href="https://github.com/ppoffice/leiadot">
+                    
+                    GitHub
+                    
+                </a>
+                
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("zh-CN");
+</script>
+
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+</script>
+
+    
+    
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+<script src="/js/script.js"></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="站內搜尋">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '頁面',
+                CATEGORIES: '分類',
+                TAGS: '標籤',
+                UNTITLED: '(無標題)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+</body>
+</html>

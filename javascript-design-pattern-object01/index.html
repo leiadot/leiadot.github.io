@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+<title>【讀書筆記】JavaScript Design Pattern Chapter05 物件建立模式（上） - CodingWife 寇丁人妻日安</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="JavaScript Design Pattern，第五章物件建立模式。">
+
+
+
+
+
+<meta name="description" content="JavaScript Design Pattern，第五章物件建立模式。">
+<meta name="keywords" content="讀書筆記,JSDP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【讀書筆記】JavaScript Design Pattern Chapter05 物件建立模式（上）">
+<meta property="og:url" content="http://codingwife.com/javascript-design-pattern-object01/index.html">
+<meta property="og:site_name" content="CodingWife 寇丁人妻日安">
+<meta property="og:description" content="JavaScript Design Pattern，第五章物件建立模式。">
+<meta property="og:locale" content="zh-tw">
+<meta property="og:image" content="http://codingwife.com/img/cover/books.jpg">
+<meta property="og:updated_time" content="2019-10-24T06:50:39.036Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【讀書筆記】JavaScript Design Pattern Chapter05 物件建立模式（上）">
+<meta name="twitter:description" content="JavaScript Design Pattern，第五章物件建立模式。">
+<meta name="twitter:image" content="http://codingwife.com/img/cover/books.jpg">
+
+
+
+
+
+<link rel="icon" href="/images/logo.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto+Sans+TC|Open+Sans&display=swap">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+<link rel="stylesheet" href="/css/style.css">
+<script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png"},"articleBody":"可以降低全域變數的需求量，幫忙避免命名衝突和過度的名稱前綴詞。JavaScript 沒有內建的命名空間，為了避免一堆函式、變數、物件污染全域空間，應該要建立一個全域物件。\n\n\n命名空間可以降低全域變數的需求量，幫忙避免命名衝突和過度的名稱前綴詞。JavaScript 沒有內建的命名空間，為了避免一堆函式、變數、物件污染全域空間，應該要建立一個全域物件。\nvar MYAPP = &#123;&#125;;//全域物件MYAPP.Parent = function () &#123;&#125;;//建構式MY.somevar = =1;//變數MYAPP.modules.modules1 = &#123;&#125;;MYAPP.modules.modules1.data = &#123;a:1&#125;;//巢狀物件\n應該用全大寫表示全域變數，讓他特別明顯（另外注意常數也是全大寫）。\n缺點：\n\n越長的巢狀名稱表示更長\n唯一的全域實體代表任何程式碼都可以變更這個實體，而接下來的功能也都會使用變更後的狀態。\n要多打一點字，它相當於在每個變數和函數之前加上前綴詞。\n\n泛用的命名空間函式有些你正要加入命名空間的屬性也許早已存在了，於是會不小心覆蓋它，因此最好建立命名空間和新增屬性前，先檢查是否存在。\nif (typeof MYAPP === 'undefined') &#123;  var MYAPP = &#123;&#125;;&#125;// 檢查全域var MYAPP = MYAPP || &#123;&#125;;//簡短寫法\n但如果遇到巢狀物件，必須對每個物件或屬性檢查，此時需要一個函數幫忙做檢查細節。\nMYAPP.namespace('MYAPP.module.module2');//效果等同於：//var MYAPP = &#123;//\tmodule: &#123;//\t\tmodule2: &#123;&#125;//\t&#125;//&#125;var MYAPP = MYAPP || &#123;&#125;;MYAPP.namespace = function(ns_str) &#123;  var parts = ns_str.split('.'),    parent = MYAPP,    i;  //去除最前投多餘的全域名稱  if (parts[0] === 'MYAPP') &#123;    parts = parts.slice(1);  &#125;  for (i = 0; i &lt; parts.length; i += 1) &#123;    if (typeof parent[parts[i]] === 'undefined') &#123;      parent[parts[i]] = &#123;&#125;;    &#125;    parent = parent[parts[i]];  &#125;  return parent;&#125;;\n允許下列做法：\nvar m2 = MYAPP.namespace('MYAPP.module.module2');m2 === MYAPP.module.module2; //true//將回傳值指派給區域變數MYAPP.namespace('module.module2');//忽略開頭的MYAPPMYAPP.namespace('MYAPP.once.upon.the.time');//很長的命名空間\n宣告相依性JavaScript 通常會使用命名空間，並讓良好的模組化，讓你可以只引用你需要的模組。\n將與你程式碼相依的模組，宣告在函式或是模組頂端，這樣意味者建立唯一一個區域變數，並指向所需的模組。\nvar myFunction = function() &#123;  var event = YAHOO.util.Event,    dom = YAHOO.util.Dom;  //使用event, dom&#125;;\n好處：\n\n宣告相依性，揭示你程式碼的使用者可以了解他們需要哪些相依模組需要引用\n宣告在函式頂端，較容易找到並解決相依性\n使用區域變數比找全域變數快，更比起全域變數的巢狀屬性快。採用相依性模式，只需要在函式使用全域變數一次就好。\n有些最小化工具會重新命名區域變數，但不會去更改全域變數，因為不安全。\n\n比較：\n//未使用function oldFn() &#123;  alert(MYAPP.modules.m1);  alert(MYAPP.modules.m2);  alert(MYAPP.modules.m3);&#125;//最小化alert(MYAPP.modules.m1);alert(MYAPP.modules.m2);alert(MYAPP.modules.m3);//使用function newFn() &#123;  var modules = MYAPP.modules;  alert(m1);  alert(m2);  alert(m3);&#125;//最小化var a = MYAPP.modules;alert(a.m1);alert(a.m2);alert(a.m3);\nPrivate 屬性與方法JavaScript 所有的物件成員都是 Public。\nvar myobj = &#123;  myprop: 1,  getProp: function() &#123;    return this.myprop;  &#125;,&#125;;console.log(myobj.myprop); // myprop 可被 public 存取console.log(myobj.getProp()); // getProp() 也是 public\nPrivate 成員雖然語言本身沒有提供特殊語法，但可以用閉包來實作，任何屬於閉包作用域的變數都不會暴露在建構式之外，以下舉例：\nfunction Gadget() &#123;  //private 成員  var name = 'iPod';  //public 方法  this.getName = function() &#123;    return name;  &#125;;&#125;var toy = new Gadget();console.log(tou.name); //undefinedconsole.log(toy.getName()); //\"iPod\"\n在 JavaScript 表現隱私權很容易，將想要保持 Private 的資料用函式包起來，且確保他是函式的區域變數，為了是不要讓他在函式外被存取。\n特權方法存取 private 成員的 public 方法的一個名字。\n上一個 getName() 就是一個特權函式，因為他對 name 屬性有特別的存取權。\n隱私權錯誤當你直接從特權函式回傳一個 private 變數，且這個變數是個物件或陣列時，外圍的程式碼仍可以更改 private 變數，因為傳遞的是變數的參考。\nfunction Gadget() &#123;  var specs = &#123;    screen_width: 320,    screen_height: 480,    color: 'white',  &#125;;  this.getSpecs = function() &#123;    return specs;  &#125;;&#125;var toy = new Gadget(),  specs = toy.getSpecs();specs.color = 'black';specs.price = 'free';console.dir(toy.getSpecs());\n\n小心！不要回傳想要保持 private 的物件或陣列參考。\n\n讓 getSpecs() 回傳一個新的物件，物件中僅需要使用者所需要的資料(最低授權原則)。\n\n建立一個 specs 物件的複本，你可以使用常用的的複製物件函式。\n\n\n之後會提到 extend ，它會對物件做一個淺層複製（只複製最上一層的參數），另一個為 extendDeep 他會以遞迴的方式複製所有的屬性和他們所擁有的巢狀屬性。\n最低授權原則：以這個範例來說，假設 Gadget 的使用者對於此元件的大小是否符合感興趣，那僅需要的只有大小而已。因此你給全部，不如新的函式，讓函式回傳包含寬和高的物件，甚至你可能都不需要 getSpecs 方法。\n物件實字與隱私權前面的範例都是使用建構式，那如果使用物件實字仍可能使用 private 成員嗎？\n你所需要只是要將 private 成員用函式包起來，如果是物件實字可以使用立即函式來建立閉包。\nvar myobj;(function() &#123;  var name = 'oh, mygod';  myobj = &#123;    getName: function() &#123;      return name;    &#125;,  &#125;;&#125;)();myobj.getName(); // \"oh, mygod\"\n用另一個相同概念的方法寫：\nvar myobj = (function() &#123;  var name = 'oh, mygod';  return &#123;    getName: function() &#123;      return name;    &#125;,  &#125;;&#125;)();myobj.getName(); // \"oh, mygod\"\nPrototypes 與隱私權使用建構式所產生的 private 成員，他們在每次建構式呼叫產生新物件時都重新建立，這是建構式每個 this 成員都有的缺點。\n解法：將共同屬性和方法加到 prototype 屬性中，如此所有相同建構式的實例都會共享，實體之間也能共享隱藏的 private 成員。\n可以用建構式中的 private 屬性和物件實字的 private 屬性來組合，因為 prototype 也是物件，所以可以用物件實字來建立。\nfunction Gadget() &#123;  var name = 'iPod';  this.getName = function() &#123;    return name;  &#125;;&#125;Gadget.prototype = (function() &#123;  var browser = 'mobile webkit';  return &#123;    getBrowser: function() &#123;&#125;,  &#125;;&#125;)();var toy = new Gadget();console.log(toy.getName());console.log(toy.getBrowser());\n將 Private 函式揭露成 Public揭露模式：將 private 方法揭露為 public 方法的模式。\n假設物件中的所有功能都對物件來說很關鍵，於是你可能想盡可能保護此物件，但同時希望 public 方法來存取他的一些功能，就很適合用揭露模式。\n當揭露方法是 public ，物件會變得很脆弱，時時暴露在可能不小心被修改的風險之下。\n先來第一種範例，建立在其中一種私有權模式上物件實字的 private 成員模式：\nvar myarr;(function() &#123;  var astr = '[object Array]',    toString = Object.prototype.toString;  function isArray(a) &#123;    return toString.call(a) === astr;  &#125;  function indexOf(haystack, needle) &#123;    var i = 0,      max = haystack.length;    for (; i &lt; max; i += 1) &#123;      if (haystack[i] === needle) &#123;        return i;      &#125;      return -1;    &#125;  &#125;  myarr = &#123;    isArray: isArray,    indexOf: indexOf,    inArray: indexOf,  &#125;;&#125;)();\nastr 和 toString 為 private 變數，isArray 和 indexOf 為 private 函式，結尾出現 myarr 物件，裡面包含允許揭露的 public 功能。\nmyarr.isArray([1, 2]); // truemyarr.isArray(&#123;  0: 1,&#125;); // falsemyarr.indexOf(['a', 'b', 'z'], 'z'); // 2myarr.inArray(['a', 'b', 'z'], 'z'); // 2\nmyarr.indexOf = null;myarr.inArray(['a', 'b', 'z'], 'z'); // 2\n現在如果發生預料之外的事在 public 的 indexOf 上，但 private 的 indexOf 函式仍然是安全的，所以 inArray() 仍然可以運作。\n","dateCreated":"2018-11-07T17:56:01+00:00","dateModified":"2019-10-24T06:50:39+00:00","datePublished":"2018-11-07T17:56:01+00:00","description":"可以降低全域變數的需求量，幫忙避免命名衝突和過度的名稱前綴詞。JavaScript 沒有內建的命名空間，為了避免一堆函式、變數、物件污染全域空間，應該要建立一個全域物件。","headline":"【讀書筆記】JavaScript Design Pattern Chapter05 物件建立模式（上）","image":["/img/cover/books.jpg"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://codingwife.com/javascript-design-pattern-object01/"},"publisher":{"@type":"Organization","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png","logo":{"@type":"ImageObject","url":"http://codingwife.com/images/leia.png"}},"url":"http://codingwife.com/javascript-design-pattern-object01/","keywords":"讀書筆記, JSDP"}</script>
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    <img src="/images/codingwife.png" alt height="28">
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item " href="/archives">Archives</a>
+            
+            <a class="navbar-item " href="/categories">Categories</a>
+            
+            <a class="navbar-item " href="/tags">Tags</a>
+            
+            <a class="navbar-item " href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="搜尋" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/leiadot">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            <a class="navbar-item" title="Facebook" href="https://facebook.com/CodingwifeHy2">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+        【讀書筆記】JavaScript Design Pattern Chapter05 物件建立模式（上）
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">2018-11-07 17:56
+            （<time datetime="2018-11-07T17:56:01.000Z" itemprop="datePublished">11月 7 2018</time>）
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Front-end/">Front-end</a>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+        
+        <p>可以降低全域變數的需求量，幫忙避免命名衝突和過度的名稱前綴詞。JavaScript 沒有內建的命名空間，為了避免一堆函式、變數、物件污染全域空間，應該要建立一個全域物件。</p>
+<a id="more"></a>
+
+<h2 id="命名空間"><a href="#命名空間" class="headerlink" title="命名空間"></a>命名空間</h2><p>可以降低全域變數的需求量，幫忙避免命名衝突和過度的名稱前綴詞。JavaScript 沒有內建的命名空間，為了避免一堆函式、變數、物件污染全域空間，應該要建立一個全域物件。</p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="hljs-keyword">var</span> MYAPP = &#123;&#125;;</span><br><span class="line"><span class="hljs-comment">//全域物件</span></span><br><span class="line">MYAPP.Parent = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;&#125;;</span><br><span class="line"><span class="hljs-comment">//建構式</span></span><br><span class="line">MY.somevar = =<span class="hljs-number">1</span>;</span><br><span class="line"><span class="hljs-comment">//變數</span></span><br><span class="line">MYAPP.modules.modules1 = &#123;&#125;;</span><br><span class="line">MYAPP.modules.modules1.data = &#123;<span class="hljs-attr">a</span>:<span class="hljs-number">1</span>&#125;;</span><br><span class="line"><span class="hljs-comment">//巢狀物件</span></span><br></pre></td></tr></table></figure></p>
+<p>應該用全大寫表示全域變數，讓他特別明顯（另外注意常數也是全大寫）。</p>
+<p>缺點：</p>
+<ul>
+<li>越長的巢狀名稱表示更長</li>
+<li>唯一的全域實體代表任何程式碼都可以變更這個實體，而接下來的功能也都會使用變更後的狀態。</li>
+<li>要多打一點字，它相當於在每個變數和函數之前加上前綴詞。</li>
+</ul>
+<h4 id="泛用的命名空間函式"><a href="#泛用的命名空間函式" class="headerlink" title="泛用的命名空間函式"></a>泛用的命名空間函式</h4><p>有些你正要加入命名空間的屬性也許早已存在了，於是會不小心覆蓋它，因此最好建立命名空間和新增屬性前，先檢查是否存在。</p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> MYAPP === <span class="hljs-string">'undefined'</span>) &#123;</span><br><span class="line">  <span class="hljs-keyword">var</span> MYAPP = &#123;&#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-comment">// 檢查全域</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">var</span> MYAPP = MYAPP || &#123;&#125;;</span><br><span class="line"><span class="hljs-comment">//簡短寫法</span></span><br></pre></td></tr></table></figure></p>
+<p>但如果遇到巢狀物件，必須對每個物件或屬性檢查，此時需要一個函數幫忙做檢查細節。</p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line">MYAPP.namespace(<span class="hljs-string">'MYAPP.module.module2'</span>);</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">//效果等同於：</span></span><br><span class="line"><span class="hljs-comment">//var MYAPP = &#123;</span></span><br><span class="line"><span class="hljs-comment">//	module: &#123;</span></span><br><span class="line"><span class="hljs-comment">//		module2: &#123;&#125;</span></span><br><span class="line"><span class="hljs-comment">//	&#125;</span></span><br><span class="line"><span class="hljs-comment">//&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">var</span> MYAPP = MYAPP || &#123;&#125;;</span><br><span class="line"></span><br><span class="line">MYAPP.namespace = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">ns_str</span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">var</span> parts = ns_str.split(<span class="hljs-string">'.'</span>),</span><br><span class="line">    parent = MYAPP,</span><br><span class="line">    i;</span><br><span class="line"></span><br><span class="line">  <span class="hljs-comment">//去除最前投多餘的全域名稱</span></span><br><span class="line">  <span class="hljs-keyword">if</span> (parts[<span class="hljs-number">0</span>] === <span class="hljs-string">'MYAPP'</span>) &#123;</span><br><span class="line">    parts = parts.slice(<span class="hljs-number">1</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; parts.length; i += <span class="hljs-number">1</span>) &#123;</span><br><span class="line">    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> parent[parts[i]] === <span class="hljs-string">'undefined'</span>) &#123;</span><br><span class="line">      parent[parts[i]] = &#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    parent = parent[parts[i]];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="hljs-keyword">return</span> parent;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>允許下列做法：</p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> m2 = MYAPP.namespace(<span class="hljs-string">'MYAPP.module.module2'</span>);</span><br><span class="line">m2 === MYAPP.module.module2; <span class="hljs-comment">//true</span></span><br><span class="line"><span class="hljs-comment">//將回傳值指派給區域變數</span></span><br><span class="line">MYAPP.namespace(<span class="hljs-string">'module.module2'</span>);</span><br><span class="line"><span class="hljs-comment">//忽略開頭的MYAPP</span></span><br><span class="line">MYAPP.namespace(<span class="hljs-string">'MYAPP.once.upon.the.time'</span>);</span><br><span class="line"><span class="hljs-comment">//很長的命名空間</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="宣告相依性"><a href="#宣告相依性" class="headerlink" title="宣告相依性"></a>宣告相依性</h2><p>JavaScript 通常會使用命名空間，並讓良好的模組化，讓你可以只引用你需要的模組。</p>
+<p>將與你程式碼相依的模組，宣告在函式或是模組頂端，這樣意味者建立唯一一個區域變數，並指向所需的模組。</p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> myFunction = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">var</span> event = YAHOO.util.Event,</span><br><span class="line">    dom = YAHOO.util.Dom;</span><br><span class="line"></span><br><span class="line">  <span class="hljs-comment">//使用event, dom</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>好處：</p>
+<ul>
+<li>宣告相依性，揭示你程式碼的使用者可以了解他們需要哪些相依模組需要引用</li>
+<li>宣告在函式頂端，較容易找到並解決相依性</li>
+<li>使用區域變數比找全域變數快，更比起全域變數的巢狀屬性快。採用相依性模式，只需要在函式使用全域變數一次就好。</li>
+<li>有些最小化工具會重新命名區域變數，但不會去更改全域變數，因為不安全。</li>
+</ul>
+<p>比較：</p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-comment">//未使用</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">oldFn</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  alert(MYAPP.modules.m1);</span><br><span class="line">  alert(MYAPP.modules.m2);</span><br><span class="line">  alert(MYAPP.modules.m3);</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-comment">//最小化</span></span><br><span class="line">alert(MYAPP.modules.m1);</span><br><span class="line">alert(MYAPP.modules.m2);</span><br><span class="line">alert(MYAPP.modules.m3);</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">//使用</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">newFn</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">var</span> modules = MYAPP.modules;</span><br><span class="line">  alert(m1);</span><br><span class="line">  alert(m2);</span><br><span class="line">  alert(m3);</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-comment">//最小化</span></span><br><span class="line"><span class="hljs-keyword">var</span> a = MYAPP.modules;</span><br><span class="line">alert(a.m1);</span><br><span class="line">alert(a.m2);</span><br><span class="line">alert(a.m3);</span><br></pre></td></tr></table></figure></p>
+<h2 id="Private-屬性與方法"><a href="#Private-屬性與方法" class="headerlink" title="Private 屬性與方法"></a>Private 屬性與方法</h2><p>JavaScript 所有的物件成員都是 Public。</p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> myobj = &#123;</span><br><span class="line">  myprop: <span class="hljs-number">1</span>,</span><br><span class="line">  getProp: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.myprop;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="hljs-built_in">console</span>.log(myobj.myprop); <span class="hljs-comment">// myprop 可被 public 存取</span></span><br><span class="line"><span class="hljs-built_in">console</span>.log(myobj.getProp()); <span class="hljs-comment">// getProp() 也是 public</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="Private-成員"><a href="#Private-成員" class="headerlink" title="Private 成員"></a>Private 成員</h4><p>雖然語言本身沒有提供特殊語法，但可以用閉包來實作，任何屬於閉包作用域的變數都不會暴露在建構式之外，以下舉例：</p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Gadget</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-comment">//private 成員</span></span><br><span class="line">  <span class="hljs-keyword">var</span> name = <span class="hljs-string">'iPod'</span>;</span><br><span class="line">  <span class="hljs-comment">//public 方法</span></span><br><span class="line">  <span class="hljs-keyword">this</span>.getName = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> name;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-keyword">var</span> toy = <span class="hljs-keyword">new</span> Gadget();</span><br><span class="line"></span><br><span class="line"><span class="hljs-built_in">console</span>.log(tou.name); <span class="hljs-comment">//undefined</span></span><br><span class="line"><span class="hljs-built_in">console</span>.log(toy.getName()); <span class="hljs-comment">//"iPod"</span></span><br></pre></td></tr></table></figure></p>
+<p>在 JavaScript 表現隱私權很容易，將想要保持 Private 的資料用函式包起來，且確保他是函式的區域變數，為了是不要讓他在函式外被存取。</p>
+<h4 id="特權方法"><a href="#特權方法" class="headerlink" title="特權方法"></a>特權方法</h4><p>存取 private 成員的 public 方法的一個名字。</p>
+<p>上一個 <code>getName()</code> 就是一個特權函式，因為他對 name 屬性有特別的存取權。</p>
+<h4 id="隱私權錯誤"><a href="#隱私權錯誤" class="headerlink" title="隱私權錯誤"></a>隱私權錯誤</h4><p>當你直接從特權函式回傳一個 private 變數，且這個變數是個物件或陣列時，外圍的程式碼仍可以更改 private 變數，因為傳遞的是變數的參考。</p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Gadget</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">var</span> specs = &#123;</span><br><span class="line">    screen_width: <span class="hljs-number">320</span>,</span><br><span class="line">    screen_height: <span class="hljs-number">480</span>,</span><br><span class="line">    color: <span class="hljs-string">'white'</span>,</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="hljs-keyword">this</span>.getSpecs = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> specs;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">var</span> toy = <span class="hljs-keyword">new</span> Gadget(),</span><br><span class="line">  specs = toy.getSpecs();</span><br><span class="line">specs.color = <span class="hljs-string">'black'</span>;</span><br><span class="line">specs.price = <span class="hljs-string">'free'</span>;</span><br><span class="line"><span class="hljs-built_in">console</span>.dir(toy.getSpecs());</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p>小心！不要回傳想要保持 private 的物件或陣列參考。</p>
+</li>
+<li><p>讓 <code>getSpecs()</code> 回傳一個新的物件，物件中僅需要使用者所需要的資料(最低授權原則)。</p>
+</li>
+<li><p>建立一個 specs 物件的複本，你可以使用常用的的複製物件函式。</p>
+</li>
+</ul>
+<p>之後會提到 <code>extend</code> ，它會對物件做一個淺層複製（只複製最上一層的參數），另一個為 <code>extendDeep</code> 他會以遞迴的方式複製所有的屬性和他們所擁有的巢狀屬性。</p>
+<p>最低授權原則：以這個範例來說，假設 Gadget 的使用者對於此元件的大小是否符合感興趣，那僅需要的只有大小而已。因此你給全部，不如新的函式，讓函式回傳包含寬和高的物件，甚至你可能都不需要 getSpecs 方法。</p>
+<h4 id="物件實字與隱私權"><a href="#物件實字與隱私權" class="headerlink" title="物件實字與隱私權"></a>物件實字與隱私權</h4><p>前面的範例都是使用建構式，那如果使用物件實字仍可能使用 private 成員嗎？</p>
+<p>你所需要只是要將 private 成員用函式包起來，如果是物件實字可以使用立即函式來建立閉包。</p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> myobj;</span><br><span class="line">(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">var</span> name = <span class="hljs-string">'oh, mygod'</span>;</span><br><span class="line"></span><br><span class="line">  myobj = &#123;</span><br><span class="line">    getName: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">      <span class="hljs-keyword">return</span> name;</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line">myobj.getName(); <span class="hljs-comment">// "oh, mygod"</span></span><br></pre></td></tr></table></figure></p>
+<p>用另一個相同概念的方法寫：</p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> myobj = (<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">var</span> name = <span class="hljs-string">'oh, mygod'</span>;</span><br><span class="line"></span><br><span class="line">  <span class="hljs-keyword">return</span> &#123;</span><br><span class="line">    getName: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">      <span class="hljs-keyword">return</span> name;</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line">myobj.getName(); <span class="hljs-comment">// "oh, mygod"</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="Prototypes-與隱私權"><a href="#Prototypes-與隱私權" class="headerlink" title="Prototypes 與隱私權"></a>Prototypes 與隱私權</h4><p>使用建構式所產生的 private 成員，他們在每次建構式呼叫產生新物件時都重新建立，這是建構式每個 this 成員都有的缺點。</p>
+<p>解法：將共同屬性和方法加到 prototype 屬性中，如此所有相同建構式的實例都會共享，實體之間也能共享隱藏的 private 成員。</p>
+<p>可以用建構式中的 private 屬性和物件實字的 private 屬性來組合，因為 prototype 也是物件，所以可以用物件實字來建立。</p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Gadget</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">var</span> name = <span class="hljs-string">'iPod'</span>;</span><br><span class="line"></span><br><span class="line">  <span class="hljs-keyword">this</span>.getName = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> name;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Gadget.prototype = (<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">var</span> browser = <span class="hljs-string">'mobile webkit'</span>;</span><br><span class="line"></span><br><span class="line">  <span class="hljs-keyword">return</span> &#123;</span><br><span class="line">    getBrowser: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;&#125;,</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">var</span> toy = <span class="hljs-keyword">new</span> Gadget();</span><br><span class="line"><span class="hljs-built_in">console</span>.log(toy.getName());</span><br><span class="line"><span class="hljs-built_in">console</span>.log(toy.getBrowser());</span><br></pre></td></tr></table></figure></p>
+<h4 id="將-Private-函式揭露成-Public"><a href="#將-Private-函式揭露成-Public" class="headerlink" title="將 Private 函式揭露成 Public"></a>將 Private 函式揭露成 Public</h4><p>揭露模式：將 private 方法揭露為 public 方法的模式。</p>
+<p>假設物件中的所有功能都對物件來說很關鍵，於是你可能想盡可能保護此物件，但同時希望 public 方法來存取他的一些功能，就很適合用揭露模式。</p>
+<p>當揭露方法是 public ，物件會變得很脆弱，時時暴露在可能不小心被修改的風險之下。</p>
+<p>先來第一種範例，建立在其中一種私有權模式上物件實字的 private 成員模式：</p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> myarr;</span><br><span class="line"></span><br><span class="line">(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">var</span> astr = <span class="hljs-string">'[object Array]'</span>,</span><br><span class="line">    toString = <span class="hljs-built_in">Object</span>.prototype.toString;</span><br><span class="line"></span><br><span class="line">  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">isArray</span>(<span class="hljs-params">a</span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> toString.call(a) === astr;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">indexOf</span>(<span class="hljs-params">haystack, needle</span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>,</span><br><span class="line">      max = haystack.length;</span><br><span class="line">    <span class="hljs-keyword">for</span> (; i &lt; max; i += <span class="hljs-number">1</span>) &#123;</span><br><span class="line">      <span class="hljs-keyword">if</span> (haystack[i] === needle) &#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> i;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  myarr = &#123;</span><br><span class="line">    isArray: isArray,</span><br><span class="line">    indexOf: indexOf,</span><br><span class="line">    inArray: indexOf,</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure></p>
+<p>astr 和 toString 為 private 變數，isArray 和 indexOf 為 private 函式，結尾出現 myarr 物件，裡面包含允許揭露的 public 功能。</p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line">myarr.isArray([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>]); <span class="hljs-comment">// true</span></span><br><span class="line">myarr.isArray(&#123;</span><br><span class="line">  <span class="hljs-number">0</span>: <span class="hljs-number">1</span>,</span><br><span class="line">&#125;); <span class="hljs-comment">// false</span></span><br><span class="line">myarr.indexOf([<span class="hljs-string">'a'</span>, <span class="hljs-string">'b'</span>, <span class="hljs-string">'z'</span>], <span class="hljs-string">'z'</span>); <span class="hljs-comment">// 2</span></span><br><span class="line">myarr.inArray([<span class="hljs-string">'a'</span>, <span class="hljs-string">'b'</span>, <span class="hljs-string">'z'</span>], <span class="hljs-string">'z'</span>); <span class="hljs-comment">// 2</span></span><br></pre></td></tr></table></figure></p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line">myarr.indexOf = <span class="hljs-literal">null</span>;</span><br><span class="line">myarr.inArray([<span class="hljs-string">'a'</span>, <span class="hljs-string">'b'</span>, <span class="hljs-string">'z'</span>], <span class="hljs-string">'z'</span>); <span class="hljs-comment">// 2</span></span><br></pre></td></tr></table></figure></p>
+<p>現在如果發生預料之外的事在 public 的 indexOf 上，但 private 的 indexOf 函式仍然是安全的，所以 inArray() 仍然可以運作。</p>
+
+        
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+        
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/讀書筆記/">#讀書筆記</a></span>
+        
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/JSDP/">#JSDP</a></span>
+        
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/javascript-design-pattern-object02/">【讀書筆記】JavaScript Design Pattern Chapter05 物件建立模式（下）</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/javascript-design-pattern-function02/">【讀書筆記】JavaScript Design Pattern Chapter04 函式（下）</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="sharethis-inline-share-buttons"></div>
+<script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5d9b1ebc2b036a0011ed0d83&amp;product=inline-share-buttons" async="async"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">評論</h3>
+    
+<div id="comment-container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+	var gitment = new Gitment({
+		id: 'javascript-design-pattern-object01/',
+		owner: 'leiadot',
+		repo: 'leiadot.github.io',
+		oauth: {
+			client_id: '51ce642a9a95d7ccdf4d',
+			client_secret: '6bf1657de06ee2fbaf452b4752567ab313277f50',
+		},
+	})
+	gitment.render('comment-container')
+</script>
+
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2019 [object Object]&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            <div class="column is-narrow">
+                <div class="columns is-mobile is-multiline is-centered">
+                
+                    
+                <a class="column is-narrow has-text-black" title="GitHub" href="https://github.com/ppoffice/leiadot">
+                    
+                    GitHub
+                    
+                </a>
+                
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("zh-CN");
+</script>
+
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+</script>
+
+    
+    
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+<script src="/js/script.js"></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="站內搜尋">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '頁面',
+                CATEGORIES: '分類',
+                TAGS: '標籤',
+                UNTITLED: '(無標題)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+</body>
+</html>

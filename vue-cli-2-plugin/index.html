@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+<title>【Vue】Vue 常用套件環境設定 - CodingWife 寇丁人妻日安</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="Vue Cli 2 常用套件與環境設定。">
+
+
+
+
+
+<meta name="description" content="Vue Cli 2 常用套件與環境設定。">
+<meta name="keywords" content="Vue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Vue】Vue 常用套件環境設定">
+<meta property="og:url" content="http://codingwife.com/vue-cli-2-plugin/index.html">
+<meta property="og:site_name" content="CodingWife 寇丁人妻日安">
+<meta property="og:description" content="Vue Cli 2 常用套件與環境設定。">
+<meta property="og:locale" content="zh-tw">
+<meta property="og:image" content="http://codingwife.com/img/cover/vue.png">
+<meta property="og:updated_time" content="2019-10-24T06:50:39.036Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【Vue】Vue 常用套件環境設定">
+<meta name="twitter:description" content="Vue Cli 2 常用套件與環境設定。">
+<meta name="twitter:image" content="http://codingwife.com/img/cover/vue.png">
+
+
+
+
+
+<link rel="icon" href="/images/logo.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto+Sans+TC|Open+Sans&display=swap">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+<link rel="stylesheet" href="/css/style.css">
+<script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png"},"articleBody":"\nvue-loader\nbootstrap / jQuery\naxios\n\n版本：vue-cli 2.9.3\n\n\nVue-router安裝 Vue-router$ npm install vue-router\n在專案下使用 npm 安裝，如果你是使用 webpack 樣板，你在設定pakage.json就可以選擇要不要安裝。\n註冊import router from './router';new Vue(&#123;  el: '#app',  router,  components: &#123; App &#125;,  template: '&lt;App/&gt;',&#125;);\n在main.js裡面會發現他已經幫你 import 進去，接著看app.vue，會發現有個&lt;router-view/&gt;的標籤，這意思是路由顯示的畫面會在那個區塊做顯示，接著看router/index.js\nimport Vue from 'vue';import VueRouter from 'vue-router';Vue.use(VueRouter);// init// page importimport Hello from './pages/Hello.vue';import Hello2 from './pages/Hello2.vue';const router = new VueRouter(&#123;  mode: 'history',  base: __dirname,  // router 列表  routes: [    &#123;      path: '/hello',      name: 'hello',      component: Hello,    &#125;,    &#123;      path: '/hello2',      name: 'hello2',      component: Hello2,    &#125;,    // router 轉址    &#123; path: '/*', redirect: '/hello' &#125;,  ],&#125;);\n如果使用webpack-simple模板，需要按照官方的方式 import，也不會有router資料夾，必須直接在裡面設置 router。\nimport HelloWorld from '@/components/HelloWorld';export default new Router(&#123;  routes: [    &#123;      path: '/',      name: 'HelloWorld',      component: HelloWorld,    &#125;,  ],&#125;);\n這段的意思是說，是 router 根據用戶的 url 來判斷要顯示哪個元件，所有要依據路由轉換的元件都要在router/index.js上註冊。\n&lt;router-link :to=\"page01url\"&gt;page01&lt;/router-link&gt; &lt;router-link :to=\"page02url\"&gt;page02&lt;/router-link&gt;\n在選用觸發切換路由，絕大部分人都會直接反應用 a 連結下去切換，但官方並不建議這樣寫，官方建議用&lt;router-link&gt;。\nbootstrap安裝 bootstrap$ npm install bootstrap sass-loader postcss-loader node-sass --save\n上面指令是官方建議的安裝方法，但如果要引用 bootstrap 的 sass 仍然會報錯，因為 webpack 無法解析，所以要安裝sass-loader、post-loader，以及讓sass-loader相依的node-sass，讓 bootstrap 可以正常解析。\n$ npm install -D vue-style-loader css-loader\n但是為了在預覽 vue 的時候可以即時顯示，所以我們必須還要再下載vue-style-loader，這和之前用的style-loader有 87 分像。\n&#123;  test: /\\.vue$/,  loader: 'vue-loader',  options: &#123;    loaders: &#123;      'scss': [        'vue-style-loader',        'css-loader',        'post-loader',        'sass-loader',      ]    &#125;  &#125;&#125;\n因為 webpack loader 的運作機制順序是由後往前、內往外，因此在webpack.base.config.js的配置如上，這讓 bootstrap 的 sass 有全局的設定。\n$ npm install sass-resources-loader\n此時發現，只要在子元件想要使用 bootstrap sass 的程式庫 \b（mixin、extend……）及變數，並無法正確載入，為了不要在子元件裡面一直重複 import ，這時候需要加載sass-resources-loader。\n&#123;  test: /\\.vue$/,  loader: 'vue-loader',  options: &#123;      loaders: &#123;          'scss': [              'vue-style-loader',              'css-loader',              'sass-loader',              &#123;                  loader: 'sass-resources-loader',                  options: &#123;                      resources: path.resolve(__dirname, './src/assets/styles/global.scss'),                  &#125;,              &#125;          ]      &#125;  &#125;&#125;\n這個 loader 主要是讓 sass 在被編譯解析前，把我們要設為全域環境的 sass 檔案路徑放到resources中。\n@import '~bootstrap/scss/bootstrap';\n再到./src/assets/styles/global.scss的檔案裡面匯入 bootstrap 。\nimport './assets/styles/global.scss';\n最後別忘了要再app.vue的檔案中 import 才算完成。此外在global.scss中，你也可以放置你想要設為全域的 sass ，例如 RWD 斷點、變數之類的，因為這個 sass 是全域，所以也要考慮專案的加載量。\njQuery$ npm install --save jquery popper.js\n處理完 sass 的部分，接下來處理互動。為了能正常使用 bootstrap 元件的部分，因此要再多下載 jQuery 和 popper.js，popper.js 的副檔名一定要加，不然 popper 是另外一個套件。\nconst webpack = require('webpack')... plugins: [    new webpack.ProvidePlugin(&#123;        '$': \"jquery\",        'jQuery': \"jquery\",        'Popper': 'popper.js'    &#125;)  ],\n在webpack.base.config.js的設定。\naxios介紹\nPromise based HTTP client for the browser and node.js\n\n基於 promise 用於 瀏覽器和 node.js 的 HTTP 客戶端。\n特色\n在瀏覽器創建 XMLHttpRequest\n從 node.js 發出 http 請求\n支援 Promise API\n攔截請求跟回應\n轉換請求與回應資料\n取消請求\n自動轉換 JSON 資料\n客戶端防止 CSRF/XSRF\n\n$ npm install axios\n一樣使用 npm 安裝。\nimport Axios from 'Axios';......Vue.prototype.$axios = Axios;// 為了讓其他元件也能使用 axios，需改成 vue 的原型屬性。\n安裝完之後，把他 import 進main.js。\npost 範例執行方法created()&#123;  this.$axios.post('/user', &#123;    firstName: 'Fred',    lastName: 'Flintstone'  &#125;)  .then(function (response) &#123;    console.log(response);  &#125;)  .catch(function (error) &#123;    console.log(error);  &#125;);&#125;\n這個方法是在元件被創造完後，立即調用，利用 axios 執行 post 請求，要看更多方法請看axios github，生命週期的部分，詳細可以看Vue 生命週期。\n","dateCreated":"2018-03-28T10:52:54+00:00","dateModified":"2019-10-24T06:50:39+00:00","datePublished":"2018-03-28T10:52:54+00:00","description":"\nvue-loader\nbootstrap / jQuery\naxios\n\n版本：vue-cli 2.9.3","headline":"【Vue】Vue 常用套件環境設定","image":["/img/cover/vue.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://codingwife.com/vue-cli-2-plugin/"},"publisher":{"@type":"Organization","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png","logo":{"@type":"ImageObject","url":"http://codingwife.com/images/leia.png"}},"url":"http://codingwife.com/vue-cli-2-plugin/","keywords":"Vue"}</script>
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    <img src="/images/codingwife.png" alt height="28">
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item " href="/archives">Archives</a>
+            
+            <a class="navbar-item " href="/categories">Categories</a>
+            
+            <a class="navbar-item " href="/tags">Tags</a>
+            
+            <a class="navbar-item " href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="搜尋" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/leiadot">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            <a class="navbar-item" title="Facebook" href="https://facebook.com/CodingwifeHy2">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+        【Vue】Vue 常用套件環境設定
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">2018-03-28 10:52
+            （<time datetime="2018-03-28T10:52:54.000Z" itemprop="datePublished">3月 28 2018</time>）
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Front-end/">Front-end</a>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+        
+        <ul>
+<li>vue-loader</li>
+<li>bootstrap / jQuery</li>
+<li>axios</li>
+</ul>
+<p>版本：vue-cli 2.9.3</p>
+<a id="more"></a>
+
+<h2 id="Vue-router"><a href="#Vue-router" class="headerlink" title="Vue-router"></a>Vue-router</h2><h3 id="安裝-Vue-router"><a href="#安裝-Vue-router" class="headerlink" title="安裝 Vue-router"></a>安裝 Vue-router</h3><p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">$ npm install vue-router</span><br></pre></td></tr></table></figure></p>
+<p>在專案下使用 npm 安裝，如果你是使用 webpack 樣板，你在設定<code>pakage.json</code>就可以選擇要不要安裝。</p>
+<h3 id="註冊"><a href="#註冊" class="headerlink" title="註冊"></a>註冊</h3><p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> router <span class="hljs-keyword">from</span> <span class="hljs-string">'./router'</span>;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">new</span> Vue(&#123;</span><br><span class="line">  el: <span class="hljs-string">'#app'</span>,</span><br><span class="line">  router,</span><br><span class="line">  components: &#123; App &#125;,</span><br><span class="line">  template: <span class="hljs-string">'&lt;App/&gt;'</span>,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>在<code>main.js</code>裡面會發現他已經幫你 import 進去，接著看<code>app.vue</code>，會發現有個<code>&lt;router-view/&gt;</code>的標籤，這意思是路由顯示的畫面會在那個區塊做顯示，接著看<code>router/index.js</code></p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> Vue <span class="hljs-keyword">from</span> <span class="hljs-string">'vue'</span>;</span><br><span class="line"><span class="hljs-keyword">import</span> VueRouter <span class="hljs-keyword">from</span> <span class="hljs-string">'vue-router'</span>;</span><br><span class="line"></span><br><span class="line">Vue.use(VueRouter);</span><br><span class="line"><span class="hljs-comment">// init</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// page import</span></span><br><span class="line"><span class="hljs-keyword">import</span> Hello <span class="hljs-keyword">from</span> <span class="hljs-string">'./pages/Hello.vue'</span>;</span><br><span class="line"><span class="hljs-keyword">import</span> Hello2 <span class="hljs-keyword">from</span> <span class="hljs-string">'./pages/Hello2.vue'</span>;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">const</span> router = <span class="hljs-keyword">new</span> VueRouter(&#123;</span><br><span class="line">  mode: <span class="hljs-string">'history'</span>,</span><br><span class="line">  base: __dirname,</span><br><span class="line">  <span class="hljs-comment">// router 列表</span></span><br><span class="line">  routes: [</span><br><span class="line">    &#123;</span><br><span class="line">      path: <span class="hljs-string">'/hello'</span>,</span><br><span class="line">      name: <span class="hljs-string">'hello'</span>,</span><br><span class="line">      component: Hello,</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      path: <span class="hljs-string">'/hello2'</span>,</span><br><span class="line">      name: <span class="hljs-string">'hello2'</span>,</span><br><span class="line">      component: Hello2,</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="hljs-comment">// router 轉址</span></span><br><span class="line">    &#123; <span class="hljs-attr">path</span>: <span class="hljs-string">'/*'</span>, <span class="hljs-attr">redirect</span>: <span class="hljs-string">'/hello'</span> &#125;,</span><br><span class="line">  ],</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>如果使用<code>webpack-simple</code>模板，需要按照官方的方式 import，也不會有<code>router</code>資料夾，必須直接在裡面設置 router。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> HelloWorld <span class="hljs-keyword">from</span> <span class="hljs-string">'@/components/HelloWorld'</span>;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">new</span> Router(&#123;</span><br><span class="line">  routes: [</span><br><span class="line">    &#123;</span><br><span class="line">      path: <span class="hljs-string">'/'</span>,</span><br><span class="line">      name: <span class="hljs-string">'HelloWorld'</span>,</span><br><span class="line">      component: HelloWorld,</span><br><span class="line">    &#125;,</span><br><span class="line">  ],</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>這段的意思是說，是 router 根據用戶的 url 來判斷要顯示哪個元件，所有要依據路由轉換的元件都要在<code>router/index.js</code>上註冊。</p>
+<p><figure class="highlight html hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">"page01url"</span>&gt;</span>page01<span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span> <span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">"page02url"</span>&gt;</span>page02<span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>在選用觸發切換路由，絕大部分人都會直接反應用 a 連結下去切換，但官方並不建議這樣寫，官方建議用<code>&lt;router-link&gt;</code>。</p>
+<h2 id="bootstrap"><a href="#bootstrap" class="headerlink" title="bootstrap"></a>bootstrap</h2><h3 id="安裝-bootstrap"><a href="#安裝-bootstrap" class="headerlink" title="安裝 bootstrap"></a>安裝 bootstrap</h3><p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">$ npm install bootstrap sass-loader postcss-loader node-sass --save</span><br></pre></td></tr></table></figure></p>
+<p>上面指令是官方建議的安裝方法，但如果要引用 bootstrap 的 sass 仍然會報錯，因為 webpack 無法解析，所以要安裝<code>sass-loader</code>、<code>post-loader</code>，以及讓<code>sass-loader</code>相依的<code>node-sass</code>，讓 bootstrap 可以正常解析。</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">$ npm install -D vue-style-loader css-loader</span><br></pre></td></tr></table></figure></p>
+<p>但是為了在預覽 vue 的時候可以即時顯示，所以我們必須還要再下載<code>vue-style-loader</code>，這和之前用的<code>style-loader</code>有 87 分像。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  test: <span class="hljs-regexp">/\.vue$/</span>,</span><br><span class="line">  loader: <span class="hljs-string">'vue-loader'</span>,</span><br><span class="line">  options: &#123;</span><br><span class="line">    loaders: &#123;</span><br><span class="line">      <span class="hljs-string">'scss'</span>: [</span><br><span class="line">        <span class="hljs-string">'vue-style-loader'</span>,</span><br><span class="line">        <span class="hljs-string">'css-loader'</span>,</span><br><span class="line">        <span class="hljs-string">'post-loader'</span>,</span><br><span class="line">        <span class="hljs-string">'sass-loader'</span>,</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>因為 webpack loader 的運作機制順序是由後往前、內往外，因此在<code>webpack.base.config.js</code>的配置如上，這讓 bootstrap 的 sass 有全局的設定。</p>
+<p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">$ npm install sass-resources-loader</span><br></pre></td></tr></table></figure></p>
+<p>此時發現，只要在子元件想要使用 bootstrap sass 的程式庫 （mixin、extend……）及變數，並無法正確載入，為了不要在子元件裡面一直重複 import ，這時候需要加載<code>sass-resources-loader</code>。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  test: <span class="hljs-regexp">/\.vue$/</span>,</span><br><span class="line">  loader: <span class="hljs-string">'vue-loader'</span>,</span><br><span class="line">  options: &#123;</span><br><span class="line">      loaders: &#123;</span><br><span class="line">          <span class="hljs-string">'scss'</span>: [</span><br><span class="line">              <span class="hljs-string">'vue-style-loader'</span>,</span><br><span class="line">              <span class="hljs-string">'css-loader'</span>,</span><br><span class="line">              <span class="hljs-string">'sass-loader'</span>,</span><br><span class="line">              &#123;</span><br><span class="line">                  loader: <span class="hljs-string">'sass-resources-loader'</span>,</span><br><span class="line">                  options: &#123;</span><br><span class="line">                      resources: path.resolve(__dirname, <span class="hljs-string">'./src/assets/styles/global.scss'</span>),</span><br><span class="line">                  &#125;,</span><br><span class="line">              &#125;</span><br><span class="line">          ]</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>這個 loader 主要是讓 sass 在被編譯解析前，把我們要設為全域環境的 sass 檔案路徑放到<code>resources</code>中。</p>
+<p><figure class="highlight scss hljs"><table><tr><td class="code"><pre><span class="line">@<span class="hljs-keyword">import</span> <span class="hljs-string">'~bootstrap/scss/bootstrap'</span>;</span><br></pre></td></tr></table></figure></p>
+<p>再到<code>./src/assets/styles/global.scss</code>的檔案裡面匯入 bootstrap 。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> <span class="hljs-string">'./assets/styles/global.scss'</span>;</span><br></pre></td></tr></table></figure></p>
+<p>最後別忘了要再<code>app.vue</code>的檔案中 import 才算完成。<br>此外在<code>global.scss</code>中，你也可以放置你想要設為全域的 sass ，例如 RWD 斷點、變數之類的，因為這個 sass 是全域，所以也要考慮專案的加載量。</p>
+<h2 id="jQuery"><a href="#jQuery" class="headerlink" title="jQuery"></a>jQuery</h2><p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">$ npm install --save jquery popper.js</span><br></pre></td></tr></table></figure></p>
+<p>處理完 sass 的部分，接下來處理互動。為了能正常使用 bootstrap 元件的部分，因此要再多下載 jQuery 和 popper.js，popper.js 的副檔名一定要加，不然 popper 是另外一個套件。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">const</span> webpack = <span class="hljs-built_in">require</span>(<span class="hljs-string">'webpack'</span>)</span><br><span class="line">...</span><br><span class="line"> plugins: [</span><br><span class="line">    <span class="hljs-keyword">new</span> webpack.ProvidePlugin(&#123;</span><br><span class="line">        <span class="hljs-string">'$'</span>: <span class="hljs-string">"jquery"</span>,</span><br><span class="line">        <span class="hljs-string">'jQuery'</span>: <span class="hljs-string">"jquery"</span>,</span><br><span class="line">        <span class="hljs-string">'Popper'</span>: <span class="hljs-string">'popper.js'</span></span><br><span class="line">    &#125;)</span><br><span class="line">  ],</span><br></pre></td></tr></table></figure></p>
+<p>在<code>webpack.base.config.js</code>的設定。</p>
+<h2 id="axios"><a href="#axios" class="headerlink" title="axios"></a>axios</h2><h3 id="介紹"><a href="#介紹" class="headerlink" title="介紹"></a>介紹</h3><blockquote>
+<p>Promise based HTTP client for the browser and node.js</p>
+</blockquote>
+<p>基於 promise 用於 瀏覽器和 node.js 的 HTTP 客戶端。</p>
+<h3 id="特色"><a href="#特色" class="headerlink" title="特色"></a>特色</h3><ul>
+<li>在瀏覽器創建 XMLHttpRequest</li>
+<li>從 node.js 發出 http 請求</li>
+<li>支援 Promise API</li>
+<li>攔截請求跟回應</li>
+<li>轉換請求與回應資料</li>
+<li>取消請求</li>
+<li>自動轉換 JSON 資料</li>
+<li>客戶端防止 CSRF/XSRF</li>
+</ul>
+<p><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">$ npm install axios</span><br></pre></td></tr></table></figure></p>
+<p>一樣使用 npm 安裝。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> Axios <span class="hljs-keyword">from</span> <span class="hljs-string">'Axios'</span>;</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">Vue.prototype.$axios = Axios;</span><br><span class="line"><span class="hljs-comment">// 為了讓其他元件也能使用 axios，需改成 vue 的原型屬性。</span></span><br></pre></td></tr></table></figure></p>
+<p>安裝完之後，把他 import 進<code>main.js</code>。</p>
+<h3 id="post-範例執行方法"><a href="#post-範例執行方法" class="headerlink" title="post 範例執行方法"></a>post 範例執行方法</h3><p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line">created()&#123;</span><br><span class="line">  <span class="hljs-keyword">this</span>.$axios.post(<span class="hljs-string">'/user'</span>, &#123;</span><br><span class="line">    firstName: <span class="hljs-string">'Fred'</span>,</span><br><span class="line">    lastName: <span class="hljs-string">'Flintstone'</span></span><br><span class="line">  &#125;)</span><br><span class="line">  .then(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">response</span>) </span>&#123;</span><br><span class="line">    <span class="hljs-built_in">console</span>.log(response);</span><br><span class="line">  &#125;)</span><br><span class="line">  .catch(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">error</span>) </span>&#123;</span><br><span class="line">    <span class="hljs-built_in">console</span>.log(error);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>這個方法是在元件被創造完後，立即調用，利用 axios 執行 post 請求，要看更多方法請看<a href="https://github.com/axios/axios" target="_blank" rel="noopener">axios github</a>，生命週期的部分，詳細可以看<a href="https://cn.vuejs.org/v2/api/#%E9%80%89%E9%A1%B9-%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E9%92%A9%E5%AD%90" target="_blank" rel="noopener">Vue 生命週期</a>。</p>
+
+        
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+        
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/Vue/">#Vue</a></span>
+        
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/javascript-30-day23/">【JS30】Day23：Speech Synthesis</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/javascript-30-day22/">【JS30】Day22：Follow Along Link Highlighter</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="sharethis-inline-share-buttons"></div>
+<script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5d9b1ebc2b036a0011ed0d83&amp;product=inline-share-buttons" async="async"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">評論</h3>
+    
+<div id="comment-container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+	var gitment = new Gitment({
+		id: 'vue-cli-2-plugin/',
+		owner: 'leiadot',
+		repo: 'leiadot.github.io',
+		oauth: {
+			client_id: '51ce642a9a95d7ccdf4d',
+			client_secret: '6bf1657de06ee2fbaf452b4752567ab313277f50',
+		},
+	})
+	gitment.render('comment-container')
+</script>
+
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2019 [object Object]&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            <div class="column is-narrow">
+                <div class="columns is-mobile is-multiline is-centered">
+                
+                    
+                <a class="column is-narrow has-text-black" title="GitHub" href="https://github.com/ppoffice/leiadot">
+                    
+                    GitHub
+                    
+                </a>
+                
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("zh-CN");
+</script>
+
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+</script>
+
+    
+    
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+<script src="/js/script.js"></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="站內搜尋">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '頁面',
+                CATEGORIES: '分類',
+                TAGS: '標籤',
+                UNTITLED: '(無標題)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+</body>
+</html>

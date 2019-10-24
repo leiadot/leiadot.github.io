@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+<title>【讀書筆記】圖解 HTTP Chapter 02 簡單的 HTTP 協議 - CodingWife 寇丁人妻日安</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="了解簡單的 HTTP 協議的特性，HTTP 協議用於客戶端和伺服端之間的通訊並通過請求和回應的交換達成通訊。">
+
+
+
+
+
+<meta name="description" content="了解簡單的 HTTP 協議的特性，HTTP 協議用於客戶端和伺服端之間的通訊並通過請求和回應的交換達成通訊。">
+<meta name="keywords" content="圖解 HTTP,HTTP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【讀書筆記】圖解 HTTP Chapter 02 簡單的 HTTP 協議">
+<meta property="og:url" content="http://codingwife.com/graphic-http-chapter02/index.html">
+<meta property="og:site_name" content="CodingWife 寇丁人妻日安">
+<meta property="og:description" content="了解簡單的 HTTP 協議的特性，HTTP 協議用於客戶端和伺服端之間的通訊並通過請求和回應的交換達成通訊。">
+<meta property="og:locale" content="zh-tw">
+<meta property="og:image" content="http://codingwife.com/img/cover/http.png">
+<meta property="og:updated_time" content="2019-10-24T06:50:39.036Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【讀書筆記】圖解 HTTP Chapter 02 簡單的 HTTP 協議">
+<meta name="twitter:description" content="了解簡單的 HTTP 協議的特性，HTTP 協議用於客戶端和伺服端之間的通訊並通過請求和回應的交換達成通訊。">
+<meta name="twitter:image" content="http://codingwife.com/img/cover/http.png">
+
+
+
+
+
+<link rel="icon" href="/images/logo.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto+Sans+TC|Open+Sans&display=swap">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+<link rel="stylesheet" href="/css/style.css">
+<script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png"},"articleBody":"請求訪問文字或圖像等資料一端稱為客戶端；提供資料的一端稱為伺服器端。\n\n\nHTTP 協議用於客戶端和伺服端之間的通訊請求訪問文字或圖像等資料一端稱為客戶端；提供資料的一端稱為伺服器端。\n通過請求和回應的交換達成通訊請求必定為客戶端發出，最後伺服器端回應資料，換言之，請求一定是客戶端率先發起，在那之前伺服器端不會有動作。\n請求訊息的構成：\n\n請求方法：訪問伺服器的類型\n請求 URI 字串：請求訪問的相關資料\nHTTP/1.1：客戶端使用的 HTTP 協議。\n請求 header\n請求 body\n\n伺服器端的回應：\n\n協議版本\nHTTP 狀態碼\n狀態碼原因\n回應 header\n回應 body\n\nHTTP 是無狀態協議HTTP 是無狀態協議，意思就是 HTTP 本身對於不對請求和回應的狀態做保留，也不做持久連接。\n使用 HTTP 協議，每次有新的請求發送，就會有對應的回應，這樣是為了能更快速大量的處理資料，但如今也遇到了問題，假設我們在一個購物網站登入，我們會希望他在這個網站的其他頁面也保持登錄的狀態，因此引入了 Cookie 的技術。\n請求 URI 定位資源當客戶端使用 URI 發送請求，HTTP 也將請求的 URI 放入請求訊息中。如果不是特別請求一個特定的資料，可以用 * 來替代請求 URI 。\n告知伺服器意圖的 HTTP 方法HTTP / 1.1 可使用的方法：GET：獲取資料。請求展示指定資源，僅有請求資源。POST：提交指定資源實體，通常會改變伺服器的狀態或副作用。PUT：傳輸文件，文件存在請求訊息的 Body 中，傳送到指定的 URI 的位置。DELETE：刪除文件，請求 URI 刪除特定的資源。HEAD：與 GET 相同，但不回傳訊息 Body 的部分。OPTION：查詢該 URI 支援的資料溝通方法。TRACE：指定資源標明的伺服器之間，執行迴路返回測試。\n發送請求時：會在 Max-Forwards 填入數值，每經過一個代理伺服器數值就-1，而剛好到 0 的時候就停止傳輸，最後接收到請求的伺服器就回傳 200 的 http code。CONNECT：會利用請求資源與代理伺服器啟動一個雙向通訊。\n使用方法下達命令客戶端向 URI 發送請求，採用稱為方法的命令。\n持久連接節省通訊量在 HTTP 協議的初始版本中，每進行一次通訊就要斷開一次 TCP 連接，當時都是容量小的資料，但如今的狀況，這樣做十分消耗通訊成本。\n持久連接為了解決上述問題，HTTP / 1.1 和部分 HTTP / 1.0 想出了持久連接（HTTP persistent connection）的辦法，只要任何一端沒有提出要斷開連接，就保持 TCP 狀態。\n如此減少了 TCP 重複建立和斷開的成本，減輕伺服器端的負擔，頁面的顯示也更加快速。\n管線化以前的技術是每發出一個請求，需要接受到回應後，才能進行下一個請求，而管線化是將多個 HTTP 請求整批送出的技術，而在傳送過程中不需先等待伺服端的回應，可以在等待的過程中發出下一個請求。\n使用 Cookie 的狀態管理在提到 HTTP 是無狀態協議的時候有講到 Cookie ，Cookie 就是在請求和回應的訊息中寫入 Cookie 的訊息來控制客戶端的狀態。\n\n客戶端請求\n伺服端會在發送回應訊息中 Header 的 Set-Cookie 欄位填入 Cookie 的訊息通知客戶端保存 Cookie 值。\n客戶端再發送請求的時候會自動在請求訊息中的 Header 加入 Cookie 值。\n伺服端發現客戶端送來的 Cookie 值，比對伺服器的紀錄，最後得到之前的狀態紀錄。\n\n\n資料來源：《圖解 HTTP》 上野宣 人民郵電出版社筆記純屬推廣及分享，如有侵權，請告知。Please advise to remove immediately if any infringement caused.\n\n","dateCreated":"2018-10-20T08:12:21+00:00","dateModified":"2019-10-24T06:50:39+00:00","datePublished":"2018-10-20T08:12:21+00:00","description":"請求訪問文字或圖像等資料一端稱為客戶端；提供資料的一端稱為伺服器端。","headline":"【讀書筆記】圖解 HTTP Chapter 02 簡單的 HTTP 協議","image":["/img/cover/http.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://codingwife.com/graphic-http-chapter02/"},"publisher":{"@type":"Organization","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png","logo":{"@type":"ImageObject","url":"http://codingwife.com/images/leia.png"}},"url":"http://codingwife.com/graphic-http-chapter02/","keywords":"圖解 HTTP, HTTP"}</script>
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    <img src="/images/codingwife.png" alt height="28">
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item " href="/archives">Archives</a>
+            
+            <a class="navbar-item " href="/categories">Categories</a>
+            
+            <a class="navbar-item " href="/tags">Tags</a>
+            
+            <a class="navbar-item " href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="搜尋" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/leiadot">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            <a class="navbar-item" title="Facebook" href="https://facebook.com/CodingwifeHy2">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+        【讀書筆記】圖解 HTTP Chapter 02 簡單的 HTTP 協議
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">2018-10-20 08:12
+            （<time datetime="2018-10-20T08:12:21.000Z" itemprop="datePublished">10月 20 2018</time>）
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Front-end/">Front-end</a>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+        
+        <p>請求訪問文字或圖像等資料一端稱為客戶端；提供資料的一端稱為伺服器端。</p>
+<a id="more"></a>
+
+<h2 id="HTTP-協議用於客戶端和伺服端之間的通訊"><a href="#HTTP-協議用於客戶端和伺服端之間的通訊" class="headerlink" title="HTTP 協議用於客戶端和伺服端之間的通訊"></a>HTTP 協議用於客戶端和伺服端之間的通訊</h2><p>請求訪問文字或圖像等資料一端稱為客戶端；提供資料的一端稱為伺服器端。</p>
+<h2 id="通過請求和回應的交換達成通訊"><a href="#通過請求和回應的交換達成通訊" class="headerlink" title="通過請求和回應的交換達成通訊"></a>通過請求和回應的交換達成通訊</h2><p>請求必定為客戶端發出，最後伺服器端回應資料，換言之，請求一定是客戶端率先發起，在那之前伺服器端不會有動作。</p>
+<p>請求訊息的構成：</p>
+<ul>
+<li>請求方法：訪問伺服器的類型</li>
+<li>請求 URI 字串：請求訪問的相關資料</li>
+<li>HTTP/1.1：客戶端使用的 HTTP 協議。</li>
+<li>請求 header</li>
+<li>請求 body</li>
+</ul>
+<p>伺服器端的回應：</p>
+<ul>
+<li>協議版本</li>
+<li>HTTP 狀態碼</li>
+<li>狀態碼原因</li>
+<li>回應 header</li>
+<li>回應 body</li>
+</ul>
+<h2 id="HTTP-是無狀態協議"><a href="#HTTP-是無狀態協議" class="headerlink" title="HTTP 是無狀態協議"></a>HTTP 是無狀態協議</h2><p>HTTP 是無狀態協議，意思就是 HTTP 本身對於不對請求和回應的狀態做保留，也不做持久連接。</p>
+<p>使用 HTTP 協議，每次有新的請求發送，就會有對應的回應，這樣是為了能更快速大量的處理資料，但如今也遇到了問題，假設我們在一個購物網站登入，我們會希望他在這個網站的其他頁面也保持登錄的狀態，因此引入了 Cookie 的技術。</p>
+<h2 id="請求-URI-定位資源"><a href="#請求-URI-定位資源" class="headerlink" title="請求 URI 定位資源"></a>請求 URI 定位資源</h2><p>當客戶端使用 URI 發送請求，HTTP 也將請求的 URI 放入請求訊息中。<br>如果不是特別請求一個特定的資料，可以用 * 來替代請求 URI 。</p>
+<h2 id="告知伺服器意圖的-HTTP-方法"><a href="#告知伺服器意圖的-HTTP-方法" class="headerlink" title="告知伺服器意圖的 HTTP 方法"></a>告知伺服器意圖的 HTTP 方法</h2><p>HTTP / 1.1 可使用的方法：<br>GET：獲取資料。請求展示指定資源，僅有請求資源。<br>POST：提交指定資源實體，通常會改變伺服器的狀態或副作用。<br>PUT：傳輸文件，文件存在請求訊息的 Body 中，傳送到指定的 URI 的位置。<br>DELETE：刪除文件，請求 URI 刪除特定的資源。<br>HEAD：與 GET 相同，但不回傳訊息 Body 的部分。<br>OPTION：查詢該 URI 支援的資料溝通方法。<br>TRACE：指定資源標明的伺服器之間，執行迴路返回測試。</p>
+<p>發送請求時：會在 <code>Max-Forwards</code> 填入數值，每經過一個代理伺服器數值就<code>-1</code>，而剛好到 <code>0</code> 的時候就停止傳輸，最後接收到請求的伺服器就回傳 <code>200</code> 的 http code。<br>CONNECT：會利用請求資源與代理伺服器啟動一個雙向通訊。</p>
+<h2 id="使用方法下達命令"><a href="#使用方法下達命令" class="headerlink" title="使用方法下達命令"></a>使用方法下達命令</h2><p>客戶端向 URI 發送請求，採用稱為方法的命令。</p>
+<h2 id="持久連接節省通訊量"><a href="#持久連接節省通訊量" class="headerlink" title="持久連接節省通訊量"></a>持久連接節省通訊量</h2><p>在 HTTP 協議的初始版本中，每進行一次通訊就要斷開一次 TCP 連接，當時都是容量小的資料，但如今的狀況，這樣做十分消耗通訊成本。</p>
+<h3 id="持久連接"><a href="#持久連接" class="headerlink" title="持久連接"></a>持久連接</h3><p>為了解決上述問題，HTTP / 1.1 和部分 HTTP / 1.0 想出了持久連接（HTTP persistent connection）的辦法，只要任何一端沒有提出要斷開連接，就保持 TCP 狀態。</p>
+<p>如此減少了 TCP 重複建立和斷開的成本，減輕伺服器端的負擔，頁面的顯示也更加快速。</p>
+<h3 id="管線化"><a href="#管線化" class="headerlink" title="管線化"></a>管線化</h3><p>以前的技術是每發出一個請求，需要接受到回應後，才能進行下一個請求，而管線化是將多個 HTTP 請求整批送出的技術，而在傳送過程中不需先等待伺服端的回應，可以在等待的過程中發出下一個請求。</p>
+<h2 id="使用-Cookie-的狀態管理"><a href="#使用-Cookie-的狀態管理" class="headerlink" title="使用 Cookie 的狀態管理"></a>使用 Cookie 的狀態管理</h2><p>在提到 HTTP 是無狀態協議的時候有講到 Cookie ，Cookie 就是在請求和回應的訊息中寫入 Cookie 的訊息來控制客戶端的狀態。</p>
+<ol>
+<li>客戶端請求</li>
+<li>伺服端會在發送回應訊息中 Header 的 <code>Set-Cookie</code> 欄位填入 Cookie 的訊息通知客戶端保存 Cookie 值。</li>
+<li>客戶端再發送請求的時候會自動在請求訊息中的 Header 加入 Cookie 值。</li>
+<li>伺服端發現客戶端送來的 Cookie 值，比對伺服器的紀錄，最後得到之前的狀態紀錄。</li>
+</ol>
+<blockquote>
+<p>資料來源：《圖解 HTTP》 上野宣 人民郵電出版社<br>筆記純屬推廣及分享，如有侵權，請告知。<br>Please advise to remove immediately if any infringement caused.</p>
+</blockquote>
+
+        
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+        
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/圖解-HTTP/">#圖解 HTTP</a></span>
+        
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/HTTP/">#HTTP</a></span>
+        
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/graphic-http-chapter03/">【讀書筆記】圖解 HTTP Chapter 03 HTTP 訊息內的 HTTP 訊息</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/graphic-http-chapter01/">【讀書筆記】圖解 HTTP Chapter 01 了解 Web 及網路基礎</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="sharethis-inline-share-buttons"></div>
+<script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5d9b1ebc2b036a0011ed0d83&amp;product=inline-share-buttons" async="async"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">評論</h3>
+    
+<div id="comment-container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+	var gitment = new Gitment({
+		id: 'graphic-http-chapter02/',
+		owner: 'leiadot',
+		repo: 'leiadot.github.io',
+		oauth: {
+			client_id: '51ce642a9a95d7ccdf4d',
+			client_secret: '6bf1657de06ee2fbaf452b4752567ab313277f50',
+		},
+	})
+	gitment.render('comment-container')
+</script>
+
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2019 [object Object]&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            <div class="column is-narrow">
+                <div class="columns is-mobile is-multiline is-centered">
+                
+                    
+                <a class="column is-narrow has-text-black" title="GitHub" href="https://github.com/ppoffice/leiadot">
+                    
+                    GitHub
+                    
+                </a>
+                
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("zh-CN");
+</script>
+
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+</script>
+
+    
+    
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+<script src="/js/script.js"></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="站內搜尋">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '頁面',
+                CATEGORIES: '分類',
+                TAGS: '標籤',
+                UNTITLED: '(無標題)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+</body>
+</html>

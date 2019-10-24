@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+<title>【讀書筆記】JavaScript Design Pattern Chapter06 程式碼重用模式（上） - CodingWife 寇丁人妻日安</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="JavaScript Design Pattern，第六章程式碼重用模式。">
+
+
+
+
+
+<meta name="description" content="JavaScript Design Pattern，第六章程式碼重用模式。">
+<meta name="keywords" content="讀書筆記,JSDP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【讀書筆記】JavaScript Design Pattern Chapter06 程式碼重用模式（上）">
+<meta property="og:url" content="http://codingwife.com/javascript-design-pattern-multiplexing01/index.html">
+<meta property="og:site_name" content="CodingWife 寇丁人妻日安">
+<meta property="og:description" content="JavaScript Design Pattern，第六章程式碼重用模式。">
+<meta property="og:locale" content="zh-tw">
+<meta property="og:image" content="http://codingwife.com/img/cover/books.jpg">
+<meta property="og:updated_time" content="2019-10-24T06:50:39.036Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【讀書筆記】JavaScript Design Pattern Chapter06 程式碼重用模式（上）">
+<meta name="twitter:description" content="JavaScript Design Pattern，第六章程式碼重用模式。">
+<meta name="twitter:image" content="http://codingwife.com/img/cover/books.jpg">
+
+
+
+
+
+<link rel="icon" href="/images/logo.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto+Sans+TC|Open+Sans&display=swap">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+<link rel="stylesheet" href="/css/style.css">
+<script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png"},"articleBody":"\n「多用物件複合，少用類別繼承。」\n說到程式碼重用，第一件事想到的就是繼承，但他不是唯一一種方法。\n\n\n\nClassical 繼承模式 v.s. Modern 繼承模式在有 class 的語言中，每個物件都是某個特定的 class 的一個實體，沒有 class 就無法建立出物件，但在 JavaScript 中，物件僅是名與值，可以立即建立及改變。\nJavaScript 有建構式，new 運算子類似 classes 的用法。\n1234Person adam = new Person();//Javavar adam = new Person();//JavaScript\n這兩段語法非常相像，但建構式仍舊是函式，導致許多開發者用 class 的方式來思考 JavaScript，進而發展出模擬 class 的繼承想法，這稱之為「classical」。而所謂的「modern」模式指的是讓你不需要思考 classes 的其他所有模式。\n使用 Classical 繼承的預期結果Classical 的實作目標是讓一個 child(); 建構式所建立的物件可以取得另一個Parent();建構式的屬性。\n123456789101112function Parent(name) &#123;  this.name = name || 'Adam';&#125;//父建構式Parent.prototype.say = function() &#123;  return this;&#125;;//新增功能function Child(name) &#123;&#125;//子建構式inherit(Child, Parent);//繼承\ninherit() 函式做了繼承的工作，但它需要自己實作，非語言提供。\nClassical 模式 #1 —— 預設的模式最常用的方式，是使用 Parent() 建構式建立一個物件，並指派給 Child() 的原型。\n1234function inherit(C, P) &#123;  C.prototype = new P();  //注意 new 運算子&#125;\nprototype 應指向一個物件而非函式，所以它必須指向父建構式所建立的實體，而非建構式本身。之後使用new Child(); 就會取得 Parent(); 的原型。\n追蹤原型鍊用這個模式，你同時繼承了實體本身的屬性和方法。\n\n用 new Pserson() 建立一個物件，他保有 name 的屬性資料。\n物件嘗試存取 say() ，但建構式沒有這個方法。\n往上查找 Pserson() 的 prototype。\n\n12var kid = new Child();kid.say(); //\"Adam\"\n建構式 Child() 和 prototype 都是空白的，proto 指向 inherit() 函式建立的 new Pserson() ，在呼叫 say() ，子建構式沒有這個方法，父建構式也沒有這個方法，就會再往上查找父建構式的 prototype。\nsay() 裡面有個參考 this.name，再依序從 kid、子建構式、子建構式 prototype、父建構式、父建構式 prototype 查找。\n123var kid = new Child();kid.name = 'Amy';kid.say(); //\"Amy\"\nkid.name 不會修改父建構式的屬性，會在自身直接建立新的屬性，say() 再從剛剛的序列查找，查找this.name，在 kid 物件就找到了。\n模式 #1 的缺點\n同時繼承加在 this 本身的屬性和原形的屬性，大多時候你並不想要本身的屬性，這比較像是屬於特定的實例，不適合重用。\n不能讓參數給予子建構式，再讓子建構式傳遞給父建構式。\n\n123var s = new Child('Setch');s.say(); //\"Adam\"//希望出現 Setch，但出現 Adam\n這個結果不如預期，必須每次需要子物件時執行一次繼承，最後是不斷再建立父建構式。\nClassical 模式 #2 —— 借用建構式這個模式解決了上個範例的「無法傳遞參數」給父建構式的問題，他借用了父建構式，將子建構式用 this 綁定父建構式，並轉送所有參數：\n123function Child(a, c, b, d) &#123;  Parent.apply(this, argument);&#125;\n用這個方法，只繼承了在父建構式中加至 this 的屬性，而沒有繼承加到原型的成員，子物件可以取得繼承成員的複製，而不像第一個模式（只是參考）。\n範例比較：\n1234567891011121314151617function Article() &#123;  this.tag = ['js', 'css'];&#125;var article = new Article();function Blogpost() &#123;&#125;Blogpost.prototype = article;var blog = new BlogPost();function StaticPage() &#123;  Article.call(this);&#125;var page = new StaticPage();article.hasOwnProperty('tags'); // trueblog.hasOwnProperty('tags'); // falsepage.hasOwnProperty('tags'); // true\n\n第一種的預設模式使得 blog 物件可以透過原型獲得 tags 的存取權，自身不具有 tags，所以是 false。\n第二種借用模式，page 自身屬性有 tags，是因為使用了借用建構式，新物件就會取得父建構式 tags 成員的複製，而不是參考。\n\n原型鍊123456789101112131415function Parent(name) &#123;  this.name = name || 'Adam';&#125;Parent.prototype.say = function() &#123;  return this.name;&#125;;//父建構式新增新功能function Child(name) &#123;  Parent.apply(this.argument);&#125;//子建構式繼承父建構式，但不會繼承父原型var kid = new Child('Amy');kid.name; //\"Amy\"typeof kid.say; //\"undefined\"\nChild.prototype 根本沒被使用到，他所指向的是一個空物件。\n用借用建構式實現多重繼承12345678910111213141516171819function Cat() &#123;  this.legs = 4;  this.say = function() &#123;    return 'meaowww';  &#125;;&#125;function Bird() &#123;  this.wings = 2;  this.fly = true;&#125;function CatWings() &#123;  Cat.apply(this);  Bird.apply(this);&#125;var jane = new CatWings();console.dir(jane);\n借用建構式的優點和缺點\n優點：可以拿到父物件自身屬性的複製，而不是參考，所以不會有意外覆寫到父物件屬性的問題。\n缺點：prototype 的屬性都沒被繼承\n\nClassical 模式 #3 —— 借用並設定原型將前兩個模式組合起來，先借用建構式，接著也將子建構式的原型指向父建構式的實體。\n1234function Child(a, c, b, d) &#123;  Parent.apply(this, argument);&#125;Child.prototype = new Parent();\n優點：\n子建構式取得了父建構式自身成員的複製\n取得父建構式原型成員的參考\n子建構式可以傳遞任何參數給父建構式\n\n缺點：\n父建構式被呼叫了兩次，效率比較差。\n\n範例：123456789101112131415161718192021function Parent(name) &#123;  this.name = name || 'Adam';&#125;//父建構式Parent.prototype.say = function() &#123;  return this.name;&#125;;//新增原型function Child(name) &#123;  Parent.apply(this, arguments);&#125;Child.prototype = new Parent();var kid = new Child('Amy');kid.name; // \"Amy\"kid.say(); //\"Amy\"delete kid.name;kid.say(); //\"Adam\"\nsay() 的原型被繼承了，所以當自身的 name 被刪除，就會使用到原型鍊預設的屬性。\nClassical 模式 #4 —— 分享原型這個模式不像上一個繼承模式一樣，需要呼叫兩次父建構式，這個模式不會引發父建構式的呼叫。\n根據經驗來說，重要的成員，且任何需要繼承的事物，都應該放在原型，而不是放在 this 裏，那就可以將子建構式原型設為和父建構式原型相同。\n123function inherit(C, P) &#123;  C.prototype = P.prototype;&#125;\n但所有物件其實都分享相同原型，導致修改了原型，就會影響所有原型鏈。\nClassical 模式 #5 —— 暫時的建構式這個模式可以打斷父原型和子原型之間的連結，同時又能受益於原型鏈的優點。\n12345function inherit(C, P) &#123;  var F = function() &#123;&#125;;  F.prototype = P.prototype;  C.prototype = new F();&#125;\n這個模式和 #1 的預設模式稍有不同，因為這邊的子物件謹繼承原型的屬性，這樣利用了「原型就是為了放置可重用功能的地方」也處理好 this，「讓任何在父建構式加在 this 的成員都不會被繼承」。\n建立一個新的子物件，並觀察他的行為：\n1var kid = new Child();\n若你存取 kid.name 會是 undefined，因為 name 是父建構式自身的屬性，而在繼承的過程中，並沒有呼叫 new Parent() 代表根本沒有父建構式的屬性。\n而當存取 kid.say() 的時候，物件在 new Child() 根本不存在，因此原型鏈會向上查找，new F() 也沒有這個方法，但 Parent.prototype 有這個方法，Parent.prototype 會讓所有繼承 Parent() 的不同建構式和這些子建構式所建立的物件所共享，他們使用的都是同一塊記憶體。\nSuperclass在前一個模式的基礎上，你可以新增一個參考指向原本的父親，這很類似在其他語言的 superclass。\n我們將屬性命名為 uber，因為「super」是個保留字，而 superclass 可能會引導不知情開發者的聯想，而誤以為 Javascript 是有 class 的。\n123456function inherit(C, P) &#123;  var F = function() &#123;&#125;;  F.prototype = P.prototype;  C.prototype = new F();  C.uber = P.prototype;&#125;\n重新設定建構式的參考現在我們的 classical 繼承函式近乎完美，最後我們要重新設定建構式的參考，如果不設定的話，所以有的子物件就會回報 Parent() 是他的建構式，這樣不行的。\n假設用前一份 inherit() 的實作：\n12345678function Parent() &#123;&#125;function Child() &#123;&#125;inherit(Child, Parent);var kid = new Child();kid.constructor.name; //\"Parent\"kid.constructor === Parent; //true\nconstructor 屬性比較少用，但在執行時期用來檢查物件很方便，可以重新設定，讓他指向預期中的建構式。\n1234567function inherit(C, P) &#123;  var F = function() &#123;&#125;;  F.prototype = P.prototype;  C.prototype = new F();  C.uber = P.prototype;  C.prototype.constructor = C;&#125;\n這個模式又稱為聖杯繼承模式（holy grail）。\n另一種聖杯模式的優化，是避免每次繼承都重複建立暫時（代理）建構式，因為我們建立一次就夠了，需要改變的是他的原型，可以利用一個立即函式，並將 proxy 函式儲存在他的閉包裏。\n123456789var inherit = (function() &#123;  var F = function() &#123;&#125;;  return function(C, P) &#123;    F.prototype = P.prototype;    C.prototype = new F();    C.uber = P.prototype;    C.prototype.constructor = C;  &#125;;&#125;)();\nKlass許多 JavaScript 函式庫都在模擬 class ，並提供新的語法糖，將下來的實作有點不一樣，但有一些共通點：\n\n命名都有一組慣例，遵循這個慣例都會被當成 class 的建構式，例如：initialize、_init 等等。\nClasses 可以繼承其他 classes\n可以在子 class 中存取父 class（superclass）。\n\n接下來用 JavaScript 來模擬 Class。\n123456789var Man = klass(null, &#123;  __construct: function(what) &#123;    console.log(\"Man's constructor\");    this.name = what;  &#125;,  getName: function() &#123;    return this.name;  &#125;,&#125;);\n上述範例，是以一個 klass 函式的形式出現，你在其他狀況可以會看到 Klass 的建構式，或是 Object.prototype 的方式出現，關於 klass 函式的實作，下方會在探討。\n這個函式接受兩個參數：\n\n父 class 作為繼承用\n一個新的 class 實作，採用物件實字語法\n\n規定 class 的建構式必須是一個名為 __constructor 的方法。一個 Man 的 class 實作，他不繼承任何 class，意思就是他繼承的是 object。\nMan 本身有自己的屬性，建立在 constructor 中，另外還有個 getName 方法，Man class 本身就是建構式，接下來的動作讓它更像 class 實體化：\n12var first = new Man('Adam'); //logs \"Man's constructor\"first.getName(); //\"Adam\"\n接下來來擴充新的 class，建立 SuperMan class：\n123456789var SuperMan = klass(Man, &#123;  __construct: function(what) &#123;    console.log(\"SuperMan's constructor\");  &#125;,  getName: function() &#123;    var name = SuperMan.uber.getName.call(this);    return 'I am' + name;  &#125;,&#125;);\n這個範例中，給的第一個參數是 class Man，會被繼承，在 getName() 它利用 SuperMan 的 uber（super）靜態屬性呼叫父 class 的 getName()：\n12var clark = new SuperMan('Clark Kent');clark.getName(); //\"I am Clark Kent\"\n在 console.log 裡面，印出的第一行是「Man’s constructor」接著是「SuperMan’s constructor」，父建構式會在子建構式之前呼叫。\n再來試看看 instanceof 運算子是否回傳預期中的結果：\n12clark instanceof Man; //trueclark instanceof SuperMan; //true\n接下來看看 klass 實作：\n12345678910111213141516171819202122232425262728293031323334353637var klass = function(Parent, props) &#123;  var Child, F, i;  //1.  //新的建構式，在最後會被回傳，且被當 class使用。  //在函式中呼叫 __consteuct 方法，在那之前會先利用靜態的 uber 屬性呼叫父 class 的 __consteuct ，如果繼承是 Object 的話， uber 有可能未被定義，例如 class 的 Man。  Child = function() &#123;    if (Child.uber &amp;&amp; Child.uber.hasOwnProperty('__construct')) &#123;      Child.uber.__construct.apply(this, arguments);    &#125;    if (Child.uber.hasOwnProperty('__construct')) &#123;      Child.prototype.__construct.apply(this, arguments);    &#125;  &#125;;  //2.  //新的建構式，使用了前面的 classical 繼承的聖杯模式  //如果 沒有需要繼承的 Parent，那就繼承 Object 的 prototype。  Parent = Parent || Object;  F = function() &#123;&#125;;  F.prototype = Parent.prototype;  Child.prototype = new F();  Child.uber = Parent.prototype;  Child.prototype.constructor = Child;  //3.  //加入實作的方法  //用迴圈查找所有方法，加到 Child 的原型之中  for (i in props) &#123;    if (props.hasOwnProperty(i)) &#123;      Child.prototype[i] = props[i];    &#125;  &#125;  // 回傳Class  return Child;&#125;;\n","dateCreated":"2018-11-07T17:58:05+00:00","dateModified":"2019-10-24T06:50:39+00:00","datePublished":"2018-11-07T17:58:05+00:00","description":"\n「多用物件複合，少用類別繼承。」\n說到程式碼重用，第一件事想到的就是繼承，但他不是唯一一種方法。\n","headline":"【讀書筆記】JavaScript Design Pattern Chapter06 程式碼重用模式（上）","image":["/img/cover/books.jpg"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://codingwife.com/javascript-design-pattern-multiplexing01/"},"publisher":{"@type":"Organization","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png","logo":{"@type":"ImageObject","url":"http://codingwife.com/images/leia.png"}},"url":"http://codingwife.com/javascript-design-pattern-multiplexing01/","keywords":"讀書筆記, JSDP"}</script>
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    <img src="/images/codingwife.png" alt height="28">
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item " href="/archives">Archives</a>
+            
+            <a class="navbar-item " href="/categories">Categories</a>
+            
+            <a class="navbar-item " href="/tags">Tags</a>
+            
+            <a class="navbar-item " href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="搜尋" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/leiadot">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            <a class="navbar-item" title="Facebook" href="https://facebook.com/CodingwifeHy2">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+        【讀書筆記】JavaScript Design Pattern Chapter06 程式碼重用模式（上）
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">2018-11-07 17:58
+            （<time datetime="2018-11-07T17:58:05.000Z" itemprop="datePublished">11月 7 2018</time>）
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Front-end/">Front-end</a>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+        
+        <ul>
+<li>「多用物件複合，少用類別繼承。」</li>
+<li>說到程式碼重用，第一件事想到的就是繼承，但他不是唯一一種方法。</li>
+</ul>
+<a id="more"></a>
+
+<h2 id="Classical-繼承模式-v-s-Modern-繼承模式"><a href="#Classical-繼承模式-v-s-Modern-繼承模式" class="headerlink" title="Classical 繼承模式 v.s. Modern 繼承模式"></a>Classical 繼承模式 v.s. Modern 繼承模式</h2><p>在有 class 的語言中，每個物件都是某個特定的 class 的一個實體，沒有 class 就無法建立出物件，但在 JavaScript 中，物件僅是名與值，可以立即建立及改變。</p>
+<p>JavaScript 有建構式，new 運算子類似 classes 的用法。</p>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Person adam = <span class="hljs-keyword">new</span> Person();</span><br><span class="line"><span class="hljs-comment">//Java</span></span><br><span class="line"><span class="hljs-keyword">var</span> adam = <span class="hljs-keyword">new</span> Person();</span><br><span class="line"><span class="hljs-comment">//JavaScript</span></span><br></pre></td></tr></table></figure></p>
+<p>這兩段語法非常相像，但建構式仍舊是函式，導致許多開發者用 class 的方式來思考 JavaScript，進而發展出模擬 class 的繼承想法，這稱之為「classical」。而所謂的「modern」模式指的是讓你不需要思考 classes 的其他所有模式。</p>
+<h2 id="使用-Classical-繼承的預期結果"><a href="#使用-Classical-繼承的預期結果" class="headerlink" title="使用 Classical 繼承的預期結果"></a>使用 Classical 繼承的預期結果</h2><p>Classical 的實作目標是讓一個 <code>child();</code> 建構式所建立的物件可以取得另一個<code>Parent();</code>建構式的屬性。</p>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Parent</span>(<span class="hljs-params">name</span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">this</span>.name = name || <span class="hljs-string">'Adam'</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-comment">//父建構式</span></span><br><span class="line">Parent.prototype.say = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="hljs-comment">//新增功能</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Child</span>(<span class="hljs-params">name</span>) </span>&#123;&#125;</span><br><span class="line"><span class="hljs-comment">//子建構式</span></span><br><span class="line">inherit(Child, Parent);</span><br><span class="line"><span class="hljs-comment">//繼承</span></span><br></pre></td></tr></table></figure></p>
+<p><code>inherit()</code> 函式做了繼承的工作，但它需要自己實作，非語言提供。</p>
+<h2 id="Classical-模式-1-——-預設的模式"><a href="#Classical-模式-1-——-預設的模式" class="headerlink" title="Classical 模式 #1 —— 預設的模式"></a>Classical 模式 #1 —— 預設的模式</h2><p>最常用的方式，是使用 <code>Parent()</code> 建構式建立一個物件，並指派給 <code>Child()</code> 的原型。</p>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">inherit</span>(<span class="hljs-params">C, P</span>) </span>&#123;</span><br><span class="line">  C.prototype = <span class="hljs-keyword">new</span> P();</span><br><span class="line">  <span class="hljs-comment">//注意 new 運算子</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>prototype 應指向一個物件而非函式，所以它必須指向父建構式所建立的實體，而非建構式本身。之後使用<code>new Child();</code> 就會取得 <code>Parent();</code> 的原型。</p>
+<h3 id="追蹤原型鍊"><a href="#追蹤原型鍊" class="headerlink" title="追蹤原型鍊"></a>追蹤原型鍊</h3><p>用這個模式，你同時繼承了實體本身的屬性和方法。</p>
+<ol>
+<li>用 <code>new Pserson()</code> 建立一個物件，他保有 name 的屬性資料。</li>
+<li>物件嘗試存取 <code>say()</code> ，但建構式沒有這個方法。</li>
+<li>往上查找 <code>Pserson()</code> 的 prototype。</li>
+</ol>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> kid = <span class="hljs-keyword">new</span> Child();</span><br><span class="line">kid.say(); <span class="hljs-comment">//"Adam"</span></span><br></pre></td></tr></table></figure></p>
+<p>建構式 <code>Child()</code> 和 prototype 都是空白的，<strong>proto</strong> 指向 <code>inherit()</code> 函式建立的 <code>new Pserson()</code> ，在呼叫 <code>say()</code> ，子建構式沒有這個方法，父建構式也沒有這個方法，就會再往上查找父建構式的 prototype。</p>
+<p><code>say()</code> 裡面有個參考 <code>this.name</code>，再依序從 <code>kid</code>、子建構式、子建構式 prototype、父建構式、父建構式 prototype 查找。</p>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> kid = <span class="hljs-keyword">new</span> Child();</span><br><span class="line">kid.name = <span class="hljs-string">'Amy'</span>;</span><br><span class="line">kid.say(); <span class="hljs-comment">//"Amy"</span></span><br></pre></td></tr></table></figure></p>
+<p><code>kid.name</code> 不會修改父建構式的屬性，會在自身直接建立新的屬性，<code>say()</code> 再從剛剛的序列查找，查找<code>this.name</code>，在 <code>kid</code> 物件就找到了。</p>
+<h3 id="模式-1-的缺點"><a href="#模式-1-的缺點" class="headerlink" title="模式 #1 的缺點"></a>模式 #1 的缺點</h3><ul>
+<li>同時繼承加在 this 本身的屬性和原形的屬性，大多時候你並不想要本身的屬性，這比較像是屬於特定的實例，不適合重用。</li>
+<li>不能讓參數給予子建構式，再讓子建構式傳遞給父建構式。</li>
+</ul>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> s = <span class="hljs-keyword">new</span> Child(<span class="hljs-string">'Setch'</span>);</span><br><span class="line">s.say(); <span class="hljs-comment">//"Adam"</span></span><br><span class="line"><span class="hljs-comment">//希望出現 Setch，但出現 Adam</span></span><br></pre></td></tr></table></figure></p>
+<p>這個結果不如預期，必須每次需要子物件時執行一次繼承，最後是不斷再建立父建構式。</p>
+<h2 id="Classical-模式-2-——-借用建構式"><a href="#Classical-模式-2-——-借用建構式" class="headerlink" title="Classical 模式 #2 —— 借用建構式"></a>Classical 模式 #2 —— 借用建構式</h2><p>這個模式解決了上個範例的「無法傳遞參數」給父建構式的問題，他借用了父建構式，將子建構式用 this 綁定父建構式，並轉送所有參數：</p>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Child</span>(<span class="hljs-params">a, c, b, d</span>) </span>&#123;</span><br><span class="line">  Parent.apply(<span class="hljs-keyword">this</span>, argument);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>用這個方法，只繼承了在父建構式中加至 this 的屬性，而沒有繼承加到原型的成員，子物件可以取得繼承成員的複製，而不像第一個模式（只是參考）。</p>
+<p>範例比較：</p>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Article</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">this</span>.tag = [<span class="hljs-string">'js'</span>, <span class="hljs-string">'css'</span>];</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-keyword">var</span> article = <span class="hljs-keyword">new</span> Article();</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Blogpost</span>(<span class="hljs-params"></span>) </span>&#123;&#125;</span><br><span class="line">Blogpost.prototype = article;</span><br><span class="line"><span class="hljs-keyword">var</span> blog = <span class="hljs-keyword">new</span> BlogPost();</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">StaticPage</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  Article.call(<span class="hljs-keyword">this</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-keyword">var</span> page = <span class="hljs-keyword">new</span> StaticPage();</span><br><span class="line"></span><br><span class="line">article.hasOwnProperty(<span class="hljs-string">'tags'</span>); <span class="hljs-comment">// true</span></span><br><span class="line">blog.hasOwnProperty(<span class="hljs-string">'tags'</span>); <span class="hljs-comment">// false</span></span><br><span class="line">page.hasOwnProperty(<span class="hljs-string">'tags'</span>); <span class="hljs-comment">// true</span></span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>第一種的預設模式使得 blog 物件可以透過原型獲得 tags 的存取權，自身不具有 tags，所以是 false。</li>
+<li>第二種借用模式，page 自身屬性有 tags，是因為使用了借用建構式，新物件就會取得父建構式 tags 成員的複製，而不是參考。</li>
+</ul>
+<h3 id="原型鍊"><a href="#原型鍊" class="headerlink" title="原型鍊"></a>原型鍊</h3><p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Parent</span>(<span class="hljs-params">name</span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">this</span>.name = name || <span class="hljs-string">'Adam'</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Parent.prototype.say = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.name;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="hljs-comment">//父建構式新增新功能</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Child</span>(<span class="hljs-params">name</span>) </span>&#123;</span><br><span class="line">  Parent.apply(<span class="hljs-keyword">this</span>.argument);</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-comment">//子建構式繼承父建構式，但不會繼承父原型</span></span><br><span class="line"><span class="hljs-keyword">var</span> kid = <span class="hljs-keyword">new</span> Child(<span class="hljs-string">'Amy'</span>);</span><br><span class="line">kid.name; <span class="hljs-comment">//"Amy"</span></span><br><span class="line"><span class="hljs-keyword">typeof</span> kid.say; <span class="hljs-comment">//"undefined"</span></span><br></pre></td></tr></table></figure></p>
+<p>Child.prototype 根本沒被使用到，他所指向的是一個空物件。</p>
+<h3 id="用借用建構式實現多重繼承"><a href="#用借用建構式實現多重繼承" class="headerlink" title="用借用建構式實現多重繼承"></a>用借用建構式實現多重繼承</h3><p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Cat</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">this</span>.legs = <span class="hljs-number">4</span>;</span><br><span class="line">  <span class="hljs-keyword">this</span>.say = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-string">'meaowww'</span>;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Bird</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">this</span>.wings = <span class="hljs-number">2</span>;</span><br><span class="line">  <span class="hljs-keyword">this</span>.fly = <span class="hljs-literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">CatWings</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  Cat.apply(<span class="hljs-keyword">this</span>);</span><br><span class="line">  Bird.apply(<span class="hljs-keyword">this</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">var</span> jane = <span class="hljs-keyword">new</span> CatWings();</span><br><span class="line"><span class="hljs-built_in">console</span>.dir(jane);</span><br></pre></td></tr></table></figure></p>
+<h3 id="借用建構式的優點和缺點"><a href="#借用建構式的優點和缺點" class="headerlink" title="借用建構式的優點和缺點"></a>借用建構式的優點和缺點</h3><ul>
+<li>優點：可以拿到父物件自身屬性的複製，而不是參考，所以不會有意外覆寫到父物件屬性的問題。</li>
+<li>缺點：prototype 的屬性都沒被繼承</li>
+</ul>
+<h2 id="Classical-模式-3-——-借用並設定原型"><a href="#Classical-模式-3-——-借用並設定原型" class="headerlink" title="Classical 模式 #3 —— 借用並設定原型"></a>Classical 模式 #3 —— 借用並設定原型</h2><p>將前兩個模式組合起來，先借用建構式，接著也將子建構式的原型指向父建構式的實體。</p>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Child</span>(<span class="hljs-params">a, c, b, d</span>) </span>&#123;</span><br><span class="line">  Parent.apply(<span class="hljs-keyword">this</span>, argument);</span><br><span class="line">&#125;</span><br><span class="line">Child.prototype = <span class="hljs-keyword">new</span> Parent();</span><br></pre></td></tr></table></figure></p>
+<h3 id="優點："><a href="#優點：" class="headerlink" title="優點："></a>優點：</h3><ul>
+<li>子建構式取得了父建構式自身成員的複製</li>
+<li>取得父建構式原型成員的參考</li>
+<li>子建構式可以傳遞任何參數給父建構式</li>
+</ul>
+<h3 id="缺點："><a href="#缺點：" class="headerlink" title="缺點："></a>缺點：</h3><ul>
+<li>父建構式被呼叫了兩次，效率比較差。</li>
+</ul>
+<h3 id="範例："><a href="#範例：" class="headerlink" title="範例："></a>範例：</h3><p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Parent</span>(<span class="hljs-params">name</span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">this</span>.name = name || <span class="hljs-string">'Adam'</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-comment">//父建構式</span></span><br><span class="line"></span><br><span class="line">Parent.prototype.say = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.name;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="hljs-comment">//新增原型</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Child</span>(<span class="hljs-params">name</span>) </span>&#123;</span><br><span class="line">  Parent.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>);</span><br><span class="line">&#125;</span><br><span class="line">Child.prototype = <span class="hljs-keyword">new</span> Parent();</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">var</span> kid = <span class="hljs-keyword">new</span> Child(<span class="hljs-string">'Amy'</span>);</span><br><span class="line">kid.name; <span class="hljs-comment">// "Amy"</span></span><br><span class="line">kid.say(); <span class="hljs-comment">//"Amy"</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">delete</span> kid.name;</span><br><span class="line">kid.say(); <span class="hljs-comment">//"Adam"</span></span><br></pre></td></tr></table></figure></p>
+<p><code>say()</code> 的原型被繼承了，所以當自身的 <code>name</code> 被刪除，就會使用到原型鍊預設的屬性。</p>
+<h2 id="Classical-模式-4-——-分享原型"><a href="#Classical-模式-4-——-分享原型" class="headerlink" title="Classical 模式 #4 —— 分享原型"></a>Classical 模式 #4 —— 分享原型</h2><p>這個模式不像上一個繼承模式一樣，需要呼叫兩次父建構式，這個模式不會引發父建構式的呼叫。</p>
+<p>根據經驗來說，重要的成員，且任何需要繼承的事物，都應該放在原型，而不是放在 this 裏，那就可以將子建構式原型設為和父建構式原型相同。</p>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">inherit</span>(<span class="hljs-params">C, P</span>) </span>&#123;</span><br><span class="line">  C.prototype = P.prototype;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>但所有物件其實都分享相同原型，導致修改了原型，就會影響所有原型鏈。</p>
+<h2 id="Classical-模式-5-——-暫時的建構式"><a href="#Classical-模式-5-——-暫時的建構式" class="headerlink" title="Classical 模式 #5 —— 暫時的建構式"></a>Classical 模式 #5 —— 暫時的建構式</h2><p>這個模式可以打斷父原型和子原型之間的連結，同時又能受益於原型鏈的優點。</p>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">inherit</span>(<span class="hljs-params">C, P</span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">var</span> F = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;&#125;;</span><br><span class="line">  F.prototype = P.prototype;</span><br><span class="line">  C.prototype = <span class="hljs-keyword">new</span> F();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>這個模式和 #1 的預設模式稍有不同，因為這邊的子物件謹繼承原型的屬性，這樣利用了「原型就是為了放置可重用功能的地方」也處理好 this，「讓任何在父建構式加在 this 的成員都不會被繼承」。</p>
+<p>建立一個新的子物件，並觀察他的行為：</p>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> kid = <span class="hljs-keyword">new</span> Child();</span><br></pre></td></tr></table></figure></p>
+<p>若你存取 <code>kid.name</code> 會是 undefined，因為 <code>name</code> 是父建構式自身的屬性，而在繼承的過程中，並沒有呼叫 <code>new Parent()</code> 代表根本沒有父建構式的屬性。</p>
+<p>而當存取 <code>kid.say()</code> 的時候，物件在 <code>new Child()</code> 根本不存在，因此原型鏈會向上查找，<code>new F()</code> 也沒有這個方法，但 <code>Parent.prototype</code> 有這個方法，<code>Parent.prototype</code> 會讓所有繼承 <code>Parent()</code> 的不同建構式和這些子建構式所建立的物件所共享，他們使用的都是同一塊記憶體。</p>
+<h3 id="Superclass"><a href="#Superclass" class="headerlink" title="Superclass"></a>Superclass</h3><p>在前一個模式的基礎上，你可以新增一個參考指向原本的父親，這很類似在其他語言的 superclass。</p>
+<p>我們將屬性命名為 uber，因為「super」是個保留字，而 superclass 可能會引導不知情開發者的聯想，而誤以為 Javascript 是有 class 的。</p>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">inherit</span>(<span class="hljs-params">C, P</span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">var</span> F = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;&#125;;</span><br><span class="line">  F.prototype = P.prototype;</span><br><span class="line">  C.prototype = <span class="hljs-keyword">new</span> F();</span><br><span class="line">  C.uber = P.prototype;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="重新設定建構式的參考"><a href="#重新設定建構式的參考" class="headerlink" title="重新設定建構式的參考"></a>重新設定建構式的參考</h3><p>現在我們的 classical 繼承函式近乎完美，最後我們要重新設定建構式的參考，如果不設定的話，所以有的子物件就會回報 <code>Parent()</code> 是他的建構式，這樣不行的。</p>
+<p>假設用前一份 <code>inherit()</code> 的實作：</p>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Parent</span>(<span class="hljs-params"></span>) </span>&#123;&#125;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Child</span>(<span class="hljs-params"></span>) </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">inherit(Child, Parent);</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">var</span> kid = <span class="hljs-keyword">new</span> Child();</span><br><span class="line">kid.constructor.name; <span class="hljs-comment">//"Parent"</span></span><br><span class="line">kid.constructor === Parent; <span class="hljs-comment">//true</span></span><br></pre></td></tr></table></figure></p>
+<p>constructor 屬性比較少用，但在執行時期用來檢查物件很方便，可以重新設定，讓他指向預期中的建構式。</p>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">inherit</span>(<span class="hljs-params">C, P</span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">var</span> F = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;&#125;;</span><br><span class="line">  F.prototype = P.prototype;</span><br><span class="line">  C.prototype = <span class="hljs-keyword">new</span> F();</span><br><span class="line">  C.uber = P.prototype;</span><br><span class="line">  C.prototype.constructor = C;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>這個模式又稱為聖杯繼承模式（holy grail）。</p>
+<p>另一種聖杯模式的優化，是避免每次繼承都重複建立暫時（代理）建構式，因為我們建立一次就夠了，需要改變的是他的原型，可以利用一個立即函式，並將 proxy 函式儲存在他的閉包裏。</p>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> inherit = (<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">var</span> F = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;&#125;;</span><br><span class="line">  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">C, P</span>) </span>&#123;</span><br><span class="line">    F.prototype = P.prototype;</span><br><span class="line">    C.prototype = <span class="hljs-keyword">new</span> F();</span><br><span class="line">    C.uber = P.prototype;</span><br><span class="line">    C.prototype.constructor = C;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure></p>
+<h3 id="Klass"><a href="#Klass" class="headerlink" title="Klass"></a>Klass</h3><p>許多 JavaScript 函式庫都在模擬 class ，並提供新的語法糖，將下來的實作有點不一樣，但有一些共通點：</p>
+<ul>
+<li>命名都有一組慣例，遵循這個慣例都會被當成 class 的建構式，例如：initialize、_init 等等。</li>
+<li>Classes 可以繼承其他 classes</li>
+<li>可以在子 class 中存取父 class（superclass）。</li>
+</ul>
+<p>接下來用 JavaScript 來模擬 Class。</p>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> Man = klass(<span class="hljs-literal">null</span>, &#123;</span><br><span class="line">  __construct: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">what</span>) </span>&#123;</span><br><span class="line">    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Man's constructor"</span>);</span><br><span class="line">    <span class="hljs-keyword">this</span>.name = what;</span><br><span class="line">  &#125;,</span><br><span class="line">  getName: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.name;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>上述範例，是以一個 klass 函式的形式出現，你在其他狀況可以會看到 Klass 的建構式，或是 Object.prototype 的方式出現，關於 klass 函式的實作，下方會在探討。</p>
+<p>這個函式接受兩個參數：</p>
+<ul>
+<li>父 class 作為繼承用</li>
+<li>一個新的 class 實作，採用物件實字語法</li>
+</ul>
+<p>規定 class 的建構式必須是一個名為 __constructor 的方法。一個 Man 的 class 實作，他不繼承任何 class，意思就是他繼承的是 object。</p>
+<p>Man 本身有自己的屬性，建立在 constructor 中，另外還有個 getName 方法，Man class 本身就是建構式，接下來的動作讓它更像 class 實體化：</p>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> first = <span class="hljs-keyword">new</span> Man(<span class="hljs-string">'Adam'</span>); <span class="hljs-comment">//logs "Man's constructor"</span></span><br><span class="line">first.getName(); <span class="hljs-comment">//"Adam"</span></span><br></pre></td></tr></table></figure></p>
+<p>接下來來擴充新的 class，建立 SuperMan class：</p>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> SuperMan = klass(Man, &#123;</span><br><span class="line">  __construct: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">what</span>) </span>&#123;</span><br><span class="line">    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"SuperMan's constructor"</span>);</span><br><span class="line">  &#125;,</span><br><span class="line">  getName: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">var</span> name = SuperMan.uber.getName.call(<span class="hljs-keyword">this</span>);</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-string">'I am'</span> + name;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>這個範例中，給的第一個參數是 class Man，會被繼承，在 <code>getName()</code> 它利用 SuperMan 的 uber（super）靜態屬性呼叫父 class 的 <code>getName()</code>：</p>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> clark = <span class="hljs-keyword">new</span> SuperMan(<span class="hljs-string">'Clark Kent'</span>);</span><br><span class="line">clark.getName(); <span class="hljs-comment">//"I am Clark Kent"</span></span><br></pre></td></tr></table></figure></p>
+<p>在 <code>console.log</code> 裡面，印出的第一行是「Man’s constructor」接著是「SuperMan’s constructor」，父建構式會在子建構式之前呼叫。</p>
+<p>再來試看看 instanceof 運算子是否回傳預期中的結果：</p>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">clark <span class="hljs-keyword">instanceof</span> Man; <span class="hljs-comment">//true</span></span><br><span class="line">clark <span class="hljs-keyword">instanceof</span> SuperMan; <span class="hljs-comment">//true</span></span><br></pre></td></tr></table></figure></p>
+<p>接下來看看 klass 實作：</p>
+<p><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> klass = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">Parent, props</span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">var</span> Child, F, i;</span><br><span class="line"></span><br><span class="line">  <span class="hljs-comment">//1.</span></span><br><span class="line">  <span class="hljs-comment">//新的建構式，在最後會被回傳，且被當 class使用。</span></span><br><span class="line">  <span class="hljs-comment">//在函式中呼叫 __consteuct 方法，在那之前會先利用靜態的 uber 屬性呼叫父 class 的 __consteuct ，如果繼承是 Object 的話， uber 有可能未被定義，例如 class 的 Man。</span></span><br><span class="line">  Child = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">if</span> (Child.uber &amp;&amp; Child.uber.hasOwnProperty(<span class="hljs-string">'__construct'</span>)) &#123;</span><br><span class="line">      Child.uber.__construct.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">if</span> (Child.uber.hasOwnProperty(<span class="hljs-string">'__construct'</span>)) &#123;</span><br><span class="line">      Child.prototype.__construct.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="hljs-comment">//2.</span></span><br><span class="line">  <span class="hljs-comment">//新的建構式，使用了前面的 classical 繼承的聖杯模式</span></span><br><span class="line">  <span class="hljs-comment">//如果 沒有需要繼承的 Parent，那就繼承 Object 的 prototype。</span></span><br><span class="line">  Parent = Parent || <span class="hljs-built_in">Object</span>;</span><br><span class="line">  F = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;&#125;;</span><br><span class="line">  F.prototype = Parent.prototype;</span><br><span class="line">  Child.prototype = <span class="hljs-keyword">new</span> F();</span><br><span class="line">  Child.uber = Parent.prototype;</span><br><span class="line">  Child.prototype.constructor = Child;</span><br><span class="line"></span><br><span class="line">  <span class="hljs-comment">//3.</span></span><br><span class="line">  <span class="hljs-comment">//加入實作的方法</span></span><br><span class="line">  <span class="hljs-comment">//用迴圈查找所有方法，加到 Child 的原型之中</span></span><br><span class="line">  <span class="hljs-keyword">for</span> (i <span class="hljs-keyword">in</span> props) &#123;</span><br><span class="line">    <span class="hljs-keyword">if</span> (props.hasOwnProperty(i)) &#123;</span><br><span class="line">      Child.prototype[i] = props[i];</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="hljs-comment">// 回傳Class</span></span><br><span class="line">  <span class="hljs-keyword">return</span> Child;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+
+        
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+        
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/讀書筆記/">#讀書筆記</a></span>
+        
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/JSDP/">#JSDP</a></span>
+        
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/javascript-design-pattern-multiplexing02/">【讀書筆記】JavaScript Design Pattern Chapter06 程式碼重用模式（下）</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/javascript-design-pattern-object02/">【讀書筆記】JavaScript Design Pattern Chapter05 物件建立模式（下）</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="sharethis-inline-share-buttons"></div>
+<script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5d9b1ebc2b036a0011ed0d83&amp;product=inline-share-buttons" async="async"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">評論</h3>
+    
+<div id="comment-container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+	var gitment = new Gitment({
+		id: 'javascript-design-pattern-multiplexing01/',
+		owner: 'leiadot',
+		repo: 'leiadot.github.io',
+		oauth: {
+			client_id: '51ce642a9a95d7ccdf4d',
+			client_secret: '6bf1657de06ee2fbaf452b4752567ab313277f50',
+		},
+	})
+	gitment.render('comment-container')
+</script>
+
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2019 [object Object]&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            <div class="column is-narrow">
+                <div class="columns is-mobile is-multiline is-centered">
+                
+                    
+                <a class="column is-narrow has-text-black" title="GitHub" href="https://github.com/ppoffice/leiadot">
+                    
+                    GitHub
+                    
+                </a>
+                
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("zh-CN");
+</script>
+
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+</script>
+
+    
+    
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+<script src="/js/script.js"></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="站內搜尋">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '頁面',
+                CATEGORIES: '分類',
+                TAGS: '標籤',
+                UNTITLED: '(無標題)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+</body>
+</html>

@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+<title>【讀書筆記】圖解 HTTP Chapter 01 了解 Web 及網路基礎 - CodingWife 寇丁人妻日安</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="要了解 HTTP 之前，需要先了解 WEB 及網路基礎認識。">
+
+
+
+
+
+<meta name="description" content="要了解 HTTP 之前，需要先了解 WEB 及網路基礎認識。">
+<meta name="keywords" content="圖解 HTTP,HTTP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【讀書筆記】圖解 HTTP Chapter 01 了解 Web 及網路基礎">
+<meta property="og:url" content="http://codingwife.com/graphic-http-chapter01/index.html">
+<meta property="og:site_name" content="CodingWife 寇丁人妻日安">
+<meta property="og:description" content="要了解 HTTP 之前，需要先了解 WEB 及網路基礎認識。">
+<meta property="og:locale" content="zh-tw">
+<meta property="og:image" content="http://codingwife.com/img/cover/http.png">
+<meta property="og:updated_time" content="2019-10-24T06:50:39.036Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【讀書筆記】圖解 HTTP Chapter 01 了解 Web 及網路基礎">
+<meta name="twitter:description" content="要了解 HTTP 之前，需要先了解 WEB 及網路基礎認識。">
+<meta name="twitter:image" content="http://codingwife.com/img/cover/http.png">
+
+
+
+
+
+<link rel="icon" href="/images/logo.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto+Sans+TC|Open+Sans&display=swap">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+<link rel="stylesheet" href="/css/style.css">
+<script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png"},"articleBody":"當在網頁瀏覽器輸入網址之後，瀏覽器會向伺服器請求該網址的資源，並顯示網頁。發送請求取得伺服器資料的網頁瀏覽器，都可以稱為客戶端。\n網頁是透過 HTTP 協議完成傳送資料的流程。\n\n\n使用 HTTP 協議訪問 Web當在網頁瀏覽器輸入網址之後，瀏覽器會向伺服器請求該網址的資源，並顯示網頁。發送請求取得伺服器資料的網頁瀏覽器，都可以稱為客戶端。\n網頁是透過 HTTP 協議完成傳送資料的流程。\nHTTP 的誕生\nHTTP / 1.0：初期標準，現在仍然被廣泛使用。\nHTTP / 1.1：目前主流的 HTTP 協議版本，主要是要解決文字傳輸的困難。\n\nTCP / IP目前所使用的網路都是在 TCP / IP 協議的基礎上運作，而 HTTP 是屬於內部的一個子集。\nTCP / IP 協議什麼是協議：電腦與網路要互相連接，必須要在連接前確定一些規則才能達成，像是使用哪種語言、如何偵測連結、如何結束等等，而這些規則就稱為協議。\nTCP / IP 就是跟網路連接有關的所有協議的統稱。\n有人認為 TCP / IP 是在說 TCP 協議與 IP 協議，也有人認為 TCP / IP 是在 IP 協議的連結過程中，所使用到的協議統稱。\nTCP / IP 分層管理TCP / IP 分為四層：\n\n應用層：提供為應用軟體而設的埠，以設定與另一應用軟體之間的通訊。例如：HTTP、FTP、DNS 等等\n傳輸層：提供兩台有網路連接的電腦之間的資料傳輸。當中有 TCP 和 UDP。\n網路層：定義網路路由和地址，讓資料可以在網路之間傳遞，資料在傳輸時，協議會把 IP 地址加到傳輸資料內組成封包，又稱「IP 層」。\n資料連結層：處理網路連接硬體的部分（MAC 地址也處於這層）。\n\nTCP / IP 通訊傳輸流兩台電腦在進行網路連接時，會通過分層的順序連接。發送端會從應用層逐步走到資料連結層，而接收端會從資料連結層向回走到應用層。\n發送端在各層傳輸資料時，經過一層就會在該層增加一個 header 資料，接收端接受後每經過一層，就會消除一層，這樣分層的好處是當協議需要改變時，只要將有變動的那層替換就可以了。\n與 HTTP 關係密切的協議：IP、TCP 和 DNS負責傳輸的 IP 協議有些人會把 IP 跟 IP 位址搞錯。\nIP 協議的作用是把封包傳送給對方，這需要很多條件，其中重要的兩個條件是 IP 位置和 MAC 。\nIP 位置是指節點被分配到的位置，而 MAC 是指網卡上獨特的序號，IP 位置可以跟 MAC 配對，IP 是不固定的，而 MAC 是網卡獨特的序號，是不會改變的。\nIP 之間的連接是依賴 MAC 。\n網路上兩台電腦的連接通常是藉由多台電腦和網路設備轉接，才連接到對方，而在連接時會利用下一站轉接設備的 MAC 來找到這個轉接的目標，這時候會使用 ARP 協議，ARP 協議是一種解析位置的協議，他會根據連接那端的 IP 位置來反查對應的 MAC。\n在到達最後要連結到的目標之前，這中間過程的轉運站，通常叫做路由。\n確保可靠性的 TCP 協議為了方便管理，TCP 的功能是把資料流分割成適當長度的訊息段落，並且確認是否有把資料成功傳給對方。\nTCP 協議採用了三向交握（three-way handshaking）策略，意思就是三次訊息的交換，當中會使用 TCP 的註記標誌——SYN、ACK。發送端會先送一個帶有 SYN 標記的封包給對方，接收端收到之後會發送一個帶有 SYN、ACK 標記的封包回去，最後發送端再送一個帶有 ACK 標記的封包，這樣表示訊息傳送完成。\n負責域名解析的 DNS 服務DNS 跟 HTTP 一樣在應用層，提供了域名到 IP 之間的解析服務。電腦既然可以有 IP 位置，也可以有主機名稱和域名。例如：www.codingwife.com。\n一般人在訪問別人的主機通常都是用域名，而不是 IP 位置，因為 IP 比較不符合一般人能記憶的模式。DNS 協議提供通過域名來查找 IP 位置，或是反向從 IP 位置來找域名。\n各協議與 HTTP 協議的關係\n客戶端：訪問 www.codingwife.com。\nDNS：查找對應的 IP 位置\n\n\n發送到伺服器端\nHTTP：生對目標伺服器的 HTTP 請求訊息\nTCP：把訊息分割成封包，確認每個封包都傳送給對方\nIP：查找對方的位置，一邊轉運、一邊傳送。（路由器）\nTCP：從對方那裡接收到封包並重組。\nHTTP：對請求的內容進行處理。\n\n\n\n請求的處理結果也是透過 TCP / IP 通訊協定回傳。\nURI 與 URLURI（Uniform Resource Identifier）統一資源標識符。\n以https://codingwife.com/2018/10/16/2018ithome/day01/為例：\nhttps://：協議名稱，Identifier 來表示定位標示符。codingwife.com：域名。/2018/10/16/2018ithome/day01/：路徑。\n\n資料來源：《圖解 HTTP》 上野宣 人民郵電出版社筆記純屬推廣及分享，如有侵權，請告知。Please advise to remove immediately if any infringement caused.\n\n","dateCreated":"2018-10-19T21:49:00+00:00","dateModified":"2019-10-24T06:50:39+00:00","datePublished":"2018-10-19T21:49:00+00:00","description":"當在網頁瀏覽器輸入網址之後，瀏覽器會向伺服器請求該網址的資源，並顯示網頁。發送請求取得伺服器資料的網頁瀏覽器，都可以稱為客戶端。\n網頁是透過 HTTP 協議完成傳送資料的流程。","headline":"【讀書筆記】圖解 HTTP Chapter 01 了解 Web 及網路基礎","image":["/img/cover/http.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://codingwife.com/graphic-http-chapter01/"},"publisher":{"@type":"Organization","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png","logo":{"@type":"ImageObject","url":"http://codingwife.com/images/leia.png"}},"url":"http://codingwife.com/graphic-http-chapter01/","keywords":"圖解 HTTP, HTTP"}</script>
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    <img src="/images/codingwife.png" alt height="28">
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item " href="/archives">Archives</a>
+            
+            <a class="navbar-item " href="/categories">Categories</a>
+            
+            <a class="navbar-item " href="/tags">Tags</a>
+            
+            <a class="navbar-item " href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="搜尋" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/leiadot">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            <a class="navbar-item" title="Facebook" href="https://facebook.com/CodingwifeHy2">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+        【讀書筆記】圖解 HTTP Chapter 01 了解 Web 及網路基礎
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">2018-10-19 21:49
+            （<time datetime="2018-10-19T21:49:00.000Z" itemprop="datePublished">10月 19 2018</time>）
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Front-end/">Front-end</a>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+        
+        <p>當在網頁瀏覽器輸入網址之後，瀏覽器會向伺服器請求該網址的資源，並顯示網頁。發送請求取得伺服器資料的網頁瀏覽器，都可以稱為客戶端。</p>
+<p>網頁是透過 HTTP 協議完成傳送資料的流程。</p>
+<a id="more"></a>
+
+<h2 id="使用-HTTP-協議訪問-Web"><a href="#使用-HTTP-協議訪問-Web" class="headerlink" title="使用 HTTP 協議訪問 Web"></a>使用 HTTP 協議訪問 Web</h2><p>當在網頁瀏覽器輸入網址之後，瀏覽器會向伺服器請求該網址的資源，並顯示網頁。發送請求取得伺服器資料的網頁瀏覽器，都可以稱為客戶端。</p>
+<p>網頁是透過 HTTP 協議完成傳送資料的流程。</p>
+<h2 id="HTTP-的誕生"><a href="#HTTP-的誕生" class="headerlink" title="HTTP 的誕生"></a>HTTP 的誕生</h2><ul>
+<li>HTTP / 1.0：初期標準，現在仍然被廣泛使用。</li>
+<li>HTTP / 1.1：目前主流的 HTTP 協議版本，主要是要解決文字傳輸的困難。</li>
+</ul>
+<h2 id="TCP-IP"><a href="#TCP-IP" class="headerlink" title="TCP / IP"></a>TCP / IP</h2><p>目前所使用的網路都是在 TCP / IP 協議的基礎上運作，而 HTTP 是屬於內部的一個子集。</p>
+<h3 id="TCP-IP-協議"><a href="#TCP-IP-協議" class="headerlink" title="TCP / IP 協議"></a>TCP / IP 協議</h3><p>什麼是協議：電腦與網路要互相連接，必須要在連接前確定一些規則才能達成，像是使用哪種語言、如何偵測連結、如何結束等等，而這些規則就稱為協議。</p>
+<p>TCP / IP 就是跟網路連接有關的所有協議的統稱。</p>
+<p>有人認為 TCP / IP 是在說 TCP 協議與 IP 協議，也有人認為 TCP / IP 是在 IP 協議的連結過程中，所使用到的協議統稱。</p>
+<h3 id="TCP-IP-分層管理"><a href="#TCP-IP-分層管理" class="headerlink" title="TCP / IP 分層管理"></a>TCP / IP 分層管理</h3><p>TCP / IP 分為四層：</p>
+<ul>
+<li>應用層：提供為應用軟體而設的埠，以設定與另一應用軟體之間的通訊。例如：HTTP、FTP、DNS 等等</li>
+<li>傳輸層：提供兩台有網路連接的電腦之間的資料傳輸。當中有 TCP 和 UDP。</li>
+<li>網路層：定義網路路由和地址，讓資料可以在網路之間傳遞，資料在傳輸時，協議會把 IP 地址加到傳輸資料內組成封包，又稱「IP 層」。</li>
+<li>資料連結層：處理網路連接硬體的部分（MAC 地址也處於這層）。</li>
+</ul>
+<h3 id="TCP-IP-通訊傳輸流"><a href="#TCP-IP-通訊傳輸流" class="headerlink" title="TCP / IP 通訊傳輸流"></a>TCP / IP 通訊傳輸流</h3><p>兩台電腦在進行網路連接時，會通過分層的順序連接。發送端會從應用層逐步走到資料連結層，而接收端會從資料連結層向回走到應用層。</p>
+<p>發送端在各層傳輸資料時，經過一層就會在該層增加一個 header 資料，接收端接受後每經過一層，就會消除一層，這樣分層的好處是當協議需要改變時，只要將有變動的那層替換就可以了。</p>
+<h2 id="與-HTTP-關係密切的協議：IP、TCP-和-DNS"><a href="#與-HTTP-關係密切的協議：IP、TCP-和-DNS" class="headerlink" title="與 HTTP 關係密切的協議：IP、TCP 和 DNS"></a>與 HTTP 關係密切的協議：IP、TCP 和 DNS</h2><h3 id="負責傳輸的-IP-協議"><a href="#負責傳輸的-IP-協議" class="headerlink" title="負責傳輸的 IP 協議"></a>負責傳輸的 IP 協議</h3><p>有些人會把 IP 跟 IP 位址搞錯。</p>
+<p>IP 協議的作用是把封包傳送給對方，這需要很多條件，其中重要的兩個條件是 IP 位置和 MAC 。</p>
+<p>IP 位置是指節點被分配到的位置，而 MAC 是指網卡上獨特的序號，IP 位置可以跟 MAC 配對，IP 是不固定的，而 MAC 是網卡獨特的序號，是不會改變的。</p>
+<p>IP 之間的連接是依賴 MAC 。</p>
+<p>網路上兩台電腦的連接通常是藉由多台電腦和網路設備轉接，才連接到對方，而在連接時會利用下一站轉接設備的 MAC 來找到這個轉接的目標，這時候會使用 ARP 協議，ARP 協議是一種解析位置的協議，他會根據連接那端的 IP 位置來反查對應的 MAC。</p>
+<p>在到達最後要連結到的目標之前，這中間過程的轉運站，通常叫做路由。</p>
+<h3 id="確保可靠性的-TCP-協議"><a href="#確保可靠性的-TCP-協議" class="headerlink" title="確保可靠性的 TCP 協議"></a>確保可靠性的 TCP 協議</h3><p>為了方便管理，TCP 的功能是把資料流分割成適當長度的訊息段落，並且確認是否有把資料成功傳給對方。</p>
+<p>TCP 協議採用了三向交握（three-way handshaking）策略，意思就是三次訊息的交換，當中會使用 TCP 的註記標誌——SYN、ACK。發送端會先送一個帶有 SYN 標記的封包給對方，接收端收到之後會發送一個帶有 SYN、ACK 標記的封包回去，最後發送端再送一個帶有 ACK 標記的封包，這樣表示訊息傳送完成。</p>
+<h3 id="負責域名解析的-DNS-服務"><a href="#負責域名解析的-DNS-服務" class="headerlink" title="負責域名解析的 DNS 服務"></a>負責域名解析的 DNS 服務</h3><p>DNS 跟 HTTP 一樣在應用層，提供了域名到 IP 之間的解析服務。電腦既然可以有 IP 位置，也可以有主機名稱和域名。例如：<a href="http://www.codingwife.com。" target="_blank" rel="noopener">www.codingwife.com。</a></p>
+<p>一般人在訪問別人的主機通常都是用域名，而不是 IP 位置，因為 IP 比較不符合一般人能記憶的模式。DNS 協議提供通過域名來查找 IP 位置，或是反向從 IP 位置來找域名。</p>
+<h3 id="各協議與-HTTP-協議的關係"><a href="#各協議與-HTTP-協議的關係" class="headerlink" title="各協議與 HTTP 協議的關係"></a>各協議與 HTTP 協議的關係</h3><ul>
+<li>客戶端：訪問 <a href="http://www.codingwife.com。" target="_blank" rel="noopener">www.codingwife.com。</a><ul>
+<li>DNS：查找對應的 IP 位置</li>
+</ul>
+</li>
+<li>發送到伺服器端<ul>
+<li>HTTP：生對目標伺服器的 HTTP 請求訊息</li>
+<li>TCP：把訊息分割成封包，確認每個封包都傳送給對方</li>
+<li>IP：查找對方的位置，一邊轉運、一邊傳送。（路由器）</li>
+<li>TCP：從對方那裡接收到封包並重組。</li>
+<li>HTTP：對請求的內容進行處理。</li>
+</ul>
+</li>
+</ul>
+<p>請求的處理結果也是透過 TCP / IP 通訊協定回傳。</p>
+<h2 id="URI-與-URL"><a href="#URI-與-URL" class="headerlink" title="URI 與 URL"></a>URI 與 URL</h2><p>URI（Uniform Resource Identifier）統一資源標識符。</p>
+<p>以<code>https://codingwife.com/2018/10/16/2018ithome/day01/</code>為例：</p>
+<p><code>https://</code>：協議名稱，Identifier 來表示定位標示符。<br><code>codingwife.com</code>：域名。<br><code>/2018/10/16/2018ithome/day01/</code>：路徑。</p>
+<blockquote>
+<p>資料來源：《圖解 HTTP》 上野宣 人民郵電出版社<br>筆記純屬推廣及分享，如有侵權，請告知。<br>Please advise to remove immediately if any infringement caused.</p>
+</blockquote>
+
+        
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+        
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/圖解-HTTP/">#圖解 HTTP</a></span>
+        
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/HTTP/">#HTTP</a></span>
+        
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/graphic-http-chapter02/">【讀書筆記】圖解 HTTP Chapter 02 簡單的 HTTP 協議</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/javascript-debounce-throttle/">【JS】Debounce and Throttle</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="sharethis-inline-share-buttons"></div>
+<script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5d9b1ebc2b036a0011ed0d83&amp;product=inline-share-buttons" async="async"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">評論</h3>
+    
+<div id="comment-container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+	var gitment = new Gitment({
+		id: 'graphic-http-chapter01/',
+		owner: 'leiadot',
+		repo: 'leiadot.github.io',
+		oauth: {
+			client_id: '51ce642a9a95d7ccdf4d',
+			client_secret: '6bf1657de06ee2fbaf452b4752567ab313277f50',
+		},
+	})
+	gitment.render('comment-container')
+</script>
+
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2019 [object Object]&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            <div class="column is-narrow">
+                <div class="columns is-mobile is-multiline is-centered">
+                
+                    
+                <a class="column is-narrow has-text-black" title="GitHub" href="https://github.com/ppoffice/leiadot">
+                    
+                    GitHub
+                    
+                </a>
+                
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("zh-CN");
+</script>
+
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+</script>
+
+    
+    
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+<script src="/js/script.js"></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="站內搜尋">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '頁面',
+                CATEGORIES: '分類',
+                TAGS: '標籤',
+                UNTITLED: '(無標題)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+</body>
+</html>

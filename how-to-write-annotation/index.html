@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+<title>【筆記】 如何寫出好註解 - CodingWife 寇丁人妻日安</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="如何寫出好註解，註解的目的是協助使用者了解程式碼作者的思想。">
+
+
+
+
+
+<meta name="description" content="如何寫出好註解，註解的目的是協助使用者了解程式碼作者的思想。">
+<meta name="keywords" content="攻城屍筆記">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【筆記】 如何寫出好註解">
+<meta property="og:url" content="http://codingwife.com/how-to-write-annotation/index.html">
+<meta property="og:site_name" content="CodingWife 寇丁人妻日安">
+<meta property="og:description" content="如何寫出好註解，註解的目的是協助使用者了解程式碼作者的思想。">
+<meta property="og:locale" content="zh-tw">
+<meta property="og:image" content="http://codingwife.com/img/cover/note.jpg">
+<meta property="og:updated_time" content="2019-10-24T06:50:39.036Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【筆記】 如何寫出好註解">
+<meta name="twitter:description" content="如何寫出好註解，註解的目的是協助使用者了解程式碼作者的思想。">
+<meta name="twitter:image" content="http://codingwife.com/img/cover/note.jpg">
+
+
+
+
+
+<link rel="icon" href="/images/logo.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto+Sans+TC|Open+Sans&display=swap">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+<link rel="stylesheet" href="/css/style.css">
+<script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png"},"articleBody":"註解的目的是協助使用者了解程式碼作者的思想\n\n\n了解不該註解的部份註解必須有價值\n如何區分？\nvar cafeBean;//宣告 咖啡豆變數return cafeBean;//回傳 咖啡豆\nfunction cafeFuc ()&#123;    var cafe = 3;    for(var i=0;i&lt;cafe.length;i++)&#123;        var cafeNum += cafe[i]    &#125;&#125;\n這些註解並沒有提供額外的資訊，讓使用者更易閱讀程式碼，宣告與註解完全相同，應該刪除註解或改善內容。\n不要註解不好的名稱，應修正名稱。var arr = [1, 2, 3, 4],  deleteArr = [];for (var i = 0; i &lt; arr.length; i++) &#123;  if (arr[i] &gt; 2) &#123;    deleteArr.push(arr[i]);    // 刪除arr1,2的結果  &#125;&#125;console.log(deleteArr);\ndeleteArr 看起來像刪除 arr 裡的數值，但 arr 的內容並不會被更動，此時應該更正命名如下。\nvar arr = [1, 2, 3, 4],  rebuildArr = [];for (var i = 0; i &lt; arr.length; i++) &#123;  if (arr[i] &gt; 2) &#123;    rebuildArr.push(arr[i]);    // 刪除arr1,2 重組後的結果  &#125;&#125;console.log(rebuildArr);\n利用註解補救程式碼不佳的可讀性\n紀錄自己的想法記下寫程式時的重要想法\n//後端回傳的json相當雜亂，但因重組資料耗費的時間成本太高，先將就使用。\n讓讀者知道來龍去脈，省去時間做沒有效果的最佳化\n//公車離站及末班車駛離的即時資料數值回傳皆為11，alert一律顯示'無公車進站'\n少這段註解，避免讀者浪費時間測試或直接下手修正程式碼。\n註解程式碼缺陷以下是許多程式設計師採用的標記\n\n\n\n標記\n意義\n\n\n\nTODO:\n作者還沒處理的部份\n\n\nFIXME:\n已知的問題\n\n\nHACK:\n承認解決方法不夠優雅\n\n\nxxx:\n危險！重要問題\n\n\n每個團隊對於標計有各自的規範及使用時機，例如 TODO 被保留受到注意的問題，那麼大多數的小問題可以使用 todo:(小寫)。\n常數的註解常數只是單純的數值，但加上註解仍有幫助。\nvar cafeBeanMaxmum = 200;//加上合理的上限——咖啡豆進貨上限\nvar zoom = 12;//zoom12為檢視googleMap的最佳比例\nmakeAcafe(inputValue);//執行製作一杯咖啡的時間，特別注意太糟的輸入值\n全局註解詳述檔案\n// 這隻sass主要為儲存變數、RWD斷點規劃..\nswitch (status) &#123;  case 'go':    // 去程顯示畫面    $('.choose').hide();    $('.showMap-go').show();    $('.showMap-back').hide();    //顯示google Map    var map;    initMap();    break;  case 'back':    // 回程顯示畫面    $('.showMap-go').hide();    $('.showMap-back').show();    $('.choose').hide();    var map;    initMap();    break;  case 'choose':  default:    // 選擇路線顯示畫面    $('.choose').show();    $('.showMap-go').show();    $('.showMap-back').hide();    break;&#125;\n\n維持註解的簡潔\n避免模擬兩可的代名詞（它、這個、那個）\n修整草率的語句\n\n","dateCreated":"2018-01-26T07:07:23+00:00","dateModified":"2019-10-24T06:50:39+00:00","datePublished":"2018-01-26T07:07:23+00:00","description":"註解的目的是協助使用者了解程式碼作者的思想","headline":"【筆記】 如何寫出好註解","image":["/img/cover/note.jpg"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://codingwife.com/how-to-write-annotation/"},"publisher":{"@type":"Organization","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png","logo":{"@type":"ImageObject","url":"http://codingwife.com/images/leia.png"}},"url":"http://codingwife.com/how-to-write-annotation/","keywords":"攻城屍筆記"}</script>
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    <img src="/images/codingwife.png" alt height="28">
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item " href="/archives">Archives</a>
+            
+            <a class="navbar-item " href="/categories">Categories</a>
+            
+            <a class="navbar-item " href="/tags">Tags</a>
+            
+            <a class="navbar-item " href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="搜尋" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/leiadot">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            <a class="navbar-item" title="Facebook" href="https://facebook.com/CodingwifeHy2">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+        【筆記】 如何寫出好註解
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">2018-01-26 07:07
+            （<time datetime="2018-01-26T07:07:23.000Z" itemprop="datePublished">1月 26 2018</time>）
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Others/">Others</a>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+        
+        <p>註解的目的是協助使用者了解程式碼作者的思想</p>
+<a id="more"></a>
+
+<h2 id="了解不該註解的部份"><a href="#了解不該註解的部份" class="headerlink" title="了解不該註解的部份"></a>了解不該註解的部份</h2><p>註解必須有價值</p>
+<p>如何區分？</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> cafeBean;</span><br><span class="line"><span class="hljs-comment">//宣告 咖啡豆變數</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">return</span> cafeBean;</span><br><span class="line"><span class="hljs-comment">//回傳 咖啡豆</span></span><br></pre></td></tr></table></figure></p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">cafeFuc</span> (<span class="hljs-params"></span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">var</span> cafe = <span class="hljs-number">3</span>;</span><br><span class="line">    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i=<span class="hljs-number">0</span>;i&lt;cafe.length;i++)&#123;</span><br><span class="line">        <span class="hljs-keyword">var</span> cafeNum += cafe[i]</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>這些註解並沒有提供額外的資訊，讓使用者更易閱讀程式碼，宣告與註解完全相同，應該刪除註解或改善內容。</p>
+<h3 id="不要註解不好的名稱，應修正名稱。"><a href="#不要註解不好的名稱，應修正名稱。" class="headerlink" title="不要註解不好的名稱，應修正名稱。"></a>不要註解不好的名稱，應修正名稱。</h3><p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> arr = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>],</span><br><span class="line">  deleteArr = [];</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">  <span class="hljs-keyword">if</span> (arr[i] &gt; <span class="hljs-number">2</span>) &#123;</span><br><span class="line">    deleteArr.push(arr[i]);</span><br><span class="line">    <span class="hljs-comment">// 刪除arr1,2的結果</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-built_in">console</span>.log(deleteArr);</span><br></pre></td></tr></table></figure></p>
+<p>deleteArr 看起來像刪除 arr 裡的數值，但 arr 的內容並不會被更動，此時應該更正命名如下。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> arr = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>],</span><br><span class="line">  rebuildArr = [];</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">  <span class="hljs-keyword">if</span> (arr[i] &gt; <span class="hljs-number">2</span>) &#123;</span><br><span class="line">    rebuildArr.push(arr[i]);</span><br><span class="line">    <span class="hljs-comment">// 刪除arr1,2 重組後的結果</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-built_in">console</span>.log(rebuildArr);</span><br></pre></td></tr></table></figure></p>
+<p>利用註解補救程式碼不佳的可讀性</p>
+<h2 id="紀錄自己的想法"><a href="#紀錄自己的想法" class="headerlink" title="紀錄自己的想法"></a>紀錄自己的想法</h2><p>記下寫程式時的重要想法</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-comment">//後端回傳的json相當雜亂，但因重組資料耗費的時間成本太高，先將就使用。</span></span><br></pre></td></tr></table></figure></p>
+<p>讓讀者知道來龍去脈，省去時間做沒有效果的最佳化</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-comment">//公車離站及末班車駛離的即時資料數值回傳皆為11，alert一律顯示'無公車進站'</span></span><br></pre></td></tr></table></figure></p>
+<p>少這段註解，避免讀者浪費時間測試或直接下手修正程式碼。</p>
+<h3 id="註解程式碼缺陷"><a href="#註解程式碼缺陷" class="headerlink" title="註解程式碼缺陷"></a>註解程式碼缺陷</h3><p>以下是許多程式設計師採用的標記</p>
+<table>
+<thead>
+<tr>
+<th>標記</th>
+<th>意義</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>TODO:</td>
+<td>作者還沒處理的部份</td>
+</tr>
+<tr>
+<td>FIXME:</td>
+<td>已知的問題</td>
+</tr>
+<tr>
+<td>HACK:</td>
+<td>承認解決方法不夠優雅</td>
+</tr>
+<tr>
+<td>xxx:</td>
+<td>危險！重要問題</td>
+</tr>
+</tbody></table>
+<p>每個團隊對於標計有各自的規範及使用時機，<br>例如 TODO 被保留受到注意的問題，<br>那麼大多數的小問題可以使用 todo:(小寫)。</p>
+<h3 id="常數的註解"><a href="#常數的註解" class="headerlink" title="常數的註解"></a>常數的註解</h3><p>常數只是單純的數值，但加上註解仍有幫助。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> cafeBeanMaxmum = <span class="hljs-number">200</span>;</span><br><span class="line"><span class="hljs-comment">//加上合理的上限——咖啡豆進貨上限</span></span><br></pre></td></tr></table></figure></p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> zoom = <span class="hljs-number">12</span>;</span><br><span class="line"><span class="hljs-comment">//zoom12為檢視googleMap的最佳比例</span></span><br></pre></td></tr></table></figure></p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line">makeAcafe(inputValue);</span><br><span class="line"><span class="hljs-comment">//執行製作一杯咖啡的時間，特別注意太糟的輸入值</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="全局註解"><a href="#全局註解" class="headerlink" title="全局註解"></a>全局註解</h3><p>詳述檔案</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-comment">// 這隻sass主要為儲存變數、RWD斷點規劃</span></span><br><span class="line"></span><br><span class="line">..</span><br></pre></td></tr></table></figure></p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">switch</span> (status) &#123;</span><br><span class="line">  <span class="hljs-keyword">case</span> <span class="hljs-string">'go'</span>:</span><br><span class="line">    <span class="hljs-comment">// 去程顯示畫面</span></span><br><span class="line">    $(<span class="hljs-string">'.choose'</span>).hide();</span><br><span class="line">    $(<span class="hljs-string">'.showMap-go'</span>).show();</span><br><span class="line">    $(<span class="hljs-string">'.showMap-back'</span>).hide();</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">//顯示google Map</span></span><br><span class="line">    <span class="hljs-keyword">var</span> map;</span><br><span class="line">    initMap();</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">break</span>;</span><br><span class="line"></span><br><span class="line">  <span class="hljs-keyword">case</span> <span class="hljs-string">'back'</span>:</span><br><span class="line">    <span class="hljs-comment">// 回程顯示畫面</span></span><br><span class="line">    $(<span class="hljs-string">'.showMap-go'</span>).hide();</span><br><span class="line">    $(<span class="hljs-string">'.showMap-back'</span>).show();</span><br><span class="line">    $(<span class="hljs-string">'.choose'</span>).hide();</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">var</span> map;</span><br><span class="line">    initMap();</span><br><span class="line">    <span class="hljs-keyword">break</span>;</span><br><span class="line"></span><br><span class="line">  <span class="hljs-keyword">case</span> <span class="hljs-string">'choose'</span>:</span><br><span class="line">  <span class="hljs-keyword">default</span>:</span><br><span class="line">    <span class="hljs-comment">// 選擇路線顯示畫面</span></span><br><span class="line">    $(<span class="hljs-string">'.choose'</span>).show();</span><br><span class="line">    $(<span class="hljs-string">'.showMap-go'</span>).show();</span><br><span class="line">    $(<span class="hljs-string">'.showMap-back'</span>).hide();</span><br><span class="line">    <span class="hljs-keyword">break</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>維持註解的簡潔</li>
+<li>避免模擬兩可的代名詞（它、這個、那個）</li>
+<li>修整草率的語句</li>
+</ul>
+
+        
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+        
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/攻城屍筆記/">#攻城屍筆記</a></span>
+        
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/javascript-30-day03/">【JS30】Day03：JS Playing with CSS Variables</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/javascript-30-day01/">【JS30】Day01：JavaScript Drum Kit</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="sharethis-inline-share-buttons"></div>
+<script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5d9b1ebc2b036a0011ed0d83&amp;product=inline-share-buttons" async="async"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">評論</h3>
+    
+<div id="comment-container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+	var gitment = new Gitment({
+		id: 'how-to-write-annotation/',
+		owner: 'leiadot',
+		repo: 'leiadot.github.io',
+		oauth: {
+			client_id: '51ce642a9a95d7ccdf4d',
+			client_secret: '6bf1657de06ee2fbaf452b4752567ab313277f50',
+		},
+	})
+	gitment.render('comment-container')
+</script>
+
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2019 [object Object]&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            <div class="column is-narrow">
+                <div class="columns is-mobile is-multiline is-centered">
+                
+                    
+                <a class="column is-narrow has-text-black" title="GitHub" href="https://github.com/ppoffice/leiadot">
+                    
+                    GitHub
+                    
+                </a>
+                
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("zh-CN");
+</script>
+
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+</script>
+
+    
+    
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+<script src="/js/script.js"></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="站內搜尋">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '頁面',
+                CATEGORIES: '分類',
+                TAGS: '標籤',
+                UNTITLED: '(無標題)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+</body>
+</html>

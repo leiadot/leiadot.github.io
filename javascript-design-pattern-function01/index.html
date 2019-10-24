@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+<title>【讀書筆記】JavaScript Design Pattern Chapter04 函式（上） - CodingWife 寇丁人妻日安</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="JavaScript Design Pattern，第四章函式。">
+
+
+
+
+
+<meta name="description" content="JavaScript Design Pattern，第四章函式。">
+<meta name="keywords" content="讀書筆記,JSDP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【讀書筆記】JavaScript Design Pattern Chapter04 函式（上）">
+<meta property="og:url" content="http://codingwife.com/javascript-design-pattern-function01/index.html">
+<meta property="og:site_name" content="CodingWife 寇丁人妻日安">
+<meta property="og:description" content="JavaScript Design Pattern，第四章函式。">
+<meta property="og:locale" content="zh-tw">
+<meta property="og:image" content="http://codingwife.com/img/cover/books.jpg">
+<meta property="og:updated_time" content="2019-10-24T06:50:39.036Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【讀書筆記】JavaScript Design Pattern Chapter04 函式（上）">
+<meta name="twitter:description" content="JavaScript Design Pattern，第四章函式。">
+<meta name="twitter:image" content="http://codingwife.com/img/cover/books.jpg">
+
+
+
+
+
+<link rel="icon" href="/images/logo.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto+Sans+TC|Open+Sans&display=swap">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+<link rel="stylesheet" href="/css/style.css">
+<script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png"},"articleBody":"接下來會學習到不同定義的函式，首先是函式表達式和函式宣告式，接著看函式作用域與 hosting 如何運作。\n\n\n背景JavaScript 有兩個主要特色：\n\n函式屬於 JavaScript 第一級物件（first-class object）\n函式提供作用域\n\n函式也是物件：\n\n可在執行期、程式執行的過程中動態建立\n可以指定給變數，也可將參考複製給其他變數，可以被擴充，而且除了少數其他狀況外，也可以被刪除\n可以作為參數傳遞給其他韓式，也可以作為其他函式的回傳值\n可以有自己的屬性和方法\n\n使用 Function 建構式跟使用 eval 一樣糟糕，因為程式碼使用字串的形式傳遞並執行，就必須跳脫字元，如此讀寫都很不方便。\nJavaScript 中沒有大括號內的區域作用域，沒有區塊範圍，區塊並不產生有效的作用域，JavaScript 只有函式作用域，任何在函式裡面宣告的 var 變數 都是區域變數。\n釐清術語的差別var add = function(a, b) &#123;  return a + b;&#125;;\n具名的函式表示式，又稱匿名函式，與函式宣告式的差別是函式物件的 name 屬性會是個空字串，具名的函式表示式和函式宣告式看起來類似，但表示式在結尾需要分號，而表達式不用。\n函式實字也是常用的術語，但他可能代表函式表示式也可能代表具名韓式表示式，模凌兩可，最好不要用此術語。\n宣告式 v.s. 表示式：命名與 Hoisiting那該使用函數宣告式還是表示式呢？當語法不能使用宣告式就可以使用表示式，例如：將函式物件作為參數傳遞、物件實字內定義方法。\n函式宣告式只能出現在 program code 裡面，意思是函式本體或全域空間中，他們定義無法賦值給變數或其他屬性，或作其他函式的參數。\n函式的 name 屬性對函式宣告式和具名函式表達式，name 屬性都有定義。對匿名函式表達式說，name 可能為 undefined 或空字串。name 屬性也會用來遞迴呼叫自己，或是在除錯工具中顯示函式名稱，如果這兩種狀況都沒有需要，用不具名表達式會比較簡單也不囉唆。\n技術上來說可以將一個具名函式表示式指派給另一個名稱的變數，但不是所有瀏覽器都支援，因此不建議這樣做。\n函式的 Hoisting所有變數無論被定義在函式中哪處，都會在幕後被提升到函式最前端。\nfunction foo() &#123;  console.log('global foo');&#125;function bar() &#123;  console.log('global bar');&#125;function hoistMe() &#123;  console.log(typeof foo); // 'function'  console.log(typeof bar); //'undefined'  foo(); // local foo  bar(); // TypeError:bar is not function  function foo() &#123;    console.log('local foo');  &#125;  // 變數 foo 和實作都被提升  var bar = function() &#123;    console.log('local bar');  &#125;;  // 僅有變數 bar 被提升，不包含實作，所以是 undefined&#125;hoistMe();\n回呼模式函數是物件，意思就是可以作為參數傳遞給其他函式。\n回呼與作用域回呼並非是一次性的匿名函式或者全域函式，而是某個物件的方法，如果回呼的方法使用了 this 去參考其所屬的物件，this 會參考到全域物件，解決方法是除了傳遞回呼函式，額外傳遞回呼函式所屬物件，並使用 call 改變 this 的指向。\n逾時當使用 setTimeout 或 setInterval ，函數在作為變數傳遞時沒有加上括號，因為你不是想立刻執行它，而是指向它，讓 setTimeout 或 setInterval 稍後可以使用。\n回傳函式有個函式做了一個工作，可能是一些初始化，接著就對其回傳值工作，回傳值剛好是另一個函式：\nvar setup = function() &#123;  alert(1);  return function() &#123;    alert(2);  &#125;;&#125;;var my = setup();my();\nvar setup = function() &#123;  var count = 0;  return function() &#123;    return (count += 1);  &#125;;&#125;;var next = setup();next(); //1next(); //2next(); //3next(); //4\n自我定義函式函式可以動態建立，且可以指派給變數。建立新函式，並指派給同一個變數，此變數原本指向的舊函數就會被覆蓋成新的。\nvar scareMe = function() &#123;  alert('boo!');  scareMe = function() &#123;    alert('double boo!');  &#125;;&#125;;scareMe();scareMe();\n使用這種模式可以顯著提升效能，當函式一部份不需要的狀況下，就可以使用自我定義的函式更新自身的實作。這個模式另一個名字叫做懶惰的函式定義，因為這種函式在第一次使用之前都沒有正確定義，而之後就會變得懶惰。\n此函數的缺點在它重新定義自身之前你加到原始函式的屬性都會遺失，如果使用不同名稱，例如新函式指派給另一個變數或是物件的另一個方法，那重新定義的部分就不會執行，而原始的函式本體就會執行。\n以另一個例子來說，這次 scareMe() 函式要用第一級物件的使用方式：\n\n加入一個新的屬性\n將函式物件指派給新變數\n函式也作為方法使用\n\n// 1.加入一個新屬性scareMe.property = 'properly';// 2.賦值給一個不同名稱var prank = scareMe;// 3.作為一個方法來使用var spooky = &#123;  boo: scareMe,&#125;;// 用新的名稱呼叫prank(); //booprank(); //booconsole.log(prank.property); // properly// 用方法呼叫spooky.boo(); //boospooky.boo(); //booconsole.log(spooky.boo.property); // properly// 用自我定義函式呼叫scareMe(); //double boo!scareMe(); //double boo!console.log(scareMe.property); //undefined\n當自我定義函式被賦值給一個新變數時，他沒有照你預期，每一次呼叫 prank(); 都會印出 boo，同時覆蓋全域的 scareMe(); 函式，但 prank(); 自己仍保有舊有的定義，包含 property 屬性。\n這些每次的呼叫都會重新覆蓋 scareMe(); 的指標，所以最終呼叫它，它擁有的是第一次就被更新的主體，會印出 double boo! ，同時也沒有 property 屬性。\n立即函式此模式本質上是一個函數表示式，並在定義後立刻執行。立即函式由下面部分所組成：\n\n用函式表示式定義函式\n在函式最後加上括號，這樣會讓函式立刻執行\n整個函式包在括號中（如果不將函式賦予給一個值才需要）\n\n立即函式可以賦予程式碼作用域，有時候通常工作只要執行一次，沒有理由再去寫具名函式，有時候工作會需要暫時性變數，初始化後，變數會被洩露為全域變數，立即函式可以避免這個狀況。\n立即函式的參數立即函式可以傳遞參數，但不應該傳太多，這樣容易造成理解時的負擔。\n立即函式的回傳值立即函式可以有回傳值，而這些函式可以賦值給變數：\nvar result = (function() &#123;  return 2 + 2;&#125;)();\n或是省略包著函式的括號，因為將立即函式的回傳值賦值給變數時不需要括號。\nvar result = (function() &#123;  return 2 + 2; //4&#125;)();\n但可能會誤導，因為沒注意函式後面的括號，可能會以為 result 指向的是函式，但其實 result 是立即函式的回傳值。\n但除了原始型別外，立即函式可以回傳任何型別的值，包含回傳函式，如此就可以利用立即函式私有的作用域儲存 private 資料。\n這個範例中，立即函式回傳是一個函式，他會賦值給變數 getResult ，作用是簡單回傳 res ，它已經預先算好，存在立即函式的 closure。\nvar getResult = (function() &#123;  var res = 2 + 2;  return function() &#123;    return res;  &#125;;&#125;)();\n立即函式也可以用來定義物件屬性，假設你需要一個屬性，但在定義之前需要一些運算才能得到正確的值，而立即函式的回傳值就成為該屬性的值。\nvar o = &#123;  msg: (function() &#123;    var who = 'me';    what = 'call';    return what + ' ' + who;  &#125;)(),  getMsg: function() &#123;    return this.msg;  &#125;,&#125;;o.msg; //call meo.getMsg; //call me\n優點及用法\n將運算包裝，不必留下全域變數\n將程式模組化，包裝到立即函式中\n\n","dateCreated":"2018-11-07T17:49:58+00:00","dateModified":"2019-10-24T06:50:39+00:00","datePublished":"2018-11-07T17:49:58+00:00","description":"接下來會學習到不同定義的函式，首先是函式表達式和函式宣告式，接著看函式作用域與 hosting 如何運作。","headline":"【讀書筆記】JavaScript Design Pattern Chapter04 函式（上）","image":["/img/cover/books.jpg"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://codingwife.com/javascript-design-pattern-function01/"},"publisher":{"@type":"Organization","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png","logo":{"@type":"ImageObject","url":"http://codingwife.com/images/leia.png"}},"url":"http://codingwife.com/javascript-design-pattern-function01/","keywords":"讀書筆記, JSDP"}</script>
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    <img src="/images/codingwife.png" alt height="28">
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item " href="/archives">Archives</a>
+            
+            <a class="navbar-item " href="/categories">Categories</a>
+            
+            <a class="navbar-item " href="/tags">Tags</a>
+            
+            <a class="navbar-item " href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="搜尋" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/leiadot">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            <a class="navbar-item" title="Facebook" href="https://facebook.com/CodingwifeHy2">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+        【讀書筆記】JavaScript Design Pattern Chapter04 函式（上）
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">2018-11-07 17:49
+            （<time datetime="2018-11-07T17:49:58.000Z" itemprop="datePublished">11月 7 2018</time>）
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Front-end/">Front-end</a>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+        
+        <p>接下來會學習到不同定義的函式，首先是函式表達式和函式宣告式，接著看函式作用域與 hosting 如何運作。</p>
+<a id="more"></a>
+
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>JavaScript 有兩個主要特色：</p>
+<ul>
+<li>函式屬於 JavaScript 第一級物件（first-class object）</li>
+<li>函式提供作用域</li>
+</ul>
+<p>函式也是物件：</p>
+<ul>
+<li>可在執行期、程式執行的過程中動態建立</li>
+<li>可以指定給變數，也可將參考複製給其他變數，可以被擴充，而且除了少數其他狀況外，也可以被刪除</li>
+<li>可以作為參數傳遞給其他韓式，也可以作為其他函式的回傳值</li>
+<li>可以有自己的屬性和方法</li>
+</ul>
+<p>使用 Function 建構式跟使用 eval 一樣糟糕，因為程式碼使用字串的形式傳遞並執行，就必須跳脫字元，如此讀寫都很不方便。</p>
+<p>JavaScript 中沒有大括號內的區域作用域，沒有區塊範圍，區塊並不產生有效的作用域，JavaScript 只有函式作用域，任何在函式裡面宣告的 var 變數 都是區域變數。</p>
+<h2 id="釐清術語的差別"><a href="#釐清術語的差別" class="headerlink" title="釐清術語的差別"></a>釐清術語的差別</h2><p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> add = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">a, b</span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">return</span> a + b;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>具名的函式表示式，又稱匿名函式，與函式宣告式的差別是函式物件的 name 屬性會是個空字串，具名的函式表示式和函式宣告式看起來類似，但表示式在結尾需要分號，而表達式不用。</p>
+<p>函式實字也是常用的術語，但他可能代表函式表示式也可能代表具名韓式表示式，模凌兩可，最好不要用此術語。</p>
+<h2 id="宣告式-v-s-表示式：命名與-Hoisiting"><a href="#宣告式-v-s-表示式：命名與-Hoisiting" class="headerlink" title="宣告式 v.s. 表示式：命名與 Hoisiting"></a>宣告式 v.s. 表示式：命名與 Hoisiting</h2><p>那該使用函數宣告式還是表示式呢？當語法不能使用宣告式就可以使用表示式，例如：將函式物件作為參數傳遞、物件實字內定義方法。</p>
+<p>函式宣告式只能出現在 program code 裡面，意思是函式本體或全域空間中，他們定義無法賦值給變數或其他屬性，或作其他函式的參數。</p>
+<h2 id="函式的-name-屬性"><a href="#函式的-name-屬性" class="headerlink" title="函式的 name 屬性"></a>函式的 name 屬性</h2><p>對函式宣告式和具名函式表達式，name 屬性都有定義。對匿名函式表達式說，name 可能為 undefined 或空字串。<br>name 屬性也會用來遞迴呼叫自己，或是在除錯工具中顯示函式名稱，如果這兩種狀況都沒有需要，用不具名表達式會比較簡單也不囉唆。</p>
+<p>技術上來說可以將一個具名函式表示式指派給另一個名稱的變數，但不是所有瀏覽器都支援，因此不建議這樣做。</p>
+<h2 id="函式的-Hoisting"><a href="#函式的-Hoisting" class="headerlink" title="函式的 Hoisting"></a>函式的 Hoisting</h2><p>所有變數無論被定義在函式中哪處，都會在幕後被提升到函式最前端。</p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'global foo'</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">bar</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'global bar'</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">hoistMe</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">typeof</span> foo); <span class="hljs-comment">// 'function'</span></span><br><span class="line">  <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">typeof</span> bar); <span class="hljs-comment">//'undefined'</span></span><br><span class="line"></span><br><span class="line">  foo(); <span class="hljs-comment">// local foo</span></span><br><span class="line">  bar(); <span class="hljs-comment">// TypeError:bar is not function</span></span><br><span class="line"></span><br><span class="line">  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'local foo'</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="hljs-comment">// 變數 foo 和實作都被提升</span></span><br><span class="line"></span><br><span class="line">  <span class="hljs-keyword">var</span> bar = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'local bar'</span>);</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="hljs-comment">// 僅有變數 bar 被提升，不包含實作，所以是 undefined</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">hoistMe();</span><br></pre></td></tr></table></figure></p>
+<h2 id="回呼模式"><a href="#回呼模式" class="headerlink" title="回呼模式"></a>回呼模式</h2><p>函數是物件，意思就是可以作為參數傳遞給其他函式。</p>
+<h2 id="回呼與作用域"><a href="#回呼與作用域" class="headerlink" title="回呼與作用域"></a>回呼與作用域</h2><p>回呼並非是一次性的匿名函式或者全域函式，而是某個物件的方法，如果回呼的方法使用了 this 去參考其所屬的物件，this 會參考到全域物件，解決方法是除了傳遞回呼函式，額外傳遞回呼函式所屬物件，並使用 call 改變 this 的指向。</p>
+<h2 id="逾時"><a href="#逾時" class="headerlink" title="逾時"></a>逾時</h2><p>當使用 <code>setTimeout</code> 或 <code>setInterval</code> ，函數在作為變數傳遞時沒有加上括號，因為你不是想立刻執行它，而是指向它，讓 <code>setTimeout</code> 或 <code>setInterval</code> 稍後可以使用。</p>
+<h2 id="回傳函式"><a href="#回傳函式" class="headerlink" title="回傳函式"></a>回傳函式</h2><p>有個函式做了一個工作，可能是一些初始化，接著就對其回傳值工作，回傳值剛好是另一個函式：</p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> setup = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  alert(<span class="hljs-number">1</span>);</span><br><span class="line">  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    alert(<span class="hljs-number">2</span>);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="hljs-keyword">var</span> my = setup();</span><br><span class="line">my();</span><br></pre></td></tr></table></figure></p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> setup = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">var</span> count = <span class="hljs-number">0</span>;</span><br><span class="line">  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> (count += <span class="hljs-number">1</span>);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="hljs-keyword">var</span> next = setup();</span><br><span class="line">next(); <span class="hljs-comment">//1</span></span><br><span class="line">next(); <span class="hljs-comment">//2</span></span><br><span class="line">next(); <span class="hljs-comment">//3</span></span><br><span class="line">next(); <span class="hljs-comment">//4</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="自我定義函式"><a href="#自我定義函式" class="headerlink" title="自我定義函式"></a>自我定義函式</h2><p>函式可以動態建立，且可以指派給變數。建立新函式，並指派給同一個變數，此變數原本指向的舊函數就會被覆蓋成新的。</p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> scareMe = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  alert(<span class="hljs-string">'boo!'</span>);</span><br><span class="line">  scareMe = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    alert(<span class="hljs-string">'double boo!'</span>);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br><span class="line">scareMe();</span><br><span class="line">scareMe();</span><br></pre></td></tr></table></figure></p>
+<p>使用這種模式可以顯著提升效能，當函式一部份不需要的狀況下，就可以使用自我定義的函式更新自身的實作。這個模式另一個名字叫做懶惰的函式定義，因為這種函式在第一次使用之前都沒有正確定義，而之後就會變得懶惰。</p>
+<p>此函數的缺點在它重新定義自身之前你加到原始函式的屬性都會遺失，如果使用不同名稱，例如新函式指派給另一個變數或是物件的另一個方法，那重新定義的部分就不會執行，而原始的函式本體就會執行。</p>
+<p>以另一個例子來說，這次 <code>scareMe()</code> 函式要用第一級物件的使用方式：</p>
+<ul>
+<li>加入一個新的屬性</li>
+<li>將函式物件指派給新變數</li>
+<li>函式也作為方法使用</li>
+</ul>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-comment">// 1.加入一個新屬性</span></span><br><span class="line">scareMe.property = <span class="hljs-string">'properly'</span>;</span><br><span class="line"><span class="hljs-comment">// 2.賦值給一個不同名稱</span></span><br><span class="line"><span class="hljs-keyword">var</span> prank = scareMe;</span><br><span class="line"><span class="hljs-comment">// 3.作為一個方法來使用</span></span><br><span class="line"><span class="hljs-keyword">var</span> spooky = &#123;</span><br><span class="line">  boo: scareMe,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 用新的名稱呼叫</span></span><br><span class="line"></span><br><span class="line">prank(); <span class="hljs-comment">//boo</span></span><br><span class="line">prank(); <span class="hljs-comment">//boo</span></span><br><span class="line"><span class="hljs-built_in">console</span>.log(prank.property); <span class="hljs-comment">// properly</span></span><br><span class="line"><span class="hljs-comment">// 用方法呼叫</span></span><br><span class="line"></span><br><span class="line">spooky.boo(); <span class="hljs-comment">//boo</span></span><br><span class="line">spooky.boo(); <span class="hljs-comment">//boo</span></span><br><span class="line"><span class="hljs-built_in">console</span>.log(spooky.boo.property); <span class="hljs-comment">// properly</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 用自我定義函式呼叫</span></span><br><span class="line">scareMe(); <span class="hljs-comment">//double boo!</span></span><br><span class="line">scareMe(); <span class="hljs-comment">//double boo!</span></span><br><span class="line"><span class="hljs-built_in">console</span>.log(scareMe.property); <span class="hljs-comment">//undefined</span></span><br></pre></td></tr></table></figure></p>
+<p>當自我定義函式被賦值給一個新變數時，他沒有照你預期，每一次呼叫 <code>prank();</code> 都會印出 <code>boo</code>，同時覆蓋全域的 <code>scareMe();</code> 函式，但 <code>prank();</code> 自己仍保有舊有的定義，包含 property 屬性。</p>
+<p>這些每次的呼叫都會重新覆蓋 <code>scareMe();</code> 的指標，所以最終呼叫它，它擁有的是第一次就被更新的主體，會印出 <code>double boo!</code> ，同時也沒有 property 屬性。</p>
+<h2 id="立即函式"><a href="#立即函式" class="headerlink" title="立即函式"></a>立即函式</h2><p>此模式本質上是一個函數表示式，並在定義後立刻執行。<br>立即函式由下面部分所組成：</p>
+<ul>
+<li>用函式表示式定義函式</li>
+<li>在函式最後加上括號，這樣會讓函式立刻執行</li>
+<li>整個函式包在括號中（如果不將函式賦予給一個值才需要）</li>
+</ul>
+<p>立即函式可以賦予程式碼作用域，有時候通常工作只要執行一次，沒有理由再去寫具名函式，有時候工作會需要暫時性變數，初始化後，變數會被洩露為全域變數，立即函式可以避免這個狀況。</p>
+<h3 id="立即函式的參數"><a href="#立即函式的參數" class="headerlink" title="立即函式的參數"></a>立即函式的參數</h3><p>立即函式可以傳遞參數，但不應該傳太多，這樣容易造成理解時的負擔。</p>
+<h3 id="立即函式的回傳值"><a href="#立即函式的回傳值" class="headerlink" title="立即函式的回傳值"></a>立即函式的回傳值</h3><p>立即函式可以有回傳值，而這些函式可以賦值給變數：</p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> result = (<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">return</span> <span class="hljs-number">2</span> + <span class="hljs-number">2</span>;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure></p>
+<p>或是省略包著函式的括號，因為將立即函式的回傳值賦值給變數時不需要括號。</p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> result = (<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">return</span> <span class="hljs-number">2</span> + <span class="hljs-number">2</span>; <span class="hljs-comment">//4</span></span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure></p>
+<p>但可能會誤導，因為沒注意函式後面的括號，可能會以為 result 指向的是函式，但其實 result 是立即函式的回傳值。</p>
+<p>但除了原始型別外，立即函式可以回傳任何型別的值，包含回傳函式，如此就可以利用立即函式私有的作用域儲存 private 資料。</p>
+<p>這個範例中，立即函式回傳是一個函式，他會賦值給變數 getResult ，作用是簡單回傳 res ，它已經預先算好，存在立即函式的 closure。</p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> getResult = (<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">var</span> res = <span class="hljs-number">2</span> + <span class="hljs-number">2</span>;</span><br><span class="line">  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> res;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure></p>
+<p>立即函式也可以用來定義物件屬性，假設你需要一個屬性，但在定義之前需要一些運算才能得到正確的值，而立即函式的回傳值就成為該屬性的值。</p>
+<p><figure class="highlight jsx hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> o = &#123;</span><br><span class="line">  msg: (<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">var</span> who = <span class="hljs-string">'me'</span>;</span><br><span class="line">    what = <span class="hljs-string">'call'</span>;</span><br><span class="line">    <span class="hljs-keyword">return</span> what + <span class="hljs-string">' '</span> + who;</span><br><span class="line">  &#125;)(),</span><br><span class="line">  getMsg: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.msg;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">o.msg; <span class="hljs-comment">//call me</span></span><br><span class="line">o.getMsg; <span class="hljs-comment">//call me</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="優點及用法"><a href="#優點及用法" class="headerlink" title="優點及用法"></a>優點及用法</h3><ul>
+<li>將運算包裝，不必留下全域變數</li>
+<li>將程式模組化，包裝到立即函式中</li>
+</ul>
+
+        
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+        
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/讀書筆記/">#讀書筆記</a></span>
+        
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/JSDP/">#JSDP</a></span>
+        
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/javascript-design-pattern-function02/">【讀書筆記】JavaScript Design Pattern Chapter04 函式（下）</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/javascript-design-pattern-construction/">【讀書筆記】JavaScript Design Pattern Chapter03 實字與建構式</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="sharethis-inline-share-buttons"></div>
+<script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5d9b1ebc2b036a0011ed0d83&amp;product=inline-share-buttons" async="async"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">評論</h3>
+    
+<div id="comment-container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+	var gitment = new Gitment({
+		id: 'javascript-design-pattern-function01/',
+		owner: 'leiadot',
+		repo: 'leiadot.github.io',
+		oauth: {
+			client_id: '51ce642a9a95d7ccdf4d',
+			client_secret: '6bf1657de06ee2fbaf452b4752567ab313277f50',
+		},
+	})
+	gitment.render('comment-container')
+</script>
+
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2019 [object Object]&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            <div class="column is-narrow">
+                <div class="columns is-mobile is-multiline is-centered">
+                
+                    
+                <a class="column is-narrow has-text-black" title="GitHub" href="https://github.com/ppoffice/leiadot">
+                    
+                    GitHub
+                    
+                </a>
+                
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("zh-CN");
+</script>
+
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+</script>
+
+    
+    
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+<script src="/js/script.js"></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="站內搜尋">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '頁面',
+                CATEGORIES: '分類',
+                TAGS: '標籤',
+                UNTITLED: '(無標題)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+</body>
+</html>

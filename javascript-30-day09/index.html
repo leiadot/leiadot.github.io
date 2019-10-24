@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+<title>【JS30】Day09：Dev Tools Domination - CodingWife 寇丁人妻日安</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="JS 30系列是加拿大全端開發者 Wesbos 攝錄的一系列非常好的教材，此篇了解開發人員除錯工具 console 系列使用方法。">
+
+
+
+
+
+<meta name="description" content="JS 30系列是加拿大全端開發者 Wesbos 攝錄的一系列非常好的教材，此篇了解開發人員除錯工具 console 系列使用方法。">
+<meta name="keywords" content="JS30系列">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【JS30】Day09：Dev Tools Domination">
+<meta property="og:url" content="http://codingwife.com/javascript-30-day09/index.html">
+<meta property="og:site_name" content="CodingWife 寇丁人妻日安">
+<meta property="og:description" content="JS 30系列是加拿大全端開發者 Wesbos 攝錄的一系列非常好的教材，此篇了解開發人員除錯工具 console 系列使用方法。">
+<meta property="og:locale" content="zh-tw">
+<meta property="og:image" content="http://codingwife.com/img/js30day/small8.jpg">
+<meta property="og:updated_time" content="2019-10-24T06:50:39.032Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【JS30】Day09：Dev Tools Domination">
+<meta name="twitter:description" content="JS 30系列是加拿大全端開發者 Wesbos 攝錄的一系列非常好的教材，此篇了解開發人員除錯工具 console 系列使用方法。">
+<meta name="twitter:image" content="http://codingwife.com/img/js30day/small8.jpg">
+
+
+
+
+
+<link rel="icon" href="/images/logo.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto+Sans+TC|Open+Sans&display=swap">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+<link rel="stylesheet" href="/css/style.css">
+<script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png"},"articleBody":"\njavascript 30day\n\n\n\n目標：了解開發者工具使用方法一、對 DOM 元素按右鍵下中斷點\n\nsubtree modifications: 當子元素發生變化時\narrtibute modifications: 當元素發生變化時\nnode removal: 當元素被移除時\n\n二、console.log 各種用法\nconsole.log(‘’); 一邊的 console.log\nconsole.log(‘%s’);\nconsole.log(‘%c’);\nconsole.wran(‘’); 出現警告圖示\nconsole.error(‘’); 出現錯誤圖示\nconsole.info(‘’); 出現資訊圖示\nconsole.assert(Condition Expression,’’); 判斷是否為真，false 則回傳錯誤。\n\n```8. console.clear(); 清除所有訊息9. console.dir(); 顯示所有屬性10. console.groupCollapsed、console.groupEnd 群組化訊息```jsdogs.forEach(dog =&gt; &#123;  console.groupCollapsed(`$&#123;dog.name&#125;`);  console.log(`This is $&#123;dog.name&#125;`);  console.log(`$&#123;dog.name&#125; is $&#123;dog.age&#125; years old`);  console.log(`$&#123;dog.name&#125; is $&#123;dog.age * 7&#125; dog years old`);  console.groupEnd(`$&#123;dog.name&#125;`);&#125;);\n\nconsole.count(); 累加計數\n\nconsole.count(a);console.count(a);console.count(b);a: 1;a: 2;b: 1;\n\nconsole.time()、 console.timeEnd() 計算區域範圍執行時間區間\nconsole.table()\n\n","dateCreated":"2018-02-23T11:39:39+00:00","dateModified":"2019-10-24T06:50:39+00:00","datePublished":"2018-02-23T11:39:39+00:00","description":"\njavascript 30day\n","headline":"【JS30】Day09：Dev Tools Domination","image":["/img/js30day/small8.jpg"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://codingwife.com/javascript-30-day09/"},"publisher":{"@type":"Organization","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png","logo":{"@type":"ImageObject","url":"http://codingwife.com/images/leia.png"}},"url":"http://codingwife.com/javascript-30-day09/","keywords":"JS30系列"}</script>
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    <img src="/images/codingwife.png" alt height="28">
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item " href="/archives">Archives</a>
+            
+            <a class="navbar-item " href="/categories">Categories</a>
+            
+            <a class="navbar-item " href="/tags">Tags</a>
+            
+            <a class="navbar-item " href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="搜尋" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/leiadot">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            <a class="navbar-item" title="Facebook" href="https://facebook.com/CodingwifeHy2">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+        【JS30】Day09：Dev Tools Domination
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">2018-02-23 11:39
+            （<time datetime="2018-02-23T11:39:39.000Z" itemprop="datePublished">2月 23 2018</time>）
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Front-end/">Front-end</a>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+        
+        <blockquote>
+<p><a href="https://javascript30.com/" target="_blank" rel="noopener">javascript 30day</a></p>
+</blockquote>
+<a id="more"></a>
+
+<h3 id="目標：了解開發者工具使用方法"><a href="#目標：了解開發者工具使用方法" class="headerlink" title="目標：了解開發者工具使用方法"></a><span style="color:#ff5900">目標：了解開發者工具使用方法</span></h3><h2 id="一、對-DOM-元素按右鍵下中斷點"><a href="#一、對-DOM-元素按右鍵下中斷點" class="headerlink" title="一、對 DOM 元素按右鍵下中斷點"></a>一、對 DOM 元素按右鍵下中斷點</h2><p><img src="/img/js30day/day9-1.jpg" alt></p>
+<ol>
+<li>subtree modifications: 當子元素發生變化時</li>
+<li>arrtibute modifications: 當元素發生變化時</li>
+<li>node removal: 當元素被移除時</li>
+</ol>
+<h2 id="二、console-log-各種用法"><a href="#二、console-log-各種用法" class="headerlink" title="二、console.log 各種用法"></a>二、console.log 各種用法</h2><ol>
+<li>console.log(‘’); 一邊的 console.log</li>
+<li>console.log(‘%s’);</li>
+<li>console.log(‘%c’);</li>
+<li>console.wran(‘’); 出現警告圖示</li>
+<li>console.error(‘’); 出現錯誤圖示</li>
+<li>console.info(‘’); 出現資訊圖示</li>
+<li>console.assert(Condition Expression,’’); 判斷是否為真，false 則回傳錯誤。</li>
+</ol>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-string">``</span><span class="hljs-string">`</span></span><br><span class="line"><span class="hljs-string"></span></span><br><span class="line"><span class="hljs-string">8. console.clear(); 清除所有訊息</span></span><br><span class="line"><span class="hljs-string">9. console.dir(); 顯示所有屬性</span></span><br><span class="line"><span class="hljs-string">10. console.groupCollapsed、console.groupEnd 群組化訊息</span></span><br><span class="line"><span class="hljs-string"></span></span><br><span class="line"><span class="hljs-string">`</span><span class="hljs-string">``</span>js</span><br><span class="line">dogs.forEach(<span class="hljs-function"><span class="hljs-params">dog</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="hljs-built_in">console</span>.groupCollapsed(<span class="hljs-string">`<span class="hljs-subst">$&#123;dog.name&#125;</span>`</span>);</span><br><span class="line">  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`This is <span class="hljs-subst">$&#123;dog.name&#125;</span>`</span>);</span><br><span class="line">  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`<span class="hljs-subst">$&#123;dog.name&#125;</span> is <span class="hljs-subst">$&#123;dog.age&#125;</span> years old`</span>);</span><br><span class="line">  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`<span class="hljs-subst">$&#123;dog.name&#125;</span> is <span class="hljs-subst">$&#123;dog.age * <span class="hljs-number">7</span>&#125;</span> dog years old`</span>);</span><br><span class="line">  <span class="hljs-built_in">console</span>.groupEnd(<span class="hljs-string">`<span class="hljs-subst">$&#123;dog.name&#125;</span>`</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<ol start="11">
+<li>console.count(); 累加計數</li>
+</ol>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-built_in">console</span>.count(a);</span><br><span class="line"><span class="hljs-built_in">console</span>.count(a);</span><br><span class="line"><span class="hljs-built_in">console</span>.count(b);</span><br><span class="line">a: <span class="hljs-number">1</span>;</span><br><span class="line">a: <span class="hljs-number">2</span>;</span><br><span class="line">b: <span class="hljs-number">1</span>;</span><br></pre></td></tr></table></figure></p>
+<ol start="12">
+<li>console.time()、 console.timeEnd() 計算區域範圍執行時間區間</li>
+<li>console.table()</li>
+</ol>
+
+        
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+        
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/JS30系列/">#JS30系列</a></span>
+        
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/javascript-30-day10/">【JS30】Day10：Hold Shift and Check Checkboxes</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/travis-ci-deploy/">【Hexo】使用 Travis CI 自動佈署 Blog</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="sharethis-inline-share-buttons"></div>
+<script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5d9b1ebc2b036a0011ed0d83&amp;product=inline-share-buttons" async="async"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">評論</h3>
+    
+<div id="comment-container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+	var gitment = new Gitment({
+		id: 'javascript-30-day09/',
+		owner: 'leiadot',
+		repo: 'leiadot.github.io',
+		oauth: {
+			client_id: '51ce642a9a95d7ccdf4d',
+			client_secret: '6bf1657de06ee2fbaf452b4752567ab313277f50',
+		},
+	})
+	gitment.render('comment-container')
+</script>
+
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2019 [object Object]&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            <div class="column is-narrow">
+                <div class="columns is-mobile is-multiline is-centered">
+                
+                    
+                <a class="column is-narrow has-text-black" title="GitHub" href="https://github.com/ppoffice/leiadot">
+                    
+                    GitHub
+                    
+                </a>
+                
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("zh-CN");
+</script>
+
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+</script>
+
+    
+    
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+<script src="/js/script.js"></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="站內搜尋">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '頁面',
+                CATEGORIES: '分類',
+                TAGS: '標籤',
+                UNTITLED: '(無標題)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+</body>
+</html>

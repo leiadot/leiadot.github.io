@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+<title>【Vue】如何優雅產生動態表單元件 - CodingWife 寇丁人妻日安</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="Vue 裡面，記錄如何動態產生表單元件的方法。">
+
+
+
+
+
+<meta name="description" content="Vue 裡面，記錄如何動態產生表單元件的方法。">
+<meta name="keywords" content="Vue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Vue】如何優雅產生動態表單元件">
+<meta property="og:url" content="http://codingwife.com/vue-dynamic-components/index.html">
+<meta property="og:site_name" content="CodingWife 寇丁人妻日安">
+<meta property="og:description" content="Vue 裡面，記錄如何動態產生表單元件的方法。">
+<meta property="og:locale" content="zh-tw">
+<meta property="og:image" content="http://codingwife.com/img/cover/vue.png">
+<meta property="og:updated_time" content="2019-10-24T06:50:39.036Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【Vue】如何優雅產生動態表單元件">
+<meta name="twitter:description" content="Vue 裡面，記錄如何動態產生表單元件的方法。">
+<meta name="twitter:image" content="http://codingwife.com/img/cover/vue.png">
+
+
+
+
+
+<link rel="icon" href="/images/logo.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto+Sans+TC|Open+Sans&display=swap">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+<link rel="stylesheet" href="/css/style.css">
+<script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png"},"articleBody":"最近重構一下上個月趕的專案，還有很多地方可以加強優化，現在遇到第一個困難是如何減少 template 的重複性，簡單啊，用一下 v-for 就好了，但是遇到不同表單有各種形式的表現方式（selector、checkbox⋯⋯），我們勢必要使用不同種型態的子元件，但因為型態不同，資料結構就不同，那在這樣的狀況下，我們要如何去使用 v-for 呢？\n\n\n\n參考文章[译]如何优雅地用 Vue 创建数据驱动的用户界面 &gt; vue-dynamic-components(codesandbox)\n\n強者我朋友花王就貼給我一篇文章，不看還好，看了一下一鳴驚人，完全沒看過這種寫法，接下來根據上面 codesandbox 的連結來討論動態表單元件的運行過程，以 Demo4 為例。\n我們先看一下 DemoFour.vue ， 他在父元件裡面訂了一個 schema 的陣列。\nschema: [  ...  &#123;    fieldType: \"TextInput\",    placeholder: \"First Name\",    label: \"First Name\",    name: \"firstName\"  &#125;,  ...]\n&lt;component  v-for=\"(field, index) in schema\"  :key=\"index\"  :is=\"field.fieldType\"  v-model=\"formData[field.name]\"  v-bind=\"field\"&gt;&lt;/component&gt;\n判斷輸入類型\n裡面有不同的物件型態，必要的物件屬性為 fieldType、label及name。fieldType 就是不同 input 的型態判別，例如 selector、 checkbox⋯⋯\n我們使用 v-for 來跑 schema 的物件 現在遇到的第一個問題，明明沒有在 component 定義，那這個 component tag 是從哪出來的，根據 Vue 動態元件的官方說明，我們可以知道那是搭配 is 屬性所使用，is 根據 schema 的 fieldType 來判斷要產生哪個形態的子元件。\n解構賦值繫結至子元件\n這邊的 v-bind 使用了解構賦值，被 v-bind 的 component 會以 props 的方式傳值傳進子元件，接下來我們來看看子元件。\n接收 props 及 v-model 的 value\nexport default &#123;  name: 'TextInput',  props: ['placeholder', 'label', 'name', 'value'],&#125;;\n我們傳進了placeholder、label、name、value，疑？value？我們什麼時候傳進了 value ？\b\b 因為我們的父元件有 v-model，v-model 不外乎就是 v-on:input 和 v-bind:value，所以也是 v-bind 解構賦值到子元件，如果綁到空的屬性，value 就會是 undefined，接下來我們看一下 template 。\n&lt;template&gt;  &lt;div&gt;    ...    &lt;input      type=\"text\"      :name=\"name\"      :value=\"value\"      @input=\"$emit('input',$event.target.value)\"      :placeholder=\"placeholder           \"    /&gt;  &lt;/div&gt;&lt;/template&gt;\n使用者行為修改值把 props 傳進來的資料依序綁在 input 上，而我們在父元件 v-model 的資料可以讓 value 變成 input 的預設的輸入文字，當使用者修改文字時，被 v-bind:value 會被修改，且同時 v-on:input 和 emit 通知父元件使用者已經修改資料，但是在父元件裡面我們並沒有接收到任何從 emit 自定義的變數來的事件，那他是如何接收？\nnewValue 覆蓋舊 value\n其實就是 v-model ，因為 v-model 其實就是 v-bind:value，自然而然 $event.target.value 覆蓋了原本v-model的舊值，而 v-model 又跟 formData綁定。\n另外需要注意，formData 的 屬性值要和 schema 物件的 name 相同，否則沒辦法綁定在一起。\n","dateCreated":"2018-08-15T10:39:05+00:00","dateModified":"2019-10-24T06:50:39+00:00","datePublished":"2018-08-15T10:39:05+00:00","description":"最近重構一下上個月趕的專案，還有很多地方可以加強優化，現在遇到第一個困難是如何減少 template 的重複性，簡單啊，用一下 v-for 就好了，但是遇到不同表單有各種形式的表現方式（selector、checkbox⋯⋯），我們勢必要使用不同種型態的子元件，但因為型態不同，資料結構就不同，那在這樣的狀況下，我們要如何去使用 v-for 呢？","headline":"【Vue】如何優雅產生動態表單元件","image":["/img/cover/vue.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://codingwife.com/vue-dynamic-components/"},"publisher":{"@type":"Organization","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png","logo":{"@type":"ImageObject","url":"http://codingwife.com/images/leia.png"}},"url":"http://codingwife.com/vue-dynamic-components/","keywords":"Vue"}</script>
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    <img src="/images/codingwife.png" alt height="28">
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item " href="/archives">Archives</a>
+            
+            <a class="navbar-item " href="/categories">Categories</a>
+            
+            <a class="navbar-item " href="/tags">Tags</a>
+            
+            <a class="navbar-item " href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="搜尋" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/leiadot">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            <a class="navbar-item" title="Facebook" href="https://facebook.com/CodingwifeHy2">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+        【Vue】如何優雅產生動態表單元件
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">2018-08-15 10:39
+            （<time datetime="2018-08-15T10:39:05.000Z" itemprop="datePublished">8月 15 2018</time>）
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Front-end/">Front-end</a>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+        
+        <p>最近重構一下上個月趕的專案，還有很多地方可以加強優化，現在遇到第一個困難是如何減少 template 的重複性，簡單啊，用一下 v-for 就好了，但是遇到不同表單有各種形式的表現方式（selector、checkbox⋯⋯），我們勢必要使用不同種型態的子元件，但因為型態不同，資料結構就不同，那在這樣的狀況下，我們要如何去使用 v-for 呢？</p>
+<a id="more"></a>
+
+<blockquote>
+<p>參考文章<br><a href="https://juejin.im/post/5b14a9b46fb9a01e780a4323" target="_blank" rel="noopener">[译]如何优雅地用 Vue 创建数据驱动的用户界面</a> &gt; <a href="https://codesandbox.io/s/61y919wrk3?from-embed" target="_blank" rel="noopener">vue-dynamic-components(codesandbox)</a></p>
+</blockquote>
+<p>強者我朋友花王就貼給我一篇文章，不看還好，看了一下一鳴驚人，完全沒看過這種寫法，接下來根據上面 codesandbox 的連結來討論動態表單元件的運行過程，以 Demo4 為例。</p>
+<p>我們先看一下 <code>DemoFour.vue</code> ， 他在父元件裡面訂了一個 <code>schema</code> 的陣列。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line">schema: [</span><br><span class="line">  ...</span><br><span class="line">  &#123;</span><br><span class="line">    fieldType: <span class="hljs-string">"TextInput"</span>,</span><br><span class="line">    placeholder: <span class="hljs-string">"First Name"</span>,</span><br><span class="line">    label: <span class="hljs-string">"First Name"</span>,</span><br><span class="line">    name: <span class="hljs-string">"firstName"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  ...</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
+<p><figure class="highlight html hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">component</span></span></span><br><span class="line"><span class="hljs-tag">  <span class="hljs-attr">v-for</span>=<span class="hljs-string">"(field, index) in schema"</span></span></span><br><span class="line"><span class="hljs-tag">  <span class="hljs-attr">:key</span>=<span class="hljs-string">"index"</span></span></span><br><span class="line"><span class="hljs-tag">  <span class="hljs-attr">:is</span>=<span class="hljs-string">"field.fieldType"</span></span></span><br><span class="line"><span class="hljs-tag">  <span class="hljs-attr">v-model</span>=<span class="hljs-string">"formData[field.name]"</span></span></span><br><span class="line"><span class="hljs-tag">  <span class="hljs-attr">v-bind</span>=<span class="hljs-string">"field"</span></span></span><br><span class="line"><span class="hljs-tag">&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">component</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="判斷輸入類型"><a href="#判斷輸入類型" class="headerlink" title="判斷輸入類型"></a>判斷輸入類型</h2><p><img src="/img/vue/vue-dynamic-components/dynamic-01.png" alt></p>
+<p>裡面有不同的物件型態，必要的物件屬性為 <code>fieldType</code>、<code>label</code>及<code>name</code>。<br>fieldType 就是不同 input 的型態判別，例如 selector、 checkbox⋯⋯</p>
+<p>我們使用 <code>v-for</code> 來跑 <code>schema</code> 的物件 現在遇到的第一個問題，明明沒有在 component 定義，那這個 component tag 是從哪出來的，根據 <a href="https://cn.vuejs.org/v2/guide/components.html#%E5%8A%A8%E6%80%81%E7%BB%84%E4%BB%B6" target="_blank" rel="noopener">Vue 動態元件</a>的官方說明，我們可以知道那是搭配 <code>is</code> 屬性所使用，<code>is</code> 根據 <code>schema</code> 的 <code>fieldType</code> 來判斷要產生哪個形態的子元件。</p>
+<h2 id="解構賦值繫結至子元件"><a href="#解構賦值繫結至子元件" class="headerlink" title="解構賦值繫結至子元件"></a>解構賦值繫結至子元件</h2><p><img src="/img/vue/vue-dynamic-components/dynamic-02.png" alt></p>
+<p>這邊的 <code>v-bind</code> 使用了解構賦值，被 <code>v-bind</code> 的 component 會以 <code>props</code> 的方式傳值傳進子元件，接下來我們來看看子元件。</p>
+<h2 id="接收-props-及-v-model-的-value"><a href="#接收-props-及-v-model-的-value" class="headerlink" title="接收 props 及 v-model 的 value"></a>接收 props 及 v-model 的 value</h2><p><img src="/img/vue/vue-dynamic-components/dynamic-03.png" alt></p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> &#123;</span><br><span class="line">  name: <span class="hljs-string">'TextInput'</span>,</span><br><span class="line">  props: [<span class="hljs-string">'placeholder'</span>, <span class="hljs-string">'label'</span>, <span class="hljs-string">'name'</span>, <span class="hljs-string">'value'</span>],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>我們傳進了<code>placeholder</code>、<code>label</code>、<code>name</code>、<code>value</code>，疑？value？我們什麼時候傳進了 value ？ 因為我們的父元件有 <code>v-model</code>，<code>v-model</code> 不外乎就是 <code>v-on:input</code> 和 <code>v-bind:value</code>，所以也是 <code>v-bind</code> 解構賦值到子元件，如果綁到空的屬性，<code>value</code> 就會是 undefined，接下來我們看一下 template 。</p>
+<p><figure class="highlight html hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span></span><br><span class="line">  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span></span><br><span class="line">    ...</span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">input</span></span></span><br><span class="line"><span class="hljs-tag">      <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span></span></span><br><span class="line"><span class="hljs-tag">      <span class="hljs-attr">:name</span>=<span class="hljs-string">"name"</span></span></span><br><span class="line"><span class="hljs-tag">      <span class="hljs-attr">:value</span>=<span class="hljs-string">"value"</span></span></span><br><span class="line"><span class="hljs-tag">      @<span class="hljs-attr">input</span>=<span class="hljs-string">"$emit('input',$event.target.value)"</span></span></span><br><span class="line"><span class="hljs-tag">      <span class="hljs-attr">:placeholder</span>=<span class="hljs-string">"placeholder</span></span></span><br><span class="line"><span class="hljs-tag"><span class="hljs-string">           "</span></span></span><br><span class="line"><span class="hljs-tag">    /&gt;</span></span><br><span class="line">  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="使用者行為修改值"><a href="#使用者行為修改值" class="headerlink" title="使用者行為修改值"></a>使用者行為修改值</h2><p><img src="/img/vue/vue-dynamic-components/dynamic-04.png" alt><br>把 props 傳進來的資料依序綁在 input 上，而我們在父元件 <code>v-model</code> 的資料可以讓 value 變成 input 的預設的輸入文字，當使用者修改文字時，被 <code>v-bind:value</code> 會被修改，且同時 <code>v-on:input</code> 和 <code>emit</code> 通知父元件使用者已經修改資料，但是在父元件裡面我們並沒有接收到任何從 <code>emit</code> 自定義的變數來的事件，那他是如何接收？</p>
+<h2 id="newValue-覆蓋舊-value"><a href="#newValue-覆蓋舊-value" class="headerlink" title="newValue 覆蓋舊 value"></a>newValue 覆蓋舊 value</h2><p><img src="/img/vue/vue-dynamic-components/dynamic-05.png" alt></p>
+<p>其實就是 <code>v-model</code> ，因為 <code>v-model</code> 其實就是 <code>v-bind:value</code>，自然而然 <code>$event.target.value</code> 覆蓋了原本<code>v-model</code>的舊值，而 <code>v-model</code> 又跟 <code>formData</code>綁定。</p>
+<p><strong>另外需要注意，formData 的 屬性值要和 schema 物件的 name 相同，否則沒辦法綁定在一起。</strong></p>
+
+        
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+        
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/Vue/">#Vue</a></span>
+        
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/javascript-debounce-throttle/">【JS】Debounce and Throttle</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/javascript-prototype/">【JS】原型繼承 Prototype</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="sharethis-inline-share-buttons"></div>
+<script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5d9b1ebc2b036a0011ed0d83&amp;product=inline-share-buttons" async="async"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">評論</h3>
+    
+<div id="comment-container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+	var gitment = new Gitment({
+		id: 'vue-dynamic-components/',
+		owner: 'leiadot',
+		repo: 'leiadot.github.io',
+		oauth: {
+			client_id: '51ce642a9a95d7ccdf4d',
+			client_secret: '6bf1657de06ee2fbaf452b4752567ab313277f50',
+		},
+	})
+	gitment.render('comment-container')
+</script>
+
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2019 [object Object]&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            <div class="column is-narrow">
+                <div class="columns is-mobile is-multiline is-centered">
+                
+                    
+                <a class="column is-narrow has-text-black" title="GitHub" href="https://github.com/ppoffice/leiadot">
+                    
+                    GitHub
+                    
+                </a>
+                
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("zh-CN");
+</script>
+
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+</script>
+
+    
+    
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+<script src="/js/script.js"></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="站內搜尋">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '頁面',
+                CATEGORIES: '分類',
+                TAGS: '標籤',
+                UNTITLED: '(無標題)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+</body>
+</html>

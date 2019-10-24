@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+<title>【JS30】Day15：LocalStorage - CodingWife 寇丁人妻日安</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="JS 30 系列，練習使用瀏覽器的 LocalStorage，來製作一個 JavaScript todolist。">
+
+
+
+
+
+<meta name="description" content="JS 30 系列，練習使用瀏覽器的 LocalStorage，來製作一個 JavaScript todolist。">
+<meta name="keywords" content="JS30系列">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【JS30】Day15：LocalStorage">
+<meta property="og:url" content="http://codingwife.com/javascript-30-day15/index.html">
+<meta property="og:site_name" content="CodingWife 寇丁人妻日安">
+<meta property="og:description" content="JS 30 系列，練習使用瀏覽器的 LocalStorage，來製作一個 JavaScript todolist。">
+<meta property="og:locale" content="zh-tw">
+<meta property="og:image" content="http://codingwife.com/img/js30day/small14.jpg">
+<meta property="og:updated_time" content="2019-10-24T06:50:39.032Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【JS30】Day15：LocalStorage">
+<meta name="twitter:description" content="JS 30 系列，練習使用瀏覽器的 LocalStorage，來製作一個 JavaScript todolist。">
+<meta name="twitter:image" content="http://codingwife.com/img/js30day/small14.jpg">
+
+
+
+
+
+<link rel="icon" href="/images/logo.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto+Sans+TC|Open+Sans&display=swap">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+<link rel="stylesheet" href="/css/style.css">
+<script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png"},"articleBody":"\njavascript 30day\n\n\n\n目標：使用 LocalStorage 做 todolistconst addItems = document.querySelector('.add-items');const itemsList = document.querySelector('.plates');const items = [];\n一開始進入 start 作者已經命名好變數。\n一、送出輸入項目addItems.addEventListener('submit', addItem);\n在input輸入完，送出項目。\nfunction addItem(e) &#123;  e.preventDefault();  // 取消送出資料後的自動刷新頁面  const text = this.querySelector('[name=item]').value;  // item 的輸入值為 text 的 key / value，放入 json 中  const item = &#123;    text, //es6:text:text    done: false,  &#125;;  items.push(item);  //塞入陣列存取  populateList(items, itemsList);  //建html  localStorage.setItem('items', JSON.stringify(items));  //因為重新整理之後，輸入的資料會消失，則必須將資料輸入到瀏覽器的localStorage  this.reset();  //清除輸入框（form的方法）&#125;\n二、新建後新增 htmlfunction populateList(plates = [], platesList) &#123;  platesList.innerHTML = plates    .map((plate, i) =&gt; &#123;      return `      &lt;li&gt;          &lt;input type=\"checkbox\" data-index=$&#123;i&#125; id=\"item$&#123;i&#125;\" $&#123;plate.done ? 'checked' : ''&#125; /&gt;          &lt;label for=\"item$&#123;i&#125;\"&gt;$&#123;plate.text&#125;&lt;/label&gt;      &lt;/li&gt;      `;    &#125;)    .join('');&#125;\n新增 \b\b html 的li項目。\nconst items = JSON.parse(localStorage.getItem('items')) || [];\n此時items必須更改為以上，假設localStorage有資料則取用，若沒有資料items為空陣列。\n三、儲存 checkbox 狀態itemsList.addEventListener('click', toggleDone);\nul被點擊後，執行。\nfunction toggleDone(e) &#123;  if (!e.target.matches('input')) return;  // input （checkbox）才執行動作  const el = e.target;  const index = el.dataset.index;  items[index].done = !items[index].done;  //true / false 切換  localStorage.setItem('items', JSON.stringify(items));  //存入localStorage  populateList(items, itemsList);  //更新 html&#125;\n四、進入頁面populateList(items, itemsList);\n假設進入頁面時localStorage有資料，在最底下執行populateList，以刷新 html 。\n使用技巧\nlocalStorage\ndateset\n\n","dateCreated":"2018-03-06T09:41:48+00:00","dateModified":"2019-10-24T06:50:39+00:00","datePublished":"2018-03-06T09:41:48+00:00","description":"\njavascript 30day\n","headline":"【JS30】Day15：LocalStorage","image":["/img/js30day/small14.jpg"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://codingwife.com/javascript-30-day15/"},"publisher":{"@type":"Organization","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png","logo":{"@type":"ImageObject","url":"http://codingwife.com/images/leia.png"}},"url":"http://codingwife.com/javascript-30-day15/","keywords":"JS30系列"}</script>
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    <img src="/images/codingwife.png" alt height="28">
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item " href="/archives">Archives</a>
+            
+            <a class="navbar-item " href="/categories">Categories</a>
+            
+            <a class="navbar-item " href="/tags">Tags</a>
+            
+            <a class="navbar-item " href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="搜尋" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/leiadot">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            <a class="navbar-item" title="Facebook" href="https://facebook.com/CodingwifeHy2">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+        【JS30】Day15：LocalStorage
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">2018-03-06 09:41
+            （<time datetime="2018-03-06T09:41:48.000Z" itemprop="datePublished">3月 6 2018</time>）
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Front-end/">Front-end</a>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+        
+        <blockquote>
+<p><a href="https://javascript30.com/" target="_blank" rel="noopener">javascript 30day</a></p>
+</blockquote>
+<a id="more"></a>
+
+<h3 id="目標：使用-LocalStorage-做-todolist"><a href="#目標：使用-LocalStorage-做-todolist" class="headerlink" title="目標：使用 LocalStorage 做 todolist"></a><span style="color:#ff5900">目標：使用 LocalStorage 做 todolist</span></h3><p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">const</span> addItems = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'.add-items'</span>);</span><br><span class="line"><span class="hljs-keyword">const</span> itemsList = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'.plates'</span>);</span><br><span class="line"><span class="hljs-keyword">const</span> items = [];</span><br></pre></td></tr></table></figure></p>
+<p>一開始進入 start 作者已經命名好變數。</p>
+<h2 id="一、送出輸入項目"><a href="#一、送出輸入項目" class="headerlink" title="一、送出輸入項目"></a>一、送出輸入項目</h2><p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line">addItems.addEventListener(<span class="hljs-string">'submit'</span>, addItem);</span><br></pre></td></tr></table></figure></p>
+<p>在<code>input</code>輸入完，送出項目。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">addItem</span>(<span class="hljs-params">e</span>) </span>&#123;</span><br><span class="line">  e.preventDefault();</span><br><span class="line">  <span class="hljs-comment">// 取消送出資料後的自動刷新頁面</span></span><br><span class="line">  <span class="hljs-keyword">const</span> text = <span class="hljs-keyword">this</span>.querySelector(<span class="hljs-string">'[name=item]'</span>).value;</span><br><span class="line">  <span class="hljs-comment">// item 的輸入值為 text 的 key / value，放入 json 中</span></span><br><span class="line">  <span class="hljs-keyword">const</span> item = &#123;</span><br><span class="line">    text, <span class="hljs-comment">//es6:text:text</span></span><br><span class="line">    done: <span class="hljs-literal">false</span>,</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  items.push(item);</span><br><span class="line">  <span class="hljs-comment">//塞入陣列存取</span></span><br><span class="line">  populateList(items, itemsList);</span><br><span class="line">  <span class="hljs-comment">//建html</span></span><br><span class="line">  localStorage.setItem(<span class="hljs-string">'items'</span>, <span class="hljs-built_in">JSON</span>.stringify(items));</span><br><span class="line">  <span class="hljs-comment">//因為重新整理之後，輸入的資料會消失，則必須將資料輸入到瀏覽器的localStorage</span></span><br><span class="line">  <span class="hljs-keyword">this</span>.reset();</span><br><span class="line">  <span class="hljs-comment">//清除輸入框（form的方法）</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="二、新建後新增-html"><a href="#二、新建後新增-html" class="headerlink" title="二、新建後新增 html"></a>二、新建後新增 html</h2><p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">populateList</span>(<span class="hljs-params">plates = [], platesList</span>) </span>&#123;</span><br><span class="line">  platesList.innerHTML = plates</span><br><span class="line">    .map(<span class="hljs-function">(<span class="hljs-params">plate, i</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="hljs-keyword">return</span> <span class="hljs-string">`</span></span><br><span class="line"><span class="hljs-string">      &lt;li&gt;</span></span><br><span class="line"><span class="hljs-string">          &lt;input type="checkbox" data-index=<span class="hljs-subst">$&#123;i&#125;</span> id="item<span class="hljs-subst">$&#123;i&#125;</span>" <span class="hljs-subst">$&#123;plate.done ? <span class="hljs-string">'checked'</span> : <span class="hljs-string">''</span>&#125;</span> /&gt;</span></span><br><span class="line"><span class="hljs-string">          &lt;label for="item<span class="hljs-subst">$&#123;i&#125;</span>"&gt;<span class="hljs-subst">$&#123;plate.text&#125;</span>&lt;/label&gt;</span></span><br><span class="line"><span class="hljs-string">      &lt;/li&gt;</span></span><br><span class="line"><span class="hljs-string">      `</span>;</span><br><span class="line">    &#125;)</span><br><span class="line">    .join(<span class="hljs-string">''</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>新增  html 的<code>li</code>項目。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">const</span> items = <span class="hljs-built_in">JSON</span>.parse(localStorage.getItem(<span class="hljs-string">'items'</span>)) || [];</span><br></pre></td></tr></table></figure></p>
+<p>此時<code>items</code>必須更改為以上，假設<code>localStorage</code>有資料則取用，若沒有資料<code>items</code>為空陣列。</p>
+<h2 id="三、儲存-checkbox-狀態"><a href="#三、儲存-checkbox-狀態" class="headerlink" title="三、儲存 checkbox 狀態"></a>三、儲存 checkbox 狀態</h2><p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line">itemsList.addEventListener(<span class="hljs-string">'click'</span>, toggleDone);</span><br></pre></td></tr></table></figure></p>
+<p><code>ul</code>被點擊後，執行。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">toggleDone</span>(<span class="hljs-params">e</span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">if</span> (!e.target.matches(<span class="hljs-string">'input'</span>)) <span class="hljs-keyword">return</span>;</span><br><span class="line">  <span class="hljs-comment">// input （checkbox）才執行動作</span></span><br><span class="line">  <span class="hljs-keyword">const</span> el = e.target;</span><br><span class="line">  <span class="hljs-keyword">const</span> index = el.dataset.index;</span><br><span class="line">  items[index].done = !items[index].done;</span><br><span class="line">  <span class="hljs-comment">//true / false 切換</span></span><br><span class="line"></span><br><span class="line">  localStorage.setItem(<span class="hljs-string">'items'</span>, <span class="hljs-built_in">JSON</span>.stringify(items));</span><br><span class="line">  <span class="hljs-comment">//存入localStorage</span></span><br><span class="line">  populateList(items, itemsList);</span><br><span class="line">  <span class="hljs-comment">//更新 html</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="四、進入頁面"><a href="#四、進入頁面" class="headerlink" title="四、進入頁面"></a>四、進入頁面</h2><p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line">populateList(items, itemsList);</span><br></pre></td></tr></table></figure></p>
+<p>假設進入頁面時<code>localStorage</code>有資料，在最底下執行<code>populateList</code>，以刷新 html 。</p>
+<h2 id="使用技巧"><a href="#使用技巧" class="headerlink" title="使用技巧"></a>使用技巧</h2><ul>
+<li>localStorage</li>
+<li>dateset</li>
+</ul>
+
+        
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+        
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/JS30系列/">#JS30系列</a></span>
+        
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/javascript-30-day16/">【JS30】Day16：Mouse Move Shadow</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/javascript-30-day14/">【JS30】Day14： JavaScript References VS Copying</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="sharethis-inline-share-buttons"></div>
+<script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5d9b1ebc2b036a0011ed0d83&amp;product=inline-share-buttons" async="async"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">評論</h3>
+    
+<div id="comment-container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+	var gitment = new Gitment({
+		id: 'javascript-30-day15/',
+		owner: 'leiadot',
+		repo: 'leiadot.github.io',
+		oauth: {
+			client_id: '51ce642a9a95d7ccdf4d',
+			client_secret: '6bf1657de06ee2fbaf452b4752567ab313277f50',
+		},
+	})
+	gitment.render('comment-container')
+</script>
+
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2019 [object Object]&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            <div class="column is-narrow">
+                <div class="columns is-mobile is-multiline is-centered">
+                
+                    
+                <a class="column is-narrow has-text-black" title="GitHub" href="https://github.com/ppoffice/leiadot">
+                    
+                    GitHub
+                    
+                </a>
+                
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("zh-CN");
+</script>
+
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+</script>
+
+    
+    
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+<script src="/js/script.js"></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="站內搜尋">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '頁面',
+                CATEGORIES: '分類',
+                TAGS: '標籤',
+                UNTITLED: '(無標題)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+</body>
+</html>

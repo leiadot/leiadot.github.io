@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+<title>【ES6】 let、const - CodingWife 寇丁人妻日安</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="了解 JavaScript ES6 宣告變數的部分，let、const 與 var 的定義與差異性。">
+
+
+
+
+
+<meta name="description" content="了解 JavaScript ES6 宣告變數的部分，let、const 與 var 的定義與差異性。">
+<meta name="keywords" content="ES6">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【ES6】 let、const">
+<meta property="og:url" content="http://codingwife.com/javascript-es6-let-const/index.html">
+<meta property="og:site_name" content="CodingWife 寇丁人妻日安">
+<meta property="og:description" content="了解 JavaScript ES6 宣告變數的部分，let、const 與 var 的定義與差異性。">
+<meta property="og:locale" content="zh-tw">
+<meta property="og:image" content="http://codingwife.com/img/cover/javascript.jpg">
+<meta property="og:updated_time" content="2019-10-24T06:50:39.032Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【ES6】 let、const">
+<meta name="twitter:description" content="了解 JavaScript ES6 宣告變數的部分，let、const 與 var 的定義與差異性。">
+<meta name="twitter:image" content="http://codingwife.com/img/cover/javascript.jpg">
+
+
+
+
+
+<link rel="icon" href="/images/logo.ico">
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto+Sans+TC|Open+Sans&display=swap">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+<link rel="stylesheet" href="/css/style.css">
+<script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png"},"articleBody":"之前其實就有發過相關的文章，可是因為 github 沒有上傳 source code 結果被我弄爆了，這次挑精簡的寫重點，詳細的可以 google ，很多大神都有寫相關的文章。\n\n\n變數宣告在 javascript 裡面命令宣告不外乎就是var、let、const。\nvar\n函式作用域\n變數提升\n\n函式作用域var為函式作用域，就是以函式當作變數是否有效的界線，這樣無疑會造成許多全域變數的產生。\nfor (var i = 0; i &lt; 3; i++) &#123;  console.log('hi');&#125;console.log(i);// hi// hi// hi// 10\n會得到這種迴圈體外可以存取得到變數i的現象，因為函式作用域的關係，導致i變成全域變數。\nvar a = [];for (var i = 0; i &lt; 10; i++) &#123;  a[i] = function() &#123;    console.log(i);  &#125;;&#125;a[6](); // 10\n承上範例，因為i為全域變數，導致不管在迴圈體內輸入的i值為多少，輸出的console.log仍然為10。\n變數提升console.log(abc); // undefinedvar abc = 10;\nvar會發生變數提升的現象，在變數宣告前使用變數，輸出值為undefined。\nlet、const\n區塊作用域\n變數提升\n不可重複宣告\n減少 IIFE 的應用\n\n區塊作用域if (true) &#123;  let a = 0;&#125;console.log(a);// ReferenceError: a is not defined\n區塊作用域顧名思義變數僅在區塊內有效。\n變數提升console.log(b);let b = 10;// ReferenceError: b is not defined\n因為報錯的關係，許多人以為let和const不會做變數提升，事實上仍然會，只是因為 ES6 為了避免執行錯誤，將變數移至暫時性死區。暫時性死區的定義是，在變數宣告前使用變數，所使用的變數仍然存在，但是不可使用，只有等到宣告變數後，才可以使用該變數。\n不可重複宣告&#123;  let a = 10;  let a = 1;&#125;// Uncaught SyntaxError: Identifier 'a' has already been declared\n不允許在相同作用域裡面，重複宣告同一個變數。\n減少 IIFE 的應用IIFE\n(function() &#123;  var tmp = 1;  console.log(tmp);&#125;)();// 1\n區塊作用域\n&#123;  let tmp = 2;  console.log(2);&#125;// 2\nlet\n變數宣告\n迴圈循環重新綁定\n\n變數宣告let a = 10;a = a + 1;console.log(a);// 11\nlet為變數宣告，可重複指定，用法類似於var。\n迴圈循環重新綁定var a = [];for (let i = 0; i &lt; 10; i++) &#123;  a[i] = function() &#123;    console.log(i);  &#125;;&#125;a[6](); // 6\n因為區塊作用域的關係，i只在迴圈體內有效，每次遍歷都是重新綁定的變數，javascript 引擎內部會記住上一輪迴圈的數值，基於上一輪的計算，初始化本輪的變數i。\nconst\n常數宣告\n不可重複指定\n\n常數宣告const a;// Uncaught SyntaxError: Missing initializer in const declaration\nconst是針對常數做的定義，在常數做宣告時，必定要賦予值。\n不可重新指定const a = 10;a = 11;// Uncaught TypeError: Assignment to constant variable.\n不可重新指定的意思是不可用等號運算子做指定運算，如上所示，但宣告一個常數，不表示為不可改變。\nconst b = &#123;&#125;;b.obj = 123;console.log(b);//&#123;obj: 123&#125;\n如果宣告的常數像是物件、陣列，都是屬於by reference，因此不會產生錯誤。\n","dateCreated":"2018-04-17T21:09:34+00:00","dateModified":"2019-10-24T06:50:39+00:00","datePublished":"2018-04-17T21:09:34+00:00","description":"之前其實就有發過相關的文章，可是因為 github 沒有上傳 source code 結果被我弄爆了，這次挑精簡的寫重點，詳細的可以 google ，很多大神都有寫相關的文章。","headline":"【ES6】 let、const","image":["/img/cover/javascript.jpg"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://codingwife.com/javascript-es6-let-const/"},"publisher":{"@type":"Organization","name":"CodingWife 寇丁人妻日安","sameAs":["https://github.com/leiadot","https://facebook.com/CodingwifeHy2","mailto:luv.hsu@gmail.com"],"image":"http://codingwife.com/images/leia.png","logo":{"@type":"ImageObject","url":"http://codingwife.com/images/leia.png"}},"url":"http://codingwife.com/javascript-es6-let-const/","keywords":"ES6"}</script>
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    <img src="/images/codingwife.png" alt height="28">
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item " href="/archives">Archives</a>
+            
+            <a class="navbar-item " href="/categories">Categories</a>
+            
+            <a class="navbar-item " href="/tags">Tags</a>
+            
+            <a class="navbar-item " href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="搜尋" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/leiadot">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            <a class="navbar-item" title="Facebook" href="https://facebook.com/CodingwifeHy2">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+               
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+        【ES6】 let、const
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">2018-04-17 21:09
+            （<time datetime="2018-04-17T21:09:34.000Z" itemprop="datePublished">4月 17 2018</time>）
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Front-end/">Front-end</a>
+        </span>
+        
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+        
+        <p>之前其實就有發過相關的文章，可是因為 github 沒有上傳 source code 結果被我弄爆了，這次挑精簡的寫重點，詳細的可以 google ，很多大神都有寫相關的文章。</p>
+<a id="more"></a>
+
+<h2 id="變數宣告"><a href="#變數宣告" class="headerlink" title="變數宣告"></a>變數宣告</h2><p>在 javascript 裡面命令宣告不外乎就是<code>var</code>、<code>let</code>、<code>const</code>。</p>
+<h3 id="var"><a href="#var" class="headerlink" title="var"></a>var</h3><ul>
+<li>函式作用域</li>
+<li>變數提升</li>
+</ul>
+<h4 id="函式作用域"><a href="#函式作用域" class="headerlink" title="函式作用域"></a>函式作用域</h4><p><code>var</code>為函式作用域，就是以函式當作變數是否有效的界線，這樣無疑會造成許多全域變數的產生。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">3</span>; i++) &#123;</span><br><span class="line">  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'hi'</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-built_in">console</span>.log(i);</span><br><span class="line"><span class="hljs-comment">// hi</span></span><br><span class="line"><span class="hljs-comment">// hi</span></span><br><span class="line"><span class="hljs-comment">// hi</span></span><br><span class="line"><span class="hljs-comment">// 10</span></span><br></pre></td></tr></table></figure></p>
+<p>會得到這種迴圈體外可以存取得到變數<code>i</code>的現象，因為函式作用域的關係，導致<code>i</code>變成全域變數。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> a = [];</span><br><span class="line"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++) &#123;</span><br><span class="line">  a[i] = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-built_in">console</span>.log(i);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line">a[<span class="hljs-number">6</span>](); <span class="hljs-comment">// 10</span></span><br></pre></td></tr></table></figure></p>
+<p>承上範例，因為<code>i</code>為全域變數，導致不管在迴圈體內輸入的<code>i</code>值為多少，輸出的<code>console.log</code>仍然為<code>10</code>。</p>
+<h4 id="變數提升"><a href="#變數提升" class="headerlink" title="變數提升"></a>變數提升</h4><p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-built_in">console</span>.log(abc); <span class="hljs-comment">// undefined</span></span><br><span class="line"><span class="hljs-keyword">var</span> abc = <span class="hljs-number">10</span>;</span><br></pre></td></tr></table></figure></p>
+<p><code>var</code>會發生變數提升的現象，在變數宣告前使用變數，輸出值為<code>undefined</code>。</p>
+<h3 id="let、const"><a href="#let、const" class="headerlink" title="let、const"></a>let、const</h3><ul>
+<li>區塊作用域</li>
+<li>變數提升</li>
+<li>不可重複宣告</li>
+<li>減少 IIFE 的應用</li>
+</ul>
+<h4 id="區塊作用域"><a href="#區塊作用域" class="headerlink" title="區塊作用域"></a>區塊作用域</h4><p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">if</span> (<span class="hljs-literal">true</span>) &#123;</span><br><span class="line">  <span class="hljs-keyword">let</span> a = <span class="hljs-number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-built_in">console</span>.log(a);</span><br><span class="line"><span class="hljs-comment">// ReferenceError: a is not defined</span></span><br></pre></td></tr></table></figure></p>
+<p>區塊作用域顧名思義變數僅在區塊內有效。</p>
+<h3 id="變數提升-1"><a href="#變數提升-1" class="headerlink" title="變數提升"></a>變數提升</h3><p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-built_in">console</span>.log(b);</span><br><span class="line"><span class="hljs-keyword">let</span> b = <span class="hljs-number">10</span>;</span><br><span class="line"><span class="hljs-comment">// ReferenceError: b is not defined</span></span><br></pre></td></tr></table></figure></p>
+<p>因為報錯的關係，許多人以為<code>let</code>和<code>const</code>不會做變數提升，事實上仍然會，只是因為 ES6 為了避免執行錯誤，將變數移至暫時性死區。<br>暫時性死區的定義是，在變數宣告前使用變數，所使用的變數仍然存在，但是不可使用，只有等到宣告變數後，才可以使用該變數。</p>
+<h3 id="不可重複宣告"><a href="#不可重複宣告" class="headerlink" title="不可重複宣告"></a>不可重複宣告</h3><p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="hljs-keyword">let</span> a = <span class="hljs-number">10</span>;</span><br><span class="line">  <span class="hljs-keyword">let</span> a = <span class="hljs-number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-comment">// Uncaught SyntaxError: Identifier 'a' has already been declared</span></span><br></pre></td></tr></table></figure></p>
+<p>不允許在相同作用域裡面，重複宣告同一個變數。</p>
+<h3 id="減少-IIFE-的應用"><a href="#減少-IIFE-的應用" class="headerlink" title="減少 IIFE 的應用"></a>減少 IIFE 的應用</h3><p><strong>IIFE</strong></p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line">(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">var</span> tmp = <span class="hljs-number">1</span>;</span><br><span class="line">  <span class="hljs-built_in">console</span>.log(tmp);</span><br><span class="line">&#125;)();</span><br><span class="line"><span class="hljs-comment">// 1</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>區塊作用域</strong></p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="hljs-keyword">let</span> tmp = <span class="hljs-number">2</span>;</span><br><span class="line">  <span class="hljs-built_in">console</span>.log(<span class="hljs-number">2</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-comment">// 2</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="let"><a href="#let" class="headerlink" title="let"></a>let</h3><ul>
+<li>變數宣告</li>
+<li>迴圈循環重新綁定</li>
+</ul>
+<h4 id="變數宣告-1"><a href="#變數宣告-1" class="headerlink" title="變數宣告"></a>變數宣告</h4><p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">let</span> a = <span class="hljs-number">10</span>;</span><br><span class="line">a = a + <span class="hljs-number">1</span>;</span><br><span class="line"><span class="hljs-built_in">console</span>.log(a);</span><br><span class="line"><span class="hljs-comment">// 11</span></span><br></pre></td></tr></table></figure></p>
+<p><code>let</code>為變數宣告，可重複指定，用法類似於<code>var</code>。</p>
+<h4 id="迴圈循環重新綁定"><a href="#迴圈循環重新綁定" class="headerlink" title="迴圈循環重新綁定"></a>迴圈循環重新綁定</h4><p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> a = [];</span><br><span class="line"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++) &#123;</span><br><span class="line">  a[i] = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-built_in">console</span>.log(i);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line">a[<span class="hljs-number">6</span>](); <span class="hljs-comment">// 6</span></span><br></pre></td></tr></table></figure></p>
+<p>因為區塊作用域的關係，<code>i</code>只在迴圈體內有效，每次遍歷都是重新綁定的變數，javascript 引擎內部會記住上一輪迴圈的數值，基於上一輪的計算，初始化本輪的變數<code>i</code>。</p>
+<h3 id="const"><a href="#const" class="headerlink" title="const"></a>const</h3><ul>
+<li>常數宣告</li>
+<li>不可重複指定</li>
+</ul>
+<h4 id="常數宣告"><a href="#常數宣告" class="headerlink" title="常數宣告"></a>常數宣告</h4><p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">const</span> a;</span><br><span class="line"><span class="hljs-comment">// Uncaught SyntaxError: Missing initializer in const declaration</span></span><br></pre></td></tr></table></figure></p>
+<p><code>const</code>是針對常數做的定義，在常數做宣告時，必定要賦予值。</p>
+<h4 id="不可重新指定"><a href="#不可重新指定" class="headerlink" title="不可重新指定"></a>不可重新指定</h4><p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">const</span> a = <span class="hljs-number">10</span>;</span><br><span class="line">a = <span class="hljs-number">11</span>;</span><br><span class="line"><span class="hljs-comment">// Uncaught TypeError: Assignment to constant variable.</span></span><br></pre></td></tr></table></figure></p>
+<p>不可重新指定的意思是不可用等號運算子做指定運算，如上所示，但宣告一個常數，不表示為不可改變。</p>
+<p><figure class="highlight js hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">const</span> b = &#123;&#125;;</span><br><span class="line">b.obj = <span class="hljs-number">123</span>;</span><br><span class="line"><span class="hljs-built_in">console</span>.log(b);</span><br><span class="line"><span class="hljs-comment">//&#123;obj: 123&#125;</span></span><br></pre></td></tr></table></figure></p>
+<p>如果宣告的常數像是物件、陣列，都是屬於<code>by reference</code>，因此不會產生錯誤。</p>
+
+        
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+        
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/ES6/">#ES6</a></span>
+        
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/javascript-30-day30/">【JS30】Day30：Whack A Mole Game</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/javascript-30-day29/">【JS30】Day29：Countdown Timer</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="sharethis-inline-share-buttons"></div>
+<script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=5d9b1ebc2b036a0011ed0d83&amp;product=inline-share-buttons" async="async"></script>
+
+</div>
+
+
+
+<div class="comments">
+    <h3 class="title is-4">評論</h3>
+    
+<div id="comment-container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+	var gitment = new Gitment({
+		id: 'javascript-es6-let-const/',
+		owner: 'leiadot',
+		repo: 'leiadot.github.io',
+		oauth: {
+			client_id: '51ce642a9a95d7ccdf4d',
+			client_secret: '6bf1657de06ee2fbaf452b4752567ab313277f50',
+		},
+	})
+	gitment.render('comment-container')
+</script>
+
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2019 [object Object]&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            <div class="column is-narrow">
+                <div class="columns is-mobile is-multiline is-centered">
+                
+                    
+                <a class="column is-narrow has-text-black" title="GitHub" href="https://github.com/ppoffice/leiadot">
+                    
+                    GitHub
+                    
+                </a>
+                
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("zh-CN");
+</script>
+
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+</script>
+
+    
+    
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+<script src="/js/script.js"></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="站內搜尋">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '頁面',
+                CATEGORIES: '分類',
+                TAGS: '標籤',
+                UNTITLED: '(無標題)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+</body>
+</html>
